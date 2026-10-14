@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches e logs de bibliotecas de ML
+catboost_info/
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ambientes virtuais
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Arquivos do sistema operacional
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Backups temporarios do Word / Office
+~$*.docx
+~$*.xlsx
+~$*.pptx

@@ -1,0 +1,150 @@
+# 🧠 Modelo de Linguagem Autoregressivo
+
+**Rede:** `ai-engineering`   **Área:** `modelagem`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 1 — Introduction to Building AI Applications with Foundation Models
+- Localização: Páginas 4–6
+
+## 📝 Definição
+
+### Definição formal
+
+Um **Modelo de Linguagem Autoregressivo** (*Autoregressive Language Model*, frequentemente denominado *Causal Language Model*) é uma arquitetura neural de linguagem projetada e treinada para estimar a probabilidade condicional de ocorrência do próximo [[redes/ai-engineering/conceitos/tokenizacao.md|token]] em uma sequência linear, condicionando seu cálculo exclusivamente aos tokens que o antecedem temporalmente ou espacialmente ($t < i$).
+
+### Em linguagem simples
+
+É um modelo de IA treinado para "adivinhar o que vem depois". Ele lê as palavras anteriores da esquerda para a direita e tenta prever a palavra seguinte. Como ele pode repetir esse processo várias vezes (colocando a palavra recém-gerada de volta na entrada para adivinhar a próxima), ele funciona como um gerador contínuo de texto.
+
+### Escopo e distinções
+
+Diferencia-se do [[redes/ai-engineering/conceitos/modelo-de-linguagem-mascarado.md|modelo de linguagem mascarado]], que acessa simultaneamente o contexto à esquerda e à direita de uma lacuna. Modelos autoregressivos possuem restrição estrita de causalidade (não podem "espiar o futuro" durante o treinamento).
+
+## 🧩 Problema que resolve
+
+Resolve o problema da geração de conteúdo aberto em linguagem natural. Como gera texto token por token de maneira iterativa, é capaz de produzir narrativas completas, códigos-fonte inteiros, traduções e soluções para problemas passo a passo com base em uma instrução (*prompt*) inicial arbitrária.
+
+## 💡 Intuição
+
+Funciona exatamente como um escritor ditando uma história: ele analisa tudo o que já redigiu até a última frase e decide qual é a palavra mais adequada para continuar o raciocínio. Assim que pronuncia essa palavra, ela passa a integrar o histórico acumulado e dita a escolha da palavra seguinte.
+
+## ⚙️ Como funciona
+
+O mecanismo baseia-se em um loop de inferência recorrente:
+
+### Etapas
+
+1. **Recepção do contexto:** Recebe os tokens da solicitação do usuário: $[x_1, x_2, \dots, x_t]$.
+2. **Processamento causal:** Executa a passagem de ativações neurais com máscaras causais que impedem que a posição $i$ atenda a posições $> i$.
+3. **Distribuição do próximo token:** Produz a probabilidade $P(x_{t+1} \mid x_1, \dots, x_t)$ sobre todo o vocabulário.
+4. **Amostragem:** Seleciona um token $x_{t+1}$ da distribuição usando estratégias de amostragem (gananciosa, temperatura, top-$p$).
+5. **Realimentação:** O token selecionado é anexado ao final da sequência: $[x_1, \dots, x_t, x_{t+1}]$.
+6. **Iteração e parada:** O processo repete-se até que o modelo produza um token especial de término ($\text{<EOS>}$) ou atinja o comprimento máximo delimitado.
+
+### Entradas e saídas
+
+- **Entradas:** Vetor de tokens de entrada $[x_1, \dots, x_t]$.
+- **Saídas:** Um token gerado por ciclo de decodificação $x_{t+1}$, culminando em uma sequência textual completa de comprimento variável.
+
+## 📐 Formulação matemática
+
+O treinamento fundamenta-se na maximização da log-verossimilhança dos dados:
+
+$$\mathcal{L}_{\text{autoregressivo}} = \sum_{i=1}^n \log P(x_i \mid x_1, x_2, \dots, x_{i-1}; \theta)$$
+
+Onde:
+
+- $x_i$ é o token-alvo na posição $i$;
+- $x_1, \dots, x_{i-1}$ é o contexto estritamente anterior;
+- $\theta$ representa os parâmetros de peso do modelo.
+
+## 🧱 Hipóteses e condições de validade
+
+- A ordem sequencial dos dados possui estrutura causal significativa.
+- Presença inequívoca do token de fim de sequência ($\text{<EOS>}$) nos dados de treino para que o modelo aprenda a encerrar suas respostas de forma autônoma.
+
+## ✅ Quando usar
+
+- Tarefas de geração aberta de texto: escrita criativa, redação de código-fonte, sumarização abstrativa, diálogo conversacional.
+- Casos de uso de assistentes e chatbots (ex.: famílias GPT, Llama, Claude, Mistral).
+
+## 🚫 Quando não usar
+
+- Tarefas de classificação fechada ou extração estritamente extrativa de alta velocidade com baixo orçamento de computação, onde a dependência sequencial token a token gera latência desnecessária.
+
+## ⚠️ Limitações e armadilhas
+
+- **Gargalo sequencial de decodificação:** O modelo gera apenas um token por vez durante a inferência, tornando a latência diretamente proporcional à extensão da resposta.
+- **Acúmulo de erros e alucinação:** Um token inadequado escolhido no início da sequência contamina as decisões probabilísticas subsequentes, podendo desviar o texto para alucinações completas.
+
+## 🔍 Comparações
+
+| Critério | Autoregressivo (Causal) | Mascarado (Bidirecional) |
+|---|---|---|
+| **Objetivo primário** | Geração aberta de texto | Representação e compreensão textual |
+| **Contexto visualizado** | Estritamente à esquerda (passado) | Esquerda e direita simultaneamente |
+| **Modelos paradigmáticos** | GPT, Llama, Mistral | BERT, RoBERTa |
+| **Geração de texto** | Fluida e nativa token por token | Ineficiente e indireta |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+O usuário digita o prompt: "O dever de um cidadão é".
+
+1. O modelo avalia a frase e prevê o próximo token: "cumprir".
+2. Contexto atualizado: "O dever de um cidadão é cumprir".
+3. Novo passo: prevê "as".
+4. Contexto atualizado: "O dever de um cidadão é cumprir as".
+5. Novo passo: prevê "leis".
+6. Contexto atualizado: "O dever de um cidadão é cumprir as leis".
+7. Novo passo: prevê o token $\text{<EOS>}$, encerrando a resposta.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/modelo-de-linguagem.md|Modelo de Linguagem]]
+- [[redes/ai-engineering/conceitos/tokenizacao.md|Tokenização e Vocabulário]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/auto-supervisao.md|Auto-supervisão]]
+
+### Alternativas
+
+- [[redes/ai-engineering/conceitos/modelo-de-linguagem-mascarado.md|Modelo de Linguagem Mascarado]]
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|Modelo de Fundação]]
+- [[redes/ai-engineering/conceitos/engenharia-de-prompt.md|Engenharia de Prompt]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 1 — Introduction to Building AI Applications with Foundation Models
+- **Localização:** Páginas 4–6
+- **Evidência:** O capítulo explica detalhadamente que os modelos autoregressivos preveem o próximo token usando apenas os tokens precedentes, sendo os modelos de escolha prioritária para tarefas de geração de texto da IA generativa moderna.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. O que caracteriza formalmente um modelo de linguagem como sendo autorregressivo?
+2. Como funciona o ciclo iterativo de geração de texto em um modelo causal?
+3. Qual é a função operacional do token $\text{<EOS>}$ durante a decodificação de um modelo autoregressivo?
+4. Por que modelos autoregressivos são preferidos em relação a modelos mascarados para construir chatbots?
+5. Qual é o principal impacto na latência de resposta decorrente do processo sequencial de decodificação?
+6. Como a escolha equivocada de um token inicial pode desencadear o efeito de alucinação cumulativa?
+7. De que forma o pré-treinamento autoregressivo viabiliza o aprendizado por auto-supervisão?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

@@ -1,0 +1,156 @@
+# 🧠 Modelos de Preferência e Juízes Especializados
+
+**Rede:** `ai-engineering`   **Área:** `modelagem`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 3 — Evaluation Methodology
+- Localização: Páginas 146–148
+
+## 📝 Definição
+
+### Definição formal
+
+Os **Modelos de Preferência e Juízes Especializados** (*Specialized AI Judges and Preference Models*) são arquiteturas neurais de porte compacto (frequentemente de centenas de milhões a poucos bilhões de parâmetros) treinadas e calibradas de forma supervisionada exclusivamente para tarefas de avaliação, pontuação ou predição de preferência humana, operando com rubricas ou esquemas de saída estritos sem o custo, a lentidão ou a instabilidade de modelos de fundação generalistas gigantescos. 
+
+Subdividem-se em três categorias funcionais primárias:
+
+1. **Modelos de Recompensa (*Reward Models*):** Recebem um par `(prompt, resposta)` e emitem uma pontuação escalar contínua de qualidade (ex.: Cappy da Google, com 360M de parâmetros);
+2. **Juízes baseados em referência:** Avaliam uma resposta candidata contra um gabarito ideal de referência e uma rubrica explícita (ex.: BLEURT e Prometheus);
+3. **Modelos de Preferência (*Preference Models*):** Recebem `(prompt, resposta_1, resposta_2)` e predizem diretamente qual das duas opções os humanos prefeririam, gerando explicações analíticas integradas (ex.: PandaLM e JudgeLM).
+
+### Em linguagem simples
+
+Em vez de gastar uma fortuna contratando o maior modelo de IA do mundo (como o GPT-4) para ficar dando notas nas tarefas da sua empresa, você usa um modelo "pequeno e especialista", treinado apenas para ser juiz. Ele não sabe contar piadas nem programar, mas sabe avaliar perfeitamente se um texto está bem escrito ou se uma resposta é melhor que a outra, rodando em servidores locais com custo e velocidade excelentes.
+
+### Escopo e distinções
+
+Diferenciam-se da [[redes/ai-engineering/conceitos/ia-como-juiz.md|IA como juiz generalista]] (que depende de prompts longos em LLMs gigantescos). Modelos de preferência possuem matrizes ajustadas especificamente para discernir qualidade e prever decisões humanas de forma estável.
+
+## 🧩 Problema que resolve
+
+Resolve a barreira econômica e de latência da avaliação por IA. Usar LLMs gigantescos como juízes dobra ou triplica os custos de inferência da aplicação e adiciona segundos de atraso no tempo de resposta. Juízes especializados de 360M a 7B de parâmetros realizam o mesmo trabalho de pontuação consumindo uma fração ínfima de memória e milissegundos de processamento.
+
+## 💡 Intuição
+
+Pense em um campeonato de ginástica olímpica. Você não precisa contratar o atleta campeão mundial que sabe fazer todos os saltos mortais acrobáticos mais complexos para ser o juiz de mesa. Você pode contratar um árbitro dedicado que já tem idade avançada e não consegue mais dar nenhum salto (**o modelo pequeno especializado**), mas que tem os olhos cirurgicamente treinados para bater o olho no movimento e dar a nota exata baseada no livro oficial de regras da competição. Julgar é cognitivamente mais simples do que gerar.
+
+## ⚙️ Como funciona
+
+O pipeline varia conforme a classe funcional do modelo especialista:
+
+### Etapas
+
+1. **Abordagem de Modelo de Recompensa (ex.: Cappy):**
+   - Recebe o prompt $x$ e a resposta gerada $y$;
+   - Uma rede leve (ex.: baseada em RoBERTa de 360M de parâmetros) processa o texto e passa sua representação por uma cabeça linear de regressão;
+   - Emite um valor contínuo no intervalo de $[0, 1]$ refletindo a probabilidade de correção factual.
+2. **Abordagem de Juiz com Referência (ex.: Prometheus):**
+   - Recebe o prompt, a resposta gerada, uma resposta de referência perfeita e a rubrica textual de 1 a 5;
+   - O modelo gera a nota discreta e a justificativa sintética de forma determinística.
+3. **Abordagem de Modelo de Preferência (ex.: PandaLM):**
+   - Recebe as respostas dos Modelos A e B para a mesma pergunta;
+   - A rede processa os dois textos e gera uma saída estruturada identificando o vencedor (`1`, `2` ou `Empate`), acompanhada dos motivos técnicos da decisão.
+
+### Entradas e saídas
+
+- **Entradas:** Pares ou trios de dados de avaliação `(prompt, resposta)` ou `(prompt, resposta_A, resposta_B)`.
+- **Saídas:** Escore escalar contínuo, classe vencedora ou parecer estruturado com justificativa.
+
+## 📐 Formulação matemática
+
+Para um modelo de preferência $P_\phi$, o objetivo é maximizar a precisão na predição da escolha humana $y^* \in \{1, 2\}$ entre duas respostas $y_1$ e $y_2$:
+
+$$y^* = \arg\max_{i \in \{1, 2\}} P_\phi\Big(\text{Vencedor} = i \;\Big|\; x, y_1, y_2\Big)$$
+
+Em modelos de recompensa escalares $r_\psi$, o sistema mapeia a qualidade para uma curva calibrada:
+
+$$s = r_\psi(x, y) \in [0, 1]$$
+
+Onde $s$ atua como o estimador não linear que substitui o julgamento humano na triagem de qualidade de inferência ou na filtragem de dados de pós-treinamento.
+
+## 🧱 Hipóteses e condições de validade
+
+- Assume a premissa de que a capacidade de **discernir e avaliar** um resultado é uma tarefa de complexidade computacional inferior à capacidade de **sintetizar e gerar** a resposta a partir do nada (princípio análogo à teoria da complexidade computacional, onde verificar uma solução polinomial é mais simples do que encontrá-la).
+
+## ✅ Quando usar
+
+- Filtros de guardrail de saída e segurança em tempo real onde a latência permitida para a checagem é inferior a 200 milissegundos.
+- Geração massiva de dados de preferência para treinamento de novos modelos via DPO/RLAIF sem estourar orçamentos de computação.
+- Estratégias de inferência com [[redes/ai-engineering/conceitos/computacao-em-tempo-de-teste.md|Computação em Tempo de Teste (Best-of-N)]], onde o juiz especializado avalia rascunhos em paralelo.
+
+## 🚫 Quando não usar
+
+- Para avaliar raciocínios inéditos de ponta que exigem raciocínio causal de múltiplos passos em áreas onde o modelo especialista pequeno não foi treinado.
+
+## ⚠️ Limitações e armadilhas
+
+- **Falta de generalização de domínio:** Um juiz treinado para avaliar resumos jornalísticos pode cometer falhas grotescas ao tentar avaliar se um trecho de código Rust está correto.
+- **Ambiguidade de escalas:** Ferramentas como o BLEURT usam escalas confusas e não padronizadas (com notas que podem variar entre $-2{,}5$ e $+1{,}0$), exigindo normalização matemática adicional pelo engenheiro.
+
+## 🔍 Comparações
+
+| Tipo de Juiz | Tamanho Típico | O que recebe na entrada? | Saída Produzida | Custo / Latência |
+|---|---|---|---|---|
+| **LLM Gigante (GPT-4)** | Centenas de bilhões | Prompt + Rubrica + Texto | Texto livre com nota e justificativa | Alto / Lento |
+| **Modelo de Recompensa (Cappy)** | ~360 milhões | Prompt + Resposta | Escore escalar simples $[0, 1]$ | **Mínimo / Ultrarrápido** |
+| **Juiz com Rubrica (Prometheus)** | ~7 a 13 bilhões | Prompt + Resposta + Gabarito | Nota de 1 a 5 com justificativa | Médio / Balanceado |
+| **Modelo de Preferência (PandaLM)** | ~7 bilhões | Prompt + Resposta A + Resposta B | Escolha do vencedor (A/B/Empate) | Baixo a Médio |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Uma plataforma corporativa quer selecionar a melhor resposta entre 5 opções geradas em paralelo para cada pergunta de atendimento financeiro ao cliente.
+
+- Se usasse o **GPT-4 como juiz**, cada pergunta custaria 5 vezes mais e demoraria 8 segundos para ser entregue, inviabilizando o produto.
+- A equipe implanta localmente o modelo de recompensa **Cappy** (360M de parâmetros) na mesma máquina da GPU. Os 5 rascunhos são gerados; o Cappy lê os 5 textos em apenas 40 milissegundos, atribui notas: `[0.12, 0.45, 0.91, 0.82, 0.30]`, e despacha imediatamente a terceira resposta (nota $0{,}91$) para o cliente, alcançando alta qualidade sem elevar custos de terceiros.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/ia-como-juiz.md|IA como Juiz (AI-as-a-Judge)]]
+- [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|Modelo de Fundação]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/computacao-em-tempo-de-teste.md|Computação em Tempo de Teste (Test Time Compute)]]
+- [[redes/ai-engineering/conceitos/avaliacao-comparativa.md|Avaliação Comparativa (Pairwise)]]
+
+### Alternativas
+
+- Uso de modelos de fundação generalistas de grande porte como juízes universais.
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/aprendizado-por-reforco-com-feedback-humano.md|Aprendizado por Reforço com Feedback Humano (RLHF)]] (modelos de recompensa originam-se aqui)
+- [[redes/ai-engineering/conceitos/vieses-de-avaliacao-por-ia.md|Vieses de Avaliação por IA]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 3 — Evaluation Methodology
+- **Localização:** Páginas 146–148
+- **Evidência:** Chip Huyen introduz a pesquisa emergente de juízes pequenos e especializados, detalhando o modelo de recompensa Cappy da Google (360M parâmetros), juízes baseados em referência como Prometheus e BLEURT, e modelos dedicados à predição de preferência como PandaLM e JudgeLM.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. O que são Juízes Especializados e Modelos de Preferência e qual vantagem fundamental eles oferecem frente a LLMs generalistas?
+2. Quais são as três categorias funcionais primárias de juízes especializados detalhadas no texto?
+3. Como o modelo de recompensa Cappy (Google, 360M) exemplifica a viabilidade de modelos leves para avaliação?
+4. Qual é a premissa cognitiva que justifica o fato de um modelo pequeno ser capaz de avaliar a saída de um modelo substancialmente maior?
+5. Como os modelos de preferência (como PandaLM) são utilizados para automatizar a coleta de dados de treinamento de alinhamento?
+6. Qual é a principal limitação operacional dos modelos de juiz baseados em referência (como Prometheus e BLEURT)?
+7. De que maneira juízes especializados viabilizam a implementação em produção da estratégia de *Best-of-N* com baixa latência?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

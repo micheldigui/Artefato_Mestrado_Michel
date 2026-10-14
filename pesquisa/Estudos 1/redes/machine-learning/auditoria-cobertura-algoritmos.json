@@ -1,0 +1,2618 @@
+{
+  "network": "machine-learning",
+  "scope": "53 arquivos TXT (7 aulas, 46 livros)",
+  "method": "Busca literal case-insensitive dos 62 nomes canônicos e aliases declarados para alguns algoritmos centrais. Menção não indica profundidade.",
+  "limitations": [
+    "Ocorrência não implica discussão aprofundada.",
+    "Paginação e hierarquia de capítulos não são confiáveis no texto extraído.",
+    "O dicionário de termos define a cobertura; nomes não incluídos nele podem não ser detectados."
+  ],
+  "source_count": 53,
+  "algorithm_count": 62,
+  "coverage": [
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/AI-Assisted_Statistics_for_Data_Scientists_3E_-_Peter_Bruce.txt",
+      "source_id": "B01",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Naive Bayes",
+        "Perceptron",
+        "Bagging",
+        "AdaBoost",
+        "Gradient Boosting",
+        "XGBoost",
+        "Stacking",
+        "K-Means",
+        "Principal Component Analysis (PCA)",
+        "Multilayer Perceptron (MLP)",
+        "Convolutional Neural Network (CNN)",
+        "Long Short-Term Memory (LSTM)",
+        "Autoencoders"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 79,
+        "Regressão logística": 84,
+        "K-Nearest Neighbors (KNN)": 114,
+        "Árvores de decisão": 25,
+        "Random Forest": 128,
+        "Naive Bayes": 74,
+        "Perceptron": 4,
+        "Bagging": 48,
+        "AdaBoost": 5,
+        "Gradient Boosting": 22,
+        "XGBoost": 84,
+        "Stacking": 1,
+        "K-Means": 110,
+        "Principal Component Analysis (PCA)": 41,
+        "Multilayer Perceptron (MLP)": 1,
+        "Convolutional Neural Network (CNN)": 1,
+        "Long Short-Term Memory (LSTM)": 4,
+        "Autoencoders": 2
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/AI_and_ML_for_Coders_Applying_Core_ML_-_Suddhasatwa_Bhaumik.txt",
+      "source_id": "B02",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Support Vector Regression (SVR)",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Bagging",
+        "Gradient Boosting",
+        "XGBoost",
+        "Stacking",
+        "K-Means",
+        "DBSCAN",
+        "OPTICS",
+        "Principal Component Analysis (PCA)",
+        "Factor Analysis",
+        "Gated Recurrent Unit (GRU)",
+        "Autoencoders",
+        "Apriori",
+        "FP-Growth",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 57,
+        "Regressão logística": 23,
+        "Support Vector Regression (SVR)": 2,
+        "K-Nearest Neighbors (KNN)": 33,
+        "Árvores de decisão": 101,
+        "Random Forest": 70,
+        "Support Vector Machines (SVM)": 3,
+        "Naive Bayes": 4,
+        "Bagging": 15,
+        "Gradient Boosting": 18,
+        "XGBoost": 36,
+        "Stacking": 1,
+        "K-Means": 56,
+        "DBSCAN": 24,
+        "OPTICS": 1,
+        "Principal Component Analysis (PCA)": 3,
+        "Factor Analysis": 1,
+        "Gated Recurrent Unit (GRU)": 1,
+        "Autoencoders": 2,
+        "Apriori": 1,
+        "FP-Growth": 1,
+        "ARIMA": 4
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/AI_Engineering_Building_Applications_-_Chip_Huyen.txt",
+      "source_id": "B03",
+      "normalized_concepts": [
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Perceptron",
+        "Stacking",
+        "K-Means",
+        "Autoencoders",
+        "Actor-Critic"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "K-Nearest Neighbors (KNN)": 2,
+        "Árvores de decisão": 1,
+        "Perceptron": 2,
+        "Stacking": 18,
+        "K-Means": 2,
+        "Autoencoders": 1,
+        "Actor-Critic": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/am-aula-1a_-_Apresentacao.txt",
+      "source_id": "A01",
+      "normalized_concepts": [
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Support Vector Machines (SVM)",
+        "AdaBoost",
+        "DBSCAN",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "UMAP",
+        "SARSA",
+        "Policy Gradient",
+        "FP-Growth"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão logística": 1,
+        "K-Nearest Neighbors (KNN)": 1,
+        "Árvores de decisão": 1,
+        "Support Vector Machines (SVM)": 1,
+        "AdaBoost": 1,
+        "DBSCAN": 1,
+        "Principal Component Analysis (PCA)": 1,
+        "t-SNE": 1,
+        "UMAP": 1,
+        "SARSA": 1,
+        "Policy Gradient": 1,
+        "FP-Growth": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/am-aula-1b_-_Revisao.txt",
+      "source_id": "A02",
+      "normalized_concepts": [
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "AdaBoost",
+        "DBSCAN",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "UMAP",
+        "SARSA",
+        "Policy Gradient",
+        "FP-Growth"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão logística": 1,
+        "K-Nearest Neighbors (KNN)": 1,
+        "Árvores de decisão": 1,
+        "Support Vector Machines (SVM)": 1,
+        "Naive Bayes": 2,
+        "AdaBoost": 1,
+        "DBSCAN": 1,
+        "Principal Component Analysis (PCA)": 1,
+        "t-SNE": 1,
+        "UMAP": 1,
+        "SARSA": 1,
+        "Policy Gradient": 1,
+        "FP-Growth": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/am-aula-1c_-_Regressao.txt",
+      "source_id": "A03",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão polinomial",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "AdaBoost",
+        "DBSCAN",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "UMAP",
+        "SARSA",
+        "Policy Gradient",
+        "FP-Growth"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 60,
+        "Regressão polinomial": 3,
+        "Regressão logística": 1,
+        "K-Nearest Neighbors (KNN)": 1,
+        "Árvores de decisão": 1,
+        "Support Vector Machines (SVM)": 1,
+        "Naive Bayes": 2,
+        "AdaBoost": 1,
+        "DBSCAN": 1,
+        "Principal Component Analysis (PCA)": 1,
+        "t-SNE": 1,
+        "UMAP": 1,
+        "SARSA": 1,
+        "Policy Gradient": 1,
+        "FP-Growth": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/am-aula-2_-_Supervisionados_-_Treinamento.txt",
+      "source_id": "A04",
+      "normalized_concepts": [
+        "K-Nearest Neighbors (KNN)",
+        "Random Forest",
+        "Support Vector Machines (SVM)"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "K-Nearest Neighbors (KNN)": 1,
+        "Random Forest": 2,
+        "Support Vector Machines (SVM)": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/am-aula-3_-_Supervisionados_-_Algoritmos.txt",
+      "source_id": "A05",
+      "normalized_concepts": [
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Bagging",
+        "XGBoost"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "K-Nearest Neighbors (KNN)": 18,
+        "Árvores de decisão": 51,
+        "Random Forest": 28,
+        "Support Vector Machines (SVM)": 43,
+        "Bagging": 1,
+        "XGBoost": 22
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/am-aula-4.1_-_Nao_Supervisionados.txt",
+      "source_id": "A06",
+      "normalized_concepts": [
+        "K-Means",
+        "Principal Component Analysis (PCA)"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "K-Means": 24,
+        "Principal Component Analysis (PCA)": 28
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/am-aula-4.2_-_Aprendizado_por_reforco.txt",
+      "source_id": "A07",
+      "normalized_concepts": [
+        "Random Forest",
+        "Q-Learning",
+        "SARSA",
+        "Actor-Critic"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Random Forest": 2,
+        "Q-Learning": 8,
+        "SARSA": 1,
+        "Actor-Critic": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Artificial Intelligence for Engineers.txt",
+      "source_id": "B04",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Elastic Net",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Bagging",
+        "AdaBoost",
+        "Gradient Boosting",
+        "XGBoost",
+        "Stacking",
+        "K-Means",
+        "DBSCAN",
+        "OPTICS",
+        "Mean Shift",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "UMAP",
+        "Independent Component Analysis (ICA)",
+        "Convolutional Neural Network (CNN)",
+        "Generative Adversarial Network (GAN)",
+        "Restricted Boltzmann Machine (RBM)",
+        "Q-Learning",
+        "SARSA",
+        "Policy Gradient",
+        "Actor-Critic",
+        "Apriori"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 2,
+        "Regressão logística": 4,
+        "Elastic Net": 1,
+        "K-Nearest Neighbors (KNN)": 11,
+        "Árvores de decisão": 39,
+        "Random Forest": 8,
+        "Support Vector Machines (SVM)": 41,
+        "Naive Bayes": 36,
+        "Perceptron": 9,
+        "Bagging": 36,
+        "AdaBoost": 9,
+        "Gradient Boosting": 16,
+        "XGBoost": 10,
+        "Stacking": 20,
+        "K-Means": 54,
+        "DBSCAN": 13,
+        "OPTICS": 1,
+        "Mean Shift": 4,
+        "Principal Component Analysis (PCA)": 24,
+        "t-SNE": 1,
+        "UMAP": 1,
+        "Independent Component Analysis (ICA)": 1,
+        "Convolutional Neural Network (CNN)": 1,
+        "Generative Adversarial Network (GAN)": 1,
+        "Restricted Boltzmann Machine (RBM)": 1,
+        "Q-Learning": 7,
+        "SARSA": 6,
+        "Policy Gradient": 23,
+        "Actor-Critic": 10,
+        "Apriori": 15
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Artificial_Intelligence_6E_-_George_Luger.txt",
+      "source_id": "B05",
+      "normalized_concepts": [
+        "Árvores de decisão",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Bagging",
+        "Stacking",
+        "K-Means",
+        "OPTICS",
+        "Q-Learning"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Árvores de decisão": 49,
+        "Support Vector Machines (SVM)": 15,
+        "Naive Bayes": 6,
+        "Perceptron": 52,
+        "Bagging": 8,
+        "Stacking": 3,
+        "K-Means": 4,
+        "OPTICS": 1,
+        "Q-Learning": 12
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Data_Science_Solutions_on_Azure_-_Julian_Soh.txt",
+      "source_id": "B06",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Support Vector Machines (SVM)",
+        "Gradient Boosting",
+        "XGBoost",
+        "K-Means",
+        "DBSCAN"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 3,
+        "Support Vector Machines (SVM)": 1,
+        "Gradient Boosting": 6,
+        "XGBoost": 4,
+        "K-Means": 26,
+        "DBSCAN": 2
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Deep_Learning_with_PyTorch_2Ed_Final_-_Howard_Huang.txt",
+      "source_id": "B07",
+      "normalized_concepts": [
+        "Perceptron",
+        "Stacking",
+        "Multilayer Perceptron (MLP)",
+        "Long Short-Term Memory (LSTM)",
+        "Autoencoders",
+        "Variational Autoencoder (VAE)"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Perceptron": 3,
+        "Stacking": 7,
+        "Multilayer Perceptron (MLP)": 1,
+        "Long Short-Term Memory (LSTM)": 1,
+        "Autoencoders": 3,
+        "Variational Autoencoder (VAE)": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Engineering_of_Additive_Manufacturing_Features_for_Data-Driven_Solutions_-_Mutahar_Safdar.txt",
+      "source_id": "B08",
+      "normalized_concepts": [
+        "Regressão linear",
+        "K-Nearest Neighbors (KNN)",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "K-Means",
+        "OPTICS",
+        "Principal Component Analysis (PCA)",
+        "Convolutional Neural Network (CNN)",
+        "Autoencoders",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 1,
+        "K-Nearest Neighbors (KNN)": 1,
+        "Random Forest": 4,
+        "Support Vector Machines (SVM)": 1,
+        "K-Means": 2,
+        "OPTICS": 1,
+        "Principal Component Analysis (PCA)": 22,
+        "Convolutional Neural Network (CNN)": 1,
+        "Autoencoders": 1,
+        "ARIMA": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Exploratory_Data_Analysis_-_John_W_Tuke.txt",
+      "source_id": "B09",
+      "normalized_concepts": [
+        "Stacking",
+        "Factor Analysis"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Stacking": 2,
+        "Factor Analysis": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Exploratory_Data_Analysis_-_Leandro_Nunes_de_Castro.txt",
+      "source_id": "B10",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Perceptron",
+        "Stacking"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 17,
+        "Perceptron": 1,
+        "Stacking": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Exploratory_Data_Analysis_with_Python_Cookbook_-_Ayodele_Oluleye.txt",
+      "source_id": "B11",
+      "normalized_concepts": [
+        "Regressão linear",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "K-Means",
+        "DBSCAN",
+        "Principal Component Analysis (PCA)",
+        "Factor Analysis",
+        "Long Short-Term Memory (LSTM)"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 2,
+        "K-Nearest Neighbors (KNN)": 11,
+        "Árvores de decisão": 5,
+        "K-Means": 10,
+        "DBSCAN": 29,
+        "Principal Component Analysis (PCA)": 45,
+        "Factor Analysis": 26,
+        "Long Short-Term Memory (LSTM)": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Feature_Engineering_Bookcamp_-_Sinan_Ozdemir.txt",
+      "source_id": "B12",
+      "normalized_concepts": [
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "K-Means",
+        "Principal Component Analysis (PCA)",
+        "Autoencoders"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão logística": 32,
+        "K-Nearest Neighbors (KNN)": 2,
+        "Árvores de decisão": 2,
+        "Random Forest": 26,
+        "K-Means": 10,
+        "Principal Component Analysis (PCA)": 37,
+        "Autoencoders": 21
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Feature_Engineering_for_Machine_Learning_Principles_and_Techniques_for_Data_Scientists_-_Alice_Zheng.txt",
+      "source_id": "B13",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Gradient Boosting",
+        "Stacking",
+        "K-Means",
+        "Principal Component Analysis (PCA)",
+        "Factor Analysis"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 19,
+        "Regressão logística": 36,
+        "K-Nearest Neighbors (KNN)": 11,
+        "Árvores de decisão": 7,
+        "Random Forest": 8,
+        "Support Vector Machines (SVM)": 11,
+        "Naive Bayes": 2,
+        "Gradient Boosting": 2,
+        "Stacking": 24,
+        "K-Means": 202,
+        "Principal Component Analysis (PCA)": 88,
+        "Factor Analysis": 3
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Feature_Engineering_for_Modern_ML_-_Cuantum_Technologies.txt",
+      "source_id": "B14",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Elastic Net",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Bagging",
+        "Gradient Boosting",
+        "XGBoost",
+        "LightGBM",
+        "K-Means",
+        "DBSCAN",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "Convolutional Neural Network (CNN)",
+        "Autoencoders"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 16,
+        "Regressão logística": 52,
+        "Elastic Net": 9,
+        "K-Nearest Neighbors (KNN)": 3,
+        "Árvores de decisão": 15,
+        "Random Forest": 136,
+        "Support Vector Machines (SVM)": 12,
+        "Bagging": 1,
+        "Gradient Boosting": 20,
+        "XGBoost": 2,
+        "LightGBM": 1,
+        "K-Means": 164,
+        "DBSCAN": 42,
+        "Principal Component Analysis (PCA)": 6,
+        "t-SNE": 2,
+        "Convolutional Neural Network (CNN)": 1,
+        "Autoencoders": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/giuseppe-bonaccorso-mastering-machine-learning-2020.txt",
+      "source_id": "B15",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Latent Dirichlet Allocation (LDA)",
+        "Bagging",
+        "AdaBoost",
+        "Gradient Boosting",
+        "XGBoost",
+        "Stacking",
+        "K-Means",
+        "DBSCAN",
+        "Spectral Clustering",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "Independent Component Analysis (ICA)",
+        "Factor Analysis",
+        "Multilayer Perceptron (MLP)",
+        "Long Short-Term Memory (LSTM)",
+        "Gated Recurrent Unit (GRU)",
+        "Autoencoders",
+        "Variational Autoencoder (VAE)",
+        "Restricted Boltzmann Machine (RBM)",
+        "Deep Belief Network (DBN)",
+        "Q-Learning",
+        "SARSA",
+        "Policy Gradient",
+        "Actor-Critic",
+        "Value Iteration",
+        "Policy Iteration",
+        "Apriori",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 29,
+        "Regressão logística": 56,
+        "K-Nearest Neighbors (KNN)": 54,
+        "Árvores de decisão": 59,
+        "Random Forest": 46,
+        "Support Vector Machines (SVM)": 70,
+        "Naive Bayes": 10,
+        "Perceptron": 40,
+        "Latent Dirichlet Allocation (LDA)": 1,
+        "Bagging": 18,
+        "AdaBoost": 56,
+        "Gradient Boosting": 46,
+        "XGBoost": 34,
+        "Stacking": 8,
+        "K-Means": 150,
+        "DBSCAN": 33,
+        "Spectral Clustering": 20,
+        "Principal Component Analysis (PCA)": 96,
+        "t-SNE": 26,
+        "Independent Component Analysis (ICA)": 1,
+        "Factor Analysis": 21,
+        "Multilayer Perceptron (MLP)": 2,
+        "Long Short-Term Memory (LSTM)": 4,
+        "Gated Recurrent Unit (GRU)": 4,
+        "Autoencoders": 34,
+        "Variational Autoencoder (VAE)": 2,
+        "Restricted Boltzmann Machine (RBM)": 1,
+        "Deep Belief Network (DBN)": 1,
+        "Q-Learning": 27,
+        "SARSA": 23,
+        "Policy Gradient": 9,
+        "Actor-Critic": 13,
+        "Value Iteration": 12,
+        "Policy Iteration": 15,
+        "Apriori": 27,
+        "ARIMA": 16
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Hands-On_Machine_Learning_with_Scikit-Learn-Keras-and-TensorFlow-2nd-Edition-Aurelien-Geron.txt",
+      "source_id": "B16",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Elastic Net",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Bagging",
+        "AdaBoost",
+        "Gradient Boosting",
+        "XGBoost",
+        "Stacking",
+        "K-Means",
+        "DBSCAN",
+        "Spectral Clustering",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "Isolation Forest",
+        "Multilayer Perceptron (MLP)",
+        "Long Short-Term Memory (LSTM)",
+        "Gated Recurrent Unit (GRU)",
+        "Autoencoders",
+        "Q-Learning",
+        "Deep Q-Network (DQN)",
+        "Policy Gradient",
+        "Actor-Critic",
+        "Asynchronous Advantage Actor-Critic (A3C)",
+        "Value Iteration",
+        "Apriori",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 60,
+        "Regressão logística": 53,
+        "Elastic Net": 14,
+        "K-Nearest Neighbors (KNN)": 12,
+        "Árvores de decisão": 97,
+        "Random Forest": 42,
+        "Support Vector Machines (SVM)": 127,
+        "Naive Bayes": 2,
+        "Perceptron": 35,
+        "Bagging": 27,
+        "AdaBoost": 25,
+        "Gradient Boosting": 36,
+        "XGBoost": 14,
+        "Stacking": 19,
+        "K-Means": 133,
+        "DBSCAN": 31,
+        "Spectral Clustering": 4,
+        "Principal Component Analysis (PCA)": 124,
+        "t-SNE": 9,
+        "Isolation Forest": 5,
+        "Multilayer Perceptron (MLP)": 1,
+        "Long Short-Term Memory (LSTM)": 2,
+        "Gated Recurrent Unit (GRU)": 2,
+        "Autoencoders": 125,
+        "Q-Learning": 48,
+        "Deep Q-Network (DQN)": 1,
+        "Policy Gradient": 1,
+        "Actor-Critic": 15,
+        "Asynchronous Advantage Actor-Critic (A3C)": 1,
+        "Value Iteration": 12,
+        "Apriori": 1,
+        "ARIMA": 2
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Hands_on_Machine_Learning_with_scikit_-_Tarek_Amr.txt",
+      "source_id": "B17",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Bagging",
+        "AdaBoost",
+        "Gradient Boosting",
+        "CatBoost",
+        "Stacking",
+        "K-Means",
+        "DBSCAN",
+        "Principal Component Analysis (PCA)",
+        "Isolation Forest",
+        "Multilayer Perceptron (MLP)",
+        "Autoencoders"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 19,
+        "Regressão logística": 30,
+        "K-Nearest Neighbors (KNN)": 27,
+        "Árvores de decisão": 52,
+        "Random Forest": 38,
+        "Support Vector Machines (SVM)": 2,
+        "Naive Bayes": 52,
+        "Perceptron": 6,
+        "Bagging": 20,
+        "AdaBoost": 12,
+        "Gradient Boosting": 38,
+        "CatBoost": 1,
+        "Stacking": 4,
+        "K-Means": 30,
+        "DBSCAN": 11,
+        "Principal Component Analysis (PCA)": 43,
+        "Isolation Forest": 4,
+        "Multilayer Perceptron (MLP)": 1,
+        "Autoencoders": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/High-performance_Algorithmic_Trading_using_ML_-_Franck_Bardol.txt",
+      "source_id": "B18",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Bagging",
+        "AdaBoost",
+        "Gradient Boosting",
+        "XGBoost",
+        "LightGBM",
+        "Stacking",
+        "K-Means",
+        "Principal Component Analysis (PCA)",
+        "UMAP",
+        "Independent Component Analysis (ICA)",
+        "Isolation Forest",
+        "Apriori",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 14,
+        "Regressão logística": 15,
+        "K-Nearest Neighbors (KNN)": 14,
+        "Árvores de decisão": 54,
+        "Random Forest": 62,
+        "Support Vector Machines (SVM)": 4,
+        "Naive Bayes": 16,
+        "Bagging": 34,
+        "AdaBoost": 10,
+        "Gradient Boosting": 34,
+        "XGBoost": 50,
+        "LightGBM": 17,
+        "Stacking": 1,
+        "K-Means": 10,
+        "Principal Component Analysis (PCA)": 33,
+        "UMAP": 71,
+        "Independent Component Analysis (ICA)": 1,
+        "Isolation Forest": 17,
+        "Apriori": 3,
+        "ARIMA": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Implementing_MLOps_in_the_Enterprise_-_Yaron_Haviv.txt",
+      "source_id": "B19",
+      "normalized_concepts": [
+        "Árvores de decisão",
+        "Bagging",
+        "XGBoost",
+        "LightGBM",
+        "K-Means",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Árvores de decisão": 1,
+        "Bagging": 3,
+        "XGBoost": 6,
+        "LightGBM": 2,
+        "K-Means": 16,
+        "ARIMA": 6
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Information_Theory_Inference_-_David_J_C_MacKay.txt",
+      "source_id": "B20",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Perceptron",
+        "Stacking",
+        "K-Means",
+        "OPTICS",
+        "Factor Analysis",
+        "Autoencoders"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 2,
+        "Perceptron": 1,
+        "Stacking": 1,
+        "K-Means": 110,
+        "OPTICS": 1,
+        "Factor Analysis": 2,
+        "Autoencoders": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Introduction_into_Machine_Learning_4th_Edition_-_Ethem_Alpaydin.txt",
+      "source_id": "B21",
+      "normalized_concepts": [
+        "Regressão linear",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Bagging",
+        "AdaBoost",
+        "Stacking",
+        "K-Means",
+        "Spectral Clustering",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "Factor Analysis",
+        "Long Short-Term Memory (LSTM)",
+        "Gated Recurrent Unit (GRU)",
+        "Autoencoders",
+        "Generative Adversarial Network (GAN)",
+        "Q-Learning",
+        "SARSA",
+        "Policy Gradient",
+        "Actor-Critic",
+        "Value Iteration",
+        "Policy Iteration",
+        "Apriori"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 19,
+        "K-Nearest Neighbors (KNN)": 2,
+        "Árvores de decisão": 61,
+        "Random Forest": 4,
+        "Support Vector Machines (SVM)": 32,
+        "Naive Bayes": 10,
+        "Perceptron": 84,
+        "Bagging": 14,
+        "AdaBoost": 15,
+        "Stacking": 13,
+        "K-Means": 94,
+        "Spectral Clustering": 8,
+        "Principal Component Analysis (PCA)": 83,
+        "t-SNE": 5,
+        "Factor Analysis": 21,
+        "Long Short-Term Memory (LSTM)": 1,
+        "Gated Recurrent Unit (GRU)": 1,
+        "Autoencoders": 12,
+        "Generative Adversarial Network (GAN)": 1,
+        "Q-Learning": 1,
+        "SARSA": 16,
+        "Policy Gradient": 6,
+        "Actor-Critic": 2,
+        "Value Iteration": 7,
+        "Policy Iteration": 4,
+        "Apriori": 4
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Introduction_to_Machine_Learning_From_Math_to_Code_-_Ruye_Wang.txt",
+      "source_id": "B22",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Bagging",
+        "AdaBoost",
+        "K-Means",
+        "Principal Component Analysis (PCA)",
+        "Independent Component Analysis (ICA)",
+        "Factor Analysis",
+        "Recurrent Neural Network (RNN)",
+        "Q-Learning",
+        "SARSA",
+        "Policy Gradient",
+        "Actor-Critic",
+        "Value Iteration",
+        "Policy Iteration"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 52,
+        "Regressão logística": 12,
+        "K-Nearest Neighbors (KNN)": 3,
+        "Árvores de decisão": 6,
+        "Random Forest": 2,
+        "Support Vector Machines (SVM)": 61,
+        "Naive Bayes": 32,
+        "Perceptron": 38,
+        "Bagging": 2,
+        "AdaBoost": 6,
+        "K-Means": 45,
+        "Principal Component Analysis (PCA)": 104,
+        "Independent Component Analysis (ICA)": 1,
+        "Factor Analysis": 6,
+        "Recurrent Neural Network (RNN)": 1,
+        "Q-Learning": 13,
+        "SARSA": 12,
+        "Policy Gradient": 12,
+        "Actor-Critic": 2,
+        "Value Iteration": 2,
+        "Policy Iteration": 4
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Machine_Learning_Design_Patterns_-_Valliappa_Lakshmanan.txt",
+      "source_id": "B23",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Bagging",
+        "AdaBoost",
+        "Gradient Boosting",
+        "XGBoost",
+        "Stacking",
+        "K-Means",
+        "Principal Component Analysis (PCA)",
+        "Convolutional Neural Network (CNN)",
+        "Long Short-Term Memory (LSTM)",
+        "Autoencoders",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 11,
+        "Regressão logística": 1,
+        "K-Nearest Neighbors (KNN)": 6,
+        "Árvores de decisão": 32,
+        "Random Forest": 18,
+        "Support Vector Machines (SVM)": 3,
+        "Naive Bayes": 4,
+        "Bagging": 41,
+        "AdaBoost": 3,
+        "Gradient Boosting": 8,
+        "XGBoost": 32,
+        "Stacking": 17,
+        "K-Means": 12,
+        "Principal Component Analysis (PCA)": 5,
+        "Convolutional Neural Network (CNN)": 1,
+        "Long Short-Term Memory (LSTM)": 1,
+        "Autoencoders": 11,
+        "ARIMA": 6
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Machine_Learning_Engineering_with_Python_-_Second_Edition_-_Andrew_P_McMahon.txt",
+      "source_id": "B24",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "XGBoost",
+        "LightGBM",
+        "DBSCAN",
+        "Isolation Forest",
+        "Autoencoders",
+        "Prophet"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 1,
+        "Regressão logística": 3,
+        "K-Nearest Neighbors (KNN)": 1,
+        "Árvores de decisão": 2,
+        "Random Forest": 6,
+        "Support Vector Machines (SVM)": 4,
+        "XGBoost": 36,
+        "LightGBM": 3,
+        "DBSCAN": 9,
+        "Isolation Forest": 1,
+        "Autoencoders": 2,
+        "Prophet": 35
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Machine_Learning_Essentials_-_Dhairya_Parikh.txt",
+      "source_id": "B25",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Bagging",
+        "AdaBoost",
+        "Gradient Boosting",
+        "XGBoost",
+        "LightGBM",
+        "Stacking",
+        "K-Means",
+        "DBSCAN",
+        "Mean Shift",
+        "Gaussian Mixture Models (GMM)",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "Long Short-Term Memory (LSTM)"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 35,
+        "Regressão logística": 38,
+        "K-Nearest Neighbors (KNN)": 64,
+        "Árvores de decisão": 96,
+        "Random Forest": 24,
+        "Support Vector Machines (SVM)": 36,
+        "Naive Bayes": 4,
+        "Perceptron": 8,
+        "Bagging": 95,
+        "AdaBoost": 11,
+        "Gradient Boosting": 38,
+        "XGBoost": 6,
+        "LightGBM": 38,
+        "Stacking": 4,
+        "K-Means": 84,
+        "DBSCAN": 9,
+        "Mean Shift": 4,
+        "Gaussian Mixture Models (GMM)": 1,
+        "Principal Component Analysis (PCA)": 62,
+        "t-SNE": 39,
+        "Long Short-Term Memory (LSTM)": 2
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Machine_Learning_Hero_Master_Data_-_Cuantum_Technologies.txt",
+      "source_id": "B26",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Bagging",
+        "Gradient Boosting",
+        "XGBoost",
+        "LightGBM",
+        "Stacking",
+        "K-Means",
+        "DBSCAN",
+        "Spectral Clustering",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "UMAP",
+        "Isolation Forest",
+        "Autoencoders",
+        "Q-Learning",
+        "SARSA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 72,
+        "Regressão logística": 62,
+        "K-Nearest Neighbors (KNN)": 122,
+        "Árvores de decisão": 78,
+        "Random Forest": 84,
+        "Support Vector Machines (SVM)": 92,
+        "Naive Bayes": 2,
+        "Bagging": 4,
+        "Gradient Boosting": 4,
+        "XGBoost": 24,
+        "LightGBM": 1,
+        "Stacking": 2,
+        "K-Means": 214,
+        "DBSCAN": 58,
+        "Spectral Clustering": 1,
+        "Principal Component Analysis (PCA)": 222,
+        "t-SNE": 136,
+        "UMAP": 180,
+        "Isolation Forest": 2,
+        "Autoencoders": 1,
+        "Q-Learning": 1,
+        "SARSA": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Machine_Learning_in_Production_-_Suhas_Pote.txt",
+      "source_id": "B27",
+      "normalized_concepts": [
+        "Regressão logística",
+        "Árvores de decisão",
+        "Random Forest",
+        "Principal Component Analysis (PCA)",
+        "Autoencoders"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão logística": 8,
+        "Árvores de decisão": 2,
+        "Random Forest": 12,
+        "Principal Component Analysis (PCA)": 1,
+        "Autoencoders": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Machine_Learning_Upgrade_-_Kristen_Kehrer.txt",
+      "source_id": "B28",
+      "normalized_concepts": [
+        "Regressão logística",
+        "Random Forest",
+        "Gradient Boosting",
+        "XGBoost",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão logística": 1,
+        "Random Forest": 20,
+        "Gradient Boosting": 4,
+        "XGBoost": 2,
+        "ARIMA": 2
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/mastering-exploratory-analysis-with-pandas-2018.txt",
+      "source_id": "B29",
+      "normalized_concepts": [
+        "Regressão linear"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Mastering_Computer_Vision_with_Python_-_Sohail.txt",
+      "source_id": "B30",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Perceptron"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 2,
+        "Random Forest": 2,
+        "Support Vector Machines (SVM)": 3,
+        "Perceptron": 7
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Mastering_MLOps_Architecture_-_Raman_Jhajj.txt",
+      "source_id": "B31",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Árvores de decisão",
+        "XGBoost",
+        "LightGBM"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 1,
+        "Árvores de decisão": 2,
+        "XGBoost": 2,
+        "LightGBM": 5
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Mastering_NLP_From_Foundations_to_Agents_2E_-_Lior_Gazit.txt",
+      "source_id": "B32",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Elastic Net",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Latent Dirichlet Allocation (LDA)",
+        "Bagging",
+        "AdaBoost",
+        "Gradient Boosting",
+        "Stacking",
+        "K-Means",
+        "Spectral Clustering",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "UMAP",
+        "Multilayer Perceptron (MLP)",
+        "Convolutional Neural Network (CNN)",
+        "Recurrent Neural Network (RNN)",
+        "Long Short-Term Memory (LSTM)",
+        "Gated Recurrent Unit (GRU)",
+        "Autoencoders",
+        "Generative Adversarial Network (GAN)",
+        "Q-Learning",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 23,
+        "Regressão logística": 29,
+        "Elastic Net": 1,
+        "Árvores de decisão": 43,
+        "Random Forest": 40,
+        "Support Vector Machines (SVM)": 13,
+        "Naive Bayes": 12,
+        "Perceptron": 4,
+        "Latent Dirichlet Allocation (LDA)": 4,
+        "Bagging": 14,
+        "AdaBoost": 3,
+        "Gradient Boosting": 14,
+        "Stacking": 8,
+        "K-Means": 4,
+        "Spectral Clustering": 1,
+        "Principal Component Analysis (PCA)": 29,
+        "t-SNE": 20,
+        "UMAP": 9,
+        "Multilayer Perceptron (MLP)": 1,
+        "Convolutional Neural Network (CNN)": 1,
+        "Recurrent Neural Network (RNN)": 2,
+        "Long Short-Term Memory (LSTM)": 4,
+        "Gated Recurrent Unit (GRU)": 3,
+        "Autoencoders": 1,
+        "Generative Adversarial Network (GAN)": 3,
+        "Q-Learning": 1,
+        "ARIMA": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/MLOps_with_Ray_Best_Practices_-_Hien_Luu.txt",
+      "source_id": "B33",
+      "normalized_concepts": [
+        "Regressão linear",
+        "XGBoost",
+        "LightGBM"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 1,
+        "XGBoost": 26,
+        "LightGBM": 6
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Model-Based_Product_Line_Engineering_-_Marco_Forlingieri.txt",
+      "source_id": "B34",
+      "normalized_concepts": [],
+      "decision": "catalogado",
+      "counts": {},
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Pandas_Cookbook_3rd_Edition_-_William_Ayd_Matthew_Harrison.txt",
+      "source_id": "B35",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Gradient Boosting",
+        "XGBoost",
+        "Stacking"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 3,
+        "Gradient Boosting": 6,
+        "XGBoost": 22,
+        "Stacking": 6
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Practical_Machine_Learning_on_Databricks_-_Debu_Sinha (2).txt",
+      "source_id": "B36",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Árvores de decisão",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Gradient Boosting",
+        "XGBoost",
+        "LightGBM",
+        "ARIMA",
+        "Prophet"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 2,
+        "Regressão logística": 4,
+        "Árvores de decisão": 5,
+        "Support Vector Machines (SVM)": 1,
+        "Naive Bayes": 2,
+        "Gradient Boosting": 2,
+        "XGBoost": 4,
+        "LightGBM": 6,
+        "ARIMA": 2,
+        "Prophet": 1
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/practical_mlops_operationalizing_machine_learning_models_-_Noah_Gift.txt",
+      "source_id": "B37",
+      "normalized_concepts": [
+        "Regressão logística",
+        "XGBoost",
+        "LightGBM",
+        "CatBoost",
+        "K-Means"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão logística": 1,
+        "XGBoost": 14,
+        "LightGBM": 1,
+        "CatBoost": 1,
+        "K-Means": 10
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Python_3_and_Feature_Engineering_-_Oswald_Campesato.txt",
+      "source_id": "B38",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Elastic Net",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "AdaBoost",
+        "Gradient Boosting",
+        "LightGBM",
+        "K-Means",
+        "DBSCAN",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "UMAP",
+        "Independent Component Analysis (ICA)",
+        "Isolation Forest",
+        "Autoencoders"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 8,
+        "Regressão logística": 6,
+        "Elastic Net": 6,
+        "K-Nearest Neighbors (KNN)": 17,
+        "Árvores de decisão": 11,
+        "Random Forest": 10,
+        "Support Vector Machines (SVM)": 3,
+        "Naive Bayes": 8,
+        "Perceptron": 1,
+        "AdaBoost": 1,
+        "Gradient Boosting": 2,
+        "LightGBM": 8,
+        "K-Means": 2,
+        "DBSCAN": 8,
+        "Principal Component Analysis (PCA)": 83,
+        "t-SNE": 22,
+        "UMAP": 12,
+        "Independent Component Analysis (ICA)": 1,
+        "Isolation Forest": 6,
+        "Autoencoders": 2
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Python_Tricks_-_Dan_bader.txt",
+      "source_id": "B39",
+      "normalized_concepts": [
+        "Stacking"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Stacking": 3
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Reinforcement_Learning_-_Richard_Sutton.txt",
+      "source_id": "B40",
+      "normalized_concepts": [
+        "Árvores de decisão",
+        "Q-Learning",
+        "SARSA",
+        "Actor-Critic",
+        "Value Iteration",
+        "Policy Iteration"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Árvores de decisão": 3,
+        "Q-Learning": 63,
+        "SARSA": 83,
+        "Actor-Critic": 32,
+        "Value Iteration": 35,
+        "Policy Iteration": 52
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Securing_the_AI_Enterprise_-_Edgardo_Fernandez_Climent.txt",
+      "source_id": "B41",
+      "normalized_concepts": [
+        "Árvores de decisão"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Árvores de decisão": 6
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Statistics_and_Data_Foundations_for_AI_-_Tamraparni_Dasu.txt",
+      "source_id": "B42",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Naive Bayes",
+        "Perceptron"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 7,
+        "Regressão logística": 1,
+        "Naive Bayes": 14,
+        "Perceptron": 3
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/The_Art_of_Feature_Engineering_Essentials_for_Machine_Learning_-_Pablo_Duboue.txt",
+      "source_id": "B43",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Naive Bayes",
+        "Perceptron",
+        "Gradient Boosting",
+        "K-Means",
+        "Principal Component Analysis (PCA)",
+        "t-SNE",
+        "Recurrent Neural Network (RNN)",
+        "Long Short-Term Memory (LSTM)",
+        "Autoencoders",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 1,
+        "Regressão logística": 3,
+        "Árvores de decisão": 15,
+        "Random Forest": 18,
+        "Support Vector Machines (SVM)": 5,
+        "Naive Bayes": 2,
+        "Perceptron": 1,
+        "Gradient Boosting": 2,
+        "K-Means": 16,
+        "Principal Component Analysis (PCA)": 22,
+        "t-SNE": 7,
+        "Recurrent Neural Network (RNN)": 1,
+        "Long Short-Term Memory (LSTM)": 1,
+        "Autoencoders": 7,
+        "ARIMA": 4
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/The_Machine_Learning_Solutions_Architect_Handbook_Practical_strategies_and_best_practices_on_the_ML_lifecycle_system_design_MLOps_and_generative_AI_-_by_David_Ping.txt",
+      "source_id": "B44",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Elastic Net",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Perceptron",
+        "Gradient Boosting",
+        "XGBoost",
+        "LightGBM",
+        "CatBoost",
+        "K-Means",
+        "DBSCAN",
+        "Convolutional Neural Network (CNN)",
+        "Recurrent Neural Network (RNN)",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 25,
+        "Regressão logística": 16,
+        "Elastic Net": 1,
+        "K-Nearest Neighbors (KNN)": 1,
+        "Árvores de decisão": 27,
+        "Random Forest": 30,
+        "Perceptron": 10,
+        "Gradient Boosting": 32,
+        "XGBoost": 78,
+        "LightGBM": 1,
+        "CatBoost": 1,
+        "K-Means": 20,
+        "DBSCAN": 1,
+        "Convolutional Neural Network (CNN)": 3,
+        "Recurrent Neural Network (RNN)": 2,
+        "ARIMA": 14
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Time_Series_Analysis_with_Python_Cookbook_-_Tarek_A_Atwan.txt",
+      "source_id": "B45",
+      "normalized_concepts": [
+        "Regressão linear",
+        "Regressão logística",
+        "Elastic Net",
+        "K-Nearest Neighbors (KNN)",
+        "Árvores de decisão",
+        "Random Forest",
+        "Support Vector Machines (SVM)",
+        "Bagging",
+        "Gradient Boosting",
+        "Stacking",
+        "K-Means",
+        "Isolation Forest",
+        "Recurrent Neural Network (RNN)",
+        "Gated Recurrent Unit (GRU)",
+        "Autoencoders",
+        "ARIMA",
+        "Prophet"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Regressão linear": 47,
+        "Regressão logística": 1,
+        "Elastic Net": 4,
+        "K-Nearest Neighbors (KNN)": 104,
+        "Árvores de decisão": 2,
+        "Random Forest": 10,
+        "Support Vector Machines (SVM)": 15,
+        "Bagging": 4,
+        "Gradient Boosting": 4,
+        "Stacking": 1,
+        "K-Means": 2,
+        "Isolation Forest": 1,
+        "Recurrent Neural Network (RNN)": 1,
+        "Gated Recurrent Unit (GRU)": 2,
+        "Autoencoders": 1,
+        "ARIMA": 146,
+        "Prophet": 116
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    },
+    {
+      "source_item": "fontes/referencias-ia-ml/txt/Transformers_ The Definitive Guide.txt",
+      "source_id": "B46",
+      "normalized_concepts": [
+        "Perceptron",
+        "Stacking",
+        "Multilayer Perceptron (MLP)",
+        "Long Short-Term Memory (LSTM)",
+        "Autoencoders",
+        "Q-Learning",
+        "SARSA",
+        "Policy Gradient",
+        "Actor-Critic",
+        "Policy Iteration",
+        "ARIMA"
+      ],
+      "decision": "catalogado",
+      "counts": {
+        "Perceptron": 1,
+        "Stacking": 1,
+        "Multilayer Perceptron (MLP)": 1,
+        "Long Short-Term Memory (LSTM)": 2,
+        "Autoencoders": 4,
+        "Q-Learning": 3,
+        "SARSA": 3,
+        "Policy Gradient": 2,
+        "Actor-Critic": 3,
+        "Policy Iteration": 1,
+        "ARIMA": 3
+      },
+      "files": [
+        "redes/machine-learning/indice-algoritmos-modelos.md"
+      ],
+      "reason": "Busca literal de nome canônico e poucos aliases explícitos; menção não implica discussão aprofundada."
+    }
+  ],
+  "indexed_algorithms": {
+    "Regressão linear": {
+      "category": "Regressão supervisionada",
+      "sources": [
+        "A03",
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B12",
+        "B13",
+        "B14",
+        "B15",
+        "B18"
+      ]
+    },
+    "Regressão polinomial": {
+      "category": "Regressão supervisionada",
+      "sources": [
+        "A03",
+        "B03",
+        "B09"
+      ]
+    },
+    "Regressão logística": {
+      "category": "Regressão supervisionada",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B01",
+        "B03",
+        "B04",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B15",
+        "B16",
+        "B18"
+      ]
+    },
+    "Ridge (regularização L2)": {
+      "category": "Regressão supervisionada",
+      "sources": [
+        "B01",
+        "B03"
+      ]
+    },
+    "Lasso (regularização L1)": {
+      "category": "Regressão supervisionada",
+      "sources": [
+        "B01",
+        "B03",
+        "B09"
+      ]
+    },
+    "Elastic Net": {
+      "category": "Regressão supervisionada",
+      "sources": [
+        "B18"
+      ]
+    },
+    "Support Vector Regression (SVR)": {
+      "category": "Regressão supervisionada",
+      "sources": [
+        "B01",
+        "B09"
+      ]
+    },
+    "K-Nearest Neighbors (KNN)": {
+      "category": "Classificação supervisionada",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "B01",
+        "B03",
+        "B04",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B18"
+      ]
+    },
+    "Árvores de decisão": {
+      "category": "Classificação supervisionada",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "A05",
+        "B01",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B13",
+        "B15",
+        "B17",
+        "B18"
+      ]
+    },
+    "Random Forest": {
+      "category": "Classificação supervisionada",
+      "sources": [
+        "A04",
+        "A05",
+        "A07",
+        "B01",
+        "B03",
+        "B04",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B15",
+        "B18"
+      ]
+    },
+    "Support Vector Machines (SVM)": {
+      "category": "Classificação supervisionada",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B12",
+        "B15",
+        "B18"
+      ]
+    },
+    "Naive Bayes": {
+      "category": "Classificação supervisionada",
+      "sources": [
+        "A02",
+        "A03",
+        "B01",
+        "B03",
+        "B04",
+        "B06",
+        "B08",
+        "B09",
+        "B15"
+      ]
+    },
+    "Perceptron": {
+      "category": "Classificação supervisionada",
+      "sources": [
+        "B03",
+        "B04",
+        "B08",
+        "B13",
+        "B18"
+      ]
+    },
+    "Análise Discriminante Linear (Linear Discriminant Analysis)": {
+      "category": "Classificação supervisionada",
+      "sources": [
+        "A06",
+        "B09"
+      ]
+    },
+    "Latent Dirichlet Allocation (LDA)": {
+      "category": "Modelos de tópicos",
+      "sources": [
+        "B03"
+      ]
+    },
+    "LDA (sigla sem expansão confirmada no trecho)": {
+      "category": "Modelos de tópicos",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "A05",
+        "A06",
+        "B03",
+        "B09"
+      ]
+    },
+    "Bagging": {
+      "category": "Ensembles",
+      "sources": [
+        "A05",
+        "B01",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B08",
+        "B09"
+      ]
+    },
+    "AdaBoost": {
+      "category": "Ensembles",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B03",
+        "B04",
+        "B06",
+        "B08"
+      ]
+    },
+    "Gradient Boosting": {
+      "category": "Ensembles",
+      "sources": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B06",
+        "B08",
+        "B09",
+        "B11",
+        "B15",
+        "B18"
+      ]
+    },
+    "XGBoost": {
+      "category": "Ensembles",
+      "sources": [
+        "A05",
+        "B01",
+        "B02",
+        "B03",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B11",
+        "B13",
+        "B14",
+        "B15",
+        "B16",
+        "B18"
+      ]
+    },
+    "LightGBM": {
+      "category": "Ensembles",
+      "sources": [
+        "B05",
+        "B07",
+        "B08",
+        "B09",
+        "B13",
+        "B14",
+        "B15",
+        "B16",
+        "B18"
+      ]
+    },
+    "CatBoost": {
+      "category": "Ensembles",
+      "sources": [
+        "B04",
+        "B16",
+        "B18"
+      ]
+    },
+    "Voting / classificação por votação": {
+      "category": "Ensembles",
+      "sources": [
+        "B01",
+        "B03",
+        "B04",
+        "B05",
+        "B09",
+        "B14",
+        "B18"
+      ]
+    },
+    "Stacking": {
+      "category": "Ensembles",
+      "sources": [
+        "B01",
+        "B03",
+        "B04",
+        "B06",
+        "B08",
+        "B09"
+      ]
+    },
+    "K-Means": {
+      "category": "Agrupamento",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "A06",
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B08",
+        "B09",
+        "B16",
+        "B18"
+      ]
+    },
+    "DBSCAN": {
+      "category": "Agrupamento",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B07",
+        "B08",
+        "B09",
+        "B18"
+      ]
+    },
+    "OPTICS": {
+      "category": "Agrupamento",
+      "sources": [
+        "B01"
+      ]
+    },
+    "Mean Shift": {
+      "category": "Agrupamento",
+      "sources": [
+        "B08"
+      ]
+    },
+    "Clustering hierárquico / aglomerativo": {
+      "category": "Agrupamento",
+      "sources": [
+        "B01",
+        "B02",
+        "B04",
+        "B08",
+        "B09"
+      ]
+    },
+    "Gaussian Mixture Models (GMM)": {
+      "category": "Agrupamento",
+      "sources": [
+        "B03",
+        "B08",
+        "B09"
+      ]
+    },
+    "Spectral Clustering": {
+      "category": "Agrupamento",
+      "sources": [
+        "B03",
+        "B09"
+      ]
+    },
+    "Principal Component Analysis (PCA)": {
+      "category": "Redução de dimensionalidade e representação",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "A06",
+        "B01",
+        "B03",
+        "B04",
+        "B06",
+        "B08",
+        "B09",
+        "B10"
+      ]
+    },
+    "t-SNE": {
+      "category": "Redução de dimensionalidade e representação",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B03",
+        "B08",
+        "B09"
+      ]
+    },
+    "UMAP": {
+      "category": "Redução de dimensionalidade e representação",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B09"
+      ]
+    },
+    "Independent Component Analysis (ICA)": {
+      "category": "Redução de dimensionalidade e representação",
+      "sources": [
+        "B01",
+        "B03"
+      ]
+    },
+    "Factor Analysis": {
+      "category": "Redução de dimensionalidade e representação",
+      "sources": [
+        "B01",
+        "B03"
+      ]
+    },
+    "Isolation Forest": {
+      "category": "Detecção de anomalias",
+      "sources": [
+        "B04",
+        "B07",
+        "B09"
+      ]
+    },
+    "Multilayer Perceptron (MLP)": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B03",
+        "B04",
+        "B13",
+        "B18"
+      ]
+    },
+    "Redes neurais artificiais / Deep Learning": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B11",
+        "B12",
+        "B13",
+        "B14",
+        "B15",
+        "B16",
+        "B17",
+        "B18"
+      ]
+    },
+    "Convolutional Neural Network (CNN)": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "B01",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B11",
+        "B13",
+        "B18"
+      ]
+    },
+    "Recurrent Neural Network (RNN)": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "B01",
+        "B03",
+        "B06",
+        "B08",
+        "B09",
+        "B18"
+      ]
+    },
+    "Long Short-Term Memory (LSTM)": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "B01",
+        "B03",
+        "B04",
+        "B06",
+        "B08"
+      ]
+    },
+    "Gated Recurrent Unit (GRU)": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "B01",
+        "B03",
+        "B08"
+      ]
+    },
+    "Transformer / Transformer neural network": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B01",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B11",
+        "B13",
+        "B14",
+        "B15",
+        "B16",
+        "B18"
+      ]
+    },
+    "Autoencoders": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "B01",
+        "B03",
+        "B04",
+        "B06",
+        "B07",
+        "B09",
+        "B10",
+        "B18"
+      ]
+    },
+    "Variational Autoencoder (VAE)": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "B01",
+        "B03"
+      ]
+    },
+    "Generative Adversarial Network (GAN)": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "B01",
+        "B03",
+        "B04",
+        "B08",
+        "B18"
+      ]
+    },
+    "Restricted Boltzmann Machine (RBM)": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "B03"
+      ]
+    },
+    "Deep Belief Network (DBN)": {
+      "category": "Redes neurais e deep learning",
+      "sources": [
+        "B03"
+      ]
+    },
+    "Q-Learning": {
+      "category": "Aprendizado por reforço",
+      "sources": [
+        "A07",
+        "B03",
+        "B09"
+      ]
+    },
+    "SARSA": {
+      "category": "Aprendizado por reforço",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "A07",
+        "B03",
+        "B09"
+      ]
+    },
+    "Deep Q-Network (DQN)": {
+      "category": "Aprendizado por reforço",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "A07",
+        "B09"
+      ]
+    },
+    "Policy Gradient": {
+      "category": "Aprendizado por reforço",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B03"
+      ]
+    },
+    "Actor-Critic": {
+      "category": "Aprendizado por reforço",
+      "sources": [
+        "A07",
+        "B03"
+      ]
+    },
+    "Asynchronous Advantage Actor-Critic (A3C)": {
+      "category": "Aprendizado por reforço",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B03"
+      ]
+    },
+    "Value Iteration": {
+      "category": "Aprendizado por reforço",
+      "sources": [
+        "B03"
+      ]
+    },
+    "Policy Iteration": {
+      "category": "Aprendizado por reforço",
+      "sources": [
+        "B03"
+      ]
+    },
+    "Temporal Difference learning (TD, TD(0), TD(λ))": {
+      "category": "Aprendizado por reforço",
+      "sources": [
+        "B03"
+      ]
+    },
+    "Apriori": {
+      "category": "Regras de associação",
+      "sources": [
+        "B01",
+        "B03"
+      ]
+    },
+    "FP-Growth": {
+      "category": "Regras de associação",
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "B01"
+      ]
+    },
+    "ARIMA": {
+      "category": "Séries temporais",
+      "sources": [
+        "B01",
+        "B03",
+        "B05",
+        "B06",
+        "B11",
+        "B15",
+        "B18"
+      ]
+    },
+    "Prophet": {
+      "category": "Séries temporais",
+      "sources": [
+        "B07",
+        "B15"
+      ]
+    }
+  }
+}

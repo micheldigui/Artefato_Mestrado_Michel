@@ -1,0 +1,328 @@
+Universidade Federal de Goiás
+Instituto de Informática
+Prof. Dr. Ronaldo Martins da Costa
+Aprendizado de Máquina - Não Supervisionado
+➔ No aprendizado não supervisionado, fornecemos os dados ao algoritmo sem
+informar qual é a resposta correta para cada exemplo
+Aprendizado Supervisionado
+Aprendizado NÃO Supervisionado
+Qual o padrão que sugere o Diagnóstico ?
+Existe um padrão que "separa" as amostras ?
+Idade Pressão Colesterol Diagnóstico Idade Pressão Colesterol
+25 120 180 Não 25 120 180
+62 160 250 Sim 62 160 250
+45 145 230 Sim 45 145 230
+Aprendizado de Máquina - Não Supervisionado
+➔ Principais abordagens do aprendizado NÃO Supervisionado
+◆ Agrupamento (Clustering)
+● A mair conhecida: encontrar grupos de elementos semelhantes dentro dos dados
+◆ Redução de dimensionalidade
+● procura representar os dados usando menos dimensões, preservando, tanto quanto
+possível, as informações importantes
+◆ Detecção de anomalias
+● Procura identificar elementos que apresentam um comportamento muito diferente do
+padrão dos demais dados. Exemplo: Detecção de Fraudes
+Aprendizado de Máquina - Não Supervisionado
+➔ Principais abordagens do aprendizado NÃO Supervisionado
+◆ Regras de associação
+● Procura descobrir relações ou padrões de ocorrência entre diferentes elementos dos dados.
+Exemplo: Indicação de Clientes
+◆ Modelagem de distribuição/densidade
+● Procura entender e representar como os dados estão distribuídos, identificando regiões onde
+os dados estão mais ou menos concentrados. Exemplo: identificar clientes por idade ou renda
+◆ Métodos de representação e aprendizado de características
+● Procura aprender automaticamente as características ou representações mais importantes dos
+dados, sem que seja necessário defini-las manualmente. Exemplo: em imagens, aprender
+automaticamente características como bordas, formas e padrões que representam os objetos
+Aprendizado de Máquina - Não Supervisionado
+➔ O Algoritmo K-Means
+◆ Hugo Steinhaus (1957) introduziu o conceito inicial na Polônia
+◆ Stuart Lloyd desenvolveu a versão clássica em 1957 (no Bell Labs) como uma técnica para
+modulação por código de pulso (processamento de sinais), embora seu trabalho só tenha
+sido publicado oficialmente em 1982 (Lloyd's Algorithm)
+◆ O Termo "K-Means": Foi proposto por James MacQueen em 1967, em seu famoso artigo
+onde formalizou o método para a comunidade científica e estatística
+◆ Propósito Original: Encontrar partições ótimas em conjuntos de dados para redução de
+dimensionalidade, compressão de dados e quantização vetorial
+Aprendizado de Máquina - Não Supervisionado
+➔ O Algoritmo K-Means
+◆ O objetivo principal do K-Means é particionar um conjunto de n observações em k
+clusters (grupos), de modo que cada observação pertença ao cluster com a média
+(centroide) mais próxima
+◆ Objetivos:
+● Maximizar a Coesão Interna: Pontos dentro do mesmo cluster devem ser o mais
+parecidos possível entre si
+● Maximizar a Separação Externa: Clusters diferentes devem ser o mais distintos
+possível entre si
+● Aplicações Clássicas: Segmentação de clientes, compressão de imagens, detecção
+de anomalias, pré-processamento para modelos supervisionados e recomendação
+de produtos
+Aprendizado de Máquina - Não Supervisionado
+1. Definir o valor de K (ex: k = 3)
+2. Inicializar K centroides aleatoriamente
+3. [Passo de Atribuição / Expectation]
+3.1 Calcular a distância de cada ponto a todos os centroides
+3.2 Atribuir o ponto ao centroide mais próximo (ex: Distância Euclidiana)
+4. [Passo de Atualização / Maximization]
+4.1 Recalcular o centroide de cada cluster tirando a média dos pontos atribuídos a ele
+5. [Critério de Parada]
+Os centroides mudaram de posição?
+Sim → Retorna ao Passo 3
+Não → [Fim / Convergência Alcançada]
+Classificação com dados do Kaggle
+➔ Mall Customer (acessado em 10/08/2026)
+◆ https://www.kaggle.com/datasets/shwetabh123/mall-customers
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/Nsupervisionado_01.csv
+Classificação com dados do Kaggle
+➔ K-Means
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/Nsupervisionado_01.py
+Aprendizado de Máquina - Não Supervisionado
+➔ Distância (3.1 e 3.2)
+Existem outras formas de
+calcular a distância
+Aprendizado de Máquina - Não Supervisionado
+➔ A Necessidade Crítica da Normalização / Padronização
+◆ O K-Means baseia-se em distâncias euclidianas
+◆ Se uma variável estiver em milhares (ex: Renda = R$ 50.000) e outra em dezenas
+(ex: Idade = 30), a variável de maior escala dominará o cálculo da distância
+Aprendizado de Máquina - Não Supervisionado
+➔ Métricas de Qualidade e Escolha de k
+◆ Inércia / WCSS (Within-Cluster Sum of Squares) - Cotovelo
+● Mede o quão compactos estão os clusters
+● Utilizada no Método do Cotovelo (Elbow Method)
+● Objetivo: Quanto menor, melhor (mas decresce monotonicamente com o
+aumento de k, exigindo a busca pelo ponto de inflexão)
+◆ A Inércia (WCSS) mede a "distância física" média entre os clientes e o centroide do
+seu grupo, como calcular o quanto os clientes de alta renda e alto gasto estão
+próximos do perfil típico (centroide) daquela loja, sendo que quanto menor esse
+valor, mais parecido cada cliente é com o seu grupo
+Aprendizado de Máquina - Não Supervisionado
+➔ Métricas de Qualidade e Escolha de k
+◆ Inércia / WCSS (Within-Cluster Sum of Squares) - Cotovelo
+Aprendizado de Máquina - Não Supervisionado
+➔ Métricas de Qualidade e Escolha de k
+◆ Coeficiente de Silhueta (Silhouette Score)
+● Compara a distância média de um ponto para os membros do seu próprio
+cluster (a) com a distância média para o cluster vizinho mais próximo (b)
+● Intervalo: -1 a +1. Quanto mais próximo de +1, melhor a definição do
+agrupamento
+◆ Mede o "grau de certeza" de um cliente pertencer ao grupo certo, um cliente de
+baixa renda e alto gasto terá um score próximo de +1 se estiver colado no grupo de
+clientes impulsivos e bem longe do grupo de clientes moderados
+Aprendizado de Máquina - Não Supervisionado
+➔ Métricas de Qualidade e Escolha de k
+◆ Coeficiente de Silhueta (Silhouette Score)
+Aprendizado de Máquina - Não Supervisionado
+➔ Métricas de Qualidade e Escolha de k
+◆ Índice Davies-Bouldin
+● Calcula a razão de similaridade entre cada cluster e o seu cluster mais
+próximo
+● Objetivo: Quanto menor, melhor (menor sobreposição entre grupos)
+◆ Mede a "confusão" ou sobreposição entre os perfis de clientes, ele avalia a razão
+entre o espalhamento dos clientes dentro do grupo de alto gasto e a distância desse
+grupo para o de baixo gasto, onde um valor próximo de zero garante que os perfis
+estão bem separados e que um cliente "moderado" jamais será confundido com um
+"gastador".
+Aprendizado de Máquina - Não Supervisionado
+➔ Métricas de Qualidade e Escolha de k
+◆ Índice Davies-Bouldin
+Aprendizado de Máquina - Não Supervisionado
+➔ Métricas de Qualidade e Escolha de k
+◆ Índice Calinski-Harabasz (Critério de Razão de Variância)
+● Razão entre a dispersão inter-cluster (entre grupos) e a dispersão intra-cluster
+(dentro dos grupos)
+● Objetivo: Quanto maior, melhor definido é o agrupamento
+◆ Mede a "força de separação" do agrupamento, ele compara o quão distantes os 5
+perfis de clientes estão entre si em relação ao quão juntos os clientes estão dentro
+de cada perfil, onde um valor alto prova que os grupos de altos gastadores e baixos
+gastadores formam "ilhas" bem distintas e compactas, em vez de uma nuvem
+bagunçada de clientes
+Aprendizado de Máquina - Não Supervisionado
+➔ Métricas de Qualidade e Escolha de k
+◆ Índice Calinski-Harabasz (Critério de Razão de Variância)
+Aprendizado de Máquina - Não Supervisionado
+➔ O Problema da Inicialização e o K-Means++
+◆ A inicialização aleatória dos centroides pode fazer o algoritmo prender em mínimos
+locais
+◆ K-Means++ escolhe os centroides iniciais mais distantes uns dos outros
+proporcionalmente ao quadrado da distância, garantindo uma convergência mais
+rápida e estável
+Aprendizado de Máquina - Não Supervisionado
+➔ Limitações do K-Means
+◆ Geometria dos Clusters:
+● O K-Means assume que os clusters são esféricos/convexos e de tamanhos similares.
+Ele falha em identificar formas complexas (como círculos concêntricos ou formatos
+em "C" / feijão).
+◆ Sensibilidade a Outliers:
+● Como utiliza a média para recalcular os centróides, pontos discrepantes movem
+drasticamente o centro do grupo
+◆ Variáveis Categóricas:
+● O K-Means tradicional não funciona diretamente com dados categóricos
+Aprendizado de Máquina - Não Supervisionado
+➔ K-Means
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade
+◆ Cada coluna (feature) é uma "dimensão". Para uma tabela com 100 colunas,
+trabalhamos num espaço de 100 dimensões. A redução de dimensionalidade
+resume essas 100 colunas "compactas", sem perder os padrões principais que
+explicam os dados
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade
+◆ Exemplo de aplicação
+● Reconhecimento Facial
+○ Uma foto de 100 x 100 pixels tem 10.000 dimensões (uma por pixel).
+Reduzindo para 50 componentes principais, o modelo ignora ruídos e foca
+apenas nas linhas marcantes do rosto (distância entre olhos, formato do
+queixo), permitindo comparar rostos rapidamente
+● Compressão de Imagens e Processamento de Áudio
+○ Reduzir o tamanho de arquivos eliminando frequências ou detalhes visuais
+imperceptíveis ao olho/ouvido humano, mantendo a qualidade percebida
+● Sistemas de Recomendações
+○ Em vez de analisar o histórico de um usuário contra 50.000 produtos, o
+algoritmo reduz para 5 ou 10 "perfis" (ex: gostos e preferências)
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - PCA
+◆ Análise de Componentes Principais - Principal Component Analysis (PCA)
+● Técnica de redução de dimensionalidade.
+◆ Dados complexos, com dezenas ou até centenas de colunas (dimensões) deixam os
+cálculos pesados, geram ruído e torna impossível para nós humanos visualizarmos os
+dados num gráfico
+◆ O PCA funciona como um "compressor de arquivos": ele pega todas as colunas originais e
+as resume em um número muito menor de "super colunas" (chamadas de Componentes
+Principais), tentando jogar fora o mínimo possível de informação útil
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - PCA
+◆ Análise de Componentes Principais - Principal Component Analysis (PCA)
+● Criador: Famoso matemático e estatístico britânico Karl Pearson
+● Em 1901
+● Evolução: Mais tarde, na década de 1930, o estatístico americano Harold Hotelling
+desenvolveu e expandiu o método de forma independente, dando a ele a estrutura
+matricial utilizada hoje no Python e R
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - PCA
+◆ Análise de Componentes Principais - Principal Component Analysis (PCA)
+● Ele calcula a variação dos seus dados (chamada de variância)
+● Ele encontra as "melhores representações" (eixos) que capturam a maior dispersão
+dos dados
+● O Componente Principal 1 (PC1) é a linha que pega a maior quantidade de
+informação/variação dos dados
+● O Componente Principal 2 (PC2) pega a segunda maior quantidade de variação, e
+assim por diante
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - PCA
+◆ Análise de Componentes Principais - Principal Component Analysis (PCA)
+Vantagem Descrição
+Treinar um modelo com 10 ou 15 componentes é absurdamente mais
+Ganhos de Desempenho
+rápido do que treinar com 100 colunas originais.
+Permite projetar um conjunto de dados complexo de 50 dimensões em um
+Visualização de Dados gráfico simples de 2D ou 3D para identificar agrupamentos (clusters) ou
+outliers.
+Resolve o problema da multicolinearidade (quando várias colunas dizem
+Eliminação de Redundância
+quase a mesma coisa, como "peso em kg" e "peso em libras").
+Ao descartar as últimas componentes (que carregam pouca variância), o
+Redução de Ruído PCA frequentemente elimina ruídos e pequenas imperfeições da coleta de
+dados.
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - PCA
+◆ Análise de Componentes Principais - Principal Component Analysis (PCA)
+● Perda de Interpretabilidade
+○ Uma coluna original chamada Idade é fácil de entender.
+○ A nova coluna PC1 é uma mistura matemática de Idade, Renda, Tempo de
+Cadastro, etc.
+◆ Ganha velocidade no modelo, mas perde a capacidade de explicar o
+significado exato daquela coluna para uma equipe de negócios
+Classificação com dados do Kaggle
+➔ Credit Card Fraud Detection (acessado em 10/08/2026)
+◆ https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/Nsupervisionado_02.csv
+Classificação com dados do Kaggle
+➔ PCA
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/Nsupervisionado_02.py
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade
+Com 16 características
+criadas pelo PCA 80% dos
+dados são
+"explicados/representado"
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - LDA
+◆ Análise Discriminante Linear - Linear Discriminant Analysis (LDA)
+● Método estatístico e de aprendizado de máquina supervisionado usado
+principalmente para redução de dimensionalidade e classificação
+◆ Enquanto técnicas como o PCA buscam apenas encontrar as direções de maior variação
+nos dados ignorando, o LDA olha ativamente para as etiquetas/classes dos dados. O
+objetivo do LDA é encontrar o melhor subespaço que separe o máximo possível as
+diferentes classes
+◆ Imagine que você tem um gráfico 2D com pontos de duas cores, uma cor para cada
+classe. Se projetarmos esses pontos em uma única linha reta, o LDA tenta encontrar o
+ângulo dessa reta no qual os dois grupos fiquem o mais distante possível um do outro
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - LDA
+◆ O PCA realiza uma transformação sem olhar o rótulo que classifica os dados (Fraude ou
+Normal), desta forma os dados ficam agrupados sem distinção de acordo com a
+transformação
+◆ O LDA busca aprender a separar os dados levando em consideração a característica
+target
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - LDA
+◆ Primeiro passo:
+● Afastar os grupos ao máximo (Distância entre Médias)
+○ Ele ajusta os pesos de cada variável de forma que a média da nota dos clientes
+normais fique o mais longe possível da média da nota das fraudes
+◆ Segundo passo:
+● Manter cada grupo "compacto" (Baixa Variância Interna)
+○ Não adianta só afastar as médias se a nota das fraudes variar muito (de -10 a +10).
+O LDA força os clientes normais a ficarem com médias próximas, por exemplo
+próximas a -3.5 e as fraudes com médias próximas entre si, por exemplo +4.2
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - LDA
+◆ Para que o LDA obtenha a máxima eficiência, ele assume algumas condições sobre os
+dados:
+● Distribuição Normal: As variáveis numéricas seguem uma distribuição gaussiana
+(curva de sino)
+● Homocedasticidade: As classes compartilham matrizes de covariância
+semelhantes
+○ Uma matriz de covariância é uma tabela quadrada que mostra como duas ou mais
+variáveis variam juntas (se elas sobem e descem ao mesmo tempo, em sentidos
+opostos, ou se são independentes)
+● Sem Multicolinearidade: Variáveis extremamente correlacionadas entre si podem
+desestabilizar os cálculos da matriz inversa
+Aprendizado de Máquina - Não Supervisionado
+➔ Redução de Dimensionalidade - LDA
+Característica PCA LDA
+Tipo Não supervisionado (ignora o rótulo y) Supervisionado (exige o rótulo y)
+Objetivo principal Maximizar a variância global Maximizar a separação entre classes
+Nº de Componentes Até min(N,P) atributos Até K−1 (onde K é nº de classes)
+Melhor uso Compressão de dados sem perda de informação Redução de dimensionalidade focada em classificação
+◆ PCA (Não Supervisionado): "Não sei quem é fraude ou normal. Vou apenas tirar uma foto 2D
+onde os dados fiquem o mais espalhados possível."
+◆ LDA (Supervisionado): "Eu SEI quem é fraude! Vou espremer e somar essas 30 colunas numa
+única nota LD1 de forma que o grupo Azul (Normal) fique de um lado e o grupo Vermelho
+(Fraude) fique do outro."
+Classificação com dados do Kaggle
+➔ LDA
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/Nsupervisionado_03.py
+Classificação com dados do Kaggle
+➔ LDA
+Classificação com dados do Kaggle
+➔ O eixo X é a nova componente criada pelo LDA para separar os dados, será sempre
+(Num_Classes - 1)
+➔ As amostras de casos Normais estão todas agrupadas próximo ao valor 0(zero) do eixo X
+➔ As amostras de Fraudes estão separadas (barras distantes)
+◆ Isto indica mais de um tipo de Fraude
+➔ Como todas as amostras normais ficaram juntas, o gráfico aponta que qualquer amostra que
+fique na componente >= 3 é uma fraude, restando apenas classificar que tipo de fraude
+Classificação com dados do Kaggle
+➔ LDA - Similar ao Gráfico Anterior com a dispersão dos pontos
+Universidade Federal de Goiás
+Instituto de Informática
+Prof. Dr. Ronaldo Martins da Costa

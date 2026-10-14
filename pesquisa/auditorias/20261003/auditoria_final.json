@@ -1,0 +1,534 @@
+{
+  "referencias": [
+    {
+      "autor": "ACI",
+      "ano": "2023",
+      "referencia": "ACI, M.; YERGÖK, D. Demand forecasting for food production using machine learning algorithms: a case study of university refectory. Tehnički vjesnik, v. 30, n. 6, p. 1683–1691, 2023. DOI: 10.17559/TV-20230117000232.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "A077",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "BIRISCI",
+      "ano": "2018",
+      "referencia": "BIRISCI, E.; MCGARVEY, R. G. Optimal production planning utilizing leftovers for an all-you-care-to-eat food service operation. Journal of Cleaner Production, v. 171, p. 984-994, 2018. DOI: 10.1016/j.jclepro.2017.10.052.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "BREIMAN",
+      "ano": "2001",
+      "referencia": "BREIMAN, L. Random forests. Machine Learning, v. 45, p. 5-32, 2001. DOI: 10.1023/A:1010933404324.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "CHAI",
+      "ano": "2014",
+      "referencia": "CHAI, T.; DRAXLER, R. R. Root mean square error (RMSE) or mean absolute error (MAE)? Arguments against avoiding RMSE in the literature. Geoscientific Model Development, v. 7, p. 1247-1250, 2014. DOI: 10.5194/gmd-7-1247-2014.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "A060",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "CHEN",
+      "ano": "2016",
+      "referencia": "CHEN, T.; GUESTRIN, C. XGBoost: a scalable tree boosting system. In: ACM SIGKDD INTERNATIONAL CONFERENCE ON KNOWLEDGE DISCOVERY AND DATA MINING, 22., 2016, San Francisco. Proceedings [...]. New York: ACM, 2016. p. 785-794. DOI: 10.1145/2939672.2939785.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "A062",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "DEVLIN",
+      "ano": "2019",
+      "referencia": "DEVLIN, J.; CHANG, M.-W.; LEE, K.; TOUTANOVA, K. BERT: pre-training of deep bidirectional transformers for language understanding. In: CONFERENCE OF THE NORTH AMERICAN CHAPTER OF THE ASSOCIATION FOR COMPUTATIONAL LINGUISTICS: HUMAN LANGUAGE TECHNOLOGIES, 2019, Minneapolis. Proceedings [...]. Stroudsburg: Association for Computational Linguistics, 2019. p. 4171-4186. DOI: 10.18653/v1/N19-1423.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "A055",
+      "acervo": "A055 salva versão identificada como 2018; referência usa publicação NAACL 2019"
+    },
+    {
+      "autor": "DHIR",
+      "ano": "2020",
+      "referencia": "DHIR, A.; TALWAR, S.; KAUR, P.; MALIBARI, A. Food waste in hospitality and food services: a systematic literature review and framework development approach. Journal of Cleaner Production, v. 270, artigo 122861, 2020. DOI: 10.1016/j.jclepro.2020.122861.",
+      "citado": true,
+      "n_ocorrencias": 5,
+      "matriz_id": "A031",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "ELNAKIB",
+      "ano": "2021",
+      "referencia": "ELNAKIB, S. A.; QUICK, V.; MENDEZ, M.; DOWNS, S.; WACKOWSKI, O. A.; ROBSON, M. G. Food waste in schools: a pre-/post-test study design examining the impact of a food service training intervention to reduce food waste. International Journal of Environmental Research and Public Health, v. 18, n. 12, artigo 6389, 2021. DOI: 10.3390/ijerph18126389.",
+      "citado": true,
+      "n_ocorrencias": 2,
+      "matriz_id": "A021",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "FAEZIRAD",
+      "ano": "2021",
+      "referencia": "FAEZIRAD, M.; POOYA, A.; NAJI-AZIMI, Z.; AMIR HAERI, M. Preventing food waste in subsidy-based university dining systems: an artificial neural network-aided model under uncertainty. Waste Management & Research, v. 39, n. 8, p. 1027-1038, 2021. DOI: 10.1177/0734242X211017974.",
+      "citado": true,
+      "n_ocorrencias": 6,
+      "matriz_id": "A041",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "FRIEDMAN",
+      "ano": "2001",
+      "referencia": "FRIEDMAN, J. H. Greedy function approximation: a gradient boosting machine. The Annals of Statistics, v. 29, n. 5, p. 1189-1232, 2001. DOI: 10.1214/aos/1013203451.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "GEURTS",
+      "ano": "2006",
+      "referencia": "GEURTS, P.; ERNST, D.; WEHENKEL, L. Extremely randomized trees. Machine Learning, v. 63, p. 3-42, 2006. DOI: 10.1007/s10994-006-6226-1.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "HARRIS",
+      "ano": "2020",
+      "referencia": "HARRIS, C. R.; MILLMAN, K. J.; VAN DER WALT, S. J. et al. Array programming with NumPy. Nature, v. 585, p. 357-362, 2020. DOI: 10.1038/s41586-020-2649-2.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "HEVNER",
+      "ano": "2004",
+      "referencia": "HEVNER, A. R.; MARCH, S. T.; PARK, J.; RAM, S. Design science in information systems research. MIS Quarterly, v. 28, n. 1, p. 75-105, 2004.",
+      "citado": true,
+      "n_ocorrencias": 5,
+      "matriz_id": "A057",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "HUNTER",
+      "ano": "2007",
+      "referencia": "HUNTER, J. D. Matplotlib: a 2D graphics environment. Computing in Science & Engineering, v. 9, n. 3, p. 90-95, 2007. DOI: 10.1109/MCSE.2007.55.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "KIM",
+      "ano": "2023",
+      "referencia": "KIM, S.; GU, N.; MOON, J.; KIM, K.; HWANG, Y.; LEE, K. Comparative analysis of model performance for predicting the customer of cafeteria using unstructured data. Communications for Statistical Applications and Methods, v. 30, n. 5, p. 485-499, 2023. DOI: 10.29220/CSAM.2023.30.5.485.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "A043",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "KLUYVER",
+      "ano": "2016",
+      "referencia": "KLUYVER, T.; RAGAN-KELLEY, B.; PÉREZ, F.; GRANGER, B.; BUSSONNIER, M.; FREDERIC, J.; KELLEY, K.; HAMRICK, J.; GROUT, J.; CORLAY, S.; IVANOV, P.; AVILA, D.; ABDALLA, S.; WILLING, C. Jupyter notebooks: a publishing format for reproducible computational workflows. In: INTERNATIONAL CONFERENCE ON ELECTRONIC PUBLISHING, 20., 2016, Göttingen. Positioning and Power in Academic Publishing: Players, Agents and Agendas. Amsterdam: IOS Press, 2016. p. 87-90. DOI: 10.3233/978-1-61499-649-1-87.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "KODORS",
+      "ano": "2022",
+      "referencia": "KODORS, S.; ZVAIGZNE, A.; LITAVNIECE, L.; LONSKA, J.; SILICKA, I.; KOTANE, I.; DEKSNE, J. Plate waste forecasting using the Monte Carlo method for effective decision making in Latvian schools. Nutrients, v. 14, n. 3, artigo 587, 2022. DOI: 10.3390/nu14030587.",
+      "citado": true,
+      "n_ocorrencias": 2,
+      "matriz_id": "A023",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "KÜHL",
+      "ano": "2021",
+      "referencia": "KÜHL, N.; HIRT, R.; BAIER, L.; SCHMITZ, B.; SATZGER, G. How to conduct rigorous supervised machine learning in information systems research: the supervised machine learning report card. Communications of the Association for Information Systems, v. 48, artigo 45, p. 589-615, 2021. DOI: 10.17705/1CAIS.04845.",
+      "citado": true,
+      "n_ocorrencias": 3,
+      "matriz_id": "A005",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "LANDRY",
+      "ano": "2024",
+      "referencia": "LANDRY, M. J.; HAGEDORN-HATFIELD, R. L.; ZIGMONT, V. A. Barriers to college student food access: a scoping review examining policies, systems, and the environment. Journal of Nutritional Science, v. 13, e51, 2024. DOI: 10.1017/jns.2024.25.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Arquivo local existente, sem registro na matriz"
+    },
+    {
+      "autor": "MALEFORS",
+      "ano": "2022",
+      "referencia": "MALEFORS, C.; SECONDI, L.; MARCHETTI, S.; ERIKSSON, M. Food waste reduction and economic savings in times of crisis: the potential of machine learning methods to plan guest attendance in Swedish public catering during the Covid-19 pandemic. Socio-Economic Planning Sciences, v. 82, artigo 101041, 2022. DOI: 10.1016/j.seps.2021.101041.",
+      "citado": true,
+      "n_ocorrencias": 3,
+      "matriz_id": "A027",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "MCKINNEY",
+      "ano": "2010",
+      "referencia": "MCKINNEY, W. Data structures for statistical computing in Python. In: PYTHON IN SCIENCE CONFERENCE, 9., 2010, Austin. Proceedings [...]. Austin: SciPy, 2010. p. 56-61.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "MIENYE",
+      "ano": "2024",
+      "referencia": "MIENYE, I. D.; JERE, N. A survey of decision trees: concepts, algorithms, and applications. IEEE Access, v. 12, p. 86716-86727, 2024. DOI: 10.1109/ACCESS.2024.3416838.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "A016",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "NAÇÕES UNIDAS",
+      "ano": "2015",
+      "referencia": "NAÇÕES UNIDAS. Assembleia Geral. Transformando nosso mundo: a Agenda 2030 para o Desenvolvimento Sustentável. Resolução A/RES/70/1, de 25 de setembro de 2015. Disponível em: https://docs.un.org/pt/A/RES/70/1. Acesso em: 22 set. 2026.",
+      "citado": true,
+      "n_ocorrencias": 2,
+      "matriz_id": "",
+      "acervo": "Fonte normativa fora da matriz"
+    },
+    {
+      "autor": "PEDREGOSA",
+      "ano": "2011",
+      "referencia": "PEDREGOSA, F.; VAROQUAUX, G.; GRAMFORT, A. et al. Scikit-learn: machine learning in Python. Journal of Machine Learning Research, v. 12, p. 2825-2830, 2011.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "PEFFERS",
+      "ano": "2007",
+      "referencia": "PEFFERS, K.; TUUNANEN, T.; ROTHENBERGER, M. A.; CHATTERJEE, S. A design science research methodology for information systems research. Journal of Management Information Systems, v. 24, n. 3, p. 45-77, 2007. DOI: 10.2753/MIS0742-1222240302.",
+      "citado": true,
+      "n_ocorrencias": 4,
+      "matriz_id": "A053",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "PROKHORENKOVA",
+      "ano": "2018",
+      "referencia": "PROKHORENKOVA, L.; GUSEV, G.; VOROBEV, A.; DOROGUSH, A. V.; GULIN, A. CatBoost: unbiased boosting with categorical features. In: CONFERENCE ON NEURAL INFORMATION PROCESSING SYSTEMS, 32., 2018, Montréal. Proceedings [...]. Red Hook: Curran Associates, 2018.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "ROBERTS",
+      "ano": "2017",
+      "referencia": "ROBERTS, D. R. et al. Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. Ecography, v. 40, n. 8, p. 913-929, 2017. DOI: 10.1111/ecog.02881.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Arquivo local existente, sem registro na matriz"
+    },
+    {
+      "autor": "RODRIGUES",
+      "ano": "2024",
+      "referencia": "RODRIGUES, M.; MIGUÉIS, V.; FREITAS, S.; MACHADO, T. Machine learning models for short-term demand forecasting in food catering services: a solution to reduce food waste. Journal of Cleaner Production, v. 435, artigo 140265, 2024. DOI: 10.1016/j.jclepro.2023.140265.",
+      "citado": true,
+      "n_ocorrencias": 4,
+      "matriz_id": "A032",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "SEL",
+      "ano": "2017",
+      "referencia": "SEL, Ç.; PINARBAŞI, M.; SOYSAL, M.; ÇİMEN, M. A green model for the catering industry under demand uncertainty. Journal of Cleaner Production, v. 167, p. 459-472, 2017. DOI: 10.1016/j.jclepro.2017.08.100.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "SHMUELI",
+      "ano": "2010",
+      "referencia": "SHMUELI, G.; KOPPIUS, O. R. Predictive analytics in information systems research. Hyderabad: Indian School of Business, 2010. Working paper. Disponível em: http://eprints.exchange.isb.edu/297/.",
+      "citado": true,
+      "n_ocorrencias": 6,
+      "matriz_id": "A059",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "SOUZA",
+      "ano": "2025",
+      "referencia": "SOUZA, M. S.; ARIMA, C. H.; ORSI, R. N. Gestão de suprimentos em sistemas produtivos: uma abordagem preditiva com ciência de dados e inteligência artificial. Relato técnico apresentado no SINGEP-CIK 2025, 2025.",
+      "citado": true,
+      "n_ocorrencias": 4,
+      "matriz_id": "A003",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "SOUZA",
+      "ano": "2025",
+      "referencia": "SOUZA, M. S.; ARIMA, C. H.; ORSI, R. N.; SOUZA, P. A. Análise exploratória de dados para previsão da demanda de refeições e redução do desperdício alimentar em instituição de ensino. Relato técnico apresentado no SIMPROF 2025, 2025.",
+      "citado": true,
+      "n_ocorrencias": 4,
+      "matriz_id": "A002",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "SOUZA",
+      "ano": "2024",
+      "referencia": "SOUZA, M. S.; ORSI, R. N. Sustentabilidade na mesa: redução do desperdício alimentar em uma instituição de ensino com previsão de demanda por aprendizado de máquina. Relato técnico apresentado no SIMPROF 2024, 2024.",
+      "citado": true,
+      "n_ocorrencias": 2,
+      "matriz_id": "A001",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "STEEN",
+      "ano": "2018",
+      "referencia": "STEEN, H.; MALEFORS, C.; RÖÖS, E.; ERIKSSON, M. Identification and modelling of risk factors for food waste generation in school and pre-school catering units. Waste Management, v. 77, p. 172-184, 2018. DOI: 10.1016/j.wasman.2018.05.024.",
+      "citado": true,
+      "n_ocorrencias": 5,
+      "matriz_id": "A026",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "TASHMAN",
+      "ano": "2000",
+      "referencia": "TASHMAN, L. J. Out-of-sample tests of forecasting accuracy: an analysis and review. International Journal of Forecasting, v. 16, n. 4, p. 437-450, 2000. DOI: 10.1016/S0169-2070(00)00065-0.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Arquivo local existente, sem registro na matriz"
+    },
+    {
+      "autor": "TRIPATHI",
+      "ano": "2021",
+      "referencia": "TRIPATHI, S.; MUHR, D.; BRUNNER, M.; JODLBAUER, H.; DEHMER, M.; EMMERT-STREIB, F. Ensuring the robustness and reliability of data-driven knowledge discovery models in production and manufacturing. Frontiers in Artificial Intelligence, v. 4, artigo 576892, 2021. DOI: 10.3389/frai.2021.576892.",
+      "citado": true,
+      "n_ocorrencias": 2,
+      "matriz_id": "A010",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "TURKER",
+      "ano": "2025",
+      "referencia": "TURKER, G. F. Reducing food waste in campus dining: a data-driven approach to demand prediction and sustainability. Sustainability, v. 17, n. 2, artigo 379, 2025. DOI: 10.3390/su17020379.",
+      "citado": true,
+      "n_ocorrencias": 3,
+      "matriz_id": "A024",
+      "acervo": "Registro da matriz e arquivo local"
+    },
+    {
+      "autor": "VARMA",
+      "ano": "2006",
+      "referencia": "VARMA, S.; SIMON, R. Bias in error estimation when using cross-validation for model selection. BMC Bioinformatics, v. 7, artigo 91, 2006. DOI: 10.1186/1471-2105-7-91.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "WAGNER",
+      "ano": "2021",
+      "referencia": "WAGNER, F.; KANELI, T.; MASANGO, M. Exploring the relationship between food insecurity with hunger and academic progression at a large South African university. South African Journal of Higher Education, v. 35, n. 5, p. 296-309, 2021. DOI: 10.20853/35-5-4099.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Arquivo local existente, sem registro na matriz"
+    },
+    {
+      "autor": "XU",
+      "ano": "2021",
+      "referencia": "XU, Z.; TANG, N.; XU, C.; CHENG, X. Data science: connotation, methods, technologies, and development. Data Science and Management, v. 1, n. 1, p. 32-37, 2021. DOI: 10.1016/j.dsm.2021.02.002.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "A012",
+      "acervo": "Registro da matriz e arquivo local"
+    }
+  ],
+  "referencias_total": 40,
+  "todas_citadas": true,
+  "contagem_elementos": {
+    "Quadro": 19,
+    "Figura": 22,
+    "Tabela": 10
+  },
+  "comentarios_total": 13,
+  "imagens_preservadas": 22,
+  "checagens_numericas_tabelas": 10,
+  "matriz_registros": 76,
+  "fontes_referencias_sem_matriz": [
+    {
+      "autor": "BIRISCI",
+      "ano": "2018",
+      "referencia": "BIRISCI, E.; MCGARVEY, R. G. Optimal production planning utilizing leftovers for an all-you-care-to-eat food service operation. Journal of Cleaner Production, v. 171, p. 984-994, 2018. DOI: 10.1016/j.jclepro.2017.10.052.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "BREIMAN",
+      "ano": "2001",
+      "referencia": "BREIMAN, L. Random forests. Machine Learning, v. 45, p. 5-32, 2001. DOI: 10.1023/A:1010933404324.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "FRIEDMAN",
+      "ano": "2001",
+      "referencia": "FRIEDMAN, J. H. Greedy function approximation: a gradient boosting machine. The Annals of Statistics, v. 29, n. 5, p. 1189-1232, 2001. DOI: 10.1214/aos/1013203451.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "GEURTS",
+      "ano": "2006",
+      "referencia": "GEURTS, P.; ERNST, D.; WEHENKEL, L. Extremely randomized trees. Machine Learning, v. 63, p. 3-42, 2006. DOI: 10.1007/s10994-006-6226-1.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "HARRIS",
+      "ano": "2020",
+      "referencia": "HARRIS, C. R.; MILLMAN, K. J.; VAN DER WALT, S. J. et al. Array programming with NumPy. Nature, v. 585, p. 357-362, 2020. DOI: 10.1038/s41586-020-2649-2.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "HUNTER",
+      "ano": "2007",
+      "referencia": "HUNTER, J. D. Matplotlib: a 2D graphics environment. Computing in Science & Engineering, v. 9, n. 3, p. 90-95, 2007. DOI: 10.1109/MCSE.2007.55.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "KLUYVER",
+      "ano": "2016",
+      "referencia": "KLUYVER, T.; RAGAN-KELLEY, B.; PÉREZ, F.; GRANGER, B.; BUSSONNIER, M.; FREDERIC, J.; KELLEY, K.; HAMRICK, J.; GROUT, J.; CORLAY, S.; IVANOV, P.; AVILA, D.; ABDALLA, S.; WILLING, C. Jupyter notebooks: a publishing format for reproducible computational workflows. In: INTERNATIONAL CONFERENCE ON ELECTRONIC PUBLISHING, 20., 2016, Göttingen. Positioning and Power in Academic Publishing: Players, Agents and Agendas. Amsterdam: IOS Press, 2016. p. 87-90. DOI: 10.3233/978-1-61499-649-1-87.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "LANDRY",
+      "ano": "2024",
+      "referencia": "LANDRY, M. J.; HAGEDORN-HATFIELD, R. L.; ZIGMONT, V. A. Barriers to college student food access: a scoping review examining policies, systems, and the environment. Journal of Nutritional Science, v. 13, e51, 2024. DOI: 10.1017/jns.2024.25.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Arquivo local existente, sem registro na matriz"
+    },
+    {
+      "autor": "MCKINNEY",
+      "ano": "2010",
+      "referencia": "MCKINNEY, W. Data structures for statistical computing in Python. In: PYTHON IN SCIENCE CONFERENCE, 9., 2010, Austin. Proceedings [...]. Austin: SciPy, 2010. p. 56-61.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "NAÇÕES UNIDAS",
+      "ano": "2015",
+      "referencia": "NAÇÕES UNIDAS. Assembleia Geral. Transformando nosso mundo: a Agenda 2030 para o Desenvolvimento Sustentável. Resolução A/RES/70/1, de 25 de setembro de 2015. Disponível em: https://docs.un.org/pt/A/RES/70/1. Acesso em: 22 set. 2026.",
+      "citado": true,
+      "n_ocorrencias": 2,
+      "matriz_id": "",
+      "acervo": "Fonte normativa fora da matriz"
+    },
+    {
+      "autor": "PEDREGOSA",
+      "ano": "2011",
+      "referencia": "PEDREGOSA, F.; VAROQUAUX, G.; GRAMFORT, A. et al. Scikit-learn: machine learning in Python. Journal of Machine Learning Research, v. 12, p. 2825-2830, 2011.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "PROKHORENKOVA",
+      "ano": "2018",
+      "referencia": "PROKHORENKOVA, L.; GUSEV, G.; VOROBEV, A.; DOROGUSH, A. V.; GULIN, A. CatBoost: unbiased boosting with categorical features. In: CONFERENCE ON NEURAL INFORMATION PROCESSING SYSTEMS, 32., 2018, Montréal. Proceedings [...]. Red Hook: Curran Associates, 2018.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "ROBERTS",
+      "ano": "2017",
+      "referencia": "ROBERTS, D. R. et al. Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. Ecography, v. 40, n. 8, p. 913-929, 2017. DOI: 10.1111/ecog.02881.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Arquivo local existente, sem registro na matriz"
+    },
+    {
+      "autor": "SEL",
+      "ano": "2017",
+      "referencia": "SEL, Ç.; PINARBAŞI, M.; SOYSAL, M.; ÇİMEN, M. A green model for the catering industry under demand uncertainty. Journal of Cleaner Production, v. 167, p. 459-472, 2017. DOI: 10.1016/j.jclepro.2017.08.100.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "TASHMAN",
+      "ano": "2000",
+      "referencia": "TASHMAN, L. J. Out-of-sample tests of forecasting accuracy: an analysis and review. International Journal of Forecasting, v. 16, n. 4, p. 437-450, 2000. DOI: 10.1016/S0169-2070(00)00065-0.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Arquivo local existente, sem registro na matriz"
+    },
+    {
+      "autor": "VARMA",
+      "ano": "2006",
+      "referencia": "VARMA, S.; SIMON, R. Bias in error estimation when using cross-validation for model selection. BMC Bioinformatics, v. 7, artigo 91, 2006. DOI: 10.1186/1471-2105-7-91.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Não consta na matriz; arquivo específico não localizado"
+    },
+    {
+      "autor": "WAGNER",
+      "ano": "2021",
+      "referencia": "WAGNER, F.; KANELI, T.; MASANGO, M. Exploring the relationship between food insecurity with hunger and academic progression at a large South African university. South African Journal of Higher Education, v. 35, n. 5, p. 296-309, 2021. DOI: 10.20853/35-5-4099.",
+      "citado": true,
+      "n_ocorrencias": 1,
+      "matriz_id": "",
+      "acervo": "Arquivo local existente, sem registro na matriz"
+    }
+  ],
+  "celulas_conferidas": 373,
+  "arquivo_fonte_inalterado": true,
+  "pdfs_matriz_localizados": 75,
+  "paginas_revisadas": 111
+}

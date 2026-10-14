@@ -1,0 +1,153 @@
+---
+type: "revisao-repeticao"
+status: "sem-novos-blocos"
+source_file: 'D:\Estudos\Resumos de livros\livros\second_brain\redes\ai-engineering\conceitos\ai-engineering-capitulo-07.md'
+source_hash: 'AE0DCE4EDFF1A83561C61756E9AEA81E48E9BE369267A9FBA0F14E91AC5374C3'
+incoming_target: 'redes/ai-engineering/conceitos/lora.md'
+canonical_path: 'redes\ai-engineering\conceitos\lora.md'
+duplicate_reason: 'titulo, alias ou slug equivalente: adaptacao-de-baixo-posto-lora-low-rank-adaptation'
+---
+
+# Revisao de conceito repetido
+
+## Nota candidata recebida
+
+# 🧠 Adaptação de Baixo Posto (LoRA — Low-Rank Adaptation)
+
+**Rede:** `ai-engineering`  
+areas: `otimizacao-de-modelos`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 7 — Finetuning
+- Localização: localização não informada no material recebido
+
+## 📝 Definição
+
+### Definição formal
+
+Uma técnica de ajuste fino eficiente em parâmetros (*PEFT*) que congela os pesos originais de um modelo de fundação e injeta matrizes decompostas de baixo posto (*low-rank*) em camadas específicas, atualizando apenas esses novos parâmetros durante o treinamento.
+
+### Em linguagem simples
+
+É a técnica de colar "post-its" de correção nas páginas de um livro gigante: em vez de reescrever ou alterar o texto original impresso, você treina apenas as anotações laterais, economizando tempo e muita memória de processamento.
+
+### Escopo e distinções
+
+Diferencia-se do ajuste fino completo (*full finetuning*): o LoRA reduz o número de parâmetros treináveis em até 99,9%, permitindo treinar modelos avançados em placas de vídeo comuns de consumo.
+
+## 🧩 Problema que resolve
+
+Resolve a impossibilidade financeira e computacional de realizar o ajuste fino completo de modelos com bilhões de parâmetros, que exigiriam clusters inteiros de GPUs de alta performance devido ao peso dos gradientes e estados do otimizador.
+
+## 💡 Intuição
+
+Imagine que você tem uma pintura perfeita e quer adaptá-la para incluir um chapéu no personagem principal. Em vez de pintar a tela inteira do zero, você pinta o chapéu em uma película transparente translúcida e a coloca sobreposta à tela original.
+
+## ⚙️ Como funciona
+
+### Etapas
+
+1. O modelo base tem seus pesos originais $W$ totalmente congelados (sem atualização de gradientes).
+2. Para cada matriz de peso alvo (ex: nas camadas de atenção), adiciona-se em paralelo uma ramificação decomposta em duas matrizes menores, $A$ e $B$.
+3. Durante o treinamento, apenas as matrizes $A$ e $B$ recebem atualizações via *backpropagation*.
+4. Na inferência, as matrizes $A$ e $B$ podem ser fundidas de volta ao peso original $W$ ou mantidas separadas para arquiteturas multi-cliente.
+
+### Entradas e saídas
+
+- Entradas: Modelo base congelado e dataset supervisionado de adaptação.
+- Saídas: Um adaptador leve contendo apenas os pesos treinados das matrizes $A$ e $B$.
+
+## 📐 Formulação matemática
+
+Para uma matriz de peso original $W \in \mathbb{R}^{d \times k}$, a atualização de peso $\Delta W$ é decomposta pelo produto de duas matrizes de baixo posto $B \in \mathbb{R}^{d \times r}$ e $A \in \mathbb{R}^{r \times k}$, onde o posto $r \ll \min(d, k)$:
+
+$$W' = W + \Delta W = W + \frac{\alpha}{r} BA$$
+
+Onde:
+- $W$: Matriz de peso original congelada.
+- $r$: Posto (*rank*) da adaptação LoRA (tipicamente pequeno, ex: 4 a 64).
+- $\alpha$: Hiperparâmetro escalar de escala.
+- $A, B$: Matrizes de baixo posto treináveis.
+
+## 🧱 Hipóteses e condições de validade
+
+- Supõe que as atualizações de peso necessárias durante o ajuste fino possuem uma "dimensão intrínseca" baixa, permitindo aproximações matriciais de baixo posto sem perda expressiva de capacidade adaptativa.
+
+## ✅ Quando usar
+
+- Em qualquer projeto de customização e especialização de modelos de linguagem onde os recursos de hardware de GPU sejam limitados.
+
+## 🚫 Quando não usar
+
+- Em cenários onde se exige o redesenho estrutural completo da arquitetura base ou modificações profundas em embeddings fundamentais do modelo.
+
+## ⚠️ Limitações e armadilhas
+
+- A escolha incorreta do posto $r$ pode subdimensionar a capacidade de aprendizado da tarefa ou superdimensionar desnecessariamente o consumo de memória.
+
+## 🔍 Comparações
+
+| Conceito | Objetivo | Entrada | Saída | Diferença principal |
+|---|---|---|---|---|
+| [[lora|LoRA (Low-Rank Adaptation)]] | Ajustar modelos eficientemente treinando apenas matrizes auxiliares de baixo posto. | Modelo base congelado + Dataset de treino. | Adaptador leve ($A$ e $B$). | Congela a base e treina apenas uma fração microscópica de parâmetros. |
+| [[finetuning|Full Finetuning]] | Atualizar todos os pesos e camadas de um modelo do zero. | Modelo base + Dataset de treino. | Novo modelo com 100% dos pesos modificados. | Altamente custoso, consome massiva memória GPU para gradientes e otimizadores. |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Carregar o Llama 3 (70B) na memória da nuvem em modo congelado de 4 bits (QLoRA) e treinar um adaptador de apenas 20 megabytes em cima dele para ensinar a IA a falar estritamente no jargão jurídico de um escritório de advocacia.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[finetuning|Finetuning]]
+
+### Complementos
+
+- [[engenharia-de-ia|Engenharia de IA]]
+
+### Alternativas
+
+- Nenhuma relação suficientemente sustentada pelo capítulo.
+
+### Conceitos relacionados
+
+- Nenhuma relação suficientemente sustentada pelo capítulo.
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 7 — Finetuning
+- **Localização:** localização não informada no material recebido
+- **Evidência:** Apresentação matemática e estrutural da Adaptação de Baixo Posto (LoRA) como padrão ouro de eficiência em parâmetros (*PEFT*).
+- **Confiança:** alta
+
+## ❓ Perguntas de revisão
+
+1. O que é Adaptação de Baixo Posto (LoRA)?
+2. Que problema ele resolve?
+3. Como ele funciona passo a passo?
+4. Quais hipóteses precisam ser verdadeiras?
+5. Quando ele deve ou não deve ser utilizado?
+6. Com qual conceito ele pode ser confundido?
+7. Como eu verificaria seu funcionamento em um caso novo?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.
+
+---
+*Nota gerada a partir do capítulo Capítulo 7 — Finetuning. A interpretação final deve ser revisada pelo estudante.*
+
+## Pergunta para a segunda analise
+
+Compare esta nota com a nota canonica indicada no frontmatter. Extraia somente informacoes novas, corrija divergencias e proponha atualizacoes sem duplicar o conceito.

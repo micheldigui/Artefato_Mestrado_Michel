@@ -1,0 +1,105 @@
+{
+  "version": 2,
+  "files": {
+    "D:\\Estudos\\Pos_Agentes\\Disciplinas\\6_Aprendizado_máquina\\_eda_expand_compiled.md": {
+      "parser_version": 3,
+      "hash": "962C92C491F831C3F65A26CEF7897F4603E45B600C94611D2A3F07BDC6147803",
+      "complete": true,
+      "targets": [
+        "redes/machine-learning/mapa-eda-e-selecao-de-modelos.md",
+        "redes/machine-learning/conceitos/Amostragem_e_Representatividade.md",
+        "redes/machine-learning/conceitos/Estatisticas_Resistentes_e_Formas_de_Distribuicao.md",
+        "redes/machine-learning/conceitos/Reexpressao_de_Variaveis.md",
+        "redes/machine-learning/conceitos/Visualizacao_Exploratoria_e_Codificacao_Visual.md",
+        "redes/machine-learning/conceitos/Analise_Bivariada_e_Tabelas_de_Contingencia.md",
+        "redes/machine-learning/conceitos/Analise_Multivariada_Exploratoria.md",
+        "redes/machine-learning/conceitos/Suavizacao_e_Comparacao_de_Sequencias.md",
+        "redes/machine-learning/conceitos/Diagnostico_Exploratorio_de_Series_Temporais.md",
+        "redes/machine-learning/conceitos/Analise_Exploratoria_de_Texto.md",
+        "redes/machine-learning/conceitos/Analise_Exploratoria_de_Redes.md",
+        "redes/machine-learning/conceitos/Analise_Exploratoria_Geoespacial.md",
+        "redes/machine-learning/conceitos/Metodos_de_Deteccao_de_Outliers.md",
+        "redes/machine-learning/conceitos/Perfilamento_e_EDA_Automatizada.md",
+        "redes/machine-learning/fontes/EDA_Aulas_Livro_e_Laboratorio.md",
+        "redes/machine-learning/auditoria-eda.json"
+      ],
+      "handled_artifacts": [
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\mapa-eda-e-selecao-de-modelos.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Amostragem_e_Representatividade.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Estatisticas_Resistentes_e_Formas_de_Distribuicao.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Reexpressao_de_Variaveis.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Visualizacao_Exploratoria_e_Codificacao_Visual.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Analise_Bivariada_e_Tabelas_de_Contingencia.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Analise_Multivariada_Exploratoria.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Suavizacao_e_Comparacao_de_Sequencias.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Diagnostico_Exploratorio_de_Series_Temporais.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Analise_Exploratoria_de_Texto.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Analise_Exploratoria_de_Redes.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Analise_Exploratoria_Geoespacial.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Metodos_de_Deteccao_de_Outliers.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Perfilamento_e_EDA_Automatizada.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\fontes\\EDA_Aulas_Livro_e_Laboratorio.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\auditoria-eda.json"
+      ],
+      "processed_at": "2026-09-23T17:48:04.9640518-03:00"
+    },
+    "D:\\Estudos\\Pos_Agentes\\Disciplinas\\6_Aprendizado_máquina\\_eda_map_compiled.md": {
+      "parser_version": 3,
+      "hash": "1BC920DD9FA0D0CA99509A89286C3D40650EB45731542A0DC7E0B02B4536CAD3",
+      "complete": true,
+      "targets": [
+        "redes/machine-learning/mapa-eda-e-selecao-de-modelos.md",
+        "redes/machine-learning/conceitos/Analise_Exploratoria_de_Dados.md",
+        "redes/machine-learning/conceitos/Selecao_de_Modelos_Orientada_pelo_EDA.md",
+        "redes/machine-learning/fontes/EDA_Aulas_Livro_e_Laboratorio.md",
+        "redes/machine-learning/auditoria-eda.json"
+      ],
+      "handled_artifacts": [
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\mapa-eda-e-selecao-de-modelos.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Analise_Exploratoria_de_Dados.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Selecao_de_Modelos_Orientada_pelo_EDA.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\fontes\\EDA_Aulas_Livro_e_Laboratorio.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\auditoria-eda.json"
+      ],
+      "processed_at": "2026-09-23T17:25:14.6116922-03:00"
+    },
+    "D:\\Estudos\\Pos_Agentes\\Disciplinas\\6_Aprendizado_máquina\\_feature_engineering_compiled.md": {
+      "parser_version": 3,
+      "hash": "A9497C40CB85B9F7AC1A1DB6B00A9C083448421EA264FB546024634F8F1A6C22",
+      "complete": true,
+      "targets": [
+        "redes/machine-learning/conceitos/Construcao_de_Atributos_Numericos.md",
+        "redes/machine-learning/conceitos/Engenharia_de_Atributos_Temporais.md",
+        "redes/machine-learning/conceitos/Representacao_de_Texto_para_ML.md",
+        "redes/machine-learning/conceitos/Extracao_de_Atributos_de_Imagens.md",
+        "redes/machine-learning/conceitos/Pipelines_de_Feature_Engineering.md",
+        "redes/machine-learning/fontes/Feature_Engineering_Livros_e_Laboratorio.md",
+        "redes/machine-learning/auditoria-feature-engineering.json.md"
+      ],
+      "handled_artifacts": [
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Construcao_de_Atributos_Numericos.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Engenharia_de_Atributos_Temporais.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Representacao_de_Texto_para_ML.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Extracao_de_Atributos_de_Imagens.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\conceitos\\Pipelines_de_Feature_Engineering.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\fontes\\Feature_Engineering_Livros_e_Laboratorio.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\auditoria-feature-engineering.json.md"
+      ],
+      "processed_at": "2026-09-23T18:25:29.5939747-03:00"
+    },
+    "D:\\Estudos\\Pos_Agentes\\Disciplinas\\6_Aprendizado_máquina\\_ml_catalog_compiled.md": {
+      "parser_version": 3,
+      "hash": "7F4B8FAF38EC4E6E22D663FA69AFD5FCC8B19AA006111A2585C8951BA1492B53",
+      "complete": true,
+      "targets": [
+        "redes/machine-learning/indice-algoritmos-modelos.md",
+        "redes/machine-learning/fontes/Corpus_Aulas_e_Livros_TXT.md"
+      ],
+      "handled_artifacts": [
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\indice-algoritmos-modelos.md",
+        "D:\\Estudos\\Resumos de livros\\livros\\second_brain\\redes\\machine-learning\\fontes\\Corpus_Aulas_e_Livros_TXT.md"
+      ],
+      "processed_at": "2026-09-23T17:19:37.353838-03:00"
+    }
+  }
+}

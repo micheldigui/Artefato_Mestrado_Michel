@@ -1,0 +1,367 @@
+[581] Sempre que aplicável, as transformações foram organizadas em pipelines. Essa escolha metodológica reduz risco de vazamento de informação porque as transformações são ajustadas no conjunto de treino e aplicadas posteriormente aos conjuntos de validação e teste. Em aprendizado de máquina supervisionado, essa separação é importante para evitar que estatísticas calculadas sobre todos os dados contaminem a avaliação fora da amostra.
+
+[582] A auditoria examinou 500 dias úteis e 71 características candidatas. Cinco características eram constantes; não havia consumo-alvo ausente nem uso de consumo posterior à data de emissão no cálculo do histórico. Isso não comprova quando as demais fontes foram publicadas, pois faltam registros de emissão. O tratamento de ausências, a conversão de categorias e os ajustes de escala usam apenas o treino de cada sexta-feira. CatBoost trata categorias diretamente; Prophet e SARIMAX usam procedimentos específicos de séries temporais. Consumos ausentes não recebem valores estimados para calcular as métricas.
+
+[583] Na implementação avaliada, o filtro de atributos remove variáveis constantes somente no treino de cada origem. As comparações entre conjuntos de dados constituem ablações previamente especificadas. Não foi realizada busca supervisionada de atributos por importância, seleção recursiva ou análise formal de estabilidade.
+
+[584] Os hiperparâmetros foram fixados para os candidatos. Imputação, codificação, escala e remoção de constantes foram ajustadas no treino de cada origem. Não foi realizada busca de hiperparâmetros com validação interna aninhada. As escolhas orientadas pelos rankings permanecem exploratórias (VARMA; SIMON, 2006).
+
+[585] Essa etapa também incluiu o cuidado de comparar ganhos de desempenho com aumento de complexidade. Um modelo com muitos hiperparâmetros ou grande custo computacional pode não ser adequado à adoção operacional, mesmo que apresente melhora marginal em validação. Assim, a escolha metodológica considera desempenho, estabilidade, explicabilidade, custo de manutenção e aderência ao processo de gestão.
+
+[586] Os comitês de modelos foram incluídos como alternativa metodológica para combinar previsões de diferentes famílias. A literatura de ensembles indica que a combinação pode aumentar robustez quando os modelos componentes apresentam diversidade de erros e bom desempenho individual. No projeto, os comitês foram concebidos como etapa posterior à avaliação de modelos individuais, e não como substituição automática do benchmark.
+
+[587] Foram previstas estratégias como média simples, média por família, ponderação por desempenho de validação e empilhamento. A média simples é transparente e fácil de manter, mas pode diluir modelos mais fortes. A ponderação por validação permite atribuir maior influência a modelos mais consistentes. Com empilhamento, podem ser ajustadas combinações mais flexíveis, com maior complexidade e risco de sobreajuste. Por isso, qualquer comitê precisa ser avaliado no mesmo protocolo temporal dos modelos individuais.
+
+[588] A validação respeitou a ordem temporal. Divisões aleatórias poderiam misturar observações correlacionadas de períodos próximos e permitir que padrões futuros influenciassem o treino. Foram utilizadas origens semanais sucessivas, mantendo os alvos de previsão posteriores à origem e comparando os métodos em datas comuns.
+
+[589] Nos testes históricos apresentados, a avaliação temporal progressiva, conhecida como walk-forward, reproduz a decisão semanal: em cada sexta-feira, os modelos são treinados com observações anteriores e estimam o consumo de segunda a sexta da semana seguinte. A antecedência é de três a sete dias. Foram usadas 104 sextas-feiras de emissão e 439 datas previstas após os critérios de elegibilidade. Cada comparação utiliza apenas as datas com registros e previsões válidos para todos os métodos envolvidos. Por isso, o número de datas avaliadas varia entre as análises. Não houve divisão aleatória dos dias.
+
+[590] O protocolo ampliado possui duas janelas a partir da sexta-feira de referência: três a sete dias para o preparo da próxima semana e dez a quatorze dias para as compras da semana posterior. Os atributos de consumo utilizam somente registros anteriores à respectiva origem. O calendário e o cardápio correspondem às datas-alvo e precisam estar disponíveis na emissão. A janela de compras dispensa o quantitativo institucional futuro. Uma semana depois, suas mesmas refeições recebem nova previsão para preparo, com histórico atualizado e alternativa combinada quando o quantitativo for recebido. As duas versões são preservadas e pontuadas separadamente; os resultados históricos de três a sete dias não validam, por transferência, a janela de dez a quatorze dias.
+
+[591] O protocolo mantém a ordem temporal, ajusta o pré-processamento no treino e compara previsões com baselines nas mesmas datas. Os hiperparâmetros permanecem fixos. Como os resultados retrospectivos foram examinados durante o desenvolvimento, esses períodos não constituem teste final intocado. A separação entre o histórico disponível na sexta-feira e os dias previstos está representada na Figura 4.
+
+[592] Figura 4 - Protocolo de modelagem e validação temporal
+
+[594] Fonte:  Dados da Pesquisa (2026).
+
+[595] Na Figura 4, está representado o protocolo histórico de três a sete dias, com origens às sextas-feiras e alvos úteis na semana seguinte. O lead varia de três dias para a segunda-feira a sete dias para a sexta-feira. As métricas do capítulo de resultados usam a interseção válida de cada análise; os resultados são retrospectivos e já foram consultados durante o desenvolvimento.
+
+[596] A seleção histórica retirou os sábados das datas a prever, mas o cálculo de médias e tendências podia utilizar consumos de sábado anteriores à emissão. Na versão V1, fins de semana também foram retirados desse histórico. Os resultados deste capítulo permanecem vinculados ao procedimento histórico.
+
+[597] A consolidação do benchmark foi planejada para reunir, em uma base comum, as previsões, métricas e metadados dos modelos avaliados. Essa etapa evita que cada notebook produza resultados isolados e difíceis de comparar. O benchmark funciona como tabela metodológica de comparação, na qual todos os modelos são avaliados sob critérios equivalentes e registrados em arquivos padronizados.
+
+[598] O benchmark incluiu métricas estatísticas, indicadores de erro por período e informações necessárias para rastrear o modelo, a família algorítmica, a base de atributos utilizada e o protocolo de validação. A padronização de nomes, colunas e saídas foi necessária para que os notebooks posteriores pudessem consumir os resultados sem retrabalho. Essa organização também facilita a geração de gráficos e tabelas para a dissertação.
+
+[599] A consolidação não teve como finalidade discutir resultados neste capítulo. Sua função metodológica foi garantir que a escolha de modelos e cenários pudesse ser realizada posteriormente com base em evidências comparáveis, preservando a separação entre procedimento metodológico e análise de resultados.
+
+[600] As margens são avaliadas depois da previsão, comparando o plano sugerido com o consumo observado. A decisão envolve um compromisso: maior proteção contra déficit pode elevar o excedente. A tradução desse compromisso em reais depende de parâmetros financeiros e operacionais ainda não validados.
+
+[601] A análise de decisão adicional selecionou a combinação modelo-margem com dados anteriores ao ano de teste: 2023 para o teste de 2024 e 2023-2024 para o teste de 2025. Os pesos de penalidade falta: sobra foram tratados como cenários hipotéticos. Os resultados dos dois anos de teste são apresentados como avaliação retrospectiva, não como comprovação prospectiva.
+
+[602] As quatro configurações foram avaliadas com origem na sexta-feira, para os almoços de segunda a sexta da semana seguinte, e treino limitado a dados anteriores à origem. A competição usou 400 datas na linha-base e 415 na linha com reservas e clima; a ablação usou 432; e o confronto com reservas, 390. Os denominadores são próprios de cada protocolo e não devem ser intercambiados. A avaliação respeita a ordem temporal, mas permanece retrospectiva, pois os resultados já foram examinados no projeto (ROBERTS et al., 2017; TASHMAN, 2000).
+
+[603] 3.5 Avaliação preditiva e decisão operacional
+
+[604] As métricas preditivas foram MAE, RMSE, WAPE, viés e, como medida complementar, R². Para os planos, foram calculados quantidade planejada, excesso e déficit potenciais, frequência de dias com déficit e razão entre os totais de plano e consumo observado. Essas medidas não equivalem a produção efetiva, sobra física ou refeições não atendidas. Como os parâmetros de custo e a produção efetiva ainda não foram confirmados para as datas avaliadas, não foi calculado custo operacional equivalente.
+
+[605] O R² foi calculado diretamente sobre as previsões de cada conjunto de datas comparáveis, usando a média do consumo desse conjunto como referência no denominador. O resultado agregado não corresponde à média dos R² semanais. Sua interpretação complementa MAE, RMSE, WAPE e viés, preservando a distinção entre previsão e indicadores do plano. A avaliação em observações não utilizadas no treinamento considera a finalidade preditiva do estudo (SHMUELI, 2010).
+
+[606] Após a etapa preditiva, a metodologia considerou políticas de margem de segurança. A previsão pontual estima o consumo esperado, mas a decisão de produção precisa lidar com incerteza. A margem de segurança foi tratada como instrumento de apoio à decisão, e não como correção automática universal. O objetivo metodológico foi criar cenários que permitissem avaliar o equilíbrio entre maior proteção contra falta e maior risco de sobra.
+
+[607] Foram avaliadas margens fixas e uma seleção temporal de pares modelo-margem. Na seleção temporal, a alternativa de razão falta: sobra 2:1 foi selecionada com anos anteriores e testada em 2024 e 2025; esse protocolo reduz a escolha e pontuação na mesma janela, mas não valida as penalidades como custos reais nem substitui a observação operacional.
+
+[608] As políticas de margem foram sempre avaliadas contra o consumo real observado, de modo que a interpretação permanecesse transparente. Essa escolha metodológica evita comparar cenários entre si sem referência externa e facilita a leitura por gestores e leitores não especialistas.
+
+[609] Na etapa final, a apresentação da avaliação será organizada em três estratégias de planejamento: o quantitativo institucional utilizado diretamente; a previsão produzida pelo modelo; e a combinação da previsão com o quantitativo institucional, acrescida de uma margem de segurança. Essas estratégias serão confrontadas nas mesmas datas, identificando a janela e a antecedência de cada emissão. Para compras, a previsão não depende do quantitativo da semana-alvo. Para preparo, o quantitativo recebido permite calcular a combinação. As quatro configurações de atributos permanecem como experimentos históricos para examinar a contribuição das fontes. Na combinação, o quantitativo é utilizado depois da previsão, na formação do plano; esse procedimento é distinto de incluí-lo como variável de entrada do modelo.
+
+[610] A avaliação econômica prevista em versões anteriores não integra os resultados desta dissertação, pois os parâmetros de custo e as consequências monetárias da falta não foram validados com a gestão. Os registros de pagamento são utilizados apenas para contextualização administrativa.
+
+[611] Os pesos e as políticas de margem devem ser identificados antes de receber os consumos da janela avaliada e discutidos com os responsáveis pelo restaurante. A combinação curta de 25% da previsão e 75% do quantitativo, acrescida de dez refeições, é um candidato de desenvolvimento posterior ao diagnóstico de 2026. Não corresponde à regra selecionada na iteração histórica descrita na seção 5.16. Sua avaliação deve ocorrer em novas datas, sem escolher pesos após conhecer os consumos e apresentar o mesmo período como confirmação independente.
+
+[612] Os notebooks foram configurados para salvar tabelas e gráficos em pastas de resultados, permitindo que os materiais fossem reutilizados na dissertação, no seminário e em artigos. A geração automática de saídas reduz risco de transcrição manual e favorece atualização dos resultados quando o pipeline é reexecutado.
+
+[613] Nos gráficos e nas tabelas, são informados período, número de dias, unidades e referência de comparação. A leitura separa o erro da previsão das diferenças potenciais entre quantidade planejada e consumo. Os registros de pagamento são apresentados à parte, pois não permitem atribuir economia ao artefato.
+
+[614] A rastreabilidade foi tratada como requisito metodológico. Cada etapa do pipeline gera arquivos que podem ser relacionados aos notebooks responsáveis por sua criação. As bases em parquet e csv registram as camadas de dados, enquanto arquivos de métricas, previsões e figuras registram a etapa de modelagem e comunicação. Essa organização permite reconstruir o percurso analítico sem depender apenas da memória do pesquisador.
+
+[615] A rastreabilidade, entretanto, não elimina a necessidade de revisão humana. Gráficos gerados automaticamente precisam ser avaliados quanto à clareza, legibilidade e adequação ao público. Tabelas precisam informar unidade, período, referência de comparação e interpretação. A metodologia, portanto, combina automação computacional com curadoria acadêmica e gerencial.
+
+[616] A comunicação prioriza indicadores próximos da decisão: erro médio em refeições, número de dias em que o plano fica abaixo do consumo e totais potenciais de excesso e déficit. A produção e o atendimento efetivos precisam de medição própria.
+
+[617] 3.6 Validade, confiabilidade, ética e limitações
+
+[618] A validade metodológica foi tratada a partir da coerência entre problema, dados, modelo, avaliação e decisão. Em pesquisas aplicadas com aprendizado de máquina, a validade não depende apenas da escolha do algoritmo, mas da adequação de todo o processo: a variável-alvo precisa representar o fenômeno de interesse, as variáveis explicativas precisam estar disponíveis no momento da decisão, a validação precisa simular o uso futuro e as métricas precisam dialogar com o objetivo gerencial.
+
+[619] As análises utilizam conjuntos de datas diferentes, conforme a disponibilidade de registros e de previsões comparáveis. Por isso, cada resultado informa o número de dias avaliados. Para examinar a contribuição de uma fonte adicional de dados, a comparação mantém as mesmas datas e o mesmo modelo.
+
+[620] A confiabilidade foi buscada por meio da documentação do pipeline em notebooks, da padronização de saídas, da separação em camadas e do registro dos arquivos gerados. Um procedimento confiável é aquele que pode ser reexecutado, auditado e compreendido por outro pesquisador ou gestor com acesso ao ambiente e aos dados autorizados. A organização em etapas numeradas contribui para essa confiabilidade, pois reduz ambiguidade sobre a sequência correta de execução.
+
+[621] O protocolo operacional da pesquisa foi definido como uma sequência de etapas interdependentes. Cada etapa recebe entradas, executa transformações e produz saídas que alimentam a etapa seguinte. Essa lógica é coerente com a construção de artefatos em DSR e com boas práticas de ciência de dados aplicada. O protocolo também ajuda a delimitar onde cada tipo de discussão deve aparecer na dissertação: preparação e validação pertencem à metodologia; arquitetura e funcionamento pertencem ao modelo sistêmico; evidências empíricas pertencem aos resultados.
+
+[622] As etapas do protocolo operacional e suas saídas estão organizadas no Quadro 10.
+
+[623] Quadro 10 - Protocolo operacional da pesquisa
+
+[624] Etapa | Entrada | Saída metodológica
+Mapeamento da literatura | Artigos, documentos e matriz de classificação. | Eixos teóricos e critérios de uso das referências.
+Ingestão de dados | Reservas, consumo, cardápio, calendário e clima. | Camada Bronze organizada por fonte.
+Consolidação | Fontes ingeridas e regras de padronização. | Base Silver diária integrada.
+Análise exploratória | Base diária consolidada. | Compreensão de padrões, lacunas e variáveis relevantes.
+Engenharia de atributos | Base Silver e conhecimento do domínio. | Bases Gold para modelagem.
+Modelagem | Bases Gold e protocolo temporal. | Modelos candidatos, previsões e métricas.
+Políticas de decisão | Previsões fora da amostra e parâmetros gerenciais. | Cenários de margem e apoio à decisão.
+Comunicação | Tabelas, gráficos e indicadores. | Materiais para dissertação, seminário e gestão.
+
+[625] Fonte: Dados da Pesquisa (2026).
+
+[626] A execução da pesquisa foi realizada em ambiente computacional baseado em Python e Jupyter Notebook. A escolha por notebooks permitiu combinar código, texto explicativo, tabelas e gráficos em uma sequência auditável de procedimentos. Do ponto de vista metodológico, o ambiente computacional não é apenas ferramenta operacional; ele compõe a rastreabilidade do artefato, pois registra como os dados foram transformados e como as saídas foram produzidas. Na sequência registrada no Quadro 10, a preparação dos dados antecede a modelagem, e as margens são avaliadas com as previsões já produzidas. Essa ordem permite identificar em qual etapa surgiu uma divergência.
+
+[627] A organização computacional contém duas linhas de experimentação histórica e uma sequência de avaliação de 2026. A revisão de outubro corrigiu os cortes de resíduos usados por ensembles e margens. A nova execução reajustou os candidatos e suas análises dependentes; a auditoria confere cortes, pareamento e integridade das emissões.
+
+[628] As saídas foram salvas em diretórios específicos de dados e modelos, incluindo camadas em parquet e csv, arquivos de métricas, previsões, modelos serializados e figuras. Essa prática permite separar código, dados intermediários e produtos de análise. Também facilita a futura montagem de anexos e apêndices, pois podem ser identificados os notebooks e arquivos correspondentes a cada resultado apresentado.
+
+[629] A reexecução integral de outubro de 2026 foi registrada por etapa, com novo ajuste dos estimadores nas duas linhas históricas. Falhas numéricas de candidatos são documentadas e entram nos critérios de cobertura dos rankings. A execução computacional e o controle temporal não comprovam a disponibilidade histórica das variáveis de entrada na sexta-feira.
+
+[630] Os tipos de saída e suas funções metodológicas estão relacionados no Quadro 11.
+
+[631] Quadro 11 - Organização metodológica das saídas computacionais
+
+[632] Tipo de saída | Local ou formato | Função metodológica
+Camadas de dados | Parquet e CSV em Bronze, Silver e Gold. | Preservar bases intermediárias e finais do pipeline.
+Métricas de modelos | CSV em resultados/linhas, por etapa de avaliação. | Consolidar avaliação comparável entre modelos.
+Previsões | Séries diárias fora da amostra. | Calcular erros, margens e diferenças potenciais entre plano e consumo.
+Modelos treinados | Arquivos serializados quando aplicável. | Permitir reaplicação sem retreinamento imediato.
+Figuras | Pastas de gráficos por etapa. | Apoiar comunicação científica, gerencial e seminário.
+
+[633] Fonte: Dados da Pesquisa (2026).
+
+[634] A pesquisa utiliza dados operacionais institucionais e, por isso, exige cuidado com privacidade, sigilo e uso responsável das informações. Ainda que a análise seja agregada por dia e tenha foco no planejamento da produção, a origem dos dados pode envolver registros administrativos sensíveis. A metodologia adotou a diretriz de trabalhar com agregações e resultados consolidados, evitando exposição de informações individuais desnecessárias à resposta da pergunta de pesquisa. As saídas do Quadro 11 permitem relacionar cada resultado à base e às previsões que o sustentam. A existência desses arquivos facilita a reprodução da análise, mas não equivale à implantação do artefato no restaurante.
+
+[635] Na comunicação dos resultados, foram adotados cuidados com a proteção dos dados. São apresentados procedimentos, métricas, tabelas agregadas e gráficos necessários à avaliação do artefato, mas as bases brutas não são disponibilizadas integralmente quando sua divulgação puder violar restrições institucionais ou privacidade. Essa opção limita a reprodutibilidade externa plena e preserva a responsabilidade ética e institucional.
+
+[636] Do ponto de vista do uso do artefato, a pesquisa reconhece que previsões não devem ser tratadas como decisões automáticas. O objetivo é apoiar a gestão, não substituir o julgamento humano. Essa diretriz é especialmente importante porque a decisão de produção envolve atendimento de usuários, uso de recursos públicos e risco de desperdício. A supervisão humana permanece necessária para interpretar eventos excepcionais, mudanças de calendário e informações locais que podem não estar presentes nos dados.
+
+[637] Ferramentas de Inteligência Artificial foram utilizadas como apoio instrumental à revisão linguística, à organização de informações, ao desenvolvimento e à depuração de códigos e à preparação de tabelas e análises auxiliares. As sugestões textuais e técnicas foram revisadas pelo pesquisador, que permanece responsável pelas decisões metodológicas, pela validação das fontes, pela interpretação dos dados e pelas conclusões.
+
+[638] Antigravity e Codex apoiaram a elaboração e a depuração do código. A rastreabilidade registra entradas, cortes temporais, saídas e verificações executadas. A conferência e a aprovação acadêmica da versão final permanecem sob responsabilidade do pesquisador.
+
+[639] Para revisão e organização textual, ferramentas como ChatGPT e Gemini apoiaram a correção e a clareza de passagens previamente escritas e a revisão de trechos metodológicos afetados pela atualização dos resultados.
+
+[640] O pesquisador revisou o conteúdo elaborado com apoio de ferramentas de inteligência artificial e assume a responsabilidade pelas escolhas metodológicas, pela interpretação dos resultados e pela versão final da dissertação. As ferramentas utilizadas e as tarefas em que prestaram assistência são descritas nesta seção.
+
+[641] A pontuação das emissões prospectivas e a avaliação gerencial permanecem pendentes. Há registros de consumo de fevereiro a agosto de 2026, mantidos separados do ajuste dos estimadores; setembro ainda não foi recebido. A existência desses registros permite pontuação retrospectiva, mas não comprova quando cardápios, calendários e quantitativos institucionais ficaram disponíveis. Também faltam séries de produção, sobras físicas e refeições não atendidas.
+
+[642] Setembro será confrontado por meio de previsões congeladas antes do recebimento dos consumos, mas geradas em outubro, depois das refeições. Trata-se de avaliação retrospectiva com alvos ocultos. Para outubro, somente emissões realmente anteriores às refeições podem integrar o acompanhamento prospectivo, com data e hora reais registradas. O uso de consumos anteriores de 2026 na construção do histórico não equivale a ajustar os estimadores com os alvos de 2026; essa diferença será explicitada na etapa final.
+
+[643] A aplicação em outra instituição exige dados locais e nova avaliação. Os arquivos climáticos contêm valores associados a datas e antecedências, mas não registram a emissão que comprovaria sua disponibilidade na sexta-feira. Por essa razão, o clima permanece exploratório nos testes históricos e foi excluído das emissões congeladas.
+
+[644] Os pagamentos de 2023-2025 são apresentados como registros administrativos. Converter diferenças plano-consumo em custos de desperdício ou de falta exige registros de produção e parâmetros confirmados pela gestão; a razão hipotética de penalidade não substitui esses dados.
+
+[645] 3.7 Síntese metodológica
+
+[646] A metodologia da pesquisa integra Design Science Research, mapeamento estruturado da literatura, análise de dados operacionais, pipeline em camadas, notebooks reprodutíveis, engenharia de atributos, comparação de modelos, validação temporal, métricas estatísticas e indicadores gerenciais. Essa combinação permite desenvolver e avaliar um artefato aplicado ao planejamento da produção de refeições sem misturar, neste capítulo, resultados empíricos ou discussão final.
+
+[647] No capítulo de modelo sistêmico, são detalhados os componentes, os fluxos e a lógica de decisão do artefato. No capítulo de resultados, são apresentados e discutidos os achados da avaliação, com comparação entre alternativas e consumo observado. Com base nesse procedimento, os resultados são lidos não apenas como desempenho de algoritmos, mas como evidências sobre a utilidade do artefato para apoiar decisões de produção.
+
+[648] 4 MODELO SISTÊMICO DO ARTEFATO
+
+[649] Neste capítulo, é apresentado o modelo sistêmico do artefato desenvolvido na pesquisa. O termo modelo sistêmico é utilizado porque a solução não se resume a um algoritmo isolado. O artefato integra fontes de dados, camadas de preparação, engenharia de atributos, modelos preditivos, regras de decisão, indicadores gerenciais e mecanismos de realimentação. Desse modo, a contribuição aplicada está na articulação desses componentes para apoiar o planejamento diário da produção de refeições.
+
+[650] O artefato reúne procedimentos de preparação dos dados, modelos de previsão e regras para transformar a previsão em cenários de produção. Consumo histórico, cardápio e calendário formam a base. Reservas e clima são testados como fontes adicionais, e sua inclusão depende do desempenho e da disponibilidade antes da decisão. 
+
+[651] Neste capítulo, as quatro configurações de atributos descrevem alternativas avaliadas retrospectivamente com dados de 2023–2025. São experimentos de desenvolvimento. A versão preparada para acompanhamento possui duas saídas operacionais, para preparo e compras, com histórico de consumo, cardápio e calendário e sem clima. O quantitativo institucional é opcional na combinação para preparo, quando recebido. Essa evolução do protocolo é identificada separadamente dos resultados históricos; sua avaliação prospectiva e gerencial permanece pendente.
+
+[652] 4.1 Denominação e finalidade do artefato
+
+[653] O artefato pode ser denominado artefato analítico-preditivo de apoio à decisão para planejamento da produção de refeições. A denominação destaca três características. Primeiro, ele é analítico porque depende de dados organizados, variáveis derivadas, métricas e visualizações. Segundo, é preditivo porque estima o consumo esperado em período futuro, antes que a produção seja realizada. Terceiro, é de apoio à decisão porque não substitui a gestão; sua função é oferecer evidências, cenários e indicadores para uma decisão operacional mais informada.
+
+[654] A finalidade imediata do artefato é apoiar a definição da quantidade diária de refeições a produzir. Essa quantidade afeta o preparo, a compra de insumos, o uso de equipe, a disponibilidade de alimentos e o risco de sobra ou falta. A finalidade ampliada é contribuir para melhoria do sistema produtivo, ampliando as informações disponíveis para além do quantitativo informado para o planejamento e incorporando informações históricas e contextuais relacionadas ao consumo real.
+
+[655] Do ponto de vista de Design Science Research, o artefato materializa conhecimento aplicado. Ele não é apenas um relatório de diagnóstico, mas uma estrutura executável composta por notebooks, bases em camadas, modelos treinados, arquivos de previsão, indicadores e saídas gráficas. Sua utilidade está na possibilidade de ser reexecutado, auditado, ajustado e usado como referência para uma futura implantação operacional.
+
+[656] No contexto do mestrado profissional, o produto técnico pode ser compreendido em quatro representações complementares. A primeira é a representação computacional, composta por notebooks, bases, modelos e arquivos de saída. A segunda é a representação analítica, formada por indicadores, gráficos, métricas e cenários comparativos. A terceira é a representação gerencial, voltada ao apoio ao planejamento de produção, compras e atendimento. A quarta é a representação documental, materializada em protocolo, relatório técnico e descrição metodológica que permitem reexecução e transferência controlada para contextos semelhantes.
+
+[657] A instância executável compreende dados preparados, código de previsão e regras de planejamento. Sua adaptação para uso gerencial requer uma interface de consulta, dados atualizados e registro das decisões. Essa adaptação não foi avaliada como implantação neste estudo.
+
+[658] O artefato utiliza histórico de consumo, calendário e cardápio. Em cada sexta-feira, gera até cinco estimativas diárias por janela: para a próxima semana, destinadas ao preparo; e para a semana posterior, destinadas às compras. Feriados, recesso e outras datas sem almoço são retirados individualmente, sem eliminar os demais dias da semana. O quantitativo recebido permite uma alternativa combinada na saída de preparo. Cada emissão registra sua data real, a origem de corte das informações, a versão e o vínculo com a estimativa de compras anterior das mesmas refeições.
+
+[659] 4.2 Fronteiras entre modelo sistêmico, metodologia e resultados
+
+[660] Neste capítulo, são descritos os componentes e os limites do artefato. Na metodologia, são definidos a amostra, o protocolo temporal e os critérios de avaliação; nos resultados, são examinadas as métricas e as diferenças potenciais entre plano e consumo.
+
+[661] 4.3 Requisitos do artefato
+
+[662] A construção do artefato foi orientada por requisitos funcionais e não funcionais. Os requisitos funcionais indicam o que a solução precisa fazer para apoiar o planejamento. Os requisitos não funcionais indicam condições de qualidade necessárias para que a solução seja confiável, compreensível e útil em contexto acadêmico e gerencial.
+
+[663] Os requisitos funcionais e analíticos estão registrados no Quadro 12.
+
+[664] Quadro 12 - Requisitos do artefato
+
+[665] Tipo | Requisito | Justificativa
+Funcional | Integrar consumo, cardápio e calendário; usar o quantitativo recebido na combinação para preparo. Clima restrito aos experimentos históricos. | O núcleo deve funcionar com a base comum e permitir extensões avaliáveis.
+Funcional | Estimar cada almoço elegível em duas janelas: preparo (3–7 dias) e compras (10–14 dias), sem fins de semana. | O prazo deve atender à decisão e a quantidade deve ser diária. Datas sem almoço não recebem previsão.
+Funcional | Comparar modelos e configurações no mesmo protocolo temporal. | Evitar atribuir ganhos a períodos ou bases diferentes.
+Funcional | Preservar previsão pura e cenários de margem próprios de cada modelo e janela. | Explicitar o compromisso entre excesso e falta potenciais.
+Funcional | Apresentar indicadores compreensíveis e limites de evidência. | Erro, excesso e falta potencial não equivalem a produção e resultados observados.
+Não funcional | Manter rastreabilidade, execução reprodutível e vínculo entre compras e atualização para preparo. | Preservar as emissões anteriores, registrar horário real e conferir dados suspeitos sem excluí-los automaticamente.
+Não funcional | Evitar vazamento temporal. | Histórico anterior à origem; cardápio e calendário disponíveis na emissão; compras sem quantitativo futuro.
+Não funcional | Preservar a decisão humana. | O artefato informa cenários; o gestor decide com seu conhecimento operacional.
+
+[666] Fonte: Dados da Pesquisa (2026).
+
+[667] Os requisitos incluem entregar até cinco quantitativos diários por janela, conforme as refeições elegíveis, registrar as entradas e comparar cenários de margem. Os indicadores de excesso e déficit são calculados em relação ao consumo observado. A decisão gerencial e o resultado do serviço exigem avaliação própria.
+
+[668] 4.4 Arquitetura geral do artefato
+
+[669] A arquitetura geral do artefato pode ser compreendida como uma cadeia de transformação. As entradas operacionais são organizadas em camadas de dados; as camadas alimentam uma base analítica diária; essa base gera atributos; os atributos alimentam modelos preditivos; as previsões são convertidas em cenários de margem; e as saídas apoiam produção, compras e monitoramento. Essa arquitetura está representada na Figura 5.
+
+[670] Figura 5 - Arquitetura sistêmica do artefato
+
+[672] Fonte:  Dados da Pesquisa (2026).
+
+[673] Na arquitetura representada na Figura 5, estão organizados seis componentes: fontes de dados, atributos, previsão, planejamento, avaliação e saídas para os usuários. A estimativa de consumo alimenta os cenários de quantidade a preparar; a avaliação compara previsões e planos com o consumo observado. O registro dos resultados permite revisar o artefato à medida que novos dados estejam disponíveis.
+
+[674] Nesse fluxo, a previsão não constitui a etapa final: a gestão ainda precisa definir a quantidade de produção. A previsão pontual estima o consumo esperado; a quantidade a preparar é definida pela gestão. Essa decisão pode incorporar diferentes políticas de margem conforme tolerância a falta, risco de desperdício, eventos acadêmicos, feriados, cardápio e conhecimento contextual do gestor.
+
+[675] 4.5 Subsistema de dados
+
+[676] O subsistema de dados recebe consumo, cardápio e calendário como núcleo comum e permite incorporar reservas e clima como fontes opcionais. As configurações comparadas acrescentam essas fontes em etapas, para medir sua contribuição incremental. O consumo real é o alvo e a referência de avaliação; o cardápio e o calendário contextualizam cada dia; as reservas históricas representam intenção agregada; e clima acrescenta contexto externo somente na configuração correspondente.
+
+[677] Essas fontes são heterogêneas. Algumas possuem natureza administrativa, outras operacional, textual ou contextual. Por isso, o artefato utiliza camadas para separar dados brutos, dados tratados e dados prontos para análise. No modelo sistêmico, a função das camadas é sustentar confiabilidade: cada camada tem papel específico e evita que a modelagem seja feita diretamente sobre arquivos dispersos ou inconsistentes.
+
+[678] A arquitetura modular permite aplicar o núcleo de consumo, cardápio e calendário em contextos sem reservas ou dados climáticos. Quando disponíveis e adequadamente alinhadas, reservas e clima podem ser incorporados como fontes adicionais. Sua utilidade é avaliada empiricamente pelas configurações comparadas, sem presumir que a maior quantidade de variáveis necessariamente melhora a previsão.
+
+[679] No modelo sistêmico, as fontes devem ser entendidas como papéis dentro do artefato. As reservas funcionam como sinal antecipado; o consumo real funciona como alvo e referência de realimentação; o cardápio e o calendário contextualizam a demanda; e o clima acrescenta uma condição externa potencialmente associada à circulação. A descrição metodológica detalhada dessas fontes permanece no capítulo anterior, evitando duplicidade.
+
+[680] 4.6 Subsistema de engenharia de atributos
+
+[681] O subsistema de engenharia de atributos transforma os registros diários em variáveis para os modelos. A base comum reúne histórico de consumo, calendário acadêmico-operacional e cardápio. A avaliação compara quatro combinações: base comum; base + reservas; base + clima; e base + reservas + clima.
+
+[682] Os atributos temporais representam dia da semana, mês, feriados, eventos e períodos letivos. Os atributos históricos descrevem consumo passado por defasagens e estatísticas calculadas sem usar dados futuros. Os atributos de cardápio codificam as ofertas diárias. A configuração 2 acrescenta reservas; a 3 acrescenta clima; e a 4 reúne reservas e clima. A configuração 1 corresponde à base comum.
+
+[683] A engenharia de atributos também funciona como ponte entre conhecimento do domínio e aprendizado computacional. Por exemplo, a informação de que vésperas de feriado ou dias específicos do calendário podem ter comportamento diferente precisa ser representada como variável para que o modelo consiga considerá-la. O artefato, portanto, não depende apenas de algoritmos; depende da qualidade com que o problema operacional é convertido em atributos informativos.
+
+[684] Os atributos estão agrupados por origem e função no Quadro 13.
+
+[685] Quadro 13 - Grupos de atributos do artefato
+
+[686] Grupo | Exemplos | Papel no sistema
+Temporais | Dia da semana, mês, feriados, eventos e períodos letivos. | Representar o contexto do calendário nas quatro configurações.
+Históricos | Defasagens e estatísticas passadas do consumo. | Representar memória observada da demanda, sem usar alvos futuros.
+Cardápio | Variáveis categóricas/estruturadas dos itens ofertados. | Componente comum às quatro configurações.
+Reservas (opcional) | Total diário agregado registrado. | Acrescentadas nas configurações 2 e 4; também comparadas como baseline.
+Clima (opcional) | Variáveis climáticas alinhadas à data. | Acrescentado nas configurações 3 e 4.
+Semânticos | Representações exploratórias de protótipos anteriores. | Não integram o benchmark atual.
+
+[687] Fonte: Dados da Pesquisa (2026).
+
+[688] O quadro não deve ser lido como lista fixa e definitiva. Em uma futura implantação, novos atributos podem ser incorporados, desde que respeitem a regra de disponibilidade temporal: a variável usada para prever um dia precisa estar disponível na data e hora de emissão da previsão, respeitando o corte de sua janela. Esse cuidado evita vazamento de informação e mantém coerência entre o artefato experimental e seu possível uso operacional.
+
+[689] As representações semânticas do cardápio foram exploradas em protótipos anteriores, mas não integram a comparação atual. Nesta avaliação, o cardápio é representado por categorias de prato, proteína e preparo; o histórico de consumo usa apenas observações anteriores à sexta-feira de previsão. Com 500 dias úteis disponíveis, a prioridade é revisar a classificação dos pratos; uma representação textual mais complexa só será considerada se melhorar os testes temporais.
+
+[690] O tratamento dos dados é ajustado somente com o histórico de treino de cada previsão. Valores numéricos ausentes recebem o tratamento definido nesse histórico e, quando o método exige, são colocados em escalas comparáveis. As categorias são convertidas em códigos adequados ao modelo ou tratadas diretamente por ele.
+
+[691] 4.7 Subsistema preditivo
+
+[692] O subsistema preditivo é responsável por estimar o consumo esperado a partir dos atributos disponíveis. Seu alvo é o consumo real diário, e não a quantidade de reservas. Essa escolha é decisiva para o projeto: se a finalidade é apoiar produção, compras e atendimento, o valor a ser previsto deve se aproximar da demanda efetivamente observada.
+
+[693] A comparação reuniu 20 estimadores individuais, nove comitês e quatro regras de referência. As análises permitem comparar métodos dentro de cada conjunto de dados, avaliar a contribuição de fontes adicionais e confrontar as previsões com as reservas nas mesmas datas. 
+
+[694] Na versão preparada para acompanhamento, a previsão para preparo utiliza ExtraTrees sem o quantitativo institucional como entrada. A previsão para compras utiliza uma regressão Ridge que estima a diferença em relação à média recente de consumo do mesmo dia da semana. Os dois estimadores foram ajustados com dados de 2023-2025; o histórico de entrada pode incorporar consumos posteriores já recebidos antes de cada emissão, sem novo ajuste dos estimadores nessa janela. Quando o quantitativo da próxima semana é recebido, ele pode compor uma alternativa de planejamento para preparo. Essa combinação ocorre depois da previsão e não integra a saída antecipada de compras.
+
+[695] 4.7.1 Como os modelos transformam dados em previsão
+
+[696] No treinamento de cada modelo, são estimadas relações entre as características dos dias e o consumo observado. Essas relações são aplicadas às informações disponíveis de novos dias para gerar previsões em refeições. A diferença entre a previsão e o consumo posteriormente registrado é o erro de previsão.
+
+[697] As famílias diferem na forma de construir essa relação: algumas atribuem pesos às variáveis, outras utilizam a semelhança entre dias ou separam os registros por regras. Há também métodos que combinam várias previsões. Os princípios de funcionamento dessas famílias estão descritos no Quadro 14.
+
+[698] Quadro 14 - Lógica matemática e estatística das famílias de modelos
+
+[699] Família | Princípio matemático ou estatístico | Interpretação no artefato
+Regressão linear | Combina as características dos dias, atribuindo a cada uma um peso aprendido no treino. | Cada variável contribui com um peso para aumentar ou reduzir a previsão de consumo.
+Modelos regularizados | Mantêm a lógica linear, mas penalizam coeficientes grandes ou excesso de variáveis. | Reduzem risco de ajuste exagerado quando há muitos atributos.
+KNN | Usa o consumo dos casos mais semelhantes no histórico para estimar o novo dia. | Dias com características semelhantes ajudam a estimar o consumo do novo dia.
+SVR | Ajusta uma relação entre atributos e consumo, com tolerância a pequenos erros e penalização de desvios maiores. | Representa uma relação entre atributos e consumo, com tolerância a pequenas diferenças.
+Árvores de decisão | Separa os registros por regras sobre suas características e estima o consumo dentro de cada grupo. | O modelo cria regras condicionais, como combinações de dia, reserva, calendário e histórico.
+Random Forest | Combina previsões de árvores treinadas com amostras e características diferentes. | A previsão resulta da média de várias árvores, reduzindo instabilidade de uma árvore isolada.
+ExtraTrees | Também combina muitas árvores, mas usa cortes mais aleatórios para aumentar diversidade entre elas. | A diversidade das árvores pode melhorar generalização quando há relações não lineares e variáveis interativas.
+Boosting | Constrói modelos sequencialmente, com ajustes voltados aos erros das etapas anteriores. | Em cada etapa, reduz-se parte do erro remanescente da etapa anterior, conforme o procedimento de ajuste.
+Redes neurais MLP | Aplica composições de funções lineares e não lineares em camadas sucessivas. | Pode capturar relações complexas, mas exige cuidado com escala, dados e sobreajuste.
+Séries temporais | Modelam dependência temporal usando componentes autorregressivos, médias móveis e sazonalidade. | A previsão depende principalmente do comportamento passado da própria demanda.
+Comitês | Combina previsões de vários modelos por média, mediana ou pesos definidos com dados anteriores. | Permitem avaliar se a união de modelos melhora estabilidade frente a modelos individuais.
+
+[700] Fonte: Dados da Pesquisa (2026).
+
+[701] As previsões podem ser obtidas por combinações de pesos, casos semelhantes ou regras, conforme os princípios descritos no Quadro 14. Por exemplo, ExtraTrees combina muitas árvores; cada uma separa os dias em grupos com características semelhantes. A média dessas estimativas forma a previsão do conjunto.
+
+[702] 4.7.2 Papel do benchmark no artefato
+
+[703] A comparação organizada de métodos, também chamada benchmark, registra os modelos, as informações utilizadas, as previsões e os critérios de avaliação. Ela permite comparar alternativas sob condições explícitas e identificar quando os resultados se referem a grupos de datas diferentes.
+
+[704] Esse componente registra os candidatos, mantém critérios comuns de comparação e fornece evidências para a escolha de uma regra de previsão. Os valores obtidos e os limites dessa escolha são discutidos no capítulo de resultados.
+
+[705] 4.8 Subsistema decisório: da previsão à recomendação
+
+[706] A previsão pontual não é, sozinha, a decisão de produção. Um modelo pode estimar que o consumo esperado seja determinado valor, mas a gestão precisa considerar risco de falta, risco de sobra, capacidade operacional, compra de insumos, calendário e conhecimento local. Por isso, o artefato inclui um subsistema decisório que transforma previsão em cenários de planejamento para compras e produção.
+
+[707] O subsistema decisório aplica margens às previsões e permite comparar os planos com as reservas nas mesmas datas. Na seleção temporal, modelo e margem são escolhidos apenas com anos anteriores ao teste. Os pesos entre falta e excesso são cenários analíticos, não custos observados. A margem altera a quantidade planejada, mas não corrige a previsão nem comprova redução de sobras físicas. 
+
+[708] Nas novas emissões, cada janela mantém a previsão pura e dois cenários: moderado, com acréscimo fixo de dez refeições; e conservador, com acréscimo baseado no percentil 90 dos erros, calculados como consumo observado menos previsão, no mínimo dez refeições. O percentil utiliza erros de 2023-2025 anteriores à origem, próprios do modelo e da janela. O plano é arredondado para o inteiro superior. Para preparo, registra-se também a alternativa de 25% da previsão sem reservas mais 75% do quantitativo recebido mais dez refeições. Essa alternativa já contém margem e não recebe outro acréscimo moderado ou conservador. Percentis históricos não garantem cobertura futura.
+
+[709] O quantitativo institucional pode participar da avaliação como referência, entrar como atributo de um modelo histórico ou ser combinado com uma previsão já produzida. Esses usos são distintos. Na versão preparada para acompanhamento, a previsão de compras utiliza somente consumo anterior, cardápio e calendário, sem substituir o quantitativo futuro por valores inventados. Na sexta seguinte, a saída de preparo atualiza a estimativa das mesmas refeições com o histórico então disponível; quando recebido, o quantitativo institucional permite a combinação posterior. A previsão pura e seus cenários continuam disponíveis se o quantitativo não chegar. Estimativas baseadas em quantitativos passados permanecem experimentos separados, sem integração automática ao protocolo.
+
+[710] As políticas consideradas nas duas janelas estão descritas no Quadro 15.
+
+[711] Quadro 15 - Políticas de decisão consideradas no desenvolvimento do artefato
+
+[712] Política | Lógica | Uso gerencial
+Sem margem | Previsão pura, arredondada para o inteiro superior. | Referência em ambas as janelas; permite separar o erro do modelo do efeito da margem.
+Moderada | Acrescenta dez refeições à previsão de cada janela e arredonda para cima. | Cenário de acréscimo fixo; seu efeito em excesso e déficit será comparado com o plano puro.
+Conservadora | Acrescenta o P90 dos erros históricos do modelo e da janela, no mínimo dez refeições. | Cenário de maior proteção potencial contra falta; pode elevar o excesso e não garante cobertura futura.
+Contextual | Margens por resíduos anteriores e dia da semana; efeitos de eventos e período do ano ainda não validados. | Cenário experimental; adoção depende de estabilidade em novas datas.
+
+[713] Fonte: Dados da Pesquisa (2026).
+
+[714] Os termos moderada e conservadora indicam prioridades de planejamento. Cada cenário deve ser acompanhado da regra de cálculo, do conjunto usado para calibrá-la e da versão da emissão. Uma margem maior pode reduzir o déficit potencial e elevar o excesso; esses rótulos não asseguram cobertura futura nem representam uma tolerância institucional já aprovada. A previsão pontual permanece registrada para permitir avaliar separadamente o efeito da margem.
+
+[715] 4.9 Fluxo operacional de uso
+
+[716] O uso pretendido começa em modo sombra: as previsões são registradas para comparação, enquanto a gestão mantém o processo vigente de produção. Na mesma sexta-feira, o artefato emite a atualização para preparo da próxima semana e a estimativa para compras da semana posterior, conforme as datas elegíveis. Cada emissão guarda data e hora reais e uma cópia das informações disponíveis. Após o serviço, registram-se consumo, quantidade produzida, quantitativo institucional, sobras e faltas, quando disponíveis. Esse fluxo está representado na Figura 6; um piloto supervisionado depende da avaliação dessas previsões nas mesmas datas do processo institucional.
+
+[717] Figura 6 - Fluxo operacional do artefato
+
+[719] Fonte:  Dados da Pesquisa (2026).
+
+[720] Na Figura 6, estão representados os prazos nominais de três a sete dias para preparo e dez a quatorze dias para compras, contados da sexta-feira de referência. A saída de compras funciona sem o quantitativo da semana-alvo. Na sexta seguinte, a estimativa anterior permanece preservada e recebe uma atualização para preparo, com combinação opcional quando o quantitativo estiver disponível. A data real de emissão determina a antecedência efetivamente entregue: uma execução no sábado ou domingo não recebe retroativamente o prazo de sexta-feira. As margens pertencem ao modelo e à janela correspondentes; não são transferidas automaticamente entre as duas saídas.
+
+[721] Na Figura 6, a gestora mantém a decisão sobre a quantidade a preparar. Ela pode considerar situações ausentes dos dados, como eventos de última hora, alterações no calendário ou problemas de fornecimento. O registro desses ajustes permitirá avaliar separadamente a previsão e o plano efetivamente adotado.
+
+[722] Depois da decisão e do atendimento, o consumo real observado deve ser registrado. O confronto posterior mantém separadas a estimativa de compras, sua atualização para preparo, a alternativa combinada e a quantidade efetivamente adotada pela gestora. Esses registros alimentam o monitoramento e futuras revisões do artefato. Uma revisão de modelo ou margem recebe nova identificação e não substitui retroativamente as emissões já avaliadas.
+
+[723] 4.10 Saídas do artefato
+
+[724] As saídas do artefato foram pensadas para públicos diferentes. Para o pesquisador, incluem bases, previsões, métricas, modelos serializados, gráficos e tabelas. Para o gestor, incluem estimativa para compras, atualização para preparo, quantidade sugerida por política e indicadores de excesso e déficit potenciais e razão entre os totais de plano e consumo. Ambas as saídas informam prazo real, versão e informações utilizadas.
+
+[725] As saídas e seus usuários estão relacionados no Quadro 16.
+
+[726] Quadro 16 - Saídas e usuários do artefato
+
+[727] Saída | Usuário principal | Função
+Previsão para preparo e para compras | Gestão e pesquisa | Estimar a próxima semana (3–7 dias) e a posterior (10–14 dias), somente nos almoços elegíveis.
+Cenários de margem | Gestão | Mostrar pura, +10 e P90 em ambas as janelas; no preparo, combinação opcional de 25% da previsão +75% do quantitativo +10.
+Indicadores operacionais | Gestão e banca | Informar erros e riscos potenciais; resultados operacionais exigem medição própria.
+Arquivos de métricas | Pesquisa | Permitir rastreabilidade e comparação entre modelos.
+Gráficos e tabelas | Pesquisa, seminário e gestão | Comunicar evidências de forma compreensível.
+Registro de previsões diárias | Pesquisa e monitoramento | Guardar prazo real, origem, versão, entradas e vínculo compras–preparo; preservar atualizações para comparação posterior.
+
+[728] Fonte: Dados da Pesquisa (2026).
+
+[729] No Quadro 16, estão identificadas as informações destinadas às compras e ao preparo. A utilidade depende do prazo em que a estimativa chega e da interpretação dos riscos de cada cenário. Excesso e déficit potenciais e razão entre os totais de plano e consumo descrevem cenários de planejamento; produção, sobras físicas e atendimento exigem registros próprios.
+
+[730] 4.11 Transparência, explicabilidade e limites do artefato
+
+[731] A transparência do artefato não significa que todo modelo tenha uma fórmula simples de leitura imediata. Significa que o processo de construção, entrada, transformação, validação e saída é documentado. Também significa que a lógica das famílias de modelos é explicada e que as recomendações são apresentadas junto de métricas compreensíveis.
+
+[732] Em modelos baseados em árvores, especialmente florestas e ExtraTrees, a explicação individual de cada previsão pode ser complexa porque a estimativa resulta da média de muitas árvores. Ainda assim, é possível explicar a propriedade do método: cada árvore divide os dados em grupos por regras de atributos, calcula médias nos grupos finais e o conjunto de árvores reduz instabilidade por agregação. Essa explicação é suficiente para que leitores não técnicos compreendam a natureza estatística da previsão, mesmo sem percorrer todas as regras internas.
+
+[733] O artefato também possui limites. Ele depende da qualidade dos dados disponíveis, da estabilidade relativa dos padrões históricos e da disponibilidade das variáveis na data e hora de emissão das previsões. Mudanças bruscas de comportamento, alterações institucionais, eventos não registrados ou problemas de coleta podem reduzir sua aderência. Por isso, o sistema deve ser usado com monitoramento, revisão periódica e possibilidade de recalibração.
+
+[734] 4.12 Aderência ao problema de compras, produção e sustentabilidade
+
+[735] A estimativa de dez a quatorze dias destina-se à programação das compras de insumos, antes do recebimento do quantitativo institucional da semana-alvo. Uma semana depois, a atualização de três a sete dias pode apoiar descongelamento e preparo. A antecedência é um critério de utilidade a avaliar junto com erro, déficit e excesso potenciais: uma estimativa disponível antes pode apoiar uma decisão que ainda não dispõe do quantitativo institucional. Redução de estoques, compras emergenciais e despesas permanece uma hipótese de uso, condicionada a acompanhamento e medição no serviço.
+
+[736] A conexão com sustentabilidade ocorre pela tentativa de reduzir desequilíbrios entre produção e consumo. Sobra representa uso de alimento, energia, trabalho e recursos acima da demanda efetiva. Falta representa insuficiência de atendimento e pode gerar impactos sociais e institucionais. O artefato atua justamente nesse ponto: melhorar a informação disponível antes da produção para apoiar decisões que equilibrem atendimento e redução de desperdício.
+
+[737] O produto técnico organiza a previsão e sua conversão em cenários diários, preservando a estimativa para compras e a atualização posterior para preparo. Melhorias em compras, descongelamento, preparo e sustentabilidade são finalidades de uso a avaliar no serviço, não resultados medidos por este experimento.
+
+[738] A gestora mantém a decisão sobre o quantitativo. O registro prospectivo deve permitir documentar alterações humanas e suas justificativas, para avaliar o modelo e o plano efetivamente adotado em separado.
+
+[739] 4.13 Síntese do modelo sistêmico
+
+[740] O modelo sistêmico do artefato integra dados, atributos, modelos e políticas de decisão em uma estrutura orientada ao planejamento da produção de refeições. Suas entradas representam sinais operacionais e contextuais; suas camadas organizam a base analítica; seus modelos estimam consumo esperado; suas políticas de margem transformam previsão em cenários; e suas saídas apoiam produção, compras, monitoramento e comunicação científica.
+
+[741] As configurações avaliadas diferem pelas fontes disponíveis: (1) consumo histórico, cardápio e calendário; (2) essa base + reservas; (3) essa base + clima sem reservas; e (4) essa base + reservas + clima. O baseline de reservas é avaliado em separado, no nível agregado, sem classificar individualmente o comparecimento.
+
+[742] Os componentes do artefato foram descritos neste capítulo. No capítulo seguinte, são apresentados e discutidos os resultados da avaliação.
+
+[743] 4.14 Evolução dos ciclos do artefato e configuração avaliada

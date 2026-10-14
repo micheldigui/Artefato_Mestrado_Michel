@@ -1,0 +1,421 @@
+Universidade Federal de Goiás
+Instituto de Informática
+Prof. Dr. Ronaldo Martins da Costa
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Nos algoritmos estudados temos sempre dados históricos (DataSet)
+◆ Um conjunto X → Y onde:
+Regressão
+● X variável de entrada
+● Y variável alvo
+Área Quartos Preço
+100 3 500.000
+120 4 650.000
+80 2 350.000
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Nos algoritmos estudados temos sempre dados históricos (DataSet)
+◆ Um conjunto X → Y onde: Aprendizado Supervisionado
+● X variável de entrada
+Idade Oldpeak FC máxima Doença
+● Y variável alvo
+45 0.0 170 Não
+50 0.5 160 Não
+52 0.8 155 Não
+60 2.0 130 Sim
+65 2.5 120 Sim
+70 3.0 110 Sim
+X Y
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Nos algoritmos estudados temos sempre dados históricos (DataSet)
+◆ Um conjunto X → Y onde: Aprendizado NÃO Supervisionado
+● X variável de entrada
+Idade Oldpeak FC máxima
+● Y variável alvo
+45 0.0 170
+50 0.5 160
+52 0.8 155
+60 2.0 130
+65 2.5 120
+70 3.0 110
+X
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Mas…
+◆ Como treinar um robô para aprender uma ação quando não possuímos um dataset com
+todas as ações possíveis?
+◆ Como ensinar um agente a jogar quando não sabemos previamente qual é a melhor
+jogada em cada situação?
+Aprendizado de Máquina - Aprendizado por Reforço
+Paradigma Dados de Entrada Objetivo
+Supervisionado X + Y Prever Y
+Não Supervisionado X Descobrir padrões
+Reforço Interação Maximizar recompensa
+DADOS
+AGENTE
+Aprendizado de ↓
+Aprendizado ↓ ação
+Máquina MODELO
+por Reforço AMBIENTE
+Tradicional ↓
+↓
+PREDIÇÃO
+novo estado + recompensa
+↓
+AGENTE
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Elementos principais no Aprendizado por Reforço
+◆ Agente
+◆ Ambiente
+◆ Estado
+◆ Ação
+◆ Recompensa
+◆ Política
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Agente
+◆ É o tomada-de-decisão, a "entidade" que toma ações para aprender uma
+tarefa
+◆ Não possui instruções explícitas de como agir; em vez disso, ele aprende por
+tentativa e erro, interagindo continuamente com o Ambiente
+Elemento 🎮 Pac-Man 🚗 Carro Autônomo 📈 Algoritmo Financeiro 🐕 Adestrar um Cão
+Código do Sistema de IA do O bot/algoritmo de
+O Agente O cão
+Pac-Man veículo negociação
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Ambiente
+◆ Todo o mundo externo com o qual o algoritmo (agente) interage. É o cenário,
+o sistema ou o problema que o agente precisa aprender a navegar ou
+resolver
+Elemento 🎮 Pac-Man 🚗 Carro Autônomo 📈 Algoritmo Financeiro 🐕 Adestrar um Cão
+Código do Sistema de IA do O bot/algoritmo de
+O Agente O cão
+Pac-Man veículo negociação
+Labirinto,
+Rua, trânsito e O mercado financeiro
+O Ambiente fantasmas e Casa e o dono
+pedestres (bolsa de valores)
+pílulas
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Como o Ambiente se comunica com o Agente? A interação ocorre em um ciclo
+contínuo em três passos:
+◆ Estado (S): O ambiente apresenta ao agente a sua situação atual.
+t
+● Exemplo: Em um jogo de xadrez, o estado é a posição exata de todas
+as peças no tabuleiro
+◆ Ação (A): O agente toma uma decisão e envia uma ação para o ambiente.
+t
+● Exemplo: Mover o cavalo para a casa C3
+◆ Novo Estado (S ) e Recompensa (R ): O ambiente processa a ação,
+t+1 t+1
+muda para um novo estado e devolve um sinal de recompensa (positivo,
+negativo ou neutro) para indicar se a ação foi boa ou ruim
+● Exemplo: O tabuleiro atualiza a nova posição das peças e dá +10
+pontos se o movimento capturou uma peça adversária.
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Os ambientes podem ter características bem diferentes, o que altera a
+complexidade do problema:
+◆ Determinístico vs. Estocástico: O próximo estado é 100% previsível após
+uma ação (ex: xadrez) ou envolve incerteza e "sorte" (ex: pôquer, onde as
+cartas são sorteadas)?
+◆ Totalmente Observável vs. Parcialmente Observável: O agente consegue
+ver todo o ambiente (ex: tabuleiro aberto) ou só parte dele (ex: um robô em
+uma sala escura que só enxerga com o alcance dos seus sensores)?
+◆ Discreto vs. Contínuo: As ações/estados são passos contáveis (ex: mover
+para cima, baixo, esquerda) ou valores contínuos (ex: ajustar o ângulo do
+volante em 12,4 graus)?
+➔ Em resumo, o ambiente define as regras do jogo, os desafios e o feedback que
+ensinam o agente a tomar decisões cada vez melhores.
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Estado
+◆ É uma fotografia instantânea de como o ambiente se encontra em um
+determinado momento. Ele representa todas as informações que o agente
+possui para decidir qual será sua próxima ação
+Elemento 🎮 Pac-Man 🚗 Carro Autônomo 📈 Algoritmo Financeiro 🐕 Adestrar um Cão
+Código do Sistema de IA do O bot/algoritmo de
+O Agente O cão
+Pac-Man veículo negociação
+Labirinto,
+Rua, trânsito e O mercado financeiro (bolsa
+O Ambiente fantasmas e Casa e o dono
+pedestres de valores)
+pílulas
+Velocidade e Histórico de preços,
+Posição no Ouvir a palavra
+O Estado (S) distância dos indicadores (RSI, Média
+labirinto "Senta!"
+carros Móvel) e carteira atual
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Dependendo do problema, o estado pode ser representado por diferentes tipos de
+dados:
+◆ Em um videogame:
+● A matriz de pixels da tela atual (ou das últimas 4 telas para capturar o
+movimento/velocidade)
+◆ Em um robô:
+● Uma lista de números com: posição, velocidade, ângulo,
+◆ No mercado financeiro:
+● Um vetor com histórico de preços das ações, volume negociado, saldo
+disponível em conta e quantidade de ativos em carteira
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Ação
+◆ Qualquer decisão, movimento ou escolha que o agente pode fazer para
+interagir com o ambiente em um determinado momento
+Elemento 🎮 Pac-Man 🚗 Carro Autônomo 📈 Algoritmo Financeiro 🐕 Adestrar um Cão
+Código do Sistema de IA do O bot/algoritmo de
+O Agente O cão
+Pac-Man veículo negociação
+Labirinto,
+Rua, trânsito e O mercado financeiro (bolsa
+O Ambiente fantasmas e Casa e o dono
+pedestres de valores)
+pílulas
+Histórico de preços,
+Posição no Velocidade e Ouvir a palavra
+O Estado (S) indicadores (RSI, Média
+labirinto distância dos carros "Senta!"
+Móvel) e carteira atual
+Mover (cima, Acelerar, frear ou Comprar, Vender ou Sentar, latir ou
+A Ação (A)
+baixo, esq, dir) virar Manter o ativo correr
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ As ações podem ser:
+◆ Explotação (Exploitation):
+● O agente escolhe a ação que ele já sabe que traz a maior recompensa
+com base na sua experiência passada
+◆ Exploração (Exploration):
+● O agente escolhe uma ação nova ou aleatória para testar o ambiente e
+descobrir se existe uma estratégia ainda melhor do que a atual
+◆ Exemplo:
+● Conheço um bom restaurante. Vou sempre voltar a ele para comer ou
+vou buscar conhecer novos restaurantes ?
+Aprendizado de Máquina - Aprendizado por Reforço
+𝟄
+➔ Estratégia -Greedy
+◆ é um método simples e muito eficiente para resolver o dilema de Exploração
+vs. Explotação no Aprendizado por Reforço
+◆ Exemplo prático
+● Imagine que você vai almoçar fora:
+𝟄
+● = 0.1 (10% das vezes - Exploração): Você decide ir a um restaurante
+novo que nunca testou. Pode ser péssimo, mas você também pode
+descobrir o seu novo restaurante favorito da vida
+𝟄
+● = 0.9 (90% das vezes - Explotação): Você vai ao restaurante que você
+já conhece e sabe que a comida é ótima
+Aprendizado de Máquina - Aprendizado por Reforço
+𝟄
+➔ Estratégia -Decay
+◆ Se o agente mantiver um 𝟄 fixo para sempre, mesmo depois de aprender
+perfeitamente como resolver o ambiente, ele ainda tomará ações aleatórias
+inúteis
+◆
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Recompensa
+◆ É o meio pelo qual dizemos ao agente o que é "bom" e o que é "ruim"
+Elemento 🎮 Pac-Man 🚗 Carro Autônomo 📈 Algoritmo Financeiro 🐕 Adestrar um Cão
+Sistema de IA do
+O Agente Código do Pac-Man O bot/algoritmo de negociação O cão
+veículo
+Labirinto, fantasmas Rua, trânsito e O mercado financeiro (bolsa de
+O Ambiente Casa e o dono
+e pílulas pedestres valores)
+Histórico de preços, indicadores
+Velocidade e distância Ouvir a palavra
+O Estado (S) Posição no labirinto (RSI, Média Móvel) e carteira
+dos carros "Senta!"
+atual
+Mover (cima, baixo, Comprar, Vender ou Manter o
+A Ação (A) Acelerar, frear ou virar Sentar, latir ou correr
+esq, dir) ativo
+Lucro (+ R$) com a operação /
+A Recompensa +10 (pílula) / -500 +1 (andar seguro) / -1000 Petisco (+1) /
+Prejuízo (- R$) ou taxas de
+(R) (fantasma) (colisão) Nenhum petisco (0)
+corretagem
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Política
+𝝅
+◆ Representada pela letra grega é a "estratégia" ou o "manual de
+instruções" que o agente usa para decidir qual ação tomar ao se deparar
+com um determinado estado
+◆ O objetivo do algoritmo de Aprendizado por Reforço é encontrar a política
+𝝅
+ótima , ou seja, a melhor estratégia possível que maximize as
+recompensas acumuladas a longo prazo
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Política
+◆ Determinística
+● Dado um estado, a política retorna sempre a mesma ação. Não há
+incerteza nem aleatoriedade
+◆ Estocástica
+● Dado um estado, a política retorna uma distribuição de probabilidade
+sobre todas as ações possíveis
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Decisões e Markov Decision Process (MDP)
+◆ Nos modelos anteriormente estudados, uma previsão normalmente não
+modifica o próximo dado
+● Prever preço de uma casa (A previsão não altera o imóvel)
+◆ Em aprendizado por reforço, a decisão atual influencia as situações futuras
+● Jogo de Xadrez, Movimento de um robô
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Decisões e Markov Decision Process (MDP)
+◆ Se o estado, a ação e a recompensa são as "peças" do jogo, o MDP é a
+matemática que define as regras de como essas peças funcionam juntas ao
+longo do tempo
+◆ O MDP recebe esse nome porque se baseia na Propriedade de Markov:
+● "O futuro é independente do passado, dado o presente."
+● Matematicamente, isso significa que para prever o próximo estado e a
+próxima recompensa, você só precisa saber o estado atual e a ação
+atual. Não importa todo o histórico de estados e decisões que o agente
+tomou até chegar ali
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Decisões e Markov Decision Process (MDP)
+𝛾
+◆ MDP é representado por uma tupla de 5 elementos: (S, A, P, R, )
+● S → Todos os estados possíveis que o ambiente pode assumir
+● A → Todas as ações possíveis que o agente pode executar
+● P → A probabilidade de ir do estado s para o estado s' ao tomar a ação a
+● R → O valor numérico esperado retornado ao transitar do estado s para s'
+através da ação a
+𝛾
+● → Um número entre 0 e 1 que define o quanto o agente valoriza
+recompensas futuras em comparação com recompensas imediatas
+𝛾
+○ Se → 0: O agente é "míope" (só quer saber de ganhos imediatos)
+𝛾
+○ Se → 1: O agente é "visionário" (dá alto valor às recompensas futuras)
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Decisões e Markov Decision Process (MDP)
+◆ Resolver um MDP significa encontrar uma política ótima que maximize o retorno
+acumulado
+◆ A matemática do MDP nos garante que, se o problema puder ser formulado dessa
+forma, sempre existirá uma política ótima determinística que resolve o problema da
+melhor maneira possível
+Aprendizado de Máquina - Aprendizado por Reforço
+Aprendizado Supervisionado
+Aspecto Aprendizado por Reforço (RL)
+(Ex: Random Forest)
+Dataset pré-coletado e estático Coletados em tempo real pelas ações
+Origem dos Dados
+(passado) do agente
+Testar diferentes combinações de
+Testar diferentes ações desconhecidas
+O que é "Explorar"? hiperparâmetros (Grid/Random
+𝟄
+no ambiente ( -Greedy)
+Search)
+Quando ocorre a Na etapa de ajuste e validação do Durante todo o ciclo de vida e treino
+exploração? modelo (Tuning) do agente
+Tomar uma ação ruim no treino faz o
+Escolher uma configuração ruim gera
+Impacto da escolha agente "sofrer" uma penalidade no
+um modelo ruim no treino
+ambiente
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Função de Valor de Estado: V(s)
+◆ A Função de Valor calcula o retorno total esperado a partir do estado s, assumindo
+𝝅
+que o agente continuará seguindo a sua política atual
+◆ O que ela pergunta: "Estar neste estado s é bom ou ruim para mim no geral?"
+◆ Uso: Avaliar o quão promissora é uma situação/posição
+● Exemplo (Xadrez): V(s) avalia o tabuleiro atual. Estar em um estado onde
+você tem a Rainha e o Rei do oponente está encurralado tem um valor V(s)
+altíssimo, independentemente de qual peça você mover agora
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Função Q (Valor de Ação-Estado): Q(s, a)
+◆ A Função Q (ou Action-Value Function) calcula o retorno total esperado se o agente
+estiver no estado s, tomar uma ação específica a agora, e só depois disso
+𝝅
+continuar seguindo a sua política
+◆ O que ela pergunta: "Se eu estiver no estado s e tomar especificamente a ação a,
+qual será o meu resultado no futuro?"
+◆ Uso: Escolher ativamente a melhor decisão a ser tomada no momento
+● Exemplo (Xadrez): Q(s, a) avalia uma jogada específica. No estado atual s,
+qual é o valor de mover a Torre para a casa D8 (a ) versus mover o Bispo para
+1
+C4 (a )?
+2
+Aprendizado de Máquina - Aprendizado por Reforço
+Característica Função de Valor V(s) Função Q Q(s,a)
+Entrada Apenas o Estado (s) Estado (s) + Ação (a)
+Foco Avaliação do ambiente Tomada de decisão direta
+Pergunta "Quão bom é estar aqui?" "Quão bom é tomar esta ação aqui?"
+Algoritmo famoso Actor-Critic, Policy Evaluation Q-Learning, SARSA, DQN
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Equação de Bellman
+◆ Criada pelo matemático Richard Bellman na década de 1950 e
+resolve um problema simples, mas fundamental:
+◆ como calcular o valor de uma decisão hoje pensando em todas as
+consequências futuras?
+◆ O segredo é quebrar uma decisão de longo prazo em duas partes:
+● Valor do Estado Atual = Recompensa Imediata + Valor do Próximo Estado
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Equação de Bellman
+◆ Imagine que você está em um jogo e quer saber o "valor" da sua
+posição atual:
+● O que você ganha agora: A pontuação imediata que o jogo te
+dá pela ação que acabou de fazer
+● O que você ganha depois: O valor estimado de estar na
+posição em que você vai parar no próximo segundo
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Equação de Bellman
+◆ Para a Função de Valor:
+◆ Para a Função de Q:
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Equação de Bellman
+◆ Sem a Equação de Bellman, um algoritmo de IA precisaria simular
+um jogo do início até o fim completo milhares de vezes para
+conseguir avaliar se uma ação no passo 1 foi boa ou ruim
+◆ Com a Equação de Bellman, o agente pode atualizar o seu
+conhecimento a cada único passo, comparando o que ele
+esperava receber com o que ele realmente recebeu
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Q-Learning
+◆ O Q-Learning é um dos algoritmos mais famosos e fundamentais
+do Aprendizado por Reforço
+◆ Criado por Christopher Watkins em 1989
+◆ O objetivo do Q-Learning é aprender a Função Q(s, a), ou seja,
+descobrir uma tabela de valores que indica quão boa é cada ação
+a em cada estado s
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Q-Learning - A tabela Q
+◆ Em sua forma clássica, o Q-Learning guarda o conhecimento do
+agente em uma matriz simples chamada Q-Table:
+● Linhas: Representam os Estados (s)
+● Colunas: Representam as Ações (a)
+● Células: Guardam o Q-Value (valor Q), um número que
+representa o retorno futuro esperado para aquele par (s, a)
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Q-Learning - A tabela Q
+◆ Quando o robô está em cima da sujeira, ele consulta a tabela e escolhe a ação
+com maior valor Q: Aspirar (+10.0)
+Estado (s) Mover Frente (a1) Virar Esquerda (a2) Aspirar (a3)
+Em frente ao sofá 1.2 0.5 -5.0
+Em cima da sujeira -1.0 -0.2 +10.0
+Frente a uma parede -10.0 +3.5 -1.0
+◆ A cada passo no tempo, o agente usa a Equação de Bellman para atualizar os
+valores da tabela com base na sua experiência real
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Q-Learning - A tabela Q - Algoritmo de Atualização
+◆ Inicialização: Preenche a Q-Table com zeros (ou valores
+aleatórios)
+◆ Observação: Lê o estado atual s
+◆ Escolha da Ação: Seleciona uma ação a usando a estratégia
+-Greedy (combina exploração e explotação)
+𝟄
+◆ Execução: Executa a ação no ambiente e observa a recompensa
+R e o novo estado s'
+◆ Atualização: Calcula o novo Q-Value Q(s, a)
+◆ Repetição: Define s = s' e repete até o ambiente terminar (fim do
+episódio)
+Aprendizado de Máquina - Aprendizado por Reforço
+➔ Relação com os modelos avançados de redes generativas
+◆ O Aprendizado por Reforço (RL) e os Modelos Generativos não
+apenas se cruzam, mas alimentam e aprimoram um ao outro nas
+IAs mais avançadas da atualidade
+◆ Enquanto os modelos generativos tradicionais aprendem a "imitar
+dados" (prever a próxima palavra ou pixel), o RL entra para guiar o
+processo de geração em direção a metas específicas, regras e
+preferências humanas
+Aprendizado de Máquina - Aprendizado por Reforço
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/reforco_01.py
+Universidade Federal de Goiás
+Instituto de Informática
+Prof. Dr. Ronaldo Martins da Costa

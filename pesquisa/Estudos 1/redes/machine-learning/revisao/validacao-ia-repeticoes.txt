@@ -1,0 +1,63 @@
+# Pacote de validacao de conceitos repetidos
+
+Este arquivo reune notas candidatas que foram identificadas como repetidas de conceitos canonicos.
+A nota canonica deve ser preservada. A analise deve extrair apenas informacoes novas ou correcoes.
+
+## Prompt para a IA
+
+Compare cada nota candidata com a nota canonica indicada.
+Nao reescreva a nota inteira.
+Nao invente fatos, fontes, paginas ou links.
+Se a nota candidata apenas repetir o conteudo canonico, use discard.
+Se houver informacao nova confiavel, use incorporate e proponha operacoes pequenas e localizadas.
+Se houver conflito, ambiguidade ou risco de alterar o significado, use manual_review.
+Retorne somente um objeto JSON valido, sem cercas Markdown e sem comentarios.
+
+## Schema obrigatorio da resposta
+
+```json
+{
+  "version": "1.0",
+  "decisions": [
+    {
+      "review_id": "nome-do-arquivo-de-revisao",
+      "canonical_path": "redes/ai-engineering/conceitos/conceito.md",
+      "action": "incorporate|discard|manual_review",
+      "confidence": "alta|media|baixa",
+      "reason": "explicacao curta",
+      "updates": [
+        {
+          "operation": "append_to_section|replace_section|add_relation",
+          "section": "## Nome da secao",
+          "target": "redes/ai-engineering/conceitos/outro-conceito.md",
+          "content": "texto novo ou corrigido"
+        }
+      ],
+      "source_evidence": {
+        "source_id": "...",
+        "chapter": "...",
+        "location": "...",
+        "summary": "parafrase fiel da evidencia"
+      }
+    }
+  ]
+}
+```
+
+Regras para updates:
+- use append_to_section somente para informacao realmente nova;
+- use replace_section somente quando houver erro factual claro e indique o motivo;
+- use add_relation apenas para links que existam no vault ou estejam entre os casos desta rodada;
+- para discard, mantenha updates vazio;
+- para manual_review, nao proponha alteracao automatica perigosa;
+
+## Contrato de cobertura
+
+A resposta deve conter exatamente 0 objeto(s) em decisions, um para cada review_id abaixo.
+Nao omita casos e nao crie review_id que nao esteja nesta lista.
+
+
+Use caminhos relativos ao vault com barras normais (/).
+Nao inclua texto antes ou depois do objeto JSON.
+
+## Total de casos: 0

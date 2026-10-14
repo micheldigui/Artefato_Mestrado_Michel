@@ -1,0 +1,149 @@
+# 🧠 Modelos Abertos versus APIs Proprietárias
+
+**Rede:** `ai-engineering`  
+**Área:** `arquitetura`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 4 — Evaluate AI Systems
+- Localização: Páginas 181–191
+
+## 📝 Definição
+
+### Definição formal
+
+A decisão arquitetural de **Modelos Abertos versus APIs Proprietárias** (*Open Source Models vs. Commercial Model APIs*) representa a manifestação moderna do clássico dilema *Build vs. Buy* na [[redes/ai-engineering/conceitos/engenharia-de-ia.md|Engenharia de IA]], consistindo na escolha técnica entre:
+1. **Modelos de Pesos Abertos (*Open Weights / Self-Hosted*):** Onde a organização assume o controle físico, a hospedagem em clusters de hardware e a manutenção operacional de artefatos de modelo cujos pesos matemáticos são públicos (como Llama, Mistral ou Gemma);
+2. **APIs Comerciais Proprietárias (*Model-as-a-Service — MaaS*):** Onde o modelo é consumido como uma caixa-preta gerenciada e faturada por uso através de endpoints remotos operados por terceiros (como OpenAI, Anthropic ou Google).
+
+### Em linguagem simples
+
+É a decisão entre comprar um gerador de energia e colocá-lo no porão da sua empresa (hospedar um modelo aberto) versus pagar uma conta de luz mensal para a concessionária de energia da cidade (usar a API da OpenAI ou Google). Ter o gerador dá controle total e ninguém bisbilhota o que você faz, mas exige técnicos cuidando dele todo dia; usar a concessionária é simples e imediato, mas você fica refém dos preços, das regras e das quedas de energia deles.
+
+### Escopo e distinções
+
+A terminologia exige precisão: "código aberto" (*open source*) em IA é frequentemente um termo contestado, pois a vasta maioria dos modelos livres compartilha apenas os **pesos matemáticos** (*open weights*), mantendo os conjuntos de dados de pré-treinamento e procedimentos de filtragem protegidos em segredo industrial.
+
+## 🧩 Problema que resolve
+
+Resolve a indefinição estrutural de segurança, orçamento e dependência de fornecedor (*vendor lock-in*). Permite que empresas equilibrem velocidade de lançamento com soberania sobre seus dados e previsibilidade de custos em escala.
+
+## 💡 Intuição
+
+Pense em um serviço de transporte:
+- Usar uma **API Comercial** é como andar de táxi ou transporte por aplicativo. Você não precisa comprar o carro, não troca óleo e não troca pneu. É maravilhoso para corridas eventuais. Mas se você tiver que transportar 10.000 funcionários por dia, pagar corridas individuais de táxi para cada um quebrará a empresa financeiramente.
+- Hospedar um **Modelo Aberto** é como comprar uma frota própria de vans. O investimento inicial em veículos e mecânicos é pesado, mas o custo por quilômetro rodado despenca drasticamente quando a frota roda no limite máximo o dia inteiro.
+
+## ⚙️ Como funciona
+
+A comparação fundamenta-se na análise técnica balanceada ao longo de **sete eixos fundamentais**:
+
+### Etapas
+
+1. **Privacidade e Governança de Dados:** APIs exigem enviar dados para a nuvem externa de terceiros (risco de vazamento como no caso emblemático da Samsung no ChatGPT); modelos abertos rodam isolados dentro da rede privada da empresa (*VPC*).
+2. **Linhagem e Direitos Autorais (*Copyright*):** APIs comerciais oferecem contratos com cláusulas de indenização jurídica contra processos de direitos autorais; modelos abertos transferem o risco legal integral de dados de treino desconhecidos para a empresa que os hospeda.
+3. **Desempenho da Fronteira:** Os modelos líderes mundiais tendem a permanecer proprietários e fechados atrás de APIs devido aos incentivos comerciais dos grandes laboratórios de pesquisa; modelos abertos reduzem a distância rapidamente, mas operam com um pequeno atraso histórico em tarefas de ponta extrema.
+4. **Funcionalidades Nativas:** Provedores de API entregam balanceamento de carga, execução de ferramentas (*function calling*) e saídas em JSON já otimizados; modelos abertos oferecem acesso desimpedido a *logprobs*, ativações internas e liberdade absoluta para aplicar quantização e técnicas de [[redes/ai-engineering/conceitos/ajuste-fino.md|finetuning]].
+5. **Custo de API vs. Custo de Engenharia:** APIs cobram estritamente por token de entrada/saída (custo variável linear com o tráfego); modelos locais exigem contratação contínua de GPUs caras e engenheiros especialistas para operá-las, tornando-se mais econômicos apenas acima de certos patamares massivos de volume de tokens.
+6. **Controle, Acesso e Transparência:** Provedores comerciais alteram modelos na surdina, impõem limites rígidos de requisições por minuto (*rate limits*) e podem suspender serviços; modelos abertos podem ter suas versões congeladas indefinidamente no disco.
+7. **Operação Local na Borda (*Edge*):** Apenas modelos de pesos abertos compactados podem ser implantados fisicamente em dispositivos desconectados da internet (como laptops e smartphones).
+
+### Entradas e saídas
+
+- **Entradas:** Requisitos de conformidade corporativa, volumetria de requisições projetada e capacidades da equipe técnica.
+- **Saídas:** Decisão arquitetural de compra ou hospedagem e plano de contingência para troca de fornecedores.
+
+## 📐 Formulação matemática
+
+O ponto de equilíbrio econômico (*break-even point*) onde hospedar um modelo aberto passa a ser mais barato do que pagar tokens de API ocorre quando o custo fixo mensal de infraestrutura e engenharia iguala-se ao custo marginal cumulativo das chamadas:
+
+$$C_{\text{infra\_fixo}} + C_{\text{equipe}} \le N_{\text{tokens}} \cdot \Big(P_{\text{input}} \cdot r_{\text{in}} + P_{\text{output}} \cdot r_{\text{out}}\Big)$$
+
+Onde:
+- $N_{\text{tokens}}$ é o volume mensal consolidado;
+- $P_{\text{input}}$ e $P_{\text{output}}$ são os preços cobrados pela API por milhão de tokens;
+- $r_{\text{in}}$ e $r_{\text{out}}$ são as proporções de tokens de entrada e saída no tráfego da aplicação.
+
+## 🧱 Hipóteses e condições de validade
+
+- A viabilidade de modelos abertos pressupõe que a empresa possua capacidade técnica interna para configurar drivers CUDA, servidores de inferência (vLLM, TensorRT-LLM) e balanceamento de carga sem tempo excessivo de inatividade (*downtime*).
+
+## ✅ Quando usar
+
+- **Usar APIs Comerciais:** Início de projetos, provas de conceito, empresas sem equipe especializada de infraestrutura de ML ou produtos que exigem a capacidade do modelo mais avançado do mundo.
+- **Hospedar Modelos Abertos:** Empresas com exigências regulatórias estritas de dados (bancos, defesa, saúde), sistemas com volume de milhões de requisições diárias contínuas ou produtos integrados a dispositivos móveis e sistemas embarcados.
+
+## 🚫 Quando não usar
+
+- Não insista em montar clusters próprios de GPUs apenas por preferência ideológica quando a demanda da sua aplicação é de apenas 100 requisições esporádicas por dia.
+
+## ⚠️ Limitações e armadilhas
+
+- **A ilusão da gratuidade do open source:** Achar que baixar um modelo aberto do Hugging Face significa "inteligência gratuita". O custo de aluguel de instâncias de GPUs de 80 GB na nuvem e os salários de engenheiros especializados podem superar com folga a fatura da API comercial.
+- **Mudanças não documentadas em APIs:** Confiar cegamente em APIs para sistemas críticos sem salvar prompts e respostas pode resultar em quebras inesperadas de produção quando o provedor atualiza o modelo subjacente.
+
+## 🔍 Comparações
+
+| Eixo de Decisão | APIs Comerciais (MaaS) | Modelos Abertos Auto-Hospedados |
+|---|---|---|
+| **Controle de versão** | Baixo (provedores atualizam ou depreciam) | **Total (você congela o arquivo de pesos)** |
+| **Acesso a Logprobs** | Raro, restrito ou omitido | **Irrestrito em todos os níveis da rede** |
+| **Gargalo inicial** | Nenhum (apenas chave de API) | Alto (requer provisionar GPUs e pipelines) |
+| **Filtros de censura** | Rígidos e não configuráveis (recusas de modelo) | Totalmente adaptáveis às regras da empresa |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+A startup Convai constrói personagens virtuais inteligentes para videogames em 3D.
+- Inicialmente, utilizaram uma **API comercial proprietária**. Durante as sessões dos jogadores, o avatar virtual recebia a ordem `"Pegue a espada no chão"` e respondia com recusa formal: `"Como uma inteligência artificial, não tenho corpo físico nem capacidade motora para segurar objetos"`, quebrando toda a imersão do jogo. Além disso, as políticas de segurança da API barravam simulações de batalhas ficcionais.
+- A equipe migrou para **modelos de pesos abertos hospedados internamente**. Eles removeram as recusas corporativas, aplicaram ajuste fino nos pesos para que o modelo entendesse os comandos de física do motor gráfico do jogo e alcançaram latência estável sem interferência externa.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|Modelo de Fundação]]
+- [[redes/ai-engineering/conceitos/pilha-de-engenharia-de-ia.md|Pilha de Engenharia de IA]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/selecao-de-modelos-atributos-rigidos-e-flexiveis.md|Seleção de Modelos: Atributos Rígidos e Flexíveis]]
+- [[redes/ai-engineering/conceitos/ajuste-fino.md|Ajuste Fino (Finetuning)]]
+
+### Alternativas
+
+- Nenhuma relação suficientemente sustentada pelo capítulo (representa os dois polos fundamentais da tomada de decisão de arquitetura).
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/contaminacao-de-dados-em-benchmarks.md|Contaminação de Dados em Benchmarks]]
+- [[redes/ai-engineering/conceitos/defensabilidade-de-produto-de-ia.md|Defensabilidade de Produto de IA]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 4 — Evaluate AI Systems
+- **Localização:** Páginas 181–191
+- **Evidência:** Chip Huyen consolida a comparação entre APIs e modelos abertos na Tabela 4-4, analisa as motivações empresariais de controle e customização documentadas pela pesquisa da a16z (2024) e relata casos práticos como o banimento do ChatGPT pela Samsung e o problema de recusas de modelos enfrentado pela Convai.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. Quais são os sete eixos analíticos de decisão utilizados para arbitrar o dilema entre modelos abertos e APIs comerciais?
+2. Por que o termo "modelo de pesos abertos" (*open weights*) é frequentemente mais preciso tecnicamente do que "modelo open source"?
+3. Como o vazamento de segredos industriais da Samsung exemplifica os riscos de governança ao utilizar APIs de modelos externos?
+4. Qual é a justificativa de incentivos econômicos apresentada no texto para explicar por que os modelos líderes tendem a permanecer proprietários?
+5. Em que circunstâncias financeiras de volume de requisições a hospedagem própria de modelos abertos torna-se mais vantajosa do que pagar por tokens de API?
+6. Por que o acesso livre a *logprobs* em modelos abertos é um recurso valioso para tarefas de classificação e avaliação sistêmica?
+7. Como o caso da empresa Convai ilustra as limitações de guardrails rígidos de APIs comerciais em aplicações de jogos e entretenimento?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

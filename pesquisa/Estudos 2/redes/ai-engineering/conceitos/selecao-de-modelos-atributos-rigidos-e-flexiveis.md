@@ -1,0 +1,150 @@
+# 🧠 Seleção de Modelos: Atributos Rígidos e Flexíveis
+
+**Rede:** `ai-engineering`  
+**Área:** `metodologia`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 4 — Evaluate AI Systems
+- Localização: Páginas 179–181
+
+## 📝 Definição
+
+### Definição formal
+
+O processo de **Seleção de Modelos** na Engenharia de IA é o workflow sistemático e iterativo pelo qual uma equipe avalia, compara e escolhe o [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|modelo de fundação]] mais adequado para um produto, orientando-se pela separação fundamental entre duas classes de propriedades:
+1. **Atributos Rígidos (*Hard Attributes*):** Restrições exógenas inegociáveis ou estruturais que o desenvolvedor não tem capacidade prática de alterar (termos de licenciamento comercial, requisitos legais de soberania e privacidade de dados, limites físicos de memória da infraestrutura disponível e comprimento máximo de contexto do modelo);
+2. **Atributos Flexíveis (*Soft Attributes*):** Propriedades qualitativas e operacionais passíveis de aprimoramento e otimização por engenharia ao longo do ciclo de desenvolvimento (acurácia de respostas, obediência a esquemas, factualidade, toxicidade e latência).
+
+### Em linguagem simples
+
+É a estratégia inteligente de escolher qual modelo de IA usar sem perder tempo testando opções que você nunca poderá colocar no ar. Primeiro você descarta todos os modelos que são proibidos pelas regras da sua empresa (leis de sigilo, preço inviável ou licença comercial proibitiva — os atributos rígidos). Só depois você gasta tempo testando qual dos modelos aprovados é mais inteligente e rápido (os atributos flexíveis).
+
+### Escopo e distinções
+
+Diferencia-se da escolha por pura tabela de liderança acadêmica. A categorização de um atributo como rígido ou flexível depende do caso de uso e do controle sobre o modelo: a latência é um atributo flexível se você hospeda os pesos e pode aplicar otimizações de compilação; mas torna-se um atributo rígido se você consome uma API comercial fechada de terceiros cuja velocidade você não controla.
+
+## 🧩 Problema que resolve
+
+Evita o desperdício de semanas de trabalho técnico otimizando prompts e refinando fluxos com um modelo que, no momento do lançamento, é vetado pelo departamento jurídico da empresa por violar leis de privacidade, ou vetado pela equipe de infraestrutura por não caber na placa de vídeo local.
+
+## 💡 Intuição
+
+Pense em alugar um imóvel para abrir uma loja:
+- **Atributos Rígidos:** O seu orçamento máximo de aluguel, o zoneamento da prefeitura que proíbe comércio naquele bairro e a necessidade física de ter uma porta de carga e descarga para caminhões. Se o imóvel não tiver isso, não importa se ele é lindo; ele está sumariamente descartado.
+- **Atributos Flexíveis:** A cor da pintura das paredes, a disposição das lâmpadas e a decoração da vitrine. Tudo isso você pode reformar, melhorar e adaptar ao seu gosto após a locação.
+
+## ⚙️ Como funciona
+
+O workflow de seleção articula-se em quatro passos operacionais contínuos:
+
+### Etapas
+
+1. **Filtragem por Atributos Rígidos:** Aplica-se uma triagem binária baseada nas restrições da empresa:
+   - A licença permite uso comercial sem restrição de receita?
+   - Os dados do cliente podem trafegar para servidores fora do país via API comercial?
+   - O modelo cabe na memória das GPUs da empresa?
+2. **Triagem por Informações Públicas:** Consulta-se benchmarks públicos e tabelas de liderança comparativas confiáveis para reduzir o universo de centenas de modelos candidatos a um grupo enxuto de 3 ou 4 opções promissoras.
+3. **Avaliação no Pipeline Privado:** Executam-se testes empíricos rigorosos utilizando a suíte privada de avaliação e dados reais de produção da empresa ([[redes/ai-engineering/conceitos/desenvolvimento-orientado-por-avaliacao.md|EDD]]).
+4. **Monitoramento Contínuo e Reavaliação:** O modelo escolhido é monitorado em produção; se um concorrente novo superar a relação de custo-benefício em avaliações de regressão, o ciclo se reinicia.
+
+### Entradas e saídas
+
+- **Entradas:** Diretrizes de conformidade jurídica, limites de infraestrutura, metas de acurácia e catálogo de modelos de mercado.
+- **Saídas:** A escolha fundamentada do modelo ótimo e seu posicionamento na fronteira de Pareto de custo versus qualidade.
+
+## 📐 Formulação matemática
+
+O espaço viável de modelos $\mathcal{M}_{\text{viável}}$ é delimitado pela interseção das restrições booleanas dos atributos rígidos $H_j$:
+
+$$\mathcal{M}_{\text{viável}} = \big\{ m \in \mathcal{M} \;\big|\; H_j(m) = 1, \; \forall j \in \{1, \dots, J\} \big\}$$
+
+O modelo final selecionado $m^*$ é aquele que resolve o problema de otimização de Pareto sobre os atributos flexíveis $S_k$ dentro do espaço viável:
+
+$$m^* = \arg\max_{m \in \mathcal{M}_{\text{viável}}} \sum_{k=1}^K w_k S_k(m)$$
+
+Onde $w_k$ representa os pesos de prioridade de negócio (ex.: peso da latência vs. peso da acurácia).
+
+## 🧱 Hipóteses e condições de validade
+
+- A distinção entre o que é flexível e o que é rígido deve ser formalmente alinhada entre engenharia, produto e o setor jurídico da organização antes do início da seleção.
+
+## ✅ Quando usar
+
+- Fase inicial de concepção de arquitetura de qualquer nova aplicação de IA.
+- Momentos de revisão periódica de custos de infraestrutura de sistemas legados.
+
+## 🚫 Quando não usar
+
+- Em provas de conceito exploratórias cujo único propósito é validar a viabilidade matemática de uma ideia sem pretensão de implantação em ambiente corporativo.
+
+## ⚠️ Limitações e armadilhas
+
+- **Otimismo ingênuo sobre atributos flexíveis:** Assumir que uma deficiência severa de raciocínio de um modelo minúsculo poderá ser "consertada com um prompt esperto". Se a capacidade latente base não existir, a flexibilidade é ilusória.
+- **Subestimar restrições de contexto:** Escolher um modelo com janela de 4K tokens para processar documentos que têm média de 10K tokens, tornando a solução inviável antes mesmo do primeiro teste.
+
+## 🔍 Comparações
+
+| Dimensão | Atributos Rígidos (*Hard*) | Atributos Flexíveis (*Soft*) |
+|---|---|---|
+| **Poder de alteração** | Inegociável / Impossível para a equipe | Modificável via engenharia e adaptação |
+| **Exemplos clássicos** | Licença de uso, conformidade LGPD, tamanho em VRAM | Acurácia, taxa de alucinação, formato JSON |
+| **Papel no processo** | Filtro eliminatório inicial | Critério de otimização e ranqueamento final |
+| **Impacto de violação** | Inviabiliza juridicamente ou fisicamente o produto | Gera débitos técnicos a serem melhorados |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Um banco de investimento decide lançar um copiloto de análise de relatórios financeiros de fusões e aquisições.
+- *Etapa de Atributos Rígidos:* O compliance determina que nenhum dado financeiro confidencial pode trafegar para a nuvem pública de terceiros. Todos os modelos baseados exclusivamente em APIs proprietárias externas (como GPT-4 e Claude) são **eliminados sumariamente**, não importando o quão brilhantes sejam. Restam apenas modelos de pesos abertos que podem ser hospedados internamente (Llama 3 e Mistral).
+- *Etapa de Atributos Flexíveis:* Entre os modelos abertos sobreviventes, a equipe testa a capacidade de extrair tabelas de EBITDA e seleciona o modelo que entrega a melhor factualidade local.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|Modelo de Fundação]]
+- [[redes/ai-engineering/conceitos/desafios-de-avaliacao-de-modelos-de-fundacao.md|Desafios de Avaliação de Modelos de Fundação]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/modelos-abertos-versus-apis-proprietarias.md|Modelos Abertos versus APIs Proprietárias]]
+- [[redes/ai-engineering/conceitos/desenvolvimento-orientado-por-avaliacao.md|Desenvolvimento Orientado por Avaliação]]
+
+### Alternativas
+
+- Seleção baseada puramente em popularidade de rede social (*hype*) ou na tabela de liderança pública mais recente.
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/contaminacao-de-dados-em-benchmarks.md|Contaminação de Dados em Benchmarks]]
+- [[redes/ai-engineering/conceitos/diretrizes-e-rubricas-de-avaliacao.md|Diretrizes e Rubricas de Avaliação]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 4 — Evaluate AI Systems
+- **Localização:** Páginas 179–181
+- **Evidência:** Chip Huyen estabelece formalmente o fluxo de seleção em 4 etapas (Figura 4-5) e conceitua a dicotomia entre hard e soft attributes, alertando que atributos rígidos devem filtrar as alternativas logo no primeiro passo para evitar trabalho descartável.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. Qual é a distinção conceitual e prática entre atributos rígidos (*hard*) e atributos flexíveis (*soft*) na seleção de modelos?
+2. Quais são as quatro etapas sequenciais do fluxo de trabalho de seleção de modelos de fundação proposto no texto?
+3. Por que avaliar atributos flexíveis antes de filtrar atributos rígidos é um erro clássico de gestão de projetos de IA?
+4. De que forma a política de controle e hospedagem da empresa pode transformar a latência de um atributo flexível em um atributo rígido?
+5. Como restrições de licenciamento de software (como licenças que barram empresas com mais de 700 milhões de usuários) atuam como filtros eliminatórios?
+6. Por que um modelo com acurácia ligeiramente inferior pode ser selecionado em detrimento do líder absoluto de mercado em um projeto real?
+7. Como o conceito de otimização de Pareto é aplicado para arbitrar conflitos entre custo, latência e desempenho entre modelos finalistas?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

@@ -1,0 +1,153 @@
+---
+type: "revisao-repeticao"
+status: "incorporada"
+source_file: 'D:\Estudos\Resumos de livros\livros\second_brain\redes\ai-engineering\conceitos\ai-engineering-capitulo-01.md'
+source_hash: '1D707F345C3B6BD3ED30709F0058ED6DA3247E97DE690FCB728900E4FBDA08AF'
+incoming_target: 'redes/ai-engineering/conceitos/finetuning.md'
+canonical_path: 'redes\ai-engineering\conceitos\finetuning.md'
+duplicate_reason: 'titulo, alias ou slug equivalente: ajuste-fino-finetuning'
+---
+
+# Revisao de conceito repetido
+
+## Nota candidata recebida
+
+# 🧠 Ajuste Fino (Finetuning)
+
+**Rede:** `ai-engineering`  
+areas: `aprendizado-de-maquina`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 1 — Introdução à Construção de Aplicações de IA com Modelos de Fundação
+- Localização: localização não informada no material recebido
+
+## 📝 Definição
+
+### Definição formal
+
+O processo de continuar o treinamento de um modelo de fundação pré-treinado utilizando um conjunto de dados específico de uma tarefa, atualizando os pesos internos da rede neural para especializar o seu comportamento.
+
+### Em linguagem simples
+
+É o ato de "dar uma aula particular" ou especialização para a IA, treinando-a com exemplos práticos para que ela aprenda a se comportar de uma maneira muito específica (como adotar um tom de voz corporativo ou gerar código em uma linguagem rara).
+
+### Escopo e distinções
+
+Diferencia-se do RAG: o finetuning altera permanentemente os pesos e o estilo de comportamento da rede, enquanto o RAG apenas injeta informações factuais externas de forma temporária via prompt.
+
+## 🧩 Problema que resolve
+
+Resolve a dificuldade de induzir modelos gerais a seguirem formatos rígidos de saída (como JSON estruturado) ou adotarem personas e estilos complexos apenas através de instruções textuais em *prompts*.
+
+## 💡 Intuição
+
+Pense em um médico recém-formado (modelo de fundação): ele sabe medicina geral, mas para virar um cirurgião cardíaco de elite, ele precisa fazer residência médica e cirurgias práticas supervisionadas (ajuste fino).
+
+## ⚙️ Como funciona
+
+### Etapas
+
+1. Seleção de um modelo de fundação base adequado.
+2. Criação ou aquisição de um dataset especializado de instrução e resposta.
+3. Execução do treinamento de atualização de pesos com hiperparâmetros ajustados (como taxa de aprendizado reduzida).
+4. Avaliação do modelo ajustado frente aos critérios de aceitação da aplicação.
+
+### Entradas e saídas
+
+- Entradas: Modelo de fundação base e dataset de adaptação supervisionada.
+- Saídas: Um novo modelo especializado com pesos modificados.
+
+## 📐 Formulação matemática
+
+Dado um modelo com pesos pré-treinados $\Theta$, o ajuste fino otimiza esses pesos em direção a um conjunto de dados de adaptação $D_{fine}$ através de descida de gradiente:
+
+$$\Theta_{novo} = \Theta - \eta \nabla_\Theta \sum_{(x,y) \in D_{fine}} \mathcal{L}(M_\Theta(x), y)$$
+
+Onde:
+- $\Theta$: Pesos iniciais do modelo de fundação.
+- $\eta$: Taxa de aprendizado (*learning rate*).
+- $\mathcal{L}$: Função de perda avaliando a divergência entre a predição $M_\Theta(x)$ e o alvo $y$.
+
+## 🧱 Hipóteses e condições de validade
+
+- Hipótese de que o modelo base possui capacidade representacional subjacente suficiente para assimilar os novos padrões sem sofrer degradação catastrófica de competências gerais anteriores.
+
+## ✅ Когда usar / Quando usar
+
+- Quando a aplicação exige padronização rigorosa de formato de saída, adoção de personas complexas ou especialização profunda em um domínio com vocabulário restrito.
+
+## 🚫 Quando não usar
+
+- Para injetar fatos recentes, notícias ou dados corporativos dinâmicos que mudam diariamente (cenário ideal para RAG).
+
+## ⚠️ Limitações e armadilhas
+
+- Risco de esquecimento catastrófico (*catastrophic forgetting*), onde o modelo perde habilidades gerais que possuía antes do ajuste.
+- Custos computacionais de treinamento e manutenção de checkpoints customizados.
+
+## 🔍 Comparações
+
+| Conceito | Objetivo | Entrada | Saída | Diferença principal |
+|---|---|---|---|---|
+| [[finetuning|Finetuning]] | Especializar comportamento e formato alterando os pesos. | Dataset de pares de instrução e resposta. | Modelo com pesos modificados. | Modifica permanentemente a rede neural interna. |
+| [[rag|RAG]] | Fornecer fatos dinâmicos externos via contexto. | Consulta do usuário + Documentos recuperados. | Resposta fundamentada factual. | Não altera pesos; atua puramente na camada de prompt. |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Pegar o modelo Llama 3 genérico e treiná-lo com 5.000 exemplos de petições jurídicas brasileiras para que ele aprenda a redigir documentos legais rigorosamente dentro dos padrões exigidos pelos tribunais do país.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[modelo-de-fundacao|Modelo de Fundação]]
+
+### Complementos
+
+- [[engenharia-de-ia|Engenharia de IA]]
+
+### Alternativas
+
+- [[rag|RAG]]
+
+### Conceitos relacionados
+
+- Nenhuma relação suficientemente sustentada pelo capítulo.
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 1 — Introdução à Construção de Aplicações de IA com Modelos de Fundação
+- **Localização:** localização não informada no material recebido
+- **Evidência:** Definição do ajuste fino (*finetuning*) como técnica de adaptação interna de modelos para customização de tarefas.
+- **Confiança:** alta
+
+## ❓ Perguntas de revisão
+
+1. O que é Ajuste Fino (Finetuning)?
+2. Que problema ele resolve?
+3. Como ele funciona passo a passo?
+4. Quais hipóteses precisam ser verdadeiras?
+5. Quando ele deve ou não deve ser utilizado?
+6. Com qual conceito ele pode ser confundido?
+7. Como eu verificaria seu funcionamento em um caso novo?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.
+
+---
+*Nota gerada a partir do capítulo Capítulo 1 — Introdução à Construção de Aplicações de IA com Modelos de Fundação. A interpretação final deve ser revisada pelo estudante.*
+
+## Pergunta para a segunda analise
+
+Compare esta nota com a nota canonica indicada no frontmatter. Extraia somente informacoes novas, corrija divergencias e proponha atualizacoes sem duplicar o conceito.

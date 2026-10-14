@@ -1,0 +1,137 @@
+Universidade Federal de Goiás
+Instituto de Informática
+Prof. Dr. Ronaldo Martins da Costa
+Ementa
+➔ Apresentar e discutir os fundamentos e principais algoritmos de aprendizado
+de máquina, que investigam técnicas para desenvolver algoritmos capazes
+de aprender/melhorar seu desempenho, utilizando exemplos de situações
+previamente observadas. Além do estudo dos algoritmos de aprendizado
+baseados em diferentes paradigmas. Apresentar ao aluno os princípios
+gerais de aprendizado de máquina e fornecer uma visão geral dos diversos
+paradigmas e algoritmos existentes de aprendizado de máquina para a
+aquisição automática de conhecimento a partir de conjuntos de dados
+Objetivos
+➔ O objetivo geral desta disciplina é apresentar os fundamentos que vão
+auxiliar a compreender o funcionamento dos algoritmos de machine learning,
+os principais paradigmas de machine learning, e os principais algoritmos
+relacionados a cada paradigma
+Objetivos Específicos
+➔ Apresentar uma visão geral sobre Aprendizado de Máquina (AM)
+➔ Apresentar fundamentos computacionais relacionados a AM
+➔ Conceituar e apresentar algoritmos relacionados aos principais paradigmas de
+aprendizado (supervisionado, não supervisionado e por reforço)
+➔ Desenvolver a compreensão de etapas de preparação de datasets, aplicação e
+avaliação de algoritmos de aprendizado de máquina
+Resolução de Problemas Computacionalmente
+➔ Um problema computacional pode ser visto como uma tarefa que recebe uma
+entrada e produz uma saída desejada. Resolver computacionalmente um
+problema significa encontrar um algoritmo que realize essa transformação
+corretamente para todas as entradas pertencentes ao domínio do problema
+Desenvolvimento de Algoritmos
+➔ Um algoritmo é um procedimento computacional bem definido que recebe
+algum valor ou conjunto de valores como entrada e produz algum valor ou
+conjunto de valores como saída. Um algoritmo é, portanto, uma sequência de
+passos computacionais que transforma a entrada na saída
+Aquisição de conhecimento para construção de software
+➔ A Análise de Requisitos é uma etapa
+bastante dependente da experiência do
+construtor em obter as informações
+corretas
+Aquisição de conhecimento para construção de soluções
+➔ Com os avanços tecnológicos e possibilidade muito maiores de
+armazenamento, surge a necessidade de soluções capazes de:
+◆ Criar soluções através de experiências passadas
+● Exemplo: Anúncios, Recomendação de Compras, etc.
+AM ou ML
+Aprendizado de Máquina (Machine Learning)
+➔ O aprendizado de máquina é o campo de estudo que dá aos computadores a
+capacidade de aprender sem serem explicitamente programados
+◆ Programming computers to learn from experience should eventually eliminate the need for
+much of this detailed programming effort. (Programar computadores para aprenderem com a
+experiência deverá, eventualmente, eliminar a necessidade de grande parte desse esforço
+detalhado de programação)
+◆ Some Studies in Machine Learning Using the Game of Checkers - Arthur Lee Samuel - DOI
+10.1147/rd.33.0210 (1959)
+Aprendizado de Máquina (Machine Learning)
+➔ Em Aprendizado de Máquina os algoritmos tem como objetivo descobrir o
+relacionamento entre as variáveis de um sistema (entrada/saída) a partir de
+dados amostrais para:
+◆ Realizar a identificação de padrões presentes nos dados muito mais rápida
+◆ Prever resultados e comportamentos apoiado nos padrões
+◆ Para identificar os padrões, quase sempre é
+necessário um grande conjunto de dados
+Aprendizado de Máquina - Paradigmas
+Logistic Regression, KNN,
+Decision Tree, Random
+Forest, Adaboost, Gradient
+Boosting, SVM, Naive
+Kmeans, Dbscan, Mean
+Bayes, MLP, Deep Learning,
+Shift, PCA, t-SNE, Umap,
+Transformers, etc.
+FP-Growth, LDA, etc.
+Q-Learn, SARSA, DQN,
+Policy Gradient, A2C, A3C,
+PPO, TRPO, DDPG, etc.
+Aprendizado Supervisionado
+➔ Processo pelo qual um algoritmo aprende a prever saídas a partir de
+exemplos de entrada para os quais as respostas corretas são previamente
+conhecidas.
+Aprendizado Supervisionado - Regressão
+➔ Utilizada para prever valores numéricos contínuos a partir da relação entre
+variáveis de entrada e uma variável de saída
+Aprendizado Supervisionado - Classificação
+➔ Ao contrário da regressão, ela busca prever rótulos de classe ou categorias
+para as entradas. Os algoritmos separam os dados em grupos conhecidos
+(rotulados)
+Aprendizado NÃO Supervisionado
+➔ Sem a necessidade de rótulos os algoritmos buscam encontrar padrões para
+realizar a identificação
+◆ Seria equivalente a deixar o algoritmo explorar os dados e tentar agrupá-los
+Aprendizado NÃO Supervisionado
+➔ O Algoritmo não recebe dados rotulados e terá que descobrir, sozinho,
+relações, padrões, regularidades ou categorias no conjunto de dados
+Aprendizado NÃO Supervisionado
+Agrupamento ou Clusterização
+➔ Organiza os elementos do conjunto de maneira que os membros possuam
+alguma forma que os relaciona
+◆ Os elementos são diferentes mas são semelhantes
+Aprendizado Por Reforço
+➔ Um método de programação em que um agente aprende a tomar decisões,
+sem a necessidade de especificar como uma tarefa deve ser realizada mas
+por meio de tentativa e erro, recebendo recompensas quando executa ações
+desejáveis e penalidades quando executa ações indesejáveis
+◆ Exemplo: Robô aspirador em uma casa
+Aprendizado Por Reforço
+➔ Elementos deste modelo de aprendizado
+◆ Agente: Tomador de decisão
+◆ Ambiente: Onde o Agente atua
+◆ Estado: Situação atual do ambiente (Sala, Cozinha, Banheiro, Quarto)
+◆ Ação: Decisão tomada pelo Agente (Mover-se Norte, Sul, Leste, Oeste)
+◆ Recompensa: Retorno recebido após a ação (Aspirou local sujo +10, Aspirou local limpo -5,
+Bateu em um móvel -3)
+◆ Executa uma Ação e Coleta a Recompensa
+Aprendizado Por Reforço
+➔ Como escolher a próxima ação?
+➔ Como saber se está aprendendo?
+➔ Quando o treinamento para?
+Aprendizado Por Reforço
+➔ Como escolher a próxima ação?
+◆ Inicialmente não se sabe qual ação é melhor. Então parte para a exploração e fazer várias
+tentativas
+◆ Após várias tentativas será "criada" uma tabela para registro
+Estado Ação Valor
+Sala Cozinha 25
+Sala Quarto 5
+Sala Aspirar -2
+Aprendizado Por Reforço
+➔ Como saber se está aprendendo?
+◆ Verificando as várias tentativas e as recompensas obtidas
+Aprendizado Por Reforço
+➔ Quando o treinamento para?
+◆ O desenvolvedor define um limite
+ou
+◆ Atingiu um ponto de convergência
+Universidade Federal de Goiás
+Instituto de Informática
+Prof. Dr. Ronaldo Martins da Costa

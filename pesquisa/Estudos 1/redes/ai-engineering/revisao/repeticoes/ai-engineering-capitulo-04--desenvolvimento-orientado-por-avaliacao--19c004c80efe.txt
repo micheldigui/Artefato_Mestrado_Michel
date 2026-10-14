@@ -1,0 +1,151 @@
+---
+type: "revisao-repeticao"
+status: "sem-novos-blocos"
+source_file: 'D:\Estudos\Resumos de livros\livros\second_brain\redes\ai-engineering\conceitos\ai-engineering-capitulo-04.md'
+source_hash: '19C004C80EFEBF725986D376A18D486E0D237B4582A05835350BBABAAA6670B7'
+incoming_target: 'redes/ai-engineering/conceitos/desenvolvimento-orientado-por-avaliacao.md'
+canonical_path: 'redes\ai-engineering\conceitos\desenvolvimento-orientado-por-avaliacao.md'
+duplicate_reason: 'titulo, alias ou slug equivalente: desenvolvimento-orientado-por-avaliacao'
+---
+
+# Revisao de conceito repetido
+
+## Nota candidata recebida
+
+# 🧠 Desenvolvimento Orientado por Avaliação (Evaluation-Driven Development)
+
+**Rede:** `ai-engineering`  
+**Área:** `metodologia-de-engenharia`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 4 — Avaliando Sistemas de IA
+- Localização: localização não informada no material recebido
+
+## 📝 Definição
+
+### Definição formal
+
+Uma metodologia de engenharia de software aplicada a sistemas de IA na qual o conjunto de testes, as métricas de sucesso e os critérios de aceitação são rigorosamente definidos e implementados *antes* da construção ou ajuste do código da aplicação e dos prompts.
+
+### Em linguagem simples
+
+É a prática de estabelecer as regras da prova e o gabarito de correção antes de começar a escrever o código do produto ou ajustar a inteligência artificial.
+
+### Escopo e distinções
+
+Inspirado no *Test-Driven Development (TDD)* clássico da engenharia de software, adaptado para lidar com a natureza probabilística e estocástica de modelos de fundação.
+
+## 🧩 Problema que resolve
+
+Resolve o desenvolvimento desorganizado e baseado em achismos (*vibe check*), onde engenheiros ajustam prompts aleatoriamente sem saber se as mudanças realmente melhoram o sistema ou apenas corrigem um caso isolado.
+
+## 💡 Intuição
+
+Imagine um arquiteto que desenha a planta e as exigências estruturais de teste de carga de uma ponte antes de começar a amontoar tijolos, garantindo que cada peça colocada cumpra uma meta de segurança verificável.
+
+## ⚙️ Como funciona
+
+### Etapas
+
+1. Mapeamento das necessidades de negócio e tradução em métricas de avaliação quantificáveis.
+2. Construção do dataset de teste de referência (composto por casos reais de uso e exemplos difíceis).
+3. Definição das rubricas de pontuação e ferramentas automáticas (ex: IA como Juiz ou testes funcionais).
+4. Desenvolvimento iterativo do código e dos prompts guiado estritamente pela melhoria contínua nas pontuações do dataset de teste.
+
+### Entradas e saídas
+
+- Entradas: Requisitos do produto e métricas de desempenho desejadas.
+- Saídas: Pipeline de testes automatizado e artefatos de código validados por métricas objetivas.
+
+## 📐 Formulação matemática
+
+Não possui uma equação matemática isolada; modela-se como um processo de otimização de função objetivo onde o objetivo é maximizar o escore de teste $E$:
+
+$$\max_{\text{Prompt, Modelo, RAG}} E(\text{Pipeline}, D_{teste})$$
+
+Onde:
+- $E$: Função de avaliação sistêmica.
+- $D_{teste}$: Conjunto de dados de teste de referência fixo.
+
+## 🧱 Hipóteses e condições de validade
+
+- Supõe que o conjunto de dados de teste reflete fidedignamente a distribuição estatística e os desafios reais enfrentados pelos usuários em produção.
+
+## ✅ Quando usar
+
+- No início de qualquer projeto de engenharia de IA voltado para produção empresarial ou comercial.
+
+## 🚫 Quando não usar
+
+- Em protótipos exploratórios ultra-rápidos de final de semana onde a persistência do software não é necessária.
+
+## ⚠️ Limitações e armadilhas
+
+- Exige esforço inicial de planejamento e rotulação que pode desacelerar o início do código, o que gera resistência em equipes focadas apenas em entregar protótipos visuais rápidos.
+
+## 🔍 Comparações
+
+| Conceito | Objetivo | Entrada | Saída | Diferença principal |
+|---|---|---|---|---|
+| [[desenvolvimento-orientado-por-avaliacao|Desenvolvimento Orientado por Avaliação]] | Definir métricas e testes antes de codificar a IA. | Requisitos e métricas de aceite. | Pipeline de validação + Código guiado por dados. | Foco preventivo e métrico na qualidade sistêmica. |
+| [[vibe-check|Avaliação por Olhômetro (Vibe Check)]] | Testar o sistema de forma informal e subjetiva. | Impressões visuais momentâneas. | Opinião informal ("Parece bom"). | Subjetivo, não reproduzível e altamente propenso a vieses. |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Criar 100 perguntas difíceis de atendimento ao cliente com suas respectivas respostas ideais antes de mexer em qualquer linha de prompt do bot, garantindo que cada alteração seja testada contra essas 100 perguntas de forma automatizada.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[ai-as-a-judge|IA como Juiz]]
+
+### Complementos
+
+- [[engenharia-de-ia|Engenharia de IA]]
+
+### Alternativas
+
+- Nenhuma relação suficientemente sustentada pelo capítulo.
+
+### Conceitos relacionados
+
+- [[rag|RAG]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 4 — Avaliando Sistemas de IA
+- **Localização:** localização não informada no material recebido
+- **Evidência:** Apresentação da metodologia de desenvolvimento orientado por avaliação para estruturação de projetos de IA corporativos confiáveis.
+- **Confiança:** alta
+
+## ❓ Perguntas de revisão
+
+1. O que é Desenvolvimento Orientado por Avaliação (Evaluation-Driven Development)?
+2. Que problema ele resolve?
+3. Como ele funciona passo a passo?
+4. Quais hipóteses precisam ser verdadeiras?
+5. Quando ele deve ou não deve ser utilizado?
+6. Com qual conceito ele pode ser confundido?
+7. Como eu verificaria seu funcionamento em um caso novo?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.
+
+---
+*Nota gerada a partir do capítulo Capítulo 4 — Avaliando Sistemas de IA. A interpretação final deve ser revisada pelo estudante.*
+
+## Pergunta para a segunda analise
+
+Compare esta nota com a nota canonica indicada no frontmatter. Extraia somente informacoes novas, corrija divergencias e proponha atualizacoes sem duplicar o conceito.

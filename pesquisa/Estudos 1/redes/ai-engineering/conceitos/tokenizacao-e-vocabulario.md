@@ -1,0 +1,142 @@
+# 🧠 Tokenização e Vocabulário
+
+**Rede:** `ai-engineering`   **Área:** `dados`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 1 — Introduction to Building AI Applications with Foundation Models
+- Localização: Páginas 3–4, 55
+
+## 📝 Definição
+
+### Definição formal
+
+A **Tokenização** é o processo algorítmico determinístico de decomposição de uma sequência contínua de caracteres brutos em unidades atômicas discretas denominadas **tokens** (caracteres, palavras completas ou subpalavras), que mapeiam diretamente para identificadores numéricos inteiros pertencentes a um **vocabulário** finito pré-compilado $\mathcal{V}$.
+
+### Em linguagem simples
+
+Computadores não processam letras nem palavras diretamente; eles só entendem números. A tokenização é o "tradutor" que fatia uma frase em pequenos pedaços (que podem ser palavras inteiras ou pedaços como "cant" e "'t") e dá a cada pedaço um número de identificação fixo.
+
+### Escopo e distinções
+
+Não se restringe à simples quebra por espaços em branco (*whitespace splitting*). A tokenização moderna utiliza algoritmos de compressão estatística (como Byte Pair Encoding — BPE) que equilibram a representatividade semântica com o tamanho do vocabulário.
+
+## 🧩 Problema que resolve
+
+Resolve três dilemas fundamentais do processamento de texto por redes neurais:
+
+1. **Dilema de caracteres:** Processar caractere por caractere gera sequências longas demais e desprovidas de significado individualizado.
+2. **Dilema de palavras inteiras:** Manter uma palavra por entrada geraria um vocabulário infinito, incapaz de lidar com palavras novas, gírias ou erros de digitação.
+3. **Palavras desconhecidas (*Out-of-Vocabulary*):** A segmentação por subpalavras permite ao modelo decompor qualquer neologismo (ex.: "chatgpting" fatiado em "chatgpt" e "ing") em componentes já conhecidos.
+
+## 💡 Intuição
+
+Pense na tokenização como montar palavras usando peças de LEGO. Em vez de ter uma peça inteira e fechada para cada objeto do mundo (vocabulário gigante de palavras) ou usar grãos de areia minúsculos (caracteres individuais), você usa bloquinhos modulares padronizados com os quais é possível montar tanto construções comuns quanto objetos totalmente inéditos.
+
+## ⚙️ Como funciona
+
+O algoritmo aplica regras fixas para converter texto em números e vice-versa:
+
+### Etapas
+
+1. **Normalização do texto:** Tratamento de codificação Unicode e espaços.
+2. **Segmentação estatística:** A cadeia de caracteres é dividida de acordo com as regras de subpalavras treinadas (ex.: BPE).
+3. **Mapeamento para índices:** Cada token é convertido para seu índice inteiro correspondente no vocabulário ($t_k \in \{0, 1, \dots, |\mathcal{V}|-1\}$).
+4. **Detecção de tokens especiais:** Adição de identificadores de limites como $\text{<BOS>}$ (*beginning of sequence*) e $\text{<EOS>}$ (*end of sequence*).
+5. **Decodificação inversa (no output):** Os números gerados pelo modelo são reconvertidos em texto legível para o usuário.
+
+### Entradas e saídas
+
+- **Entradas:** Texto bruto em formato de string (ex.: `"I can't wait"`).
+- **Saídas:** Vetor de identificadores numéricos inteiros (ex.: `[40, 2439, 380, 290]`).
+
+## 📐 Formulação matemática
+
+Seja $\Sigma$ o conjunto de caracteres e $\mathcal{V}$ o vocabulário finito de tokens. O tokenizador é uma bijeção reversível entre sequências de texto $S \in \Sigma^*$ e sequências de índices $T \in \mathbb{N}^*$:
+
+$$T = \text{Encode}(S), \quad S = \text{Decode}(T)$$
+
+Para o modelo GPT-4, a taxa média empírica de compressão em textos regulares em língua inglesa é de aproximadamente:
+
+$$\frac{\text{número de palavras}}{\text{número de tokens}} \approx 0{,}75 \implies 100 \text{ tokens} \approx 75 \text{ palavras}$$
+
+## 🧱 Hipóteses e condições de validade
+
+- O conjunto de regras de tokenização é estático e imutável após o treinamento do modelo; alterar o vocabulário inutiliza as matrizes de peso originais do modelo.
+- A eficiência da representação depende da presença da língua nos dados de treinamento do tokenizador.
+
+## ✅ Quando usar
+
+- Componente obrigatório e universal em qualquer pipeline que envolva modelos de fundação baseados em texto ou modelos multimodais com entradas textuais.
+
+## 🚫 Quando não usar
+
+- Não há alternativa de dispensa da tokenização em arquiteturas de LLMs clássicas (salvo em pesquisas experimentais restritas de modelos que operam diretamente sobre bytes puros de computador).
+
+## ⚠️ Limitações e armadilhas
+
+- **Disparidade de custo internacional:** Idiomas com alfabetos não latinos ou pouco representados no conjunto de dados de treino sofrem fragmentação severa. Uma palavra que em inglês consome 1 token pode exigir 5 ou 10 tokens em birmanês ou hindi, encarecendo a inferência e reduzindo a janela efetiva de contexto.
+- **Incapacidade aritmética direta:** Dificuldades de LLMs para soletrar palavras ou realizar certas operações matemáticas simples derivam do fato de os números e letras serem agrupados em blocos de subpalavras opacos para o raciocínio interno.
+
+## 🔍 Comparações
+
+| Estratégia | Granularidade | Tamanho do Vocabulário | Tratamento de Termos Novos |
+|---|---|---|---|
+| **Caractere** | Mínima | Minúsculo (~256) | Excelente (sem termos novos) |
+| **Palavra Completa** | Máxima | Gigantesco (>1 milhão) | Falha total (*out-of-vocabulary*) |
+| **Subpalavra (BPE/WordPiece)** | Equilibrada | Médio (32.000 a 100.000) | Excelente (decomposição fluida) |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+O tokenizador do GPT-4 recebe a frase `"I can't wait to build AI applications"`. 
+Ele não a divide em 7 palavras. Ele a fatia em 9 tokens distintos:  `["I", " can", "'t", " wait", " to", " build", " AI", " applic", "ations"]`.
+A palavra `"can't"` é intencionalmente dividida em dois tokens (`" can"` e `"'t"`) para capturar separadamente o verbo e a contração negativa.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- Nenhuma relação conceitual estrita no nível deste capítulo (fundamento básico de ciência da computação e processamento de strings).
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/modelo-de-linguagem.md|Modelo de Linguagem]]
+
+### Alternativas
+
+- Tokenização direta baseada em caracteres puros ou em fluxo de bytes puros (*byte-level tokenization sem vocabulário*).
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/modelo-de-linguagem-autoregressivo.md|Modelo de Linguagem Autoregressivo]]
+- [[redes/ai-engineering/conceitos/pilha-de-engenharia-de-ia.md|Pilha de Engenharia de IA]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 1 — Introduction to Building AI Applications with Foundation Models
+- **Localização:** Páginas 3–4, 55
+- **Evidência:** Chip Huyen detalha o processo de divisão de frases em tokens no GPT-4 e no Mixtral, justificando a adoção de subpalavras para lidar com palavras desconhecidas e reduzir o tamanho do vocabulário, além de ilustrar o viés de tokenização entre línguas.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. O que é um token e como ele se diferencia de uma palavra ou caractere tradicional?
+2. Por que os modelos de linguagem modernos adotam a tokenização por subpalavras em vez de palavras completas?
+3. Qual é a relação prática entre o tamanho do vocabulário de um modelo e sua eficiência computacional?
+4. Como a tokenização inadequada ou assimétrica afeta os custos financeiros de chamadas de API em línguas de recursos escassos?
+5. De que maneira a tokenização explica certas dificuldades de modelos de fundação em soletrar palavras?
+6. O que é o vocabulário de um modelo e como ele é estabelecido?
+7. Qual é a proporção média de equivalência entre tokens e palavras para a língua inglesa no GPT-4?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

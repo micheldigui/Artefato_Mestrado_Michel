@@ -1,0 +1,143 @@
+# 🧠 IA Centrada em Dados (Data-Centric AI)
+
+**Rede:** `ai-engineering`  
+**Área:** `engenharia-de-dados`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 8 — Engenharia de Conjuntos de Dados
+- Localização: localização não informada no material recebido
+
+## 📝 Definição
+
+### Definição formal
+
+Um paradigma de desenvolvimento de inteligência artificial que prioriza a melhoria sistemática, a curadoria, a limpeza e o controle de qualidade do conjunto de dados de treinamento em detrimento da modificação constante da arquitetura dos modelos.
+
+### Em linguagem simples
+
+É a filosofia que diz que, em vez de gastar todo o seu tempo trocando o código da rede neural, você deve focar em dar comida limpa, variada e de alta qualidade para a IA aprender.
+
+### Escopo e distinções
+
+Diferencia-se da IA centrada no modelo (*model-centric AI*): enquanto a abordagem tradicional mantinha o dataset estático e competia para ver quem criava a melhor rede neural, a abordagem centrada em dados mantém a arquitetura fixa e compete para ver quem constrói o melhor dataset.
+
+## 🧩 Problema que resolve
+
+Resolve a ineficiência de tentar consertar erros de predição ajustando hiperparâmetros de modelos complexos quando a verdadeira raiz do problema está em ruídos, vieses e falhas estruturais presentes nos dados de treinamento.
+
+## 💡 Intuição
+
+Pense em um chef de cozinha renomado: por mais avançado que seja o seu fogão (o modelo), se os ingredientes comprados no mercado estiverem estragados ou misturados com lixo (os dados), o prato final será intragável.
+
+## ⚙️ Como funciona
+
+### Etapas
+
+1. Fixa-se uma arquitetura de modelo padrão e baseline.
+2. Audita-se o conjunto de dados em busca de duplicatas, rótulos incorretos e desbalanceamento.
+3. Aplica-se curadoria ativa, remoção de ruídos, aumento sintético direcionado e padronização.
+4. Retreina-se o modelo baseline com o dataset curado para mensurar os ganhos de desempenho decorrentes estritamente da melhoria dos dados.
+
+### Entradas e saídas
+
+- Entradas: Dataset bruto e ruidoso + Requisitos da tarefa.
+- Saídas: Dataset limpo, balanceado, diversificado e de alta qualidade.
+
+## 📐 Formulação matemática
+
+Modelado conceitualmente como a otimização da performance do modelo $f_\theta$ através da otimização direta do espaço de dados $D$:
+
+$$\theta^* = \arg\max_\theta \mathbb{E}_{(x,y) \sim D_{curated}} [\mathcal{L}(f_\theta(x), y)]$$
+
+Onde:
+- $D_{curated}$: Conjunto de dados otimizado via engenharia centrada em dados.
+- $\mathcal{L}$: Função de perda supervisionada.
+
+## 🧱 Hipóteses e condições de validade
+
+- Supõe que a eliminação de ruídos e o aumento da diversidade nos dados geram melhorias de generalização superiores às obtidas aumentando a complexidade da rede neural.
+
+## ✅ Quando usar
+
+- Em qualquer projeto de engenharia de IA onde a acurácia do modelo estagnou e a equipe precisa extrair desempenho máximo sem alterar o modelo base.
+
+## 🚫 Quando não usar
+
+- Nao deve ser isolada por completo de melhorias arquiteturais quando o modelo base for estruturalmente incapaz de compreender a complexidade da tarefa.
+
+## ⚠️ Limitações e armadilhas
+
+- O trabalho de curadoria e limpeza de dados é manual, exaustivo e muitas vezes subestimado pelas equipes de engenharia de software tradicional.
+
+## 🔍 Comparações
+
+| Conceito | Objetivo | Entrada | Saída | Diferença principal |
+|---|---|---|---|---|
+| [[data-centric-ai|IA Centrada em Dados]] | Otimizar a performance melhorando a qualidade e curadoria do dataset. | Dataset ruidoso + Arquitetura fixa. | Dataset otimizado + Modelo de alta performance. | Foco na engenharia e higiene do conjunto de dados. |
+| [[model-centric-ai|IA Centrada no Modelo]] | Otimizar a performance alterando a arquitetura da rede neural. | Dataset estático + Múltiplas arquiteturas. | Arquitetura de rede avançada. | Foco na engenharia estrutural do algoritmo de aprendizado. |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Identificar que um classificador de imagens erra cachorros porque metade das fotos de treino de cães está rotulada erroneamente como "gato", corrigindo os rótulos em vez de adicionar mais camadas de neurônios na rede.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[finetuning|Finetuning]]
+
+### Complementos
+
+- [[engenharia-de-ia|Engenharia de IA]]
+
+### Alternativas
+
+- [[model-centric-ai|IA Centrada no Modelo]]
+
+### Conceitos relacionados
+
+- Nenhuma relação suficientemente sustentada pelo capítulo.
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 8 — Engenharia de Conjuntos de Dados
+- **Localização:** localização não informada no material recebido
+- **Evidência:** Apresentação conceitual da IA Centrada em Dados (*Data-Centric AI*) como mudança de paradigma na engenharia de machine learning.
+- **Confiança:** alta
+
+## ❓ Perguntas de revisão
+
+1. O que é IA Centrada em Dados (Data-Centric AI)?
+2. Que problema ele resolve?
+3. Como ele funciona passo a passo?
+4. Quais hipóteses precisam ser verdadeiras?
+5. Quando ele deve ou não deve ser utilizado?
+6. Com qual conceito ele pode ser confundido?
+7. Como eu verificaria seu funcionamento em um caso novo?
+
+## Conexoes com Machine Learning
+
+Estes fundamentos pertencem a outra rede e foram ligados como prerequisitos ou conceitos vizinhos. O MOC nao e usado como no conceitual.
+- [[redes/machine-learning/conceitos/Feature_Engineering.md|Feature Engineering]]
+- [[redes/machine-learning/conceitos/Imbalanced_Data.md|Imbalanced Data]]
+- [[redes/machine-learning/conceitos/Outliers.md|Outliers]]
+- [[redes/machine-learning/conceitos/Normalização_e_Padronização.md|Normalização e Padronização]]
+- [[redes/machine-learning/conceitos/Tratamento_de_Missing_Values.md|Tratamento de Missing Values]]
+- [[redes/machine-learning/conceitos/Seleção_de_Atributos__Feature_Selection_.md|Seleção de Atributos (Feature Selection)]]
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.
+
+---
+*Nota gerada a partir do capítulo Capítulo 8 — Engenharia de Conjuntos de Dados. A interpretação final deve ser revisada pelo estudante.*

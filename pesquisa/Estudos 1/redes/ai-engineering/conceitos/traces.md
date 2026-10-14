@@ -1,0 +1,127 @@
+# 🧠 Rastreamentos (*Traces*)
+
+**Rede:** `ai-engineering`  
+**Área:** `observabilidade`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 10 — Arquitetura de Engenharia de IA e Feedback do Usuário
+- Localização: localização não informada no material recebido
+
+## 📝 Definição
+
+### Definição formal
+
+Um registro cronológico detalhado e estruturado que reconstrói a linha do tempo completa de uma requisição de ponta a ponta à medida que ela flui através de múltiplos componentes, ferramentas, recuperadores e chamadas de modelos em um pipeline de inteligência artificial.
+
+### Em linguagem simples
+
+É o "raio-x" passo a passo de uma pergunta: mostra exatamente por onde a requisição passou, quanto tempo levou em cada etapa (busca de documentos, prompt final) e onde ocorreu o erro caso o sistema falhe.
+
+### Escopo e distinções
+
+Diferencia-se de logs isolados ou métricas agregadas: enquanto as métricas mostram tendências gerais, o *trace* isola a jornada individual e exata de uma única execução sistêmica.
+
+## 🧩 Problema que resolve
+
+Resolve a opacidade de debugging em pipelines complexos de IA, onde erros em cascata (como uma falha no RAG que corrompe a resposta do gerador) são difíceis de rastrear apenas olhando o resultado final.
+
+## 💡 Intuition / Intuição
+
+Pense na caixa preta de um avião: se algo der errado durante o voo, os investigadores recorrem ao registro detalhado segundo a segundo para auditar cada comando executado pelos sistemas de bordo.
+
+## ⚙️ How it works / Como funciona
+
+### Etapas
+
+1. Uma requisição do usuário entra no sistema e recebe um identificador único de rastreamento (*Trace ID*).
+2. Cada subcomponente (ex: RAG retriever, formatador de prompt, chamada de API do LLM) registra o momento de início, término, entradas e saídas como um "span" conectado.
+3. As informações são enviadas para uma plataforma de observabilidade (ex: LangSmith, Arize, Phoenix).
+4. O engenheiro visualiza a árvore cronológica completa da execução para auditar latência, custos e pontos de falha.
+
+### Entradas e saídas
+
+- Entradas: Execuções ativas de requisições de usuários no pipeline de IA.
+- Saídas: Árvores de execução cronológicas detalhadas com metadados de tempo, tokens e custos.
+
+## 📐 Formulação matemática
+
+Não possui formulação matemática própria (trata-se de engenharia de instrumentação de software e telemetria distribuída).
+
+## 🧱 Hipóteses e condições de validade
+
+- Supõe que o pipeline de software está adequadamente instrumentado com bibliotecas de telemetria compatíveis sem introduzir gargalos severos de latência por excesso de gravação de dados.
+
+## ✅ Quando usar
+
+- Em qualquer aplicação de IA em produção que envolva fluxos complexos, encadeamentos, agentes ou sistemas RAG multi-etapas.
+
+## 🚫 Quando não usar
+
+- Em scripts experimentais descartáveis de uma única linha onde o monitoramento de produção seja irrelevante.
+
+## ⚠️ Limitações e armadilhas
+
+- O volume gerado de dados de rastreamento (*traces*) pode ser massivo, exigindo políticas de retenção de dados e amostragem para evitar custos excessivos de armazenamento.
+
+## 🔍 Comparações
+
+| Conceito | Objetivo | Entrada | Saída | Diferença principal |
+|---|---|---|---|---|
+| [[traces|Rastreamentos (Traces)]] | Mapear o caminho cronológico completo de uma única requisição. | Fluxo ativo de execução de software. | Árvore de eventos cronológica detalhada (*Spans*). | Visão individualizada ponta a ponta de uma transação sistêmica. |
+| [[metricas-operacionais|Métricas Agregadas]] | Quantificar tendências macro sistêmicas (ex: média de latência geral). | Eventos contínuos do sistema em janela temporal. | Gráficos estatísticos e taxas de erro agregadas. | Visão estatística macro sem o detalhamento da jornada de uma requisição isolada. |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Um usuário reclama que o chatbot demorou 12 segundos para responder. Através do *trace*, o engenheiro descobre que 10 desses segundos foram gastos em uma busca travada no banco vetorial, isolando o problema exato sem precisar adivinhar.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- Nenhuma relação suficientemente sustentada pelo capítulo.
+
+### Complementos
+
+- [[engenharia-de-ia|Engenharia de IA]]
+
+### Alternativas
+
+- Nenhuma relação suficientemente sustentada pelo capítulo.
+
+### Conceitos relacionados
+
+- Nenhuma relação suficientemente sustentada pelo capítulo.
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 10 — Arquitetura de Engenharia de IA e Feedback do Usuário
+- **Localização:** localização não informada no material recebido
+- **Evidência:** Apresentação da importância dos rastreamentos (*traces*) na observabilidade de sistemas estocásticos complexos de IA.
+- **Confiança:** alta
+
+## ❓ Perguntas de revisão
+
+1. O que são Rastreamentos (Traces)?
+2. Que problema ele resolve?
+3. Como ele funciona passo a passo?
+4. Quais hipóteses precisam ser verdadeiras?
+5. Quando ele deve ou não deve ser utilizado?
+6. Com qual conceito ele pode ser confundido?
+7. Como eu verificaria seu funcionamento em um caso novo?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.
+
+---
+*Nota gerada a partir do capítulo Capítulo 10 — Arquitetura de Engenharia de IA e Feedback do Usuário. A interpretação final deve ser revisada pelo estudante.*

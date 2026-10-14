@@ -1,0 +1,150 @@
+# 🧠 Síntese de Dados Tradicional e Simulação
+
+**Rede:** `ai-engineering`   **Área:** `dados`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 8 — Dataset Engineering
+- Localização: Páginas 380–386
+
+## 📝 Definição
+
+### Definição formal
+
+A **Síntese de Dados Tradicional e Simulação** compreende as metodologias de geração procedural, algorítmica e mecânica de dados de treinamento concebidas sem a dependência obrigatória de grandes modelos de fundação generativos, estruturando-se em duas abordagens canônicas:
+
+1. **Geração Baseada em Regras e Modelos (*Rule-based / Procedural*):** Uso de templates estáticos preenchidos estocasticamente por geradores de números ou bibliotecas sintéticas (como Faker), transformações afins determinísticas em imagens (rotações, cortes, inversões), substituições léxicas por dicionários e **perturbações adversárias** de ruído;
+2. **Simulação em Ambientes Virtuais (*Simulation / Sim2Real*):** Criação de mundos físicos ou lógicos digitais parametrizados (motores gráficos como CARLA para direção autônoma ou simuladores de física para robótica e jogos) nos quais agentes interagem, experimentam e coletam telemetria de ações em ambientes de risco zero.
+
+### Em linguagem simples
+
+É a fabricação de dados falsos usando programas de computador comuns e simulações de videogame. Em vez de contratar pessoas ou mandar uma IA escrever textos, você usa regras fixas (como gerar 10.000 nomes e endereços falsos em um molde de nota fiscal) ou coloca um carro autônomo para dirigir dentro de um simulador de computador para aprender a desviar de pedestres sem colocar vidas em risco no mundo real.
+
+### Escopo e distinções
+
+Diferencia-se da síntese de dados baseada em LLMs. A síntese tradicional opera por regras lógicas determinísticas, equações físicas de cinemática ou distribuições probabilísticas conhecidas. Não sofre do risco de alucinação linguística, mas é restrita a domínios cujas regras possam ser programadas formalmente.
+
+## 🧩 Problema que resolve
+
+Resolve a escassez de dados para **eventos raros e perigosos**. Coletar dados reais de acidentes de carro na rodovia, falhas catastróficas em reatores nucleares ou movimentações financeiras de fraudes milionárias no mundo físico é arriscado, caro ou ilegal. A simulação gera milhões de cenários de emergência com custo mínimo e sem consequências materiais.
+
+## 💡 Intuição
+
+Pense no treinamento de astronautas da NASA:
+
+- Você não coloca um astronauta novato em um foguete real com combustível verdadeiro para ele descobrir sozinho o que fazer se um motor pegar fogo na decolagem (**treinamento com dados reais arriscados**).
+- Você o coloca dentro de um **simulador de gravidade e cabine espacial virtual** em terra firme. Os engenheiros inserem panes simuladas no sistema de oxigênio mil vezes. O astronauta desenvolve reflexos perfeitos no ambiente virtual antes de subir ao espaço (**metodologia Sim2Real**).
+
+## ⚙️ Como funciona
+
+O ciclo de síntese tradicional articula-se por regras algorítmicas de código:
+
+### Etapas
+
+1. **Definição de Regras e Gramáticas:** Mapeia-se a estrutura formal do dado pretendido (ex.: um esquema de transação de cartão de crédito ou equações de geometria euclidiana).
+2. **Preenchimento Procedural:** Bibliotecas automáticas geram milhões de instâncias combinando variáveis aleatórias dentro de parâmetros predefinidos (ex.: AlphaGeometry da DeepMind treinado com 100 milhões de diagramas sintéticos).
+3. **Aumento por Perturbação Adversária:**
+   - Adiciona-se ruído estocástico imperceptível aos dados (como alterar o brilho, adicionar neve digital ou modificar pixels estratégicos em imagens);
+   - A rede aprende a ser imune a ruídos e tentativas de ataques de classificação.
+4. **Execução em Motor de Simulação:** Em robótica e direção autônoma (CARLA, Waymo SimulationCity), o agente opera em um motor gráfico 3D; o simulador calcula a física de atrito, iluminação e colisões e cospe logs de sensores (câmeras, LIDAR).
+5. **Transferência Sim2Real:** Aplica-se técnicas de adaptação de domínio para garantir que a rede neural treinada no videogame virtual continue funcionando quando conectada aos sensores mecânicos do robô físico.
+
+### Entradas e saídas
+
+- **Entradas:** Modelos CAD, regras gramaticais de negócios e restrições de física do ambiente.
+- **Saídas:** Datasets massivos de telemetria, imagens corrompidas ou formulários sintéticos limpos.
+
+## 📐 Formulação matemática
+
+No aumento por perturbação adversária para tornar um classificador $f_\theta$ robusto, o objetivo formula-se como uma otimização min-max (Goodfellow et al., 2014):
+
+$$\min_\theta \mathbb{E}_{(x, y) \sim \mathcal{D}} \left[ \max_{\|\delta\| \le \epsilon} \mathcal{L}\Big(f_\theta(x + \delta), y\Big) \right]$$
+
+Onde:
+
+- $\delta$ é o ruído perturbador injetado sob uma restrição de magnitude $\epsilon$;
+- O estudo seminal do **One Pixel Attack** (Su et al., 2017) comprovou que alterar a cor de apenas **1 único pixel** foi suficiente para fazer redes neurais profundas errarem $67{,}97\%$ das imagens do CIFAR-10, justificando o uso de perturbações no dataset de treino para fechar essas vulnerabilidades.
+
+## 🧱 Hipóteses e condições de validade
+
+- A simulação virtual deve espelhar com fidelidade suficiente a dinâmica matemática da realidade; se houver uma lacuna de fidelidade (*reality gap*), o modelo treinado na simulação sofrerá falha catastrófica no primeiro contato com o mundo real.
+
+## ✅ Quando usar
+
+- Direção autônoma (Waymo, Tesla), controle de braços robóticos industriais e drones.
+- Geração preliminar de dados bancários de teste antes de obter autorização para lidar com dados sob sigilo bancário real.
+- Problemas com sintaxes formais rígidas (como geração de expressões matemáticas, circuitos lógicos ou diagramas geométricos).
+
+## 🚫 Quando não usar
+
+- Em tarefas que exigem raciocínio aberto de conversação humana, interpretação de humor ou redação de ensaios literários, onde regras procedurais estáticas são incapazes de modelar a complexidade linguística.
+
+## ⚠️ Limitações e armadilhas
+
+- **O abismo de realidade (*Reality Gap*):** O robô aprende a empilhar caixas no simulador gráfico perfeito, mas falha no armazém físico real porque a iluminação do sol refletiu na esteira ou porque a poeira alterou o atrito das garras.
+- **Vieses de simplificação em templates:** Formulários gerados por Faker tendem a ter distribuições uniformes artificiais (nomes sempre comuns, CEPs sempre válidos), deixando de treinar a IA para lidar com as loucuras e erros de digitação de clientes reais.
+
+## 🔍 Comparações
+
+| Modalidade | Custo de Geração | Realismo em Linguagem | Risco de Alucinação | Domínio Ideal |
+|---|---|---|---|---|
+| **Regras e Templates** | Quase zero | Muito baixo e rígido | **Zero (segue o molde)** | Dados transacionais e sintaxes |
+| **Simulação Física** | Alto em desenvolvimento | Não aplicável | **Zero (segue a física do motor)**| Robótica e Carros autônomos |
+| **Síntese por IA (LLM)** | Médio a Alto em tokens | **Máximo e fluente** | Alto (requer verificadores) | Diálogos, resumos e código |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Uma equipe de engenharia precisa treinar o sistema de visão de um trator autônomo para colher maçãs em pomares.
+
+- *Problema:* É primavera e não há maçãs maduras para fotografar no campo real.
+- *Solução por Simulação:* Os engenheiros constroem um pomar virtual em um motor gráfico 3D. Eles simulam macieiras com maçãs de diferentes tamanhos, adicionam chuva virtual, simulam o sol em 30 ângulos diferentes e geram **200.000 fotos sintéticas perfeitas**. O modelo de visão computacional é treinado no computador durante a primavera; quando o outono chega e as primeiras maçãs reais amadurecem, o trator entra no campo já sabendo identificá-las com precisão cirúrgica.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/curadoria-de-dados-e-o-trio-de-ouro.md|Curadoria de Dados e o Trio de Ouro]]
+- [[redes/ai-engineering/conceitos/qualidade-e-conformidade-de-dados.md|Qualidade e Conformidade de Dados]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/sintese-de-instrucoes-e-self-instruct.md|Síntese de Instruções e Self-Instruct]]
+
+### Alternativas
+
+- Coleta empírica manual de dados no mundo físico.
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/verificacao-e-filtragem-de-dados.md|Verificação e Filtragem de Dados]]
+- [[redes/ai-engineering/conceitos/colapso-do-modelo-e-riscos-de-dados-sinteticos.md|Colapso do Modelo e Riscos de Dados Sintéticos]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 8 — Dataset Engineering
+- **Localização:** Páginas 380–386
+- **Evidência:** Chip Huyen aborda métodos tradicionais de síntese, detalha templates gerados por bibliotecas como Faker, cita o uso de 100 milhões de dados sintéticos no AlphaGeometry da DeepMind (Trinh et al., 2024), analisa perturbações adversárias como o One Pixel Attack (Su et al., 2017) e examina plataformas de simulação física como CARLA e Waymo SimulationCity.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. Quais são as duas abordagens canônicas que compõem a síntese tradicional de dados anterior aos LLMs?
+2. Como a geração baseada em regras e templates auxilia na conformidade e privacidade antes da liberação de dados reais?
+3. O que é o desafio da transferência *Sim2Real* na aplicação de simulações virtuais para robótica física?
+4. O que demonstrou a pesquisa seminal do *One Pixel Attack* (Su et al., 2017) sobre a robustez de redes neurais profundas?
+5. De que maneira plataformas como CARLA e SimulationCity viabilizam o treinamento de veículos autônomos para eventos raros?
+6. Como a DeepMind utilizou dados procedurais sintéticos no treinamento do modelo AlphaGeometry?
+7. Quais são os limites estruturais que impedem o uso de métodos procedurais tradicionais em tarefas de geração de linguagem aberta?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

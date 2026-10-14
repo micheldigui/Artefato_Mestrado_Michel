@@ -1,0 +1,230 @@
+{
+  "main": {
+    "id": "e35b5c9d189fff66",
+    "type": "split",
+    "children": [
+      {
+        "id": "a44ac258c3658220",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5b3c5f565aad6698",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "redes/ai-engineering/conceitos/engenharia-de-ia.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "engenharia-de-ia"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d5bab5b5d3514664",
+    "type": "split",
+    "children": [
+      {
+        "id": "858f9778b7dcae3a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "96e545e0f8008126",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": true,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "064eed2569427a45",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#tipo/livro",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "be9d0e07ae7116cc",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "8b4a81ea6faa994d",
+    "type": "split",
+    "children": [
+      {
+        "id": "f3863be25bf46f03",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2a4fec0046121c91",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "redes/machine-learning/MOC.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Links inversos"
+            }
+          },
+          {
+            "id": "7ffe141e42000467",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "redes/machine-learning/conceitos/ROC-AUC.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída"
+            }
+          },
+          {
+            "id": "68ff6686e596de9a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "6a27c4c085801086",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas as propriedades"
+            }
+          },
+          {
+            "id": "d428fb4127022709",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "redes/machine-learning/conceitos/ROC-AUC.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Sumário"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false
+    }
+  },
+  "active": "5b3c5f565aad6698",
+  "lastOpenFiles": [
+    "redes/ai-engineering/conceitos/engenharia-de-ia.md",
+    "redes/machine-learning/conceitos/Rotacao_de_Imagens.md",
+    "redes/machine-learning/conceitos/Aumento_de_Dados.md",
+    "dpo.md",
+    "engenharia-de-ia.md",
+    "redes/ai-engineering/conceitos/engenharia-de-ia.txt",
+    "redes/ai-engineering/conceitos/modelo-de-fundacao.md",
+    "redes/ai-engineering/conceitos/design-de-coleta-de-feedback-e-data-flywheel.md",
+    "redes/ai-engineering/conceitos/alucinacao-em-modelos-de-fundacao.md",
+    "redes/ai-engineering/conceitos/computacao-em-tempo-de-teste.md",
+    "redes/ai-engineering/conceitos/agentes-de-ia.md",
+    "redes/ai-engineering/conceitos/paradoxo-de-simpson.md",
+    "redes/ai-engineering/conceitos/correcao-funcional.md",
+    "fontes/referencias-ia-ml/indexacao/stopwords_pt_en.csv",
+    "fontes/referencias-ia-ml/indexacao/relationship_candidates.csv",
+    "fontes/referencias-ia-ml/indexacao/glossary_candidates.csv",
+    "auto-supervisão.md",
+    "fontes/referencias-ia-ml/indexacao/manifest.csv",
+    "fontes/referencias-ia-ml/indexacao",
+    "redes/ai-engineering/conceitos/injecao-de-prompt.md",
+    "redes/ai-engineering/conceitos/busca-hibrida-e-reciprocal-rank-fusion.md",
+    "redes/ai-engineering/conceitos/humano-no-loop.md",
+    "redes/ai-engineering/conceitos/sintese-de-instrucoes-e-self-instruct.md",
+    "redes/machine-learning/indice-algoritmos-modelos.md",
+    "redes/ai-engineering/conceitos/mixture-of-experts.md",
+    "redes/ai-engineering/conceitos/avaliacao-comparativa.md",
+    "redes/ai-engineering/conceitos/ia-como-juiz.md",
+    "redes/ai-engineering/conceitos/gargalos-de-escala.md",
+    "redes/ai-engineering/conceitos/ajuste-fino.md",
+    "redes/ai-engineering/conceitos/modelos-de-espaco-de-estados.md",
+    "redes/ai-engineering/conceitos/amostragem-restrita-e-saidas-estruturadas.md",
+    "redes/ai-engineering/conceitos/algoritmos-de-recuperacao-lexical-e-vetorial.md",
+    "fontes/referencias-ia-ml/txt/mastering-exploratory-analysis-with-pandas-2018.txt",
+    "fontes/referencias-ia-ml/txt/Securing_the_AI_Enterprise_-_Edgardo_Fernandez_Climent.txt",
+    "fontes/referencias-ia-ml/txt/practical_mlops_operationalizing_machine_learning_models_-_Noah_Gift.txt",
+    "fontes/referencias-ia-ml/txt/Practical_Machine_Learning_on_Databricks_-_Debu_Sinha (2).txt"
+  ]
+}

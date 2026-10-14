@@ -1,0 +1,166 @@
+---
+title: "Humano no Loop"
+type: "conceito"
+network: "ai-engineering"
+aliases:
+  - human-in-the-loop
+  - crawl-walk-run
+tags:
+  - governanca
+  - ai-engineering
+---
+
+# 🧠 Humano no Loop (Crawl-Walk-Run)
+
+**Rede:** `ai-engineering`   **Área:** `governanca`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 1 — Introduction to Building AI Applications with Foundation Models
+- Localização: Páginas 30–31
+
+## 📝 Definição
+
+### Definição formal
+
+O **Humano no Loop** (*Human-in-the-Loop* — HITL) é o paradigma de design arquitetural e operacional no qual operadores ou especialistas humanos são integrados de maneira mandatória ou condicional ao fluxo de execução de um sistema de IA, atuando na revisão, validação, correção ou complementação de decisões ou saídas geradas pelos modelos.
+
+O framework **Crawl-Walk-Run** formaliza a introdução progressiva dessa autonomia em três fases:
+
+1. **Crawl (Engatinhar):** Envolvimento humano obrigatório; a IA atua apenas como copiloto de suporte interno sugerindo opções que um humano valida e despacha.
+2. **Walk (Andar):** A IA interage de forma autônoma diretamente com funcionários internos da organização ou assume tarefas de menor risco sob monitoramento.
+3. **Run (Correr):** Automação expandida, com interações diretas e autônomas com clientes externos em fluxos de trabalho completos.
+
+### Em linguagem simples
+
+É a estratégia de não deixar a IA solta tomando decisões sozinhas logo de cara. No começo, um humano precisa conferir tudo o que o robô faz antes de entregar ao cliente. Conforme o sistema prova que é confiável e erra cada vez menos, a empresa vai soltando as rédeas gradualmente.
+
+### Escopo e distinções
+
+Não significa abandono da automação, mas sim governança controlada de risco. A proporção e o momento de intervenção humana adaptam-se dinamicamente com base nas métricas reais de aceitação das respostas.
+
+## 🧩 Problema que resolve
+
+Resolve a barreira de confiabilidade e responsabilidade legal no lançamento de aplicações cognitivas. Modelos probabilísticos falham em frequências que podem causar prejuízos financeiros severos, desastres de relações públicas ou riscos à vida. O HITL neutraliza o risco operacional imediato enquanto o sistema acumula dados de uso real para refinamento.
+
+## 💡 Intuição
+
+Pense em um médico residente no hospital. No primeiro ano, ele examina o paciente e prepara o rascunho da receita médica, mas um médico titular sênior precisa obrigatoriamente ler, assinar e carimbar a receita antes de entregá-la ao doente (**Crawl**). Com o passar dos anos e a comprovação reiterada de acertos, o jovem médico ganha autonomia para emitir prescrições rotineiras (**Walk**) até operar de forma plenamente independente em sua especialidade (**Run**).
+
+## ⚙️ Como funciona
+
+O fluxo operacional de intervenção humana estrutura-se em regras de roteamento e triagem de risco:
+
+### Etapas
+
+1. **Recepção da requisição:** A IA processa o caso e calcula uma resposta preliminar acompanhada de um nível interno de confiança ou escore de risco.
+2. **Triagem de intervenção:**
+   - *Se em estágio Crawl:* A saída é sempre desviada para uma tela de atendimento humano.
+   - *Se em estágio Walk/Run:* Requisições triviais são despachadas diretamente; apenas solicitações complexas ou anômalas disparam desvio para humanos.
+3. **Ação humana:** O operador humano aceita a sugestão da IA na íntegra, edita trechos imperfeitos ou descarta a resposta e redige outra do zero.
+4. **Alimentação do data flywheel:** A decisão humana e a eventual correção do texto são salvas no banco de dados para atuar como dados de treino supervisionado futuro ([[redes/ai-engineering/conceitos/defensabilidade-de-produto-de-ia.md|data flywheel]]).
+5. **Calibração de fase:** Se a taxa de aceitação humana sem edição ultrapassa patamares consolidados (ex.: 95% de aceitação contínua), a governança avança para o próximo nível de autonomia.
+
+### Entradas e saídas
+
+- **Entradas:** Rascunhos de respostas e escores preditivos gerados pelo modelo.
+- **Saídas:** Ação executada com garantia de conformidade e dados pareados de validação humana para reaproveitamento técnico.
+
+## 📐 Formulação matemática
+
+A taxa de intervenção humana $R_{\text{HITL}}$ define o grau de autonomia do sistema em função do limiar de risco $\tau$:
+
+$$R_{\text{HITL}} = \frac{1}{N} \sum_{i=1}^N \mathbb{I}\Big(\text{Risco}(x_i) > \tau\Big)$$
+
+Onde:
+
+- $\mathbb{I}$ é a função indicadora;
+- Em estágio **Crawl**: $\tau = 0 \implies R_{\text{HITL}} = 1$ ($100\%$ de supervisão humana);
+- Em estágio **Run**: $\tau$ é calibrado para que $R_{\text{HITL}} \to 0{,}05$ (apenas $5\%$ dos casos mais arriscados demandam humanos).
+
+## 🧱 Hipóteses e condições de validade
+
+- Os operadores humanos envolvidos possuem capacidade técnica e discernimento suficientes para identificar e corrigir erros sutis cometidos pelo modelo.
+- A interface de operação humana deve ser ágil para não inviabilizar a latência final percebida pelo cliente.
+
+## ✅ Quando usar
+
+- Lançamento de qualquer aplicação em ambientes corporativos regulados (saúde, financeiro, jurídico).
+- Para contornar provisoriamente o [[redes/ai-engineering/conceitos/desafio-da-ultima-milha-em-ia.md|desafio da última milha em IA]] enquanto o produto ganha maturidade técnica.
+
+## 🚫 Quando não usar
+
+- Aplicações de consumo de entretenimento de baixo risco onde a escala de milhões de interações por segundo torna inviável pagar operadores humanos e onde erros eventuais não acarretam prejuízo grave.
+
+## ⚠️ Limitações e armadilhas
+
+- **Fadiga do operador humano:** Quando a IA acerta quase sempre, os revisores humanos tendem a ficar complacentes e aprovar respostas sem ler, deixando passar alucinações críticas.
+- **Custo operacional contínuo:** Manter equipes humanas reduz a margem de lucro de produtos de software intensivos em IA se a transição para automação tardar.
+
+## 🔍 Comparações
+
+| Estágio | Destinatário da Interação | Papel da IA | Supervisão Humana |
+|---|---|---|---|
+| **Crawl (Engatinhar)** | Funcionário interno | Gera rascunho de auxílio | Obrigatória ($100\%$) |
+| **Walk (Andar)** | Funcionários internos ou casos simples | Atua de forma direta sob supervisão | Por amostragem ou exceção |
+| **Run (Correr)** | Cliente final externo | Conduz processos autônomos de ponta a ponta | Apenas em falhas severas de contingência |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Um escritório de advocacia implanta um assistente de redação de petições judiciais.
+
+- No início (**Crawl**), o sistema pesquisa jurisprudência e redige o rascunho inicial da peça jurídica. O advogado sênior lê cada linha, edita erros conceituais e assina a peça.
+- Após 6 meses, a taxa de aceitação dos rascunhos sem edição passa de $92\%$. O escritório adota a fase **Walk**: a IA gera respostas automáticas para notificações extrajudiciais padronizadas enviadas a cartórios, liberando os advogados para casos complexos.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/engenharia-de-ia.md|Engenharia de IA]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/desafio-da-ultima-milha-em-ia.md|Desafio da Última Milha em IA]]
+- [[redes/ai-engineering/conceitos/defensabilidade-de-produto-de-ia.md|Defensabilidade de Produto de IA]]
+
+### Alternativas
+
+- Automação total desgovernada (*Zero-Human Automation*).
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/pilha-de-engenharia-de-ia.md|Pilha de Engenharia de IA]]
+- [[redes/ai-engineering/conceitos/finetuning.md|Ajuste Fino (Finetuning)]]
+
+- [[redes/ai-engineering/conceitos/pilha-de-engenharia-de-ia.md|Pilha de Engenharia de IA]]
+- [[redes/ai-engineering/conceitos/ajuste-fino.md|Ajuste Fino (Finetuning)]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 1 — Introduction to Building AI Applications with Foundation Models
+- **Localização:** Páginas 30–31
+- **Evidência:** O texto detalha a dinâmica de human-in-the-loop e cita expressamente o framework de automação gradual Crawl-Walk-Run desenvolvido pela Microsoft para mitigar riscos na introdução de produtos generativos.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. Qual é a definição de Humano no Loop (HITL) no contexto da implantação de sistemas de IA generativa?
+2. Quais são as três fases sequenciais propostas pelo framework Crawl-Walk-Run da Microsoft?
+3. De que maneira a estratégia de HITL viabiliza o lançamento comercial de produtos afetados pelo desafio da última milha?
+4. Como a intervenção e correção humana alimenta positivamente o ciclo virtuoso do *data flywheel* da empresa?
+5. Qual é o perigo da fadiga de atenção de operadores humanos em sistemas onde a IA acerta a vasta maioria das requisições?
+6. Quais critérios de risco de negócio definem quando uma aplicação pode migrar com segurança do estágio Crawl para o estágio Walk?
+7. Por que a automação plena e desgovernada desde o primeiro dia é desaconselhada para setores de alta regulação?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

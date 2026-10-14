@@ -1,0 +1,152 @@
+# 🧠 Fatiamento de Dados e Paradoxo de Simpson
+
+**Rede:** `ai-engineering`  
+**Área:** `metodologia`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 4 — Evaluate AI Systems
+- Localização: Páginas 205–206
+
+## 📝 Definição
+
+### Definição formal
+
+O **Fatiamento de Dados** (*Data Slicing*) é a técnica de avaliação estatística em que um conjunto consolidado de dados de teste de um sistema de IA é particionado em subconjuntos homogêneos ou fatias (*slices*) com base em dimensões contextuais, operacionais ou demográficas específicas (como tamanho do prompt, origem do tráfego, nível de conta do usuário ou tópicos de domínio), permitindo diagnosticar falhas concentradas que seriam ocultadas por métricas globais agregadas.
+
+O **Paradoxo de Simpson** é o fenômeno estatístico contra-intuitivo no qual uma tendência, superioridade métrica ou associação demonstrada por um modelo $A$ sobre um modelo $B$ nos dados gerais agregados se **inverte completamente** quando os dados são desagregados e inspecionados individualmente dentro de cada uma das fatias que compõem o conjunto.
+
+### Em linguagem simples
+
+Fatiar os dados significa parar de olhar apenas para a "média geral da turma" e olhar as notas de cada grupo separado (ex.: olhar como o modelo se sai em perguntas curtas versus perguntas longas). O Paradoxo de Simpson é a pegadinha matemática onde o Modelo A parece melhor que o Modelo B na média geral, mas quando você olha as categorias separadas, o Modelo B ganhou do Modelo A em absolutamente todas as categorias individuais.
+
+### Escopo e distinções
+
+Constitui uma blindagem contra decisões de produto errôneas. Não se limita a testes de viés demográfico (como raça ou gênero), mas estende-se a fatias operacionais de engenharia de software (como erros causados por prompts digitados com erros ortográficos no celular versus consultas corporativas no desktop).
+
+## 🧩 Problema que resolve
+
+Resolve a miopia das métricas de média global. Um sistema de IA pode exibir uma acurácia média fantástica de $90\%$, mas falhar em $100\%$ das consultas feitas por usuários pagantes de alto valor ou errar todas as requisições em idiomas secundários. O fatiamento isola exatamente onde o sistema quebra antes que o produto seja rejeitado no mercado.
+
+## 💡 Intuição
+
+Pense em dois tratamentos médicos (A e B) para pedras nos rins:
+- Se você misturar todos os pacientes em um bolo só, o Tratamento A pode parecer ter uma taxa de cura global maior ($78\%$ contra $83\%$).
+- Mas quando você separa os pacientes em dois grupos (**pedras pequenas** e **pedras grandes**), descobre que o Tratamento A foi superior nos pacientes com pedras pequenas E também foi superior nos pacientes com pedras grandes. 
+Isso acontece porque um dos grupos era muito mais difícil e recebeu desproporcionalmente mais pacientes de um dos tratamentos, distorcendo a média ponderada final.
+
+## ⚙️ Como funciona
+
+O processo de fatiamento operacionaliza-se através da criação de suítes de teste estratificadas:
+
+### Etapas
+
+1. **Identificação de Dimensões de Fatiamento:** A equipe lista as características críticas do caso de uso:
+   - Fatias de Negócio: usuários pagantes vs. usuários gratuitos;
+   - Fatias de Interface: acessos móveis (prompts curtos e com erros de digitação) vs. web (prompts estruturados e longos);
+   - Fatias de Risco: perguntas dentro do escopo vs. tentativas de ataque de injeção ou consultas fora de escopo;
+   - Fatias de Complexidade: tarefas de 1 passo vs. tarefas que exigem raciocínio encadeado.
+2. **Construção de Conjuntos Dedicados:** Garante-se que cada fatia possua uma quantidade mínima de amostras para auditoria estatística.
+3. **Avaliação Desagregada:** O sistema é avaliado independentemente sobre cada fatia.
+4. **Detecção de Desvios e Paradoxos:** Compara-se o desempenho entre modelos em cada fatia e na média total para verificar inconsistências de dominância estatística.
+5. **Ação Corretiva Direcionada:** Se o modelo falha apenas em prompts longos, a equipe aprimora a técnica de RAG ou troca o modelo apenas para essa fatia via roteador.
+
+### Entradas e saídas
+
+- **Entradas:** Dados de teste etiquetados com metadados contextuais e os sistemas candidatos.
+- **Saídas:** Tabela matricial de desempenho por subgrupo com sinalização de anomalias estatísticas.
+
+## 📐 Formulação matemática
+
+O clássico caso empírico de Simpson apresentado no capítulo demonstra que a média agregada ponderada pode mascarar a superioridade local uniforme:
+
+| Subgrupo | Modelo A | Modelo B | Vencedor Local |
+|---|---|---|---|
+| **Grupo 1 (Casos Fáceis)** | $93\% \;\; (81/87)$ | $87\% \;\; (234/270)$ | **Modelo A** |
+| **Grupo 2 (Casos Difíceis)** | $73\% \;\; (192/263)$ | $69\% \;\; (55/80)$ | **Modelo A** |
+| **Total Agregado** | **$78\% \;\; (273/350)$** | **$83\% \;\; (289/350)$** | **Modelo B (Ilusão da Média)** |
+
+O Modelo A é estritamente superior no Grupo 1 ($93\% > 87\%$) e no Grupo 2 ($73\% > 69\%$). Contudo, o Modelo B parece superior no cômputo geral ($83\% > 78\%$) porque o Modelo B foi testado majoritariamente no grupo fácil ($270$ dos seus $350$ testes foram no Grupo 1), enquanto o Modelo A foi testado majoritariamente no grupo difícil ($263$ dos seus $350$ testes foram no Grupo 2).
+
+## 🧱 Hipóteses e condições de validade
+
+- A amostragem de cada fatia deve ser equilibrada entre os modelos concorrentes para que a média agregada não sofra a distorção ponderada de Simpson.
+
+## ✅ Quando usar
+
+- Mandatório na homologação de qualquer sistema de IA generativa antes de implantações em produção corporativa.
+- Auditoria de equidade, mitigação de preconceitos contra minorias e depuração de falhas de modelos em produção.
+
+## 🚫 Quando não usar
+
+- Não há restrição técnica; avaliar sistemas apenas por métricas médias globais deve ser evitado como princípio de engenharia.
+
+## ⚠️ Limitações e armadilhas
+
+- **Superfatiamento (*Over-slicing*):** Dividir o conjunto de dados em centenas de fatias minúsculas contendo apenas 3 ou 4 exemplos cada, perdendo a significância estatística das medições.
+
+## 🔍 Comparações
+
+| Abordagem | O que mede? | Ponto Cego Crítico | Custo de Implementação |
+|---|---|---|---|
+| **Métrica Média Agregada** | Performance geral consolidada | Oculta falhas locais e sofre do Paradoxo de Simpson | Mínimo |
+| **Avaliação Fatiada (*Slicing*)** | Performance em subgrupos operacionais | Exige metadados e rotulagem estratificada | Médio |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Um banco testa dois modelos de atendimento para seu aplicativo:
+- O **Modelo A** acerta $90\%$ das dúvidas sobre cartões e $80\%$ das dúvidas sobre investimentos.
+- O **Modelo B** acerta $85\%$ das dúvidas sobre cartões e $75\%$ das dúvidas sobre investimentos.
+O Modelo A é inquestionavelmente superior em ambos os serviços.
+Porém, no teste em produção, $90\%$ das dúvidas enviadas para o Modelo B eram sobre cartões (assunto fácil), enquanto $80\%$ das dúvidas enviadas para o Modelo A eram sobre investimentos (assunto difícil). 
+Na reunião de diretoria, um analista desatento apresenta um gráfico mostrando que o Modelo B teve média de $84\%$ e o Modelo A teve média de $82\%$, quase fazendo o banco contratar o pior modelo devido ao **Paradoxo de Simpson**.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/desenvolvimento-orientado-por-avaliacao.md|Desenvolvimento Orientado por Avaliação]]
+- [[redes/ai-engineering/conceitos/desafios-de-avaliacao-de-modelos-de-fundacao.md|Desafios de Avaliação de Modelos de Fundação]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/dimensionamento-amostral-de-avaliacao.md|Dimensionamento Amostral de Avaliação]]
+- [[redes/ai-engineering/conceitos/diretrizes-e-rubricas-de-avaliacao.md|Diretrizes e Rubricas de Avaliação]]
+
+### Alternativas
+
+- Nenhuma relação suficientemente sustentada pelo capítulo.
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/selecao-de-modelos-atributos-rigidos-e-flexiveis.md|Seleção de Modelos: Atributos Rígidos e Flexíveis]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 4 — Evaluate AI Systems
+- **Localização:** Páginas 205–206
+- **Evidência:** Chip Huyen revisita a formulação de slice-based evaluation de seu livro anterior (DMLS) adaptada a LLMs, detalhando as vantagens de fatiar por clientes e dispositivos e demonstrando através de tabela numérica concreta como o Paradoxo de Simpson inverte a aparente superioridade entre dois modelos.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. O que é o Fatiamento de Dados (*Data Slicing*) e qual é a sua importância na avaliação de modelos de fundação?
+2. O que é o Paradoxo de Simpson e como ele se manifesta na comparação agregada entre dois sistemas de IA?
+3. Como a proporção assimétrica de testes fáceis versus difíceis pode fazer o pior modelo parecer o melhor na média geral?
+4. Quais são as principais categorias de fatiamento operacional recomendadas para aplicações de conversação e agentes?
+5. Por que testar um modelo sobre uma fatia específica de "consultas com erros de digitação" é essencial para aplicações móveis?
+6. Qual é o perigo metodológico associado ao superfatiamento (*over-slicing*) de um conjunto de dados de teste?
+7. Como a técnica de fatiamento orienta decisões de arquitetura voltadas ao uso de roteadores inteligentes de modelos?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

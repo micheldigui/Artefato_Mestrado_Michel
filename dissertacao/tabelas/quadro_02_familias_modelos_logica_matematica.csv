@@ -1,0 +1,12 @@
+﻿Familia,Principio Matematico ou Estatistico,Interpretacao no Artefato
+Regressao linear,"Combina as caracteristicas dos dias, atribuindo a cada uma um coeficiente estimado no treino.","Os coeficientes representam associacoes ajustadas as entradas do modelo, sem interpretacao causal automatica."
+Modelos regularizados (Ridge/Lasso),"Mantem a logica linear, mas penalizam coeficientes grandes (L2) ou excesso de variaveis (L1).",Reduzem risco de ajuste exagerado (overfitting) quando ha muitos atributos.
+KNN,Usa o consumo dos casos mais semelhantes no historico para estimar o novo dia.,Dias com caracteristicas semelhantes ajudam a estimar o consumo do novo dia.
+SVR,"Ajusta uma relacao entre atributos e consumo, com tolerancia a pequenos erros e penalizacao de desvios maiores.","Permite ajustar relacoes nao lineares entre atributos e consumo, conforme a funcao utilizada."
+Arvores de decisao,Separam os registros por regras sobre suas caracteristicas e estimam o consumo dentro de cada grupo.,"O modelo cria regras condicionais, como combinacoes de dia, reserva, calendario e historico."
+Random Forest,Combina previsoes de arvores treinadas com amostras e caracteristicas diferentes (Bagging).,"A previsao resulta da media de varias arvores, reduzindo instabilidade de uma arvore isolada."
+ExtraTrees,Combina muitas arvores com cortes mais aleatorios para aumentar diversidade entre elas.,A diversidade das arvores pode melhorar generalizacao quando ha relacoes nao lineares e variaveis interativas.
+Boosting (XGBoost/CatBoost/LGBM),"Constroi modelos sequencialmente, com ajustes voltados aos erros das etapas anteriores.","Em cada etapa, reduz-se parte do erro remanescente da etapa anterior, conforme o procedimento de ajuste."
+Redes neurais MLP,Aplicam composicoes de funcoes lineares e nao lineares em camadas sucessivas.,"Podem representar relacoes complexas, mas exigem cuidado com escala, dados e sobreajuste."
+Series temporais (SARIMAX/Prophet),"Representam tendencia, sazonalidade e dependencia autorregressiva e de medias moveis.",A previsao depende principalmente do comportamento passado da propria demanda.
+Comites / Hibridos,"Combinam previsoes de varios modelos ou fontes por media, mediana ou pesos otimizados.",Permitem avaliar se a uniao de previsoes melhora a estabilidade e o erro global.

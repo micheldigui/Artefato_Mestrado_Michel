@@ -1,0 +1,172 @@
+---
+type: "revisao-repeticao"
+status: "sem-novos-blocos"
+source_file: 'D:\Estudos\Resumos de livros\livros\second_brain\redes\ai-engineering\conceitos\ai-engineering.md'
+source_hash: '0EDA37AD474F1C2D386855CBE1109F23710B81AA06077F52F39B5FE4BE66793D'
+incoming_target: 'redes/ai-engineering/conceitos/ajuste-fino-eficiente-em-parametros-peft.md'
+canonical_path: 'redes\ai-engineering\conceitos\ajuste-fino-eficiente-em-parametros-peft.md'
+duplicate_reason: 'titulo, alias ou slug equivalente: ajuste-fino-eficiente-em-parametros-peft'
+---
+
+# Revisao de conceito repetido
+
+## Nota candidata recebida
+
+# 🧠 Ajuste Fino Eficiente em Parâmetros (PEFT)
+
+**Rede:** `ai-engineering`  
+**Área:** `treinamento`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 7 — Finetuning
+- Localização: Páginas 332–338
+
+## 📝 Definição
+
+### Definição formal
+
+O **Ajuste Fino Eficiente em Parâmetros** (*Parameter-Efficient Finetuning* — PEFT) é o paradigma de aprendizado por transferência em que um [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|modelo de fundação]] pré-treinado tem a vasta maioria de seus parâmetros originais congelados (*frozen*), enquanto o processo de otimização por gradiente descendente é restrito à atualização de um número residual e minúsculo de parâmetros treináveis (tipicamente entre $0{,}01\%$ e $3\%$ do total de pesos), alcançando desempenho empírico comparável ao do ajuste fino completo (*Full Finetuning*) com uma fração mínima dos requisitos de memória VRAM e computação. 
+
+As técnicas de PEFT dividem-se em duas macro-categorias estruturais:
+1. **Métodos Aditivos / Baseados em Adaptadores (*Adapter-based*):** Injetam novos módulos ou camadas parametrizadas compactas dentro ou ao lado dos blocos do modelo (como Houlsby Adapters, [[redes/ai-engineering/conceitos/lora-low-rank-adaptation.md|LoRA]] e $(IA)^3$);
+2. **Métodos de Prompts Suaves (*Soft Prompt-based*):** Introduzem vetores contínuos treináveis adicionais prepensados ao fluxo de ativação dos tokens sem alterar matrizes de peso internas (como *Prompt Tuning*, *Prefix-Tuning* e *P-Tuning*).
+
+### Em linguagem simples
+
+É o método que tornou viável para pessoas comuns e pequenas empresas ajustarem IAs gigantescas. Em vez de tentar recalibrar todos os 70 bilhões de parâmetros de uma rede (o que exige supercomputadores caríssimos), você "trava" o cérebro original da IA e mexe em menos de 1% de parâmetros extras colocados estrategicamente. A IA aprende a nova tarefa perfeitamente, mas você gasta centenas de vezes menos memória e consegue treinar tudo em uma única placa de vídeo.
+
+### Escopo e distinções
+
+Diferencia-se do **ajuste fino parcial ingênuo** (congelar as 9 primeiras camadas e treinar apenas a última), que a literatura comprovou ser ineficiente (exigiria treinar cerca de 25% dos pesos para atingir resultados aceitáveis). O PEFT insere flexibilidade estrutural coordenada ao longo de toda a profundidade da rede neural.
+
+## 🧩 Problema que resolve
+
+Resolve a inacessibilidade financeira e física do *Full Finetuning*. Atualizar todos os pesos de modelos modernos exige manter na memória gigabytes massivos de gradientes e estados do otimizador Adam, exigindo clusters com múltiplas placas de vídeo de 80 GB. O PEFT reduz os parâmetros treináveis de bilhões para poucos milhões, colapsando a demanda de VRAM de otimizadores para valores desprezíveis.
+
+## 💡 Intuição
+
+Pense em um livro de receitas de 1.000 páginas escrito por um chef consagrado:
+- No **Full Finetuning**, para adaptar o livro para a culinária brasileira, você reescreveria as 1.000 páginas do livro palavra por palavra em uma nova gráfica. O custo de impressão é absurdo.
+- No **PEFT**, você mantém o livro original intacto e fechado na estante (**pesos congelados**). Você simplesmente anexa ao final de cada capítulo uma tira adesiva de post-it com notas de 3 linhas dizendo: *"Substitua a manteiga por azeite de dendê"* (**adaptadores**). O livro continua o mesmo, a adaptação foi perfeita e você gastou apenas alguns centavos de papel.
+
+## ⚙️ Como funciona
+
+O ecossistema de PEFT atua modificando a rota de ativação das camadas neurais:
+
+### Etapas
+
+1. **Congelamento Estrutural:** O algoritmo percorre todos os parâmetros originais $\theta_{\text{base}}$ do modelo de fundação e desativa o cálculo de gradientes (`requires_grad = False`).
+2. **Injeção de Parâmetros Treináveis:**
+   - *Se método de adaptador:* Insere pequenas matrizes auxiliares compactas em posições selecionadas (ex.: camadas de atenção ou MLPs);
+   - *Se método de soft prompt:* Adiciona uma sequência de vetores contínuos virtuais no início dos tokens de entrada ou em cada camada.
+3. **Passagem Direta (*Forward Pass*):** A entrada passa pelas camadas originais congeladas e pelos novos parâmetros injetados.
+4. **Retropropagação Restrita:** O cálculo do gradiente descendente calcula erros e atualiza os estados do otimizador **apenas e exclusivamente para os parâmetros adicionados**.
+5. **Geração de Artefato Modular:** Ao final do treino, o sistema salva em disco apenas o arquivo minúsculo contendo os parâmetros treinados (frequentemente entre 10 MB e 100 MB), que pode ser acoplado dinamicamente ao modelo base em tempo de inferência.
+
+### Entradas e saídas
+
+- **Entradas:** Modelo de fundação base congelado e dataset de instrução supervisionado.
+- **Saídas:** Arquivo leve de adaptador/prompt suave que parametriza a nova especialidade.
+
+## 📐 Formulação matemática
+
+No ajuste fino supervisionado tradicional, otimizam-se todos os parâmetros $\Theta$:
+
+$$\min_\Theta \sum_{(x, y) \in \mathcal{D}} \mathcal{L}\big(f_\Theta(x), y\big)$$
+
+No **PEFT**, particiona-se o espaço de parâmetros em $\Theta = \{\theta_{\text{congelado}}, \; \phi_{\text{treinável}}\}$, onde $|\phi_{\text{treinável}}| \ll |\theta_{\text{congelado}}|$:
+
+$$\min_{\phi} \sum_{(x, y) \in \mathcal{D}} \mathcal{L}\Big(f_{\theta_{\text{congelado}}, \, \phi}(x), y\Big)$$
+
+O artigo pioneiro de Houlsby et al. (2019) no benchmark GLUE demonstrou que treinando apenas **$3{,}6\%$ de parâmetros adicionais** via adaptadores, o modelo atingiu desempenho a apenas **$0{,}4\%$** de distância do ajuste completo de 100% dos parâmetros.
+
+## 🧱 Hipóteses e condições de validade
+
+- Fundamenta-se na descoberta empírica e teórica de que grandes modelos de fundação pré-treinados possuem **baixa dimensão intrínseca** (*low intrinsic dimension*): as soluções ótimas para tarefas a jusante residem em um subespaço linear de dimensão ordens de magnitude menor do que o número nominal de parâmetros da rede.
+
+## ✅ Quando usar
+
+- Quase sempre: é a abordagem padrão de largada recomendada para qualquer projeto corporativo de ajuste fino.
+- Cenários onde uma única empresa precisa oferecer modelos customizados para dezenas ou centenas de clientes diferentes a partir de um mesmo modelo base compartilhado.
+- Ambientes com restrições severas de hardware (treinamento em GPUs individuais de 16 GB ou 24 GB).
+
+## 🚫 Quando não usar
+
+- Em pré-treinamento contínuo massivo (*continued pre-training*) com trilhões de tokens para ensinar uma nova língua inteira do zero a um modelo que nunca a viu.
+
+## ⚠️ Limitações e armadilhas
+
+- **Sobrecarga de latência dos adaptadores originais:** A proposta inicial de Houlsby inseria novas camadas sequenciais que aumentavam o tempo de inferência em até 20%. Essa limitação foi superada pelo design do [[redes/ai-engineering/conceitos/lora-low-rank-adaptation.md|LoRA]].
+- **Soft Prompts difíceis de interpretar:** Métodos baseados em *prompt tuning* puro (vetores contínuos virtuais) são caixas-pretas numéricas que não podem ser lidas nem editadas por humanos como prompts de texto tradicionais.
+
+## 🔍 Comparações
+
+| Família PEFT | Onde atua? | Mecanismo | Impacto na Latência de Inferência |
+|---|---|---|---|
+| **Adaptadores Clássicos (Houlsby)** | Entre camadas do Transformer | Novas camadas lineares pequenas | Adiciona latência (passos extras no forward) |
+| **LoRA / Aditivos Modernos** | Em paralelo às matrizes de peso | Decomposição de baixo posto ($A \times B$) | **Zero latência extra (pesos podem ser fundidos)** |
+| **Soft Prompts (Prefix-Tuning)** | No fluxo de ativação dos tokens | Vetores virtuais contínuos treináveis | Reduz discretamente a janela útil de contexto |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Uma empresa de software de RH quer treinar um assistente para responder dúvidas sobre a CLT brasileira.
+- Se utilizasse **Full Finetuning** sobre o Llama 3-70B, ela precisaria alugar um cluster com 8 placas H100 custando dezenas de milhares de dólares por semana.
+- A equipe opta por **PEFT (LoRA)**. Eles congelam os 70 bilhões de parâmetros e treinam apenas 50 milhões de parâmetros adicionais ($0{,}07\%$). O treinamento roda confortavelmente em uma única máquina com duas placas menores e termina em uma tarde, atingindo pontuação idêntica em testes práticos de legislação trabalhista.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|Modelo de Fundação]]
+- [[redes/ai-engineering/conceitos/matematica-da-memoria-de-treinamento.md|Matemática da Memória de Treinamento]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/lora-low-rank-adaptation.md|LoRA (Low-Rank Adaptation)]]
+- [[redes/ai-engineering/conceitos/quantized-lora-qlora.md|Quantized LoRA (QLoRA)]]
+- [[redes/ai-engineering/conceitos/fusao-de-modelos-model-merging.md|Fusão de Modelos (Model Merging)]]
+
+### Alternativas
+
+- Ajuste Fino Completo (*Full Finetuning*).
+- Ajuste Fino Parcial Ingênuo de Camadas Finais.
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/ajuste-fino.md|Ajuste Fino (Finetuning)]]
+- [[redes/ai-engineering/conceitos/representacoes-numericas-e-precisao.md|Representações Numéricas e Precisão]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 7 — Finetuning
+- **Localização:** Páginas 332–338
+- **Evidência:** Chip Huyen introduz o conceito de PEFT citando o artigo seminal de Houlsby et al. (2019) no benchmark GLUE, apresenta o gráfico de desempenho (Figura 7-7) contra o ajuste parcial de camadas, detalha a taxonomia de adaptadores e soft prompts (P-tuning, Prefix-tuning) e analisa dados do repositório huggingface/peft comprovando a dominância absoluta de LoRA no mercado.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. O que é o paradigma de Ajuste Fino Eficiente em Parâmetros (PEFT) e qual problema de infraestrutura ele resolve?
+2. Por que o ajuste parcial ingênuo de congelar as primeiras camadas e treinar apenas as últimas é considerado ineficiente?
+3. Quais são as duas macro-categorias estruturais nas quais os métodos de PEFT se dividem?
+4. O que é a hipótese da baixa dimensão intrínseca (*low intrinsic dimension*) e como ela fundamenta teoricamente a eficácia do PEFT?
+5. Qual era a principal limitação dos adaptadores pioneiros de Houlsby et al. (2019) em relação à velocidade de inferência?
+6. O que são *Soft Prompts* (como no Prefix-Tuning) e em que eles se diferenciam dos prompts em linguagem natural tradicional?
+7. Como a natureza modular dos artefatos de PEFT viabiliza o atendimento simultâneo de múltiplos clientes especializados sobre um mesmo modelo base?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.
+
+## Pergunta para a segunda analise
+
+Compare esta nota com a nota canonica indicada no frontmatter. Extraia somente informacoes novas, corrija divergencias e proponha atualizacoes sem duplicar o conceito.

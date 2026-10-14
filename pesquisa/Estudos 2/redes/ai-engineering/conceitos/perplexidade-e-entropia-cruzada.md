@@ -1,0 +1,159 @@
+# 🧠 Perplexidade e Entropia Cruzada
+
+**Rede:** `ai-engineering`   **Área:** `metricas`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 3 — Evaluation Methodology
+- Localização: Páginas 118–125
+
+## 📝 Definição
+
+### Definição formal
+
+A **Entropia Cruzada** ($H(P, Q)$) e a **Perplexidade** ($\text{PPL}$) são métricas fundamentadas na teoria da informação de Claude Shannon (1951) utilizadas para mensurar a eficácia de um [[redes/ai-engineering/conceitos/modelo-de-linguagem.md|modelo de linguagem]] $Q$ em prever a distribuição estatística verdadeira dos tokens de um corpus textual $P$:
+
+- A **Entropia Cruzada** quantifica o número médio de bits (ou nats) necessários para codificar e prever um token do texto sob o modelo;
+- A **Perplexidade** é o exponencial da entropia cruzada ($\text{PPL} = 2^H$ ou $e^H$) e representa a média geométrica ponderada do número efetivo de escolhas de tokens equiprováveis entre as quais o modelo se encontra hesitante a cada passo de geração.
+
+### Em linguagem simples
+
+A perplexidade mede o quão "confuso" ou "surpreso" o modelo fica ao ler um texto. Se a perplexidade do modelo em um parágrafo for 10, significa que, a cada palavra que lê, ele fica tão em dúvida quanto se tivesse que sortear uma palavra dentro de um saco com 10 opções igualmente prováveis. Quanto **menor** a perplexidade, mais o modelo domina aquele texto e menos incerteza ele tem.
+
+### Escopo e distinções
+
+Trata-se de uma métrica de nível intrínseco de modelagem (avalia a precisão na predição do próximo token). Não avalia se uma resposta gerada por um chatbot é educada, prestativa ou segura. A literatura destaca que a perplexidade tipicamente **aumenta** após etapas de alinhamento e pós-treinamento (SFT/RLHF) devido ao colapso de entropia, tornando a métrica inadequada para comparar assistentes de diálogo instruídos.
+
+## 🧩 Problema que resolve
+
+Resolve a necessidade de guiar o treinamento de modelos de linguagem com uma métrica analítica matemática estrita, contínua e diferenciável durante o pré-treinamento. Em aplicações a jusante, a perplexidade resolve o desafio de detectar se um texto foi memorizado durante o treino (detecção de contaminação de dados) ou se um texto de entrada é sem sentido ou corrompido (detecção de anomalias).
+
+## 💡 Intuição
+
+Pense em um leitor experiente de jornais diários:
+
+- Ao ler a frase: `"O presidente assinou uma medida provisória para conter a inflação..."`, ele tem baixíssima perplexidade ($\text{PPL} \approx 2$); o vocabulário e a sintaxe são tão familiares que ele quase adivinha as próximas palavras antes de virar a página.
+- Agora imagine que ele abre uma página com palavras aleatórias ou com um texto em finlandês sem tradução: `"kissa istuu pöydällä talossa"`. A incerteza do leitor explode; ele não tem ideia de qual caractere virá em seguida. Sua perplexidade é altíssima ($\text{PPL} > 1000$).
+
+## ⚙️ Como funciona
+
+O cálculo da perplexidade baseia-se na extração das probabilidades condicionais que o modelo atribuiu a cada palavra do próprio texto avaliado:
+
+### Etapas
+
+1. **Ingestão sequencial:** O texto de avaliação é tokenizado em $x_1, x_2, \dots, x_n$.
+2. **Extração de Logprobs:** A cada passo $i$, o modelo calcula a probabilidade atribuída ao token verdadeiro que de fato ocorreu na sequência dado o contexto passado: $P(x_i \mid x_1, \dots, x_{i-1})$.
+3. **Conversão logarítmica:** Para evitar problemas de subfluxo numérico (*underflow* computacional com números infinitesimais), trabalha-se com o logaritmo da probabilidade ($\log P$).
+4. **Média da perda:** Soma-se os valores de log-probabilidade e divide-se pelo número total de tokens $n$, obtendo a entropia cruzada média.
+5. **Exponenciação:** Aplica-se a função exponencial ($e^{\text{perda}}$ ou $2^{\text{perda}}$) para obter o valor escalar final de perplexidade.
+
+### Entradas e saídas
+
+- **Entradas:** Texto arbitrário e o modelo de linguagem equipado com API de acesso a *logprobs*.
+- **Saídas:** Número escalar positivo ($\text{PPL} \ge 1$), onde 1 representa a perfeição absoluta de predição determinística.
+
+## 📐 Formulação matemática
+
+A entropia cruzada entre a distribuição empírica real $P$ e a distribuição predita pelo modelo $Q$ decompõe-se pela divergência de Kullback-Leibler:
+
+$$H(P, Q) = H(P) + D_{\text{KL}}(P \parallel Q)$$
+
+Como $H(P, Q)$ não é simétrica, $H(P, Q) \neq H(Q, P)$.
+Para uma sequência concreta de $n$ tokens $X = (x_1, x_2, \dots, x_n)$, a perplexidade empírica é a média geométrica do inverso das probabilidades condicionais:
+
+$$\text{PPL}(X) = \exp\left( -\frac{1}{n} \sum_{i=1}^n \ln P(x_i \mid x_{<i}) \right) = \left( \prod_{i=1}^n \frac{1}{P(x_i \mid x_{<i})} \right)^{\frac{1}{n}}$$
+
+Variações métricas de escala utilizam bases diferentes de codificação:
+
+- **Bits per character (BPC):** $\text{BPC} = \frac{H_2(X)}{\text{número de caracteres}}$
+- **Bits per byte (BPB):** $\text{BPB} = \frac{H_2(X)}{\text{número de bytes}}$
+
+## 🧱 Hipóteses e condições de validade
+
+- Exige acesso obrigatório aos *logits* ou *logprobs* das probabilidades de cada token, inviabilizando seu cálculo em APIs comerciais fechadas que não expõem esses dados (como certas rotas do Anthropic Claude).
+- A perplexidade só pode ser comparada diretamente entre modelos que utilizem **exatamente o mesmo tokenizador e vocabulário**; modelos com vocabulários de tamanhos diferentes possuem espaços de amostragem incomparáveis.
+
+## ✅ Quando usar
+
+- Monitoramento e comparação de modelos durante a fase de pré-treinamento (modelos mais poderosos apresentam menor PPL em textos gerais, como demonstrado na família GPT-2).
+- **Detecção de contaminação de dados:** Se a perplexidade de um modelo sobre um conjunto de teste público for anipicamente baixa (ex.: $\text{PPL} < 1{,}2$), o modelo certamente memorizou o teste no pré-treino.
+- **Detecção de anomalias e textos corrompidos:** Filtro para barrar entradas de usuários compostas por sequências sem sentido ou ataques de injeção baseados em cadeias de caracteres aleatórios.
+
+## 🚫 Quando não usar
+
+- Para avaliar a qualidade de chatbots alinhados para diálogo (modelos pós-SFT/RLHF).
+- Para comparar modelos concorrentes que utilizem tokenizadores distintos.
+
+## ⚠️ Limitações e armadilhas
+
+- **O paradoxo do alinhamento:** Um modelo pré-treinado cru geralmente possui menor perplexidade do que sua versão alinhada por RLHF, embora a versão alinhada seja ordens de magnitude mais útil para humanos em tarefas reais.
+- **Sensibilidade a formatos:** Textos altamente estruturados (como páginas HTML cheias de tags repetidas) geram perplexidades artificialmente baixas sem que isso signifique alta inteligência do modelo.
+
+## 🔍 Comparações
+
+| Propriedade dos Dados | Impacto na Perplexidade Esperada | Justificativa Teórica |
+|---|---|---|
+| **Maior estruturação (ex.: código HTML)** | **Diminui** a perplexidade | Sintaxe previsível com tags que se fecham |
+| **Maior vocabulário do modelo** | **Aumenta** a perplexidade | Maior espaço amostral de escolhas concorrentes |
+| **Maior janela de contexto** | **Diminui** a perplexidade | Mais pistas semânticas disponíveis para desempate |
+| **Textos anômalos ou gírias raras** | **Aumenta** drasticamente a perplexidade | Baixa frequência estatística na base de treino |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Um engenheiro quer testar se o novo modelo de linguagem de código aberto que ele baixou sofreu vazamento do exame de certificação profissional de contabilidade de 2024.
+Ele pega uma questão longa e complexa da prova de 2024 e calcula a perplexidade do modelo sobre o texto da questão acompanhado da resposta oficial. 
+
+- O modelo atinge $\text{PPL} = 1{,}08$. 
+
+Isso significa que o modelo quase não teve incerteza alguma ao longo de 500 palavras consecutivas difíceis. A certeza estatística é tão anômala que comprova que o modelo leu e memorizou aquele exame durante o pré-treinamento, invalidando qualquer teste futuro com aquela prova.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/modelo-de-linguagem.md|Modelo de Linguagem]]
+- [[redes/ai-engineering/conceitos/tokenizacao.md|Tokenização e Vocabulário]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/desafios-de-avaliacao-de-modelos-de-fundacao.md|Desafios de Avaliação de Modelos de Fundação]]
+
+### Alternativas
+
+- [[redes/ai-engineering/conceitos/correcao-funcional.md|Correção Funcional (pass@k)]] (para código)
+- [[redes/ai-engineering/conceitos/similaridade-semantica.md|Similaridade Semântica]] (para tarefas com gabarito de referência)
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/auto-supervisao.md|Auto-supervisão]]
+- [[redes/ai-engineering/conceitos/pos-treinamento-e-alinhamento.md|Pós-Treinamento e Alinhamento]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 3 — Evaluation Methodology
+- **Localização:** Páginas 118–125
+- **Evidência:** Chip Huyen revisita Shannon (1951) para formalizar entropia e perplexidade, detalha a tabela empírica do GPT-2 comprovando a queda de PPL conforme a escala do modelo aumenta, e explica o fenômeno do colapso de entropia pós-alinhamento e o uso prático de PPL para auditar contaminação de dados.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. Qual é a definição matemática e a intuição estatística da métrica de Perplexidade (PPL)?
+2. Como a entropia cruzada se relaciona conceitualmente com a capacidade de compressão de texto de um modelo?
+3. Por que não é possível comparar diretamente a perplexidade de dois modelos que utilizam tokenizadores com vocabulários diferentes?
+4. Qual é o motivo técnico pelo qual a perplexidade costuma aumentar após o processo de ajuste fino supervisionado (SFT) e RLHF?
+5. Como a perplexidade pode ser utilizada por engenheiros de IA como ferramenta de auditoria para detectar contaminação de dados de treino?
+6. De que forma o comprimento do contexto de entrada afeta matematicamente o valor de perplexidade observado em uma sequência?
+7. Qual é a diferença operacional entre expressar a entropia em unidades de "bits" versus unidades de "nats"?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

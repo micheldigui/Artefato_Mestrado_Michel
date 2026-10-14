@@ -1,0 +1,180 @@
+---
+type: "revisao-repeticao"
+status: "sem-novos-blocos"
+source_file: 'D:\Estudos\Resumos de livros\livros\second_brain\redes\ai-engineering\conceitos\ai-engineering.md'
+source_hash: '0EDA37AD474F1C2D386855CBE1109F23710B81AA06077F52F39B5FE4BE66793D'
+incoming_target: 'redes/ai-engineering/conceitos/algoritmos-de-recuperacao-lexical-versus-vetorial.md'
+canonical_path: 'redes\ai-engineering\conceitos\algoritmos-de-recuperacao-lexical-e-vetorial.md'
+duplicate_reason: 'titulo, alias ou slug equivalente: algoritmos-de-recuperacao-lexical-versus-vetorial'
+---
+
+# Revisao de conceito repetido
+
+## Nota candidata recebida
+
+# 🧠 Algoritmos de Recuperação: Lexical versus Vetorial
+
+**Rede:** `ai-engineering`   **Área:** `recuperacao`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 6 — RAG and Agents
+- Localização: Páginas 257–266
+
+## 📝 Definição
+
+### Definição formal
+
+Os **Algoritmos de Recuperação: Lexical versus Vetorial** representam os dois paradigmas matemáticos fundamentais utilizados pelo componente recuperador (*retriever*) em sistemas de [[redes/ai-engineering/conceitos/geracao-aumentada-de-recuperacao.md|RAG]] para ordenar e selecionar documentos relevantes frente a uma consulta:
+
+1. **Recuperação Baseada em Termos (Lexical / Esparsa):** Modela documentos e consultas como vetores esparsos de alta dimensionalidade sobre o vocabulário, calculando a relevância através de frequências exatas de palavras e termos estatisticamente raros por meio de estruturas de **índice invertido** e formulações probabilísticas como o **BM25**;
+2. **Recuperação Baseada em Embeddings (Vetorial / Densa):** Projeta documentos e consultas em vetores contínuos de dimensionalidade reduzida através de modelos neurais de [[redes/ai-engineering/conceitos/embeddings.md|embeddings]], mensurando a relevância conceitual através da proximidade geométrica (**Similaridade de Cosseno** ou produto interno) acelerada por algoritmos de busca de vizinhos aproximados (*Approximate Nearest Neighbors* — ANN).
+
+### Em linguagem simples
+
+É a escolha entre pesquisar por "palavras exatas" ou pesquisar por "significado". A busca lexical funciona como o Ctrl+F avançado: se você procurar o código de erro "EADDRNOTAVAIL", ela acha exatamente os documentos onde essa palavra estranha está escrita. A busca vetorial funciona como um leitor inteligente: se você procurar "como consertar meu carro que não liga", ela encontra textos sobre "problemas na bateria" ou "troca de motor de arranque", mesmo que as palavras do seu comando não estejam escritas no documento.
+
+### Escopo e distinções
+
+Não se limita à dicotomia simples de texto versus números. O BM25 é rápido, roda em CPU comum e é imbatível para termos raros; a busca vetorial exige GPUs para gerar embeddings, consome bancos de dados vetoriais dedicados e entende sinônimos e conceitos abstratos.
+
+## 🧩 Problema que resolve
+
+Resolve a miopia da recuperação da informação em sistemas cognitivos. Usar apenas busca léxica faz a aplicação falhar quando o usuário pesquisa usando termos diferentes dos usados pelo autor do documento; usar apenas busca vetorial faz a aplicação falhar ao pesquisar por nomes de pessoas, identificadores alfanuméricos e termos técnicos estritos que perdem especificidade quando convertidos em vetores densos.
+
+## 💡 Intuição
+
+Pense em procurar um livro em uma biblioteca pública imensa:
+
+- A **Busca Lexical (BM25)** é o catálogo alfabético do bibliotecário: você procura exatamente pelo título "Memórias Póstumas de Brás Cubas". Se houver uma ficha com esse nome exato, você acha a estante em 5 segundos. Mas se você esquecer o nome e pedir "aquele livro do autor carioca onde o narrador já começa morto", o catálogo alfabético falha completamente.
+- A **Busca Vetorial (Semântica)** é um bibliotecário culto que leu todos os livros: você explica o conceito com suas próprias palavras vagas e ele vai diretamente à estante de literatura brasileira do século XIX e puxa o livro correto para você.
+
+## ⚙️ Como funciona
+
+Os dois mecanismos possuem ciclos de indexação e consulta completamente divergentes:
+
+### Etapas
+
+1. **Pipeline Lexical (BM25):**
+   - *Indexação:* O texto é tokenizado, pontuações são removidas e alimenta-se uma tabela hash que mapeia cada palavra às IDs dos documentos que a contêm (**índice invertido**).
+   - *Consulta:* A query do usuário é decomposta em termos. O algoritmo calcula a frequência do termo no documento ponderada pelo inverso da frequência do termo em toda a base (TF-IDF), aplicando normalização pelo tamanho do documento.
+2. **Pipeline Vetorial (Embeddings + ANN):**
+   - *Indexação:* O documento é fatiado em pedaços (*chunks*), processado por um modelo de embedding e os vetores resultantes são salvos em estruturas de grafo ou agrupamento em um banco vetorial.
+   - *Consulta:* A pergunta do usuário passa pelo mesmo modelo de embedding, virando um vetor de busca.
+   - *Algoritmos de ANN (Approximate Nearest Neighbors):* Como o cálculo de distância contra milhões de vetores (*k-NN exato*) é lento demais, bancos vetoriais usam técnicas de aproximação:
+     - **HNSW (Hierarchical Navigable Small World):** Constrói um grafo em múltiplas camadas onde vetores similares são conectados por arestas navegáveis em tempo logarítmico;
+     - **IVF (Inverted File Index):** Agrupa vetores em clusters via K-means e busca apenas nos clusters mais próximos do centroide da query;
+     - **Product Quantization (PQ):** Decompõe vetores em subvetores compactados, acelerando cálculos de distância na memória RAM.
+
+### Entradas e saídas
+
+- **Entradas:** Consulta do usuário em linguagem natural e corpus documental indexado.
+- **Saídas:** Lista ordenada dos $k$ documentos com as maiores pontuações de relevância.
+
+## 📐 Formulação matemática
+
+O algoritmo **BM25** calcula a pontuação do documento $D$ para a query $Q$ composta pelos termos $q_1, \dots, q_m$:
+
+$$\text{Score}_{\text{BM25}}(D, Q) = \sum_{i=1}^m \text{IDF}(q_i) \cdot \frac{f(q_i, D) \cdot (k_1 + 1)}{f(q_i, D) + k_1 \cdot \left(1 - b + b \cdot \frac{|D|}{\text{avgdl}}\right)}$$
+
+Onde:
+
+- $f(q_i, D)$ é a frequência do termo $q_i$ no documento $D$;
+- $|D|$ e $\text{avgdl}$ são o comprimento do documento e o comprimento médio de todos os documentos;
+- $k_1$ e $b$ são hiperparâmetros de calibração (tipicamente $k_1 \in [1{,}2; 2{,}0]$ e $b \approx 0{,}75$).
+
+Na **Busca Vetorial**, a pontuação é regida pelo produto escalar normalizado no espaço latente de dimensão $d$:
+
+$$\text{Score}_{\text{vetorial}}(D, Q) = \cos(\mathbf{e}_Q, \mathbf{e}_D) = \frac{\mathbf{e}_Q \cdot \mathbf{e}_D}{\|\mathbf{e}_Q\|_2 \|\mathbf{e}_D\|_2}$$
+
+## 🧱 Hipóteses e condições de validade
+
+- No BM25, assume-se que palavras mais raras no acervo geral carregam maior peso informativo para desempate.
+- Na busca vetorial, assume-se que o modelo de embedding utilizado foi treinado com pares semânticos compatíveis com a língua e com o domínio da consulta.
+
+## ✅ Quando usar
+
+- **BM25 / Lexical:** Pesquisa em bases de suporte técnico com códigos alfanuméricos de erro, consultas de artigos de leis com números de artigos expressos, bases de peças industriais e logs de servidores.
+- **Vetorial / Embeddings:** Consultas em linguagem natural informal com sinônimos, suporte ao cliente receptivo, perguntas conceituais e sistemas de perguntas e respostas abertas.
+
+## 🚫 Quando não usar
+
+- Não use busca puramente vetorial se a sua aplicação depende criticamente de acertar números exatos de identificação de processos ou IDs de produtos de catálogo.
+- Não use BM25 isolado se o vocabulário dos usuários for substancialmente leigo em relação à linguagem técnica usada pelos redatores dos manuais corporativos.
+
+## ⚠️ Limitações e armadilhas
+
+- **O custo oculto dos bancos vetoriais:** Indexar centenas de milhões de vetores densos de alta dimensão em estruturas HNSW exige gigabytes de memória RAM física permanente, tornando a infraestrutura vetorial ordens de magnitude mais cara que índices invertidos baseados em disco.
+- **Sobrecarga de latência na geração de embedding:** A busca vetorial exige uma chamada de inferência à rede neural do embedding para a query antes de iniciar a busca, adicionando dezenas de milissegundos à latência da aplicação.
+
+## 🔍 Comparações
+
+| Dimensão | Recuperação Lexical (BM25) | Recuperação Vetorial (Embeddings) |
+|---|---|---|
+| **Estrutura de dados** | Índice invertido esparso | Grafos navegáveis (HNSW) ou agrupamentos (IVF) |
+| **Infraestrutura primária** | CPU comum e disco rápido | RAM de alta velocidade e GPUs para embeddings |
+| **Ponto forte** | Palavras raras, termos exatos, números, siglas | Sinônimos, conceitos abstratos, intenção ampla |
+| **Ponto cego** | Incapaz de conectar sinônimos ("carro" vs "veículo") | Perde especificidade de termos técnicos raros |
+| **Custo operacional** | Extremamente baixo | Moderado a Alto |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Um engenheiro pesquisa em um sistema de RAG de telecomunicações o termo: `"Erro BGP 4-byte ASN incompatível"`.
+
+- O motor de **Busca Vetorial** converte a frase em um vetor. O modelo de embedding dilui a sigla "BGP" e traz manuais gerais sobre roteamento e configurações comuns de redes empresariais.
+- O motor **Lexical (BM25)** busca imediatamente no índice invertido os termos raros `"BGP"`, `"4-byte"` e `"ASN"`. Ele traz no topo do ranking a nota técnica exata do fabricante que documenta a falha de interoperabilidade no protocolo de roteamento exterior.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/geracao-aumentada-de-recuperacao.md|Geração Aumentada de Recuperação (RAG)]]
+- [[redes/ai-engineering/conceitos/embeddings.md|Embeddings]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/busca-hibrida-e-reciprocal-rank-fusion.md|Busca Híbrida e Reciprocal Rank Fusion (RRF)]]
+- [[redes/ai-engineering/conceitos/estrategias-de-chunking-e-otimizacao-de-rag.md|Estratégias de Chunking e Otimização de RAG]]
+
+### Alternativas
+
+- Nenhuma relação suficientemente sustentada pelo capítulo (representam os dois pilares básicos que compõem os motores modernos).
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/similaridade-semantica.md|Similaridade Semântica]]
+- [[redes/ai-engineering/conceitos/rag-multimodal-e-dados-tabulares.md|RAG Multimodal e Dados Tabulares (Text-to-SQL)]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 6 — RAG and Agents
+- **Localização:** Páginas 257–266
+- **Evidência:** Chip Huyen destrincha a matemática do TF-IDF e do BM25, compara o funcionamento de buscas esparsas e densas (citando o SPLADE), detalha os principais algoritmos de vizinhos aproximados (FAISS, HNSW, Annoy, IVF e Product Quantization) e formaliza as métricas de precisão de contexto e revocação de contexto em RAG.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. Qual é a diferença metodológica e computacional entre recuperação baseada em termos e recuperação baseada em embeddings?
+2. Como funciona a estrutura de dados de índice invertido utilizada por motores de busca clássicos como o Elasticsearch?
+3. Como o algoritmo BM25 calcula e normaliza a pontuação de relevância em função do comprimento dos documentos?
+4. Por que a busca vetorial densa exata via k-NN torna-se computacionalmente inviável em bases de dados massivas de milhões de documentos?
+5. Quais são os princípios de funcionamento dos algoritmos de busca de vizinhos aproximados HNSW e IVF?
+6. Por que consultas que envolvem códigos técnicos ou números de processo frequentemente falham quando executadas puramente sobre embeddings densos?
+7. Quais são as métricas padrão da literatura para mensurar a qualidade técnica de um componente de recuperação em RAG?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.
+
+## Pergunta para a segunda analise
+
+Compare esta nota com a nota canonica indicada no frontmatter. Extraia somente informacoes novas, corrija divergencias e proponha atualizacoes sem duplicar o conceito.

@@ -1,0 +1,319 @@
+[0] CENTRO ESTADUAL DE EDUCAÇÃO TECNOLÓGICA PAULA SOUZA
+
+[1] UNIDADE DE PÓS-GRADUAÇÃO, EXTENSÃO E PESQUISA
+
+[2] MESTRADO PROFISSIONAL EM GESTÃO E TECNOLOGIA EM SISTEMAS PRODUTIVOS
+
+[8] MICHEL SILVA DE SOUZA
+
+[14] ARTEFATO ANALÍTICO-PREDITIVO PARA APOIO AO PLANEJAMENTO DA PRODUÇÃO DE REFEIÇÕES EM RESTAURANTE INSTITUCIONAL
+
+[25] São Paulo
+
+[26] 2026
+
+[27] MICHEL SILVA DE SOUZA
+
+[32] ARTEFATO ANALÍTICO-PREDITIVO PARA APOIO AO PLANEJAMENTO DA PRODUÇÃO DE REFEIÇÕES EM RESTAURANTE INSTITUCIONAL
+
+[38] Dissertação apresentada ao Programa de Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos, do Centro Estadual de Educação Tecnológica Paula Souza, como requisito parcial para a obtenção do título de Mestre.
+
+[39] Linha de pesquisa: Sistemas de Informação e Tecnologias Digitais.
+
+[40] Projeto de pesquisa: Tecnologias Digitais na Indústria e Serviços 4.0.
+
+[41] Orientação: Prof. Dr. Carlos Hideo Arima.
+
+[42] Coorientador: Prof. Dr. Rafael Nobre Orsi
+
+[51] São Paulo
+
+[52] 2026
+
+[66]             Souza, Michel Silva de
+
+[67] XXXXXArtefato Analítico-Preditivo para Apoio ao Planejamento da Produção de Refeições em Restaurante Institucional / Michel Silva de Souza. – São Paulo: CEETEPS, 2026.
+
+[68]             116 f. : il.
+
+[70]                         Orientador: Prof. Dr. Carlos Hideo Arima
+
+[71]                     Dissertação (Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos) – Centro Estadual de Educação Tecnológica Paula Souza, 2026.
+
+[73]          1. Previsão de demanda. 2. Aprendizado de máquina. 3. Desperdício alimentar. 4. Restaurante institucional. 5. Sistemas produtivos. I. Arima, Carlos Hideo. II. Centro Estadual de Educação Tecnológica Paula Souza. III. Título.
+
+[78] MICHEL SILVA DE SOUZA
+
+[79] ARTEFATO ANALÍTICO-PREDITIVO PARA APOIO AO PLANEJAMENTO DA PRODUÇÃO DE REFEIÇÕES EM RESTAURANTE INSTITUCIONAL
+
+[82] __________________________________________________________________________
+
+[83] Prof. Dr. Carlos Hideo Arima
+
+[84] Orientador – CEETEPS
+
+[87] __________________________________________________________________________
+
+[88] Prof. Dr. Marcelo Duduchi Feitosa
+
+[89] Examinador Interno – CEETEPS
+
+[92] __________________________________________________________________________
+
+[93] Prof. Dr. Márcio Kuniyoshi
+
+[94] Examinador Externo – PUC-SP
+
+[96] São Paulo, 27 de outubro de 2026.
+
+[120] Prever melhor não é apenas estimar o futuro; é decidir com mais responsabilidade sobre os recursos do presente.
+
+[122] Quando dados operacionais se transformam em decisão, a previsão deixa de ser número e passa a ser gestão.
+
+[124] Reduzir desperdício começa antes da sobra: começa na qualidade da decisão que orienta a produção.
+
+[125] AGRADECIMENTOS
+
+[126] Agradeço, em primeiro lugar, a Deus, pela vida, pela força e pela serenidade concedidas ao longo desta caminhada. Em muitos momentos, a continuidade deste trabalho exigiu mais do que disciplina acadêmica; exigiu fé, persistência e confiança de que cada etapa teria seu tempo e seu propósito.
+
+[127] À minha esposa, Maria, agradeço pelo amor, pela paciência, pelo incentivo e pela compreensão diante das ausências que este percurso muitas vezes impôs. Aos meus filhos, Guilherme e Isabelly, agradeço por serem fonte constante de motivação e sentido. Este trabalho também é dedicado a vocês, que acompanharam de perto os desafios, as renúncias e as pequenas conquistas desta jornada.
+
+[128] Aos meus familiares, especialmente meu pai, minha mãe, minha irmã, meus sobrinhos e todos aqueles que estiveram presentes de diferentes formas, agradeço pelo apoio, pela torcida e pela compreensão nos momentos em que precisei me ausentar para estudar, pesquisar, escrever e concluir esta etapa.
+
+[129] Agradeço aos professores, funcionários e alunos do Programa de Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos do Centro Estadual de Educação Tecnológica Paula Souza, pelo acolhimento, pela dedicação e pelas contribuições ao longo do curso. Cada disciplina, orientação, conversa e apoio administrativo contribuiu para a construção desta pesquisa.
+
+[130] Ao meu orientador Prof. Dr. Carlos Hideo Arima, e ao meu coorientador, Prof. Dr. Rafael Nobre Orsi, registro meu agradecimento especial pela orientação, pela confiança, pela disponibilidade e pelas contribuições técnicas e acadêmicas durante o desenvolvimento deste trabalho.
+
+[131] A todos que, direta ou indiretamente, contribuíram para a realização desta dissertação, meu sincero agradecimento.
+
+[134] RESUMO
+
+[135] SOUZA, M. S. ARTEFATO ANALÍTICO-PREDITIVO PARA APOIO AO PLANEJAMENTO DA PRODUÇÃO DE REFEIÇÕES EM RESTAURANTE INSTITUCIONAL 116 f. Dissertação (Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos). Centro Estadual de Educação Tecnológica Paula Souza, São Paulo, 2026.
+
+[137] O planejamento de refeições em restaurantes estudantis exige estimar o consumo antes da compra dos insumos e do preparo dos alimentos. Na instituição estudada, a gestora recebe, às sextas-feiras, os quantitativos para cada dia útil da semana seguinte e dispõe do fim de semana para realizar as compras. Diferenças entre esses quantitativos e o consumo podem representar risco de excesso ou insuficiência no planejamento. Esta dissertação tem como objetivo desenvolver e avaliar um artefato de previsão do consumo diário para apoiar essa decisão. A pesquisa é orientada pela Design Science Research e integra preparação dos dados, análise exploratória, comparação de modelos e simulação de cenários com margens de segurança. A base de modelagem reúne 500 dias úteis de 2023 a 2025. Os testes históricos reproduzem a decisão semanal, com antecedência de três a sete dias, respeitando a ordem temporal no treinamento e na preparação do histórico de consumo. Foram comparadas quatro configurações: histórico de consumo, cardápio e calendário; essa base acrescida de reservas; acrescida de clima; e acrescida de ambas as fontes. Em 390 datas comuns, o modelo ExtraTrees apresentou erro absoluto médio de 23,24 refeições na configuração básica e de 21,29 com reservas, frente a 28,66 das reservas utilizadas diretamente como previsão. Essa vantagem agregada variou entre os anos: as reservas tiveram menor erro em 2023, enquanto as configurações avaliadas tiveram menor erro em 2024 e 2025. O clima trouxe pequenas diferenças, mas sua disponibilidade histórica na sexta-feira não foi comprovada. As margens permitiram examinar o compromisso entre reduzir o déficit potencial e ampliar o excedente potencial. O protocolo preparado para acompanhamento reúne duas saídas: preparo da próxima semana, com três a sete dias de antecedência e combinação opcional com o quantitativo institucional; e compras para a semana posterior, com dez a quatorze dias, sem esse quantitativo futuro. Ambas preservam previsão pura e cenários com margens. Os resultados são retrospectivos e parciais; não comprovam redução de desperdício, melhoria do atendimento ou economia financeira. A validação com dados de 2026 e a avaliação do uso no serviço permanecem para a etapa final.
+
+[138] Palavras-chave: previsão de demanda; desperdício alimentar; aprendizado de máquina; Design Science Research; restaurante institucional; sistemas produtivos.
+
+[139] ABSTRACT
+
+[140] SOUZA, M. S. ANALYTICAL-PREDICTIVE ARTIFACT TO SUPPORT MEAL PRODUCTION PLANNING IN AN INSTITUTIONAL RESTAURANT 116 p. Dissertation (Professional Master's Degree in Management and Technology in Productive Systems). Centro Estadual de Educação Tecnológica Paula Souza, São Paulo, 2026.
+
+[142] Planning meals in student dining services requires estimating consumption before purchasing ingredients and preparing food. At the institution studied, the manager receives planned quantities for each weekday of the following week on Fridays and has the weekend to purchase ingredients. Differences between these quantities and actual consumption may indicate a risk of excess or insufficient provision. This dissertation aims to develop and evaluate a daily consumption forecasting artifact to support this decision. Guided by Design Science Research, the study combines data preparation, exploratory analysis, model comparison, and simulation of planning scenarios with safety margins. The modeling dataset comprises 500 weekdays from 2023 to 2025. Historical tests reproduce the weekly planning decision, three to seven days in advance, preserving temporal order during training and the construction of consumption history features. Four configurations were compared: consumption history, menu, and calendar; this base with reservations; with weather; and with both additional sources. Across the same 390 dates, the ExtraTrees model achieved a mean absolute error of 23.24 meals with the base configuration and 21.29 with reservations, compared with 28.66 when reservations were used directly as forecasts. This aggregate advantage varied across years: reservations had lower error in 2023, whereas the evaluated configurations had lower error in 2024 and 2025. Weather produced small differences, but its historical availability on Fridays could not be verified. Safety margins allowed examination of the tradeoff between reducing potential shortages and increasing potential excess. The protocol prepared for monitoring has two outputs: preparation for the next week, three to seven days ahead, optionally combined with institutional quantities; and purchasing for the subsequent week, ten to fourteen days ahead, without its future institutional quantities. Both retain unadjusted forecasts and safety-margin scenarios. The findings are partial and retrospective; they do not establish reductions in food waste, improvements in meal service, or financial savings. Validation using 2026 data and evaluation of the artifact in service remain for the final stage.
+
+[143] Keywords: demand forecasting; food waste; machine learning; Design Science Research; institutional restaurant; productive systems.
+
+[144] LISTA DE FIGURAS
+
+[145] Figura 1 - Aplicação da Design Science Research na pesquisa48
+
+[146] Figura 2 - Síntese metodológica da pesquisa49
+
+[147] Figura 3 - Pipeline de dados em camadas55
+
+[148] Figura 4 - Protocolo de modelagem e validação temporal60
+
+[149] Figura 5 - Arquitetura sistêmica do artefato71
+
+[150] Figura 6 - Fluxo operacional do artefato77
+
+[151] Figura 7 - Lógica de avaliação gerencial dos resultados83
+
+[152] Figura 8 - Formação da base analítica do artefato84
+
+[153] Figura 9 - Totais anuais de reservas e consumo nas datas pareadas85
+
+[154] Figura 10 - Perfil semanal do consumo86
+
+[155] Figura 11 - Série temporal do consumo observado87
+
+[156] Figura 12 - Disponibilidade anual de cardápio87
+
+[157] Figura 13 - Erro das quatro configurações e das reservas88
+
+[158] Figura 14 - Erro anual das quatro configurações e das reservas89
+
+[159] Figura 15 - Redução da perda temporal frente às reservas no cenário 2:189
+
+[160] Figura 16 - Ranking dos modelos nas duas linhas de avaliação102
+
+[161] Figura 17 - MAE por método e conjunto de atributos103
+
+[162] Figura 18 - Comparação pareada de previsões e reservas em 390 datas105
+
+[163] Figura 19 - Excesso e falta potenciais nos testes temporais105
+
+[164] Figura 20 - Consumo nas seis categorias de cardápio mais frequentes106
+
+[165] Figura 21 - Consumo segundo as cinco categorias mais frequentes de preparo107
+
+[166] Figura 22 - Erro da regra selecionada e das reservas nos cortes históricos109
+
+[168] LISTA DE QUADROS
+
+[169] Quadro 1 - Contribuições da literatura sobre desperdício alimentar para a dissertação25
+
+[170] Quadro 2 - Questões de planejamento delimitadas nesta pesquisa e seu encaminhamento43
+
+[171] Quadro 3 - Evolução da pesquisa e função de cada produção acadêmica47
+
+[172] Quadro 4 - Correspondência entre DSR e procedimentos da pesquisa49
+
+[173] Quadro 5 - Fontes de dados e função metodológica53
+
+[174] Quadro 6 - Controles metodológicos de qualidade dos dados54
+
+[175] Quadro 7 - Camadas de dados adotadas no projeto55
+
+[176] Quadro 8 - Etapas analíticas e função metodológica56
+
+[177] Quadro 9 - Famílias de modelos exploradas no projeto58
+
+[178] Quadro 10 - Protocolo operacional da pesquisa64
+
+[179] Quadro 11 - Organização metodológica das saídas computacionais65
+
+[180] Quadro 12 - Requisitos do artefato70
+
+[181] Quadro 13 - Grupos de atributos do artefato73
+
+[182] Quadro 14 - Lógica matemática e estatística das famílias de modelos74
+
+[183] Quadro 15 - Políticas de decisão consideradas no desenvolvimento do artefato76
+
+[184] Quadro 16 - Saídas e usuários do artefato78
+
+[185] Quadro 17 - Evolução experimental e escopo da avaliação do artefato81
+
+[186] Quadro 18 - Procedimento da seleção temporal e avaliação das margens97
+
+[187] Quadro 19 - Síntese dos resultados e limites100
+
+[189] LISTA DE TABELAS
+
+[190] Tabela 1 - Classificação dos registros na matriz de literatura51
+
+[191] Tabela 2 - Síntese numérica da formação da base analítica84
+
+[192] Tabela 3 - Melhores métodos por linha de avaliação91
+
+[193] Tabela 4 - R² dos métodos com menores MAE em cada linha de avaliação92
+
+[194] Tabela 5 - Comparação pareada de reservas e previsões em 390 datas93
+
+[195] Tabela 6 - Valores pagos à prestadora de serviços, 2023-202595
+
+[196] Tabela 7 - Seleção temporal de modelo e margem sob razão hipotética 2:196
+
+[197] Tabela 8 - Coortes das análises retrospectivas101
+
+[198] Tabela 9 - Erro das quatro configurações e das reservas em 390 datas pareadas102
+
+[199] Tabela 10 - MAE e WAPE anuais das configurações e das reservas104
+
+[200] Tabela 11 - Iteração de aprimoramento com regra escolhida em 2024109
+
+[202] LISTA DE SIGLAS
+
+[203] ABNT - Associação Brasileira de Normas Técnicas
+
+[204] DSR - Design Science Research
+
+[205] DSRM - Design Science Research Methodology
+
+[206] EDA - Análise Exploratória de Dados
+
+[207] IA - Inteligência Artificial
+
+[208] MAE - Mean Absolute Error
+
+[209] ML - Machine Learning
+
+[210] ODS - Objetivos de Desenvolvimento Sustentável
+
+[211] PCA - Principal Component Analysis
+
+[212] RMSE - Root Mean Squared Error
+
+[213] UAN - Unidade de Alimentação e Nutrição
+
+[214] WAPE - Weighted Absolute Percentage Error
+
+[216] SUMÁRIO
+
+[217] 1 INTRODUÇÃO16
+
+[218] 1.1 Contextualização e motivação17
+
+[219] 1.2 Problema de pesquisa18
+
+[220] 1.3 Objetivos da pesquisa18
+
+[221] 1.4 Justificativa19
+
+[222] 1.5 Delimitação da pesquisa20
+
+[223] 1.6 Organização da dissertação21
+
+[224] 2 FUNDAMENTAÇÃO TEÓRICA22
+
+[225] 2.1 Sistemas produtivos de alimentação: desperdício, reservas e consumo real22
+
+[226] 2.1.1 Desperdício alimentar em serviços de alimentação23
+
+[227] 2.1.2 Reservas, presença e consumo real25
+
+[228] 2.2 Previsão de demanda, planejamento e cadeia de suprimentos26
+
+[229] 2.2.1 Previsão de demanda em serviços26
+
+[230] 2.2.2 Abordagens clássicas de planejamento e otimização28
+
+[231] 2.2.3 Gestão de compras e cadeia de suprimentos29
+
+[232] 2.3 Ciência de dados e modelos preditivos30
+
+[233] 2.3.1 Ciência de dados e pipeline analítico30
+
+[234] 2.3.2 Aprendizado de máquina e famílias de modelos31
+
+[235] 2.3.3 Cardápio e representação textual34
+
+[236] 2.4 Avaliação preditiva e decisão operacional35
+
+[237] 2.4.1 Métricas e consequências operacionais35
+
+[238] 2.4.2 Robustez e validação temporal37
+
+[239] 2.5 Transparência, replicabilidade e sustentabilidade do artefato39
+
+[240] 2.5.1 Escalabilidade, replicabilidade e transparência39
+
+[241] 2.5.2 Apoio à decisão e sustentabilidade40
+
+[242] 2.6 Lacunas e posicionamento da pesquisa41
+
+[243] 2.7 Síntese da fundamentação teórica43
+
+[244] 3 METODOLOGIA DA PESQUISA45
+
+[245] 3.1 Caracterização e delineamento da pesquisa45
+
+[246] 3.1.1 Percurso de desenvolvimento e refinamento do projeto46
+
+[247] 3.1.2 Evidências e limites da aplicação da DSR50
+
+[248] 3.2 Mapeamento da literatura e delimitação da pesquisa51
+
+[249] 3.3 Fontes de dados e preparação analítica52
+
+[250] 3.4 Modelagem preditiva e validação temporal57
+
+[251] 3.5 Avaliação preditiva e decisão operacional61
+
+[252] 3.6 Validade, confiabilidade, ética e limitações63
+
+[253] 3.7 Síntese metodológica67
+
+[254] 4 MODELO SISTÊMICO DO ARTEFATO68
+
+[255] 4.1 Denominação e finalidade do artefato68

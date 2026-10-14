@@ -1,0 +1,325 @@
+[256] 4.2 Fronteiras entre modelo sistêmico, metodologia e resultados69
+
+[257] 4.3 Requisitos do artefato69
+
+[258] 4.4 Arquitetura geral do artefato70
+
+[259] 4.5 Subsistema de dados71
+
+[260] 4.6 Subsistema de engenharia de atributos72
+
+[261] 4.7 Subsistema preditivo73
+
+[262] 4.7.1 Como os modelos transformam dados em previsão74
+
+[263] 4.7.2 Papel do benchmark no artefato75
+
+[264] 4.8 Subsistema decisório: da previsão à recomendação75
+
+[265] 4.9 Fluxo operacional de uso76
+
+[266] 4.10 Saídas do artefato78
+
+[267] 4.11 Transparência, explicabilidade e limites do artefato79
+
+[268] 4.12 Aderência ao problema de compras, produção e sustentabilidade79
+
+[269] 4.13 Síntese do modelo sistêmico80
+
+[270] 4.14 Evolução dos ciclos do artefato e configuração avaliada80
+
+[271] 5 ANÁLISE E DISCUSSÃO DOS RESULTADOS82
+
+[272] 5.1 Critérios de leitura dos resultados82
+
+[273] 5.2 Formação do artefato de dados83
+
+[274] 5.3 Diagnóstico da demanda: reservas e consumo real85
+
+[275] 5.4 Padrões temporais e cobertura das fontes86
+
+[276] 5.5 Contribuição incremental das fontes88
+
+[277] 5.6 Competição retrospectiva de modelos90
+
+[278] 5.7 Por que a análise prioriza MAE, WAPE e indicadores operacionais92
+
+[279] 5.8 Comparação pareada com o planejamento baseado em reservas93
+
+[280] 5.9 Margens como cenários de decisão e seleção temporal95
+
+[281] 5.10 Protocolo de avaliação prospectiva97
+
+[282] 5.11 Implicações para compras, desperdício e sustentabilidade98
+
+[283] 5.12 Discussão crítica dos resultados98
+
+[284] 5.13 Síntese dos resultados da linha de avaliação atual99
+
+[285] 5.14 Comparação integrada das avaliações do artefato100
+
+[286] 5.15 Síntese integrada e etapa de validação prospectiva107
+
+[287] 5.16 Iteração de aprimoramento com seleção temporal108
+
+[288] 6 CONSIDERAÇÕES PARCIAIS111
+
+[289] REFERÊNCIAS113
+
+[292] 1 INTRODUÇÃO
+
+[293] A produção de refeições em restaurantes institucionais envolve decisões diárias tomadas sob incerteza. Antes que o consumo real seja observado, a gestão precisa estimar quantas refeições deverão ser preparadas, considerando restrições de tempo, insumos, equipe, cardápio, calendário acadêmico e comportamento dos usuários. A literatura sobre serviços de alimentação indica que o desperdício resulta de fatores operacionais, comportamentais e contextuais, incluindo planejamento, presença, aceitação do cardápio e controle da demanda (DHIR et al., 2020; STEEN et al., 2018; MALEFORS et al., 2022). Quando a produção fica acima da demanda, pode haver excedente e risco de desperdício de alimentos, trabalho e recursos públicos. Quando fica abaixo, há risco de falta de atendimento.
+
+[294] Em instituições de ensino superior, esse problema também possui relevância social e institucional. Estudos associam a insegurança alimentar com fome a menores possibilidades de progressão acadêmica entre estudantes universitários (WAGNER; KANELI; MASANGO, 2021). Além disso, revisões recentes identificam barreiras organizacionais relacionadas ao acesso, aos horários, à localização, à qualidade e à disponibilidade de programas e serviços de alimentação estudantil (LANDRY; HAGEDORN-HATFIELD; ZIGMONT, 2024). Essas evidências não permitem afirmar que o restaurante analisado determine a permanência dos estudantes, pois essa variável não foi medida nesta pesquisa. Elas apenas reforçam que o planejamento da oferta de refeições pode ser tratado como uma questão operacional com possível relevância para as condições de participação acadêmica.
+
+[295] Na unidade estudada, a gestora recebe às sextas-feiras à tarde, por e-mail, a quantidade de almoços prevista para cada dia útil da semana seguinte: segunda, terça, quarta, quinta e sexta-feira. Ela dispõe do sábado e do domingo para comprar os insumos antes do início da produção semanal. O artefato foi organizado para apoiar dois prazos: atualizar a estimativa da próxima semana para preparo e descongelamento, considerando o quantitativo recebido; e estimar a semana posterior, sem esperar seu quantitativo institucional, para ampliar o prazo de programação das compras. Cada saída informa o consumo de cada almoço elegível; a soma semanal não substitui essas quantidades diárias.
+
+[296] Em sistemas de alimentação com reservas, o quantitativo reservado pode diferir do comparecimento no dia da refeição (FAEZIRAD et al., 2021). Nos experimentos históricos desta pesquisa, o planejamento baseado em reservas foi comparado com quatro configurações de previsão: consumo histórico, cardápio e calendário; essa base acrescida de reservas; a base acrescida de clima; e a base acrescida de reservas e clima. Na rotina atual, a nutricionista informa à gestora os quantitativos diários da semana seguinte, denominados quantitativos institucionais; esses valores não correspondem a reservas individuais realizadas pelos estudantes. O consumo observado é o alvo das previsões e a referência de comparação. Os totais diários não permitem identificar o comportamento individual dos usuários.
+
+[297] Em continuidade às análises exploratórias anteriores do projeto, esta dissertação consolida a base diária e avalia retrospectivamente o artefato em quatro configurações de dados. A evolução dos protótipos e os registros que orientaram seu refinamento são apresentados na metodologia como percurso de desenvolvimento, não como evidência de eficácia.
+
+[298] Diante desse cenário, esta dissertação propõe o desenvolvimento e a avaliação de um artefato analítico-preditivo para apoiar o planejamento da produção de refeições em restaurante institucional, configurando uma estrutura de apoio à decisão baseada em dados. O artefato integra dados operacionais em camadas Bronze, Silver e Gold, modelos de previsão de consumo e políticas de margem de segurança para apoiar a decisão sobre quantidade a produzir e ampliar a antecedência do planejamento de compras. A abordagem metodológica adotada é a Design Science Research (DSR), por sua adequação à construção e à avaliação de artefatos destinados à solução de problemas organizacionais (HEVNER et al., 2004; PEFFERS et al., 2007).
+
+[299] O artefato desenvolvido não se resume a um modelo de aprendizado de máquina. Ele reúne um pipeline de dados, atributos preditivos, famílias de modelos avaliadas temporalmente, métricas de desempenho e cenários de decisão. Sua contribuição aplicada consiste em transformar previsões de consumo em informações para o planejamento, comparando alternativas com o processo atual e apresentando diferentes margens conforme o risco que a gestão está disposta a assumir.
+
+[300] A avaliação distingue o erro das previsões das diferenças potenciais entre a quantidade planejada e o consumo observado. Essas diferenças permitem comparar cenários, mas não comprovam sobra de alimentos nem falta de refeições, pois a pesquisa não dispõe de registros de produção, sobras físicas ou refeições não atendidas.
+
+[301] 1.1 Contextualização e motivação
+
+[302] A motivação científica está em construir uma ponte entre previsão de demanda, ciência de dados e DSR. Em vez de apenas comparar algoritmos, busca-se compreender como dados operacionais podem ser transformados em um artefato avaliável, capaz de apoiar a decisão em ambiente produtivo real. Estudos sobre aprendizado de máquina supervisionado em Sistemas de Informação destacam a necessidade de relatar problema, dados, pré-processamento, modelos, validação e métricas com rigor (KÜHL et al., 2021). Isso exige discutir qualidade dos dados, engenharia de atributos, validação temporal, métricas adequadas e interpretação gerencial dos resultados.
+
+[303] A escolha entre abordagens de previsão e planejamento deve considerar o contexto de aplicação, o horizonte da decisão, os dados disponíveis e os critérios de avaliação, e não apenas a sofisticação do algoritmo (RODRIGUES et al., 2024; SHMUELI; KOPPIUS, 2010).
+
+[304] A motivação da pesquisa relaciona-se ao ODS 12, particularmente à meta 12.3, referente à redução do desperdício e das perdas alimentares (NAÇÕES UNIDAS, 2015). O artefato foi desenvolvido para apoiar o planejamento das refeições, mas a avaliação realizada mede erros de previsão e diferenças potenciais entre plano e consumo. Como não foram mensurados desperdício físico nem efeitos ambientais ou sociais, a contribuição para essa meta permanece potencial e depende de avaliação do uso no serviço.
+
+[305] Para evitar ampliação indevida do escopo, a dissertação é delimitada ao planejamento da produção e à comparação entre quantidade recomendada e consumo real observado. O estudo não tem como objeto o tratamento, a destinação final, a compostagem ou a gestão físico-operacional de resíduos alimentares após o serviço. Esses temas são reconhecidos como relevantes para a sustentabilidade do sistema, mas permanecem como fronteira externa ao artefato desenvolvido.
+
+[306] 1.2 Problema de pesquisa
+
+[307] Em que medida a integração de consumo histórico, cardápio e calendário, com a inclusão de reservas e clima como fontes adicionais, altera a previsão do consumo diário em comparação com os quantitativos institucionais utilizados no planejamento, considerando erro, excesso e déficit potenciais e antecedência para compras e preparo?
+
+[308] A questão considera a incerteza da demanda e as consequências distintas de sobra e falta, que tornam necessário definir a produção antes de conhecer o consumo real.
+
+[309] 1.3 Objetivos da pesquisa
+
+[310] O objetivo geral é desenvolver e avaliar um artefato analítico-preditivo, baseado em dados operacionais e técnicas de aprendizado de máquina, para apoiar o planejamento das compras e da produção diária de refeições, comparando configurações de dados e explicitando o equilíbrio entre risco de sobra e de falta.
+
+[311] Os objetivos específicos foram organizados em cinco etapas:
+
+[312] a) integrar e documentar o consumo, cardápio e calendário como base principal, preparando configurações ampliadas com reservas e clima;
+
+[313] b) caracterizar padrões temporais e contextuais da demanda e preparar atributos para a previsão;
+
+[314] c) treinar e comparar modelos nas quatro configurações, com validação temporal e métricas compatíveis com o problema;
+
+[315] d) comparar previsões e políticas de margem com as reservas históricas e, na etapa prospectiva, com o quantitativo institucional, nas mesmas datas disponíveis, usando o consumo observado como referência;
+
+[316] e) consolidar o artefato e avaliar sua utilidade potencial para o planejamento de compras, descongelamento e produção de refeições em dois prazos de antecedência.
+
+[317] 1.4 Justificativa
+
+[318] A justificativa prática está em avaliar se os dados disponíveis podem melhorar o planejamento semanal. Quando houver desempenho estável em novas datas, previsões diárias podem apoiar a compra antecipada de insumos, o descongelamento e o preparo das refeições. Esta pesquisa avalia a previsão do consumo; não estima rendimento de receitas, quantidade de cada ingrediente ou penalidades contratuais.
+
+[319] No conjunto de fontes reunido para esta pesquisa, há espaço para articular a comparação entre reservas e consumo real, a previsão da demanda e a conversão das estimativas em cenários de produção avaliados por indicadores operacionais. O estudo examina essa articulação em um restaurante institucional; essa delimitação descreve o posicionamento do trabalho frente ao corpus consultado, sem pretender caracterizar exaustivamente toda a literatura.
+
+[320] A justificativa social decorre do impacto da falta de refeições. Embora a produção excedente possa elevar o risco de desperdício e deva ser reduzida, a falta possui consequência imediata sobre o atendimento ao estudante. Por isso, o objetivo é apoiar uma decisão que considere os riscos de excesso e insuficiência, sem adotar a minimização da produção como critério isolado.
+
+[321] A justificativa institucional está no alinhamento com a natureza do mestrado profissional em sistemas produtivos. O projeto parte de um problema real, constrói um artefato tecnológico e avalia seu comportamento com dados históricos. Essa orientação aproxima a dissertação de uma pesquisa aplicada, sem reduzir sua contribuição à comparação estatística de modelos. O artefato oferece cenários que podem apoiar decisões e, se avaliados e adotados em operação, contribuir para processos de planejamento mais informados; a redução de desperdício e outros efeitos organizacionais ainda precisam ser verificados com dados prospectivos.
+
+[322] A pesquisa também se vincula ao Projeto Tecnologias Digitais na Indústria e Serviços 4.0, da linha Sistemas de Informação e Tecnologias Digitais. Essa aderência decorre do uso de ciência de dados, aprendizado de máquina, mineração de dados, integração de fontes heterogêneas e geração de artefato computacional para apoio à decisão em um sistema produtivo de serviços. O produto resultante corresponde a uma solução analítico-preditiva aplicada, compatível com os produtos esperados pelo projeto, como software, processos não patenteáveis, relatórios técnicos e artigos técnico-científicos.
+
+[323] 1.5 Delimitação da pesquisa
+
+[324] A pesquisa está delimitada ao desenvolvimento e à avaliação retrospectiva do artefato com dados históricos disponíveis no projeto. O foco está na previsão e no apoio à decisão de produção, não na implementação em ambiente operacional em tempo real. A validação foi feita por meio de comparação temporal entre planejamento atual, modelos preditivos e políticas de margem, sempre utilizando o consumo real observado como referência.
+
+[325] A pesquisa não apresenta custo operacional equivalente atualizado para a amostra qualificada. Eventuais custos de sobra e penalidades de falta exigem parâmetros validados pela gestão e registros de produção observada.
+
+[326] A dissertação também reconhece limites de generalização. O comportamento de consumo pode variar conforme perfil dos usuários, política de reservas ou presença, cardápio, calendário acadêmico, cultura institucional e sazonalidades. O pipeline e o protocolo podem ser reexecutados internamente com acesso autorizado aos dados e ao ambiente descrito. A aplicação em outra instituição exige integração e qualificação de dados locais, seleção ou treinamento de modelos no novo contexto e validação temporal frente ao processo vigente; o desempenho observado aqui não se transfere automaticamente.
+
+[327] Outra delimitação envolve a reprodutibilidade externa. Parte dos dados operacionais utilizados não pode ser disponibilizada integralmente por razões institucionais e de privacidade. Para mitigar essa limitação, são descritos o pipeline, as camadas de dados, as etapas dos notebooks, as métricas e os resultados agregados, preservando a rastreabilidade metodológica sem expor informações sensíveis. Essa transparência é especialmente importante porque a pesquisa aplicada precisa equilibrar rigor científico e responsabilidade institucional.
+
+[328] A avaliação utiliza origens temporais sucessivas: em cada etapa, os modelos são ajustados apenas com dados anteriores e geram previsões para datas posteriores. Como essas previsões de validação foram examinadas durante o desenvolvimento e influenciaram as escolhas do projeto, os resultados não correspondem a um teste final independente e intocado. Tampouco constituem validação prospectiva, pois as previsões não foram registradas antes da observação do consumo em operação. Diante dessa limitação, os resultados são interpretados como retrospectivos; a confirmação requer avaliação em modo sombra com dados futuros.
+
+[329] 1.6 Organização da dissertação
+
+[330] Na fundamentação teórica, são discutidos os conceitos e estudos relacionados ao problema. Na metodologia, são descritos os procedimentos de busca e seleção da literatura, a aplicação da Design Science Research e o percurso de análise dos dados.
+
+[331] No capítulo de modelo sistêmico, são descritos os dados de entrada, as camadas Bronze, Silver e Gold, a engenharia de atributos, os modelos e as políticas de margem. No capítulo de resultados, são comparadas as alternativas com o consumo observado e discutidas suas implicações para o planejamento.
+
+[332] 2 FUNDAMENTAÇÃO TEÓRICA
+
+[333] Neste capítulo, são discutidos os fundamentos teóricos e conceituais utilizados no desenvolvimento do artefato analítico-preditivo para o planejamento da produção de refeições. A fundamentação concentra-se nos conceitos diretamente relacionados ao problema da tomada de decisão sob incerteza, evitando uma revisão meramente descritiva da literatura.
+
+[334] O problema é analisado como uma decisão operacional recorrente em um sistema produtivo de serviços. Antes que o consumo real seja observado, a gestão precisa definir a quantidade de refeições a produzir com base em informações incompletas, como reservas, histórico de consumo, calendário, cardápio e condições contextuais. Essa decisão produz consequências distintas: a produção inferior à demanda pode resultar em falta de atendimento, enquanto a produção superior pode gerar sobra, desperdício e uso ineficiente de recursos.
+
+[335] São abordados sistemas produtivos de alimentação institucional, desperdício, reservas e consumo, previsão de demanda, planejamento, ciência de dados, aprendizado de máquina, métricas e apoio à decisão. Os procedimentos de busca e seleção da literatura são descritos na Metodologia da Pesquisa.
+
+[336] As referências utilizadas foram organizadas em uma matriz de literatura, conforme os eixos deste capítulo. Os procedimentos de busca, seleção e classificação dos registros são apresentados na seção 3.2, junto ao protocolo metodológico.
+
+[337] 2.1 Sistemas produtivos de alimentação: desperdício, reservas e consumo real
+
+[338] Restaurantes institucionais e escolares podem ser compreendidos como sistemas produtivos de serviços. Eles transformam insumos, trabalho, informação e infraestrutura em refeições prontas para consumo em intervalos de tempo relativamente curtos. Diferentemente de uma fábrica tradicional, a produção ocorre próxima ao momento de consumo, com baixa possibilidade de armazenamento do produto final e forte dependência de condições sanitárias, capacidade operacional e presença dos usuários.
+
+[339] Essa característica torna o planejamento particularmente sensível à incerteza. Produzir abaixo da demanda pode resultar em falta de atendimento, enquanto produzir acima pode gerar sobra, descarte ou uso ineficiente de recursos. O desperdício, portanto, não decorre necessariamente de uma única falha, mas pode estar relacionado ao planejamento, ao comportamento dos usuários, à aceitação do cardápio, à presença efetiva e à organização do serviço (DHIR et al., 2020; STEEN et al., 2018).
+
+[340] Em instituições de ensino, a complexidade é ampliada pelo calendário acadêmico, por eventos, períodos de avaliação, férias, feriados e variações no comparecimento dos estudantes. A refeição pode possuir relevância social e institucional, mas essa relação não deve ser presumida como efeito direto sobre a permanência acadêmica. Nesta pesquisa, o foco permanece na decisão operacional de planejar a quantidade de refeições a produzir.
+
+[341] Um dos pontos centrais do problema é a distinção entre reserva, presença e consumo real. A reserva é uma informação registrada antes do serviço e representa uma intenção ou expectativa de consumo. A presença corresponde ao comparecimento efetivo do usuário, enquanto o consumo real representa a quantidade de refeições efetivamente servidas. Esses elementos podem não coincidir, pois usuários podem realizar uma reserva e não comparecer ou comparecer sem reserva, conforme as regras institucionais e as condições do dia (FAEZIRAD et al., 2021).
+
+[342] Em sistemas com reservas, o no-show corresponde ao não comparecimento do usuário que havia reservado uma refeição (FAEZIRAD et al., 2021). Esse fenômeno pode produzir diferenças entre o quantitativo reservado e o consumo observado. Na rotina atual do restaurante estudado, o quantitativo é estimado pela nutricionista, sem reservas individuais dos estudantes; por isso, suas diferenças em relação ao consumo não devem ser interpretadas como uma taxa de no-show.
+
+[343] Essa distinção caracteriza o restaurante institucional como um sistema de decisão no qual dados operacionais e condições contextuais precisam ser analisados conjuntamente. A integração entre reservas, histórico de consumo, calendário, cardápio e outras variáveis será retomada nos capítulos seguintes como base para comparar alternativas de planejamento e avaliar os riscos de sobra e falta.
+
+[344] 2.1.1 Desperdício alimentar em serviços de alimentação
+
+[345] O desperdício alimentar em serviços de alimentação constitui um problema operacional, econômico, ambiental e social. Em revisão sobre hospitalidade e serviços de alimentação, Dhir et al. (2020) mostram que sua ocorrência está relacionada a múltiplos fatores, como planejamento inadequado, comportamento dos consumidores, dimensionamento de porções, preferências alimentares, processos de compra e limitações de controle operacional. Essa abordagem permite compreender o desperdício como fenômeno distribuído ao longo do processo produtivo, e não apenas como resultado de uma falha isolada na etapa final do serviço.
+
+[346] Em ambientes escolares, Steen et al. (2018) identificam fatores associados à geração de desperdício em escolas e pré-escolas. Os autores mostram que o problema não pode ser explicado apenas pela aceitação do cardápio, pois também envolve o número de usuários presentes, o planejamento da produção, o porcionamento, o perfil dos consumidores e a organização do serviço. Essa evidência é relevante para a presente pesquisa porque o consumo real em restaurantes institucionais também depende da presença efetiva dos usuários e de condições contextuais que não são totalmente representadas pelo número de reservas.
+
+[347] Elnakib et al. (2021), ao analisarem intervenções em alimentação escolar, destacam que ações de redução de desperdício precisam considerar o contexto de aplicação e ser avaliadas por meio de comparação entre períodos ou condições distintas. Essa contribuição reforça que a redução do desperdício não deve ser tratada apenas como intenção gerencial. É necessário mensurar os resultados, estabelecer uma referência de comparação e verificar possíveis efeitos sobre o atendimento.
+
+[348] Kodors et al. (2022) utilizaram simulação de Monte Carlo para prever o desperdício no prato em escolas. Esse objeto difere da quantidade de refeições a preparar, prevista nesta pesquisa. O estudo oferece uma referência de tratamento da incerteza; aqui, as variações do consumo são examinadas por meio dos erros de previsão e de cenários de margem, sem inferir desperdício físico a partir dessas diferenças.
+
+[349] Malefors et al. (2022) aproximam a previsão de demanda da redução potencial do desperdício e da avaliação econômica em serviços públicos de alimentação. Os resultados de Malefors et al. (2022) oferecem uma referência para analisar modelos preditivos por métricas estatísticas e por suas possíveis implicações para compras, produção e atendimento. No contexto universitário, Turker (2025) também indica a importância de integrar dados operacionais e métodos de previsão às características específicas de restaurantes de campus, nos quais a demanda pode variar conforme calendário acadêmico, perfil dos usuários, política de subsídio e rotina institucional.
+
+[350] Faezirad et al. (2021) discutem a prevenção do desperdício em sistemas universitários subsidiados e destacam a relação entre reservas e comparecimento. Para esta dissertação, a principal contribuição desse estudo está em reforçar que a reserva representa um sinal antecipado, mas não necessariamente o consumo que será observado. Quando o planejamento considera a reserva como equivalente ao consumo, pode produzir distorções na quantidade preparada e ampliar os riscos de sobra ou falta.
+
+[351] A literatura analisada sugere, portanto, que o desperdício alimentar deve ser compreendido dentro da cadeia de decisões que antecede a produção. Quando o planejamento subestima a demanda, o problema pode se manifestar como falta de atendimento; quando a superestima, pode resultar em sobra e uso ineficiente de recursos. O desafio consiste em avaliar conjuntamente esses dois riscos, considerando o consumo real como referência para a comparação das alternativas de planejamento. As principais contribuições dos estudos discutidos nesta seção são sintetizadas no Quadro 1.
+
+[352] Quadro 1 - Contribuições da literatura sobre desperdício alimentar para a dissertação
+
+[353] Eixo | Autores de apoio | Uso na dissertação
+Desperdício em serviços de alimentação | Dhir et al. (2020) | Contextualiza o desperdício como fenômeno multifatorial e recorrente em serviços alimentares.
+Fatores de risco em escolas | Steen et al. (2018); Elnakib et al. (2021) | Sustenta a necessidade de observar presença, contexto e avaliação de intervenções.
+Previsão de desperdício no prato | Kodors et al. (2022) | Apresenta o uso de simulação de Monte Carlo para prever desperdício no prato em escolas.
+Previsão de comparecimento | Malefors et al. (2022) | Relaciona previsões de presença à redução potencial do desperdício e à avaliação econômica.
+Consumo em restaurantes universitários | Turker (2025) | Analisa dados de consumo, cardápio e contexto do campus, sem estudar o sistema de reservas.
+Reservas e comparecimento | Faezirad et al. (2021) | Distingue reservas e comparecimento em um sistema universitário subsidiado.
+
+[354] Fonte: Dados da pesquisa (2026).
+
+[355] Nos estudos sintetizados no Quadro 1, o desperdício alimentar é associado ao planejamento, ao comportamento dos usuários, às características do serviço e à incerteza da demanda. Para esta pesquisa, essa evidência reforça a necessidade de avaliar o planejamento da produção em relação ao consumo real, considerando simultaneamente os riscos de sobra e de falta. Com base nesses estudos, a previsão de demanda é considerada um instrumento de apoio à decisão, cuja contribuição para prevenir desperdício depende das condições do serviço.
+
+[356] 2.1.2 Reservas, presença e consumo real
+
+[357] A distinção entre reservas, presença e consumo real é fundamental para compreender o planejamento da produção em restaurantes institucionais. A reserva constitui uma informação registrada antes do serviço e representa uma intenção ou expectativa de consumo. A presença corresponde ao comparecimento efetivo do usuário, enquanto o consumo real representa a quantidade de refeições efetivamente servidas. Embora esses elementos estejam relacionados, eles não são necessariamente equivalentes.
+
+[358] Faezirad et al. (2021) analisam reservas e comparecimento em um sistema universitário de alimentação. Reservar e não comparecer corresponde ao no-show, e o comparecimento acima do quantitativo reservado também é considerado no estudo. No restaurante desta pesquisa, cardápio, dia da semana e calendário são fatores candidatos para representar variações do consumo. Sua contribuição é examinada nos testes temporais; a análise não presume que todos esses fatores tenham sido avaliados naquele artigo.
+
+[359] Em sistemas universitários subsidiados, Faezirad et al. (2021) destacam a importância de considerar conjuntamente reservas e comparecimento para compreender a utilização efetiva do serviço. A principal contribuição desse estudo para a presente pesquisa está em demonstrar que a reserva funciona como sinal antecipado de demanda, mas pode conter desvios em relação ao consumo observado. Assim, utilizar a reserva como referência única pode levar a estimativas superiores ou inferiores à quantidade efetivamente necessária.
+
+[360] A qualidade do planejamento deve ser avaliada em relação ao consumo observado, e não pela própria informação utilizada para definir a quantidade planejada. Nos experimentos históricos, são comparados o uso direto das reservas, as previsões dos modelos e os cenários de margem. Na etapa prospectiva, a referência do processo vigente será o quantitativo informado pela nutricionista.
+
+[361] O excesso potencial corresponde à quantidade planejada acima do consumo observado, enquanto o déficit potencial corresponde à quantidade planejada abaixo desse consumo. Para uma quantidade planejada (p) e um consumo observado (y), esses indicadores são calculados, respectivamente, por max(p-y,0) e max(y-p,0). Eles não medem sobras físicas nem refeições não atendidas. Métodos com o mesmo erro absoluto médio (MAE) podem apresentar diferentes proporções de superestimação e subestimação do consumo.
+
+[362] Nesse sentido, a reserva não deve ser descartada como informação inútil. Ela pode conter sinal relevante sobre a demanda, mas precisa ser interpretada conjuntamente com histórico de consumo, calendário, cardápio e outras variáveis contextuais. Essa combinação permite tratar a reserva como variável preditora, e não como substituta do consumo real. A partir dessa distinção, a seção seguinte discute os fundamentos da previsão de demanda em serviços e operações.
+
+[363] 2.2 Previsão de demanda, planejamento e cadeia de suprimentos
+
+[364] 2.2.1 Previsão de demanda em serviços
+
+[365] A previsão de demanda consiste em estimar valores futuros a partir de informações históricas, variáveis contextuais e conhecimento sobre o funcionamento do sistema analisado. Em serviços de alimentação, essa atividade pode apoiar decisões relacionadas à compra de insumos, ao dimensionamento da produção, à organização da equipe, ao preparo das refeições e ao controle de desperdícios. A qualidade da previsão, entretanto, deve ser analisada em relação ao horizonte de decisão e às consequências operacionais associadas aos erros.
+
+[366] A literatura de previsão reúne diferentes abordagens, que podem ser organizadas em métodos qualitativos, métodos estatísticos e métodos baseados em aprendizado de máquina. A escolha entre essas alternativas não deve ser orientada apenas pela complexidade do algoritmo. É necessário considerar a natureza dos dados, a estabilidade dos padrões, o horizonte de previsão, a disponibilidade de variáveis explicativas, a capacidade de manutenção e a finalidade da decisão.
+
+[367] Em restaurantes institucionais, a demanda pode apresentar padrões temporais e contextuais associados ao dia da semana, ao calendário acadêmico, aos feriados, aos eventos, ao cardápio, às reservas, às condições climáticas e ao histórico recente de consumo. Essas variáveis podem interagir de maneira distinta conforme o período analisado. Por essa razão, modelos de previsão precisam ser avaliados no contexto específico em que serão utilizados, sem pressupor que uma abordagem apresente desempenho superior em todas as situações.
+
+[368] Aci e Yergök (2023) estudaram a previsão de demanda em um refeitório universitário sem pré-reserva. Os autores combinaram efeitos de calendário e ingredientes do cardápio e compararam 18 modelos. O caso aproxima-se da linha-base desta pesquisa, embora as bases, os períodos e os protocolos de avaliação sejam diferentes.
+
+[369] Rodrigues et al. (2024), ao estudarem modelos de aprendizado de máquina para previsão de demanda de curto prazo em serviços de alimentação, destacam que a escolha do modelo deve considerar o contexto da aplicação, o horizonte de previsão e a métrica de avaliação. Essa perspectiva é importante para a presente pesquisa, cujo horizonte é diário e cuja unidade de decisão corresponde à quantidade de refeições a produzir. Uma métrica adequada para comparar algoritmos pode não traduzir, sozinha, o risco de sobra ou de falta no serviço.
+
+[370] Métodos estatísticos e modelos de aprendizado de máquina devem, portanto, ser compreendidos como alternativas que podem atuar de forma complementar. Métodos mais simples podem funcionar como referências transparentes para o benchmark, enquanto modelos mais complexos podem ser considerados quando houver evidência de ganho no conjunto de dados analisado. A inclusão de diferentes abordagens permite verificar se a complexidade adicional produz melhoria suficiente para justificar seu uso operacional.
+
+[371] A avaliação da previsão também precisa distinguir desempenho preditivo de utilidade decisória. Um modelo pode apresentar erro estatístico reduzido, mas não produzir uma quantidade adequada para a decisão de preparo. Por isso, a previsão do consumo esperado constitui uma etapa do processo, que posteriormente precisa ser convertida em recomendação de produção conforme o nível de risco associado à sobra e à falta. Essa distinção fundamenta a discussão seguinte sobre abordagens clássicas de planejamento e métodos de apoio à decisão.
+
+[372] 2.2.2 Abordagens clássicas de planejamento e otimização
+
+[373] A inteligência artificial não constitui a única alternativa para apoiar decisões de planejamento em sistemas produtivos. Métodos estatísticos, regras operacionais e técnicas de otimização também podem ser utilizados para estimar demandas, definir níveis de produção e alocar recursos sob determinadas restrições. A escolha entre essas abordagens deve considerar o contexto de aplicação, a disponibilidade de dados, a complexidade da operação e a capacidade de interpretação e manutenção dos resultados.
+
+[374] Métodos clássicos de previsão podem funcionar como referências importantes para comparação. Sua utilização permite verificar se a complexidade adicional de um modelo de aprendizado de máquina produz ganho suficiente em relação a alternativas mais simples e transparentes. Essa comparação é relevante porque o desempenho de um modelo não depende apenas do algoritmo utilizado, mas também da qualidade dos dados, do horizonte de previsão e da métrica escolhida (RODRIGUES et al., 2024; SHMUELI; KOPPIUS, 2010).
+
+[375] Técnicas de otimização, por sua vez, podem apoiar decisões de produção, compras, estoques e distribuição quando existem restrições de capacidade, orçamento, disponibilidade de insumos, mão de obra e atendimento. Entretanto, a qualidade da solução otimizada depende das informações utilizadas como entrada. Se a demanda estimada estiver subdimensionada, a otimização pode produzir um plano eficiente do ponto de vista matemático, mas insuficiente para atender ao consumo real. Se estiver superdimensionada, pode ampliar sobras e custos.
+
+[376] Aplicações em serviços de catering formulam decisões de produção e distribuição como problemas de otimização sob incerteza, avaliando conjuntamente custo, excedente e falta (SEL et al., 2017). Em operações de autosserviço, abordagens multiobjetivo também explicitam a fronteira entre reduzir excedentes e evitar faltas, sem presumir que uma única regra minimize ambos simultaneamente (BIRISCI; MCGARVEY, 2018).
+
+[377] Nesse sentido, previsão e otimização não são necessariamente alternativas concorrentes. A previsão pode estimar o consumo esperado, enquanto a otimização pode utilizar essa estimativa para definir um plano de produção ou compras sob restrições. A integração entre essas etapas, contudo, exige dados confiáveis, definição clara dos custos e das restrições e validação em relação ao funcionamento real do sistema.
+
+[378] O escopo desta pesquisa está concentrado na previsão do consumo e na recomendação da quantidade diária de refeições a produzir. A solução integral dos problemas de compras, estoques e alocação de recursos está fora do escopo do artefato. A discussão das abordagens clássicas serve, portanto, para posicionar o trabalho e reconhecer possibilidades de integração futura, evitando apresentar o aprendizado de máquina como única resposta possível ao problema.
+
+[379] Para esta dissertação, essas abordagens também funcionam como contrapontos teóricos e metodológicos. A escolha do artefato deve ser justificada pelos resultados obtidos no conjunto de dados analisado e pela utilidade das recomendações para a decisão, e não pela complexidade tecnológica do modelo. Essa delimitação conduz à discussão seguinte sobre gestão de compras e cadeia de suprimentos em serviços de alimentação.
+
+[380] 2.2.3 Gestão de compras e cadeia de suprimentos
+
+[381] A previsão de demanda em serviços de alimentação possui relação com a gestão de compras e com a cadeia de suprimentos. Em restaurantes institucionais, a decisão sobre a quantidade de refeições a produzir pode influenciar o volume de insumos a adquirir, a organização do preparo, a necessidade de armazenamento e o uso de recursos financeiros. Dessa forma, a previsão de consumo não constitui apenas uma etapa estatística, mas também uma informação de apoio às decisões de suprimento.
+
+[382] A cadeia de suprimentos em alimentação envolve o fluxo de materiais, informações e recursos desde os fornecedores até o atendimento ao usuário. Esse fluxo apresenta características específicas, pois muitos insumos são perecíveis, possuem prazo de validade limitado e dependem de condições adequadas de armazenamento e processamento. Uma estimativa imprecisa da demanda pode aumentar a necessidade de decisões emergenciais, ampliar o risco de excesso de insumos ou contribuir para a indisponibilidade de ingredientes.
+
+[383] Em organizações públicas ou subsidiadas, as decisões de compra também podem estar condicionadas por contratos, regras formais de aquisição, planejamento orçamentário, prazos de fornecimento e prestação de contas. A incerteza da demanda torna esse planejamento mais sensível, pois compras excessivas podem aumentar sobras e perdas, enquanto aquisições insuficientes podem comprometer a continuidade do atendimento. Por isso, a estimativa de consumo deve ser compreendida como uma informação que apoia o planejamento, e não como solução isolada para toda a cadeia de suprimentos.
+
+[384] A quantidade diária prevista também precisa ser interpretada em conjunto com o cardápio, as fichas técnicas, o rendimento dos ingredientes, o estoque disponível, os prazos de entrega, a validade dos produtos, a capacidade de armazenamento e as regras de contratação. Esses elementos demonstram que a previsão de refeições representa apenas uma etapa do processo decisório. No escopo desta pesquisa, o artefato não resolve integralmente o problema de compras ou de estoques; ele fornece uma estimativa de consumo e uma recomendação de produção que podem subsidiar decisões posteriores.
+
+[385] A relação com a sustentabilidade deve ser tratada como potencial. O desperdício pode ocorrer na compra excessiva, no armazenamento inadequado, no preparo acima da demanda ou no descarte de refeições prontas. Uma produção mais aderente ao consumo observado pode contribuir para reduzir pressões sobre compras, estoques e descarte, mas essa contribuição não deve ser apresentada como impacto ambiental comprovado, pois a pesquisa não realizou mensuração ambiental direta nem avaliação prospectiva da implantação.
+
+[386] Assim, a gestão de compras e a cadeia de suprimentos constituem dimensões complementares ao problema central da dissertação. A previsão de demanda pode melhorar a qualidade das informações disponíveis para o planejamento, mas sua utilidade depende da integração com as restrições materiais, contratuais e operacionais da instituição. Essa delimitação evita atribuir ao artefato uma capacidade que não foi diretamente avaliada e prepara a discussão seguinte sobre ciência de dados e organização do pipeline analítico.
+
+[387] 2.3 Ciência de dados e modelos preditivos
+
+[388] 2.3.1 Ciência de dados e pipeline analítico
+
+[389] A ciência de dados pode ser compreendida como um campo interdisciplinar que integra coleta, organização, tratamento, análise, modelagem e comunicação de dados para produzir conhecimento e apoiar decisões. Xu et al. (2021) destacam a amplitude do campo, que envolve métodos, tecnologias e processos. Nesta pesquisa, a ciência de dados é entendida menos como um conjunto de ferramentas isoladas e mais como uma forma organizada de transformar registros operacionais em bases analíticas, modelos avaliáveis e evidências compreensíveis.
+
+[390] A construção de um pipeline analítico é importante porque os modelos preditivos dependem da qualidade e da coerência dos dados de entrada. Reservas, consumo, calendário, cardápio e clima precisam ser integrados, padronizados e documentados antes da modelagem. Quando essas etapas são realizadas de maneira inconsistente, o resultado pode apresentar desempenho aparente, mas permanecer frágil para uso operacional.
+
+[391] Uma forma de organizar esse percurso é a utilização de camadas de dados. A camada Bronze preserva os dados brutos ou minimamente tratados; a camada Silver reúne dados consolidados e padronizados; e a camada Gold estrutura as informações e os atributos destinados à análise e à modelagem. Essa separação favorece a rastreabilidade, pois permite identificar a origem dos registros, as transformações realizadas e o momento em que os dados se tornam adequados para a avaliação dos modelos.
+
+[392] A confiabilidade do pipeline depende também do controle de qualidade, da documentação e da possibilidade de acompanhar as transformações realizadas. Tripathi et al. (2021) destacam que modelos orientados por dados precisam ser avaliados em relação à qualidade dos dados, à estabilidade dos resultados e ao contexto produtivo em que serão utilizados. Esses aspectos são especialmente relevantes em pesquisas aplicadas, nas quais o desempenho experimental precisa ser relacionado às condições reais de decisão.
+
+[393] Outro componente importante é a engenharia de atributos. Atributos temporais, defasagens de consumo, médias móveis, indicadores de calendário, variáveis de cardápio e informações climáticas traduzem aspectos do domínio em representações que podem ser utilizadas pelos modelos. Essa etapa explicita a hipótese de que o consumo de refeições é influenciado por padrões históricos e por condições específicas do dia.
+
+[394] A análise exploratória também integra esse processo. Ela permite identificar padrões temporais, inconsistências, sazonalidades, diferenças entre dias da semana e possíveis relações entre consumo, cardápio, calendário e reservas. A compreensão desses padrões deve preceder a modelagem, pois reduz o risco de construir previsões sobre dados mal compreendidos.
+
+[395] O percurso entre registros operacionais, modelos e informações gerenciais foi estruturado com procedimentos de ciência de dados. Na seção seguinte, são descritas as famílias de modelos consideradas; as ferramentas utilizadas são apresentadas na metodologia.
+
+[396] 2.3.2 Aprendizado de máquina e famílias de modelos
+
+[397] O aprendizado de máquina supervisionado consiste em construir modelos a partir de exemplos históricos nos quais as variáveis de entrada estão associadas a um resultado conhecido. No treinamento, são estimadas relações entre as variáveis de entrada e o resultado conhecido, utilizadas para produzir previsões em novas observações.
+
+[398] No problema desta pesquisa, o alvo preditivo corresponde ao consumo real diário de refeições. As variáveis de entrada podem incluir reservas, histórico de consumo, calendário, cardápio, condições climáticas e outros atributos derivados. A finalidade do modelo não é apenas reproduzir os registros históricos, mas generalizar padrões para apoiar decisões em novos dias de operação.
+
+[399] A qualidade de um modelo supervisionado depende da relação entre dados, atributos, algoritmo e procedimento de avaliação. Um modelo pode apresentar baixo erro nos dados utilizados para treinamento e, ainda assim, produzir previsões inadequadas quando aplicado a novos períodos. Essa situação está relacionada ao sobreajuste, que ocorre quando o modelo aprende particularidades ou ruídos dos dados de desenvolvimento em vez de relações suficientemente gerais.
+
+[400] Kühl et al. (2021) destacam a importância de documentar o problema, os dados, o pré-processamento, os modelos, a validação e as métricas utilizadas em pesquisas com aprendizado de máquina supervisionado. Essa exigência é particularmente relevante em estudos aplicados, nos quais a qualidade do modelo precisa ser analisada em conjunto com a confiabilidade dos dados e a utilidade do resultado para a decisão.
+
+[401] Também é necessário distinguir previsão de explicação. Um modelo pode ser útil para estimar o consumo sem permitir interpretar suas relações como causais. Conforme discutido por Shmueli e Koppius (2010), o desempenho preditivo e a capacidade explicativa correspondem a objetivos diferentes. Nesta pesquisa, a prioridade é avaliar a capacidade de produzir estimativas úteis para o planejamento, sem transformar associações preditivas em afirmações causais.
+
+[402] Foram consideradas famílias com diferentes formas de aprender com os dados: modelos lineares, árvores de decisão, redes neurais e métodos de séries temporais. Também foram avaliados comitês de modelos, chamados ensembles, que combinam previsões de vários métodos. A escolha depende do erro observado, da estabilidade entre períodos e das condições de uso.
+
+[403] Modelos baseados em árvores de decisão são utilizados em problemas de previsão com dados tabulares porque podem representar relações não lineares, interações entre variáveis e diferentes pontos de corte. Essa característica é relevante em situações nas quais o consumo depende simultaneamente de fatores como reservas, calendário, cardápio, clima e histórico de demanda. Mienye e Jere (2024) destacam a versatilidade das árvores de decisão em diferentes contextos de aplicação.
+
+[404] Uma árvore de decisão separa os dias em grupos por regras sobre as características disponíveis, como dia da semana e consumo anterior. Em cada divisão, os registros são agrupados segundo o critério de ajuste adotado pelo algoritmo. Árvores menores facilitam a leitura das regras; árvores muito complexas podem memorizar particularidades do treino e perder desempenho em novos dias.
+
+[405] Os ensembles de árvores combinam múltiplos modelos para reduzir a instabilidade de uma árvore individual. O Random Forest utiliza amostras e subconjuntos de variáveis para construir diferentes árvores e agregar suas previsões (BREIMAN, 2001). O ExtraTrees acrescenta aleatoriedade à escolha dos pontos de divisão, com o objetivo de reduzir a variância e produzir previsões mais estáveis em determinados conjuntos de dados (GEURTS; ERNST; WEHENKEL, 2006).
+
+[406] Outra família relevante é a dos métodos de boosting. Diferentemente do bagging, os modelos são construídos sequencialmente, de modo que os modelos posteriores são ajustados para reduzir erros observados nas etapas anteriores. O Gradient Boosting constitui uma formulação geral dessa estratégia (FRIEDMAN, 2001). O XGBoost e o CatBoost são implementações utilizadas em problemas tabulares e apresentam diferentes mecanismos de regularização, tratamento de variáveis e controle de complexidade (CHEN; GUESTRIN, 2016; PROKHORENKOVA et al., 2018).
+
+[407] A combinação de modelos não garante, por si só, melhoria de desempenho. O resultado depende da qualidade dos modelos componentes, da diversidade entre suas previsões, do método de agregação e da forma de validação. Em pesquisas aplicadas, um ensemble deve ser avaliado não apenas pelo erro preditivo, mas também pela estabilidade temporal, pela interpretabilidade, pelo custo computacional e pela utilidade para a decisão.
+
+[408] A interpretação de modelos baseados em árvores pode utilizar importância de variáveis, análise de erros por contexto e visualizações comparativas. Essas ferramentas, entretanto, não devem ser confundidas com evidência causal. Quando uma variável apresenta importância preditiva, isso indica que ela contribuiu para o desempenho do modelo no conjunto analisado, mas não demonstra que tenha causado o aumento ou a redução do consumo.
+
+[409] Árvores e comitês são alternativas para prever a demanda com dados organizados em tabelas. As demais famílias consideradas são descritas a seguir; sua utilidade também depende dos testes com os dados da pesquisa.
+
+[410] Além dos modelos baseados em árvores e dos ensembles, outras famílias de modelos podem ser utilizadas em problemas de previsão. Sua presença no referencial é importante porque permite comparar alternativas com diferentes níveis de complexidade e verificar se o ganho obtido por determinado modelo justifica sua utilização no contexto analisado.
+
+[411] Modelos lineares e regularizados estimam o alvo a partir de combinações ponderadas das variáveis explicativas. Sua principal vantagem está na simplicidade, na velocidade de treinamento e na facilidade de interpretação. Técnicas de regularização podem reduzir a influência de atributos pouco relevantes e ajudar a controlar o sobreajuste quando há muitas variáveis ou relações de dependência entre elas.
+
+[412] Métodos baseados em distância ou vizinhança estimam novos valores a partir da semelhança entre observações. Essas abordagens podem ser úteis quando padrões locais são relevantes, mas são sensíveis à escala das variáveis, ao ruído e à dimensionalidade dos dados. As máquinas de vetor de suporte também podem representar relações não lineares por meio de funções de transformação, embora geralmente exijam calibração cuidadosa dos parâmetros.
+
+[413] Redes neurais e métodos de aprendizado profundo são capazes de representar relações complexas e podem ser úteis em dados de alta dimensionalidade, imagens, textos e sequências. Em bases tabulares de tamanho moderado, porém, sua superioridade não deve ser presumida. Esses modelos podem exigir maior volume de dados, maior esforço de configuração e cuidados adicionais com regularização, custo computacional e interpretação.
+
+[414] Modelos específicos de séries temporais também constituem alternativas relevantes quando a dependência temporal é o principal elemento da previsão. Eles podem representar tendência, sazonalidade e padrões recorrentes do histórico de demanda. Entretanto, quando o consumo também depende de reservas, cardápio, calendário, clima e outros fatores externos, modelos supervisionados com variáveis contextuais podem oferecer uma representação mais ampla do problema.
+
+[415] A comparação entre essas famílias deve considerar o horizonte de previsão, a estrutura dos dados, as métricas de avaliação, a estabilidade temporal e a utilidade gerencial dos resultados. Nenhuma família é superior em todas as situações. No contexto desta pesquisa, modelos mais simples funcionam como referências, enquanto modelos mais complexos precisam demonstrar ganho consistente no conjunto de dados analisado para justificar sua adoção. A próxima seção discute como as informações do cardápio podem ser representadas como atributos utilizados na previsão.
+
+[416] 2.3.3 Cardápio e representação textual
+
+[417] O cardápio constitui uma dimensão relevante dos serviços de alimentação porque suas características podem estar relacionadas às escolhas e ao comportamento de consumo dos usuários. Preferências alimentares, variedade, combinação de itens, tipo de preparação e presença de determinados pratos podem produzir diferenças na demanda. Em registros operacionais, entretanto, essas informações frequentemente aparecem em formato textual e precisam ser convertidas em atributos estruturados para serem utilizadas em modelos preditivos.

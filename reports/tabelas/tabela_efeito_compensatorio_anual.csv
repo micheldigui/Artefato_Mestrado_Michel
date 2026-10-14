@@ -1,0 +1,5 @@
+﻿ano,regime,dias_letivos,consumo_medio,reserva_media,saldo_liquido_anual,sobra_real_acumulada,falta_real_acumulada,dias_com_falta,pct_dias_falta,dias_com_sobra,pct_dias_sobra,mae_diario,rmse_diario,pior_falta_1_dia,pior_sobra_1_dia,custo_desperdicio_rs
+2023,Alunos (Manifestação),181,107.8,111.9,742,1916,1174,69,38.1,102,56.4,17.1,21.9,43,86,16286.0
+2024,Alunos (Manifestação),122,167.3,132.9,-4190,334,4524,101,82.8,20,16.4,39.8,51.8,133,51,2839.0
+2025,Alunos (Manifestação),155,138.4,118.2,-3130,666,3796,122,78.7,31,20.0,28.8,35.2,98,78,5661.0
+2026,Nutricionista (Estimativa),140,167.1,186.2,2670,3354,684,52,37.1,85,60.7,28.8,47.0,58,221,28509.0

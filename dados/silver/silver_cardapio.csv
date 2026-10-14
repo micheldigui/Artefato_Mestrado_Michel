@@ -1,0 +1,752 @@
+﻿data;data_iso;prato_principal;proteina_tipo;preparo_tipo;opcao_vegetariana;guarnicao;sobremesa
+13/02/2023;2023-02-13;lasanha à bolonhesa;bovina;massa_ou_montado;lasanha de soja;escarola ao alho;banana nanica
+14/02/2023;2023-02-14;frango grelhado;frango;grelhado;berinjela grelhada;creme de milho;laranja
+15/02/2023;2023-02-15;bisteca ao shoyo molho;suina;ao_molho_ou_refogado;abobrinha recheada;batata doce;mamão
+16/02/2023;2023-02-16;frango xadrez;frango;ao_molho_ou_refogado;yakissoba vegano;escarola ao alho;maçã
+17/02/2023;2023-02-17;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de soja;abóbora ao alho;salada de frutas
+23/02/2023;2023-02-23;bife à rolê;bovina;cozido_ou_refogado;berinjela à rolê;purê de batata;mousse de chocolate
+24/02/2023;2023-02-24;cubos suino ao molho limão;suina;ao_molho_ou_refogado;moussaka;legumes soutê;mamão
+27/02/2023;2023-02-27;espeto misto carne bovina;mista;churrasco_ou_espeto;espeto de legumes;faraofa crocante;banana
+28/02/2023;2023-02-28;íscas suinas à chinesa;suina;ao_molho_ou_refogado;íscas de legumes à chinesa;cenoura palito na manteiga;laranja
+01/03/2023;2023-03-01;bife grelhado acebolado;bovina;grelhado;berinjela grelhada;mandioca ao alho;banana
+02/03/2023;2023-03-02;copa lombo assado;suina;assado;omelete com queijo;folhas refogadas;abacaxi
+03/03/2023;2023-03-03;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de soja;couve refogada;maçã
+06/03/2023;2023-03-06;lasanha à bolonhesa;bovina;massa_ou_montado;lasanha de proteína de soja;abóbora ao alho;mamão
+07/03/2023;2023-03-07;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de legumes;batata palha;mousse de maracujá
+08/03/2023;2023-03-08;feijoada;feijoada;cremoso_ou_ensopado;feijoada vegana;farofa crocanate;laranja
+09/03/2023;2023-03-09;frango assado;frango;assado;tomate recheado;cenoura sautê;melão
+10/03/2023;2023-03-10;peixe no a milanesa;peixe;empanado_ou_a_milanesa;hambúrguer de soja;batata doce sautê;salada de frutas
+13/03/2023;2023-03-13;isca de frango à milanesa;frango;empanado_ou_a_milanesa;bolinho de feijão;acelga ao shoyo;abacaxi
+14/03/2023;2023-03-14;copa lombo ao roty;suina;assado;pizza de berinjela;mandioca sauté;melancia
+15/03/2023;2023-03-15;carne de panela;bovina;cozido_ou_refogado;almôndegas de soja;purê de batata;salada de frutas
+16/03/2023;2023-03-16;sobrecoxa assada;frango;assado;ovos ao sugo;abóbora na salsa;maçã
+17/03/2023;2023-03-17;bife à rolê;bovina;cozido_ou_refogado;berinjela à rolê;macarrão alho e óleo;banana
+20/03/2023;2023-03-20;churrasco misto;mista;churrasco_ou_espeto;legumes acebolados;couve refogada;gelatina
+21/03/2023;2023-03-21;filé de frango grelhado;frango;grelhado;mix de grãos;cenoura sautê;maçã
+22/03/2023;2023-03-22;pernil louco;suina;cozido_ou_refogado;omelete com milho;farofa crocante;mamão
+23/03/2023;2023-03-23;íscas de carne à chinesa;bovina;ao_molho_ou_refogado;íscas de leg à chinesa;polenta cremosa;salada de frutas
+24/03/2023;2023-03-24;lasanha frango molho br;frango;massa_ou_montado;lasanha de soja molho branco;escarola ao alho;melancia
+27/03/2023;2023-03-27;carne com mandioca;bovina;cozido_ou_refogado;soja com mandioca;virado de folhas;laranja
+28/03/2023;2023-03-28;frango ao molho mostarda;frango;ao_molho_ou_refogado;bolinho de soja ao molho mostarda;quibebe;salada de frutas
+29/03/2023;2023-03-29;panqueca de carne ao sugo;bovina;massa_ou_montado;panqueca de soja;purê de abóbora;abacaxi
+30/03/2023;2023-03-30;frango à milanesa;frango;empanado_ou_a_milanesa;ovos à milanesa;escarola ao alho;mamão
+31/03/2023;2023-03-31;carne à parmegiana;bovina;ao_molho_ou_refogado;batata recheada;batata aoa forno;mousse de chocolate
+03/04/2023;2023-04-03;fricassê de frango;frango;cremoso_ou_ensopado;pizza de berinjela;chuchu gratinado;melão
+04/04/2023;2023-04-04;bife acebolado;bovina;ao_molho_ou_refogado;soja acebolada;batata ao forno;sagu de uva
+05/04/2023;2023-04-05;feijoada;feijoada;cremoso_ou_ensopado;feijoada vegana;couve refogado;laranja
+06/04/2023;2023-04-06;peixe à milanesa;peixe;empanado_ou_a_milanesa;ovos mexidos com ervas;cuscuz de legumes;salada de frutas
+10/04/2023;2023-04-10;filé de frango grelhado;frango;grelhado;bolinho de grão de bico;cenoura palito na manteiga;arroz doce
+11/04/2023;2023-04-11;isca suina à milanesa;suina;empanado_ou_a_milanesa;hambúrguer de soja;acelga festiva;melancia
+12/04/2023;2023-04-12;lasanha frango ao molho branco;frango;massa_ou_montado;lasanha de soja molho branco;batata doce ao alho;maçã
+13/04/2023;2023-04-13;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de soja ao sugo;macarrão alho e óleo;banana nanica
+14/04/2023;2023-04-14;churrasco misto;mista;churrasco_ou_espeto;isca de legumes;couve refogado;salada de frutas
+17/04/2023;2023-04-17;pernil assado;suina;assado;pizza de berinjela;abóbora japonesa ao alho;maçã
+18/04/2023;2023-04-18;frango assado;frango;assado;mix de grãos;macarrão ao sugo;banana nanica
+19/04/2023;2023-04-19;bisteca ao molho limão;suina;ao_molho_ou_refogado;ovos ao vinagrete;farofa crocanate;tangerina
+20/04/2023;2023-04-20;carne de panela;bovina;cozido_ou_refogado;soja refogada com vagem;cenoura sautê;sagú de abacaxi
+24/04/2023;2023-04-24;frango à milanesa;frango;empanado_ou_a_milanesa;berinjela à milanesa;folhas refogadas;mamão
+25/04/2023;2023-04-25;copa lombo suino assado;suina;assado;batata recheada com soja;cenoura na manteiga;melancia
+26/04/2023;2023-04-26;frango ao molho laranja;frango;ao_molho_ou_refogado;torta de alho poró;batata palha;pudim baunilha com calda
+27/04/2023;2023-04-27;carne assada ao roty;bovina;assado;escondidinho soja batata doce;batata dorê;laranja
+28/04/2023;2023-04-28;peixe à milanesa;peixe;empanado_ou_a_milanesa;ovos mexidos com ervas;cuscuz de legumes;salada de frutas
+04/05/2023;2023-05-04;frango à milanesa;frango;empanado_ou_a_milanesa;berinjela à milanesa;creme de milho;melancia
+05/05/2023;2023-05-05;lasanha à bolonhesa;bovina;massa_ou_montado;abobrinha à bolonhesa;cenoura palito;gelatina de limão
+08/05/2023;2023-05-08;filé de frango grelhado;frango;grelhado;ovo cozido ao vinagrete;batata bolinha;mamão
+09/05/2023;2023-05-09;carne com mandioca;bovina;cozido_ou_refogado;torta de alho poró;seleta de legumes;abacaxi
+10/05/2023;2023-05-10;isca suina acebolada;suina;ao_molho_ou_refogado;quibe de abóbora assado;virado de couve;arroz doce
+11/05/2023;2023-05-11;polpetone recheado ao sugo;bovina;ao_molho_ou_refogado;polpetone de feijão preto recheado;macarrão alho e óleo;banana
+12/05/2023;2023-05-12;peixe no a milanesa;peixe;empanado_ou_a_milanesa;tempurá de legumes com soja;pirão de peixe;melancia
+15/05/2023;2023-05-15;churrasco misto;mista;churrasco_ou_espeto;churrasco de legumes;farofa de cebola;laranja
+16/05/2023;2023-05-16;panqueca de frango;frango;massa_ou_montado;ovos mexidos;folhas ao alho;maçã
+17/05/2023;2023-05-17;bife de panela;bovina;cozido_ou_refogado;isca de legumes;batata assada com alecrin;mamão
+18/05/2023;2023-05-18;frango xadrez;frango;ao_molho_ou_refogado;legumes xadrez;polenta cremosa;melancia
+19/05/2023;2023-05-19;pernil assado ao roty;suina;assado;hambúrguer de soja;acelga com milho;abacaxi
+22/05/2023;2023-05-22;carne moída com legumes;bovina;cozido_ou_refogado;soja com legumes;cenoura na manteiga;abacaxi
+23/05/2023;2023-05-23;cubos suinos ao molho limão;suina;ao_molho_ou_refogado;berinjela acebolada;batata frita;gelatina cereja
+24/05/2023;2023-05-24;feijoada light;feijoada;cremoso_ou_ensopado;feijoada vegana;farofa crocante;laranja
+25/05/2023;2023-05-25;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de grão de bico;batata palha;mamão
+26/05/2023;2023-05-26;carne assada;bovina;assado;bolinho de feijão enriquecido;seleta de legumes;banana
+29/05/2023;2023-05-29;strogonoff de carne;bovina;cremoso_ou_ensopado;ovos mexidos na manteiga;batata doce corada;melão
+30/05/2023;2023-05-30;pernil desfiado;suina;cozido_ou_refogado;berinjela ao shoyo;banana à milanesa;abacaxi
+31/05/2023;2023-05-31;escondidinho de frango(batata doce);frango;massa_ou_montado;escondidinho soja com batata doce;folhas refogadas;curau de milho
+01/06/2023;2023-06-01;arrumadinho nordestino;bovina;cozido_ou_refogado;kafta de soja;farofa crocante;doce de abóbora com coco
+02/06/2023;2023-06-02;carne assada;bovina;assado;bolinho de feijão enriquecido;seleta de legumes;banana
+05/06/2023;2023-06-05;filé de frango à parmegiana;frango;ao_molho_ou_refogado;espetinho de legumes;chuchu sautê;caqui
+06/06/2023;2023-06-06;carne moida com cenoura;bovina;cozido_ou_refogado;charruto de soja;macarrão alho e óleo;melancia
+07/06/2023;2023-06-07;copa lombo assado;suina;assado;ovos mexidos na manteiga;virado de folhas;gelatina bicolor
+12/06/2023;2023-06-12;bife acebolado;bovina;ao_molho_ou_refogado;hambúrguer de lentilha;cenoura na manteiga;sagú de frutas
+13/06/2023;2023-06-13;isca de frango com pimentão;frango;ao_molho_ou_refogado;pimentão recheado;batata doce ao alho;abacaxi
+14/06/2023;2023-06-14;feijoada;feijoada;cremoso_ou_ensopado;feijoada vegana;couve refogada;laranja
+15/06/2023;2023-06-15;copa lombo assado;suina;assado;ovos mexidos na manteiga;virado de folhas;gelatina bicolor
+16/06/2023;2023-06-16;escondidinho de carne;bovina;massa_ou_montado;escondidinho de soja;batata sauté;banana nanica
+19/06/2023;2023-06-19;filé de frango grelhado;frango;grelhado;hambúrguer de feijão preto;macarrão ao sugo;melancia
+20/06/2023;2023-06-20;strogonoff de carne;bovina;cremoso_ou_ensopado;ovos ao vinagrete;mandioca na salsa;flan de caramelo
+21/06/2023;2023-06-21;bisteca ao shoyo;suina;ao_molho_ou_refogado;bolinho de feijão;abóbora com ervas;salada de frutas
+22/06/2023;2023-06-22;cubos de frango ao molho mostarda;frango;ao_molho_ou_refogado;torta de alho poró;chuchu gratinado;tangerina
+23/06/2023;2023-06-23;pernil assado;suina;assado;mix de grãos com soja;farofa;abacaxi
+26/06/2023;2023-06-26;filé de frango grelhado;frango;grelhado;hambúrguer de feijão preto;macarrão ao sugo;melancia
+27/06/2023;2023-06-27;strogonoff de carne;bovina;cremoso_ou_ensopado;ovos ao vinagrete;mandioca na salsa;flan de caramelo
+28/06/2023;2023-06-28;bisteca ao shoyo;suina;ao_molho_ou_refogado;bolinho de feijão;abóbora com ervas;salada de frutas
+29/06/2023;2023-06-29;cubos de frango ao molho mostarda;frango;ao_molho_ou_refogado;torta de alho poró;chuchu gratinado;tangerina
+30/06/2023;2023-06-30;pernil assado;suina;assado;mix de grãos com soja;farofa;abacaxi
+03/07/2023;2023-07-03;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de legumes;batata palha;mousse de maracujá
+04/07/2023;2023-07-04;panqueca de carne ao sugo;bovina;massa_ou_montado;panqueca de soja;purê de abóbora;abacaxi
+05/07/2023;2023-07-05;feijoada;feijoada;cremoso_ou_ensopado;feijoada vegana;farofa crocanate;laranja
+06/07/2023;2023-07-06;sobrepaleta suina assada;suina;assado;omelete com queijo;folhas refogadas;curau de milho
+07/07/2023;2023-07-07;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de soja;couve refogada;maçã
+27/07/2023;2023-07-27;lasanha frango ao molho branco;frango;massa_ou_montado;lasanha de soja molho branco;polenta cremosa;salada de frutas
+28/07/2023;2023-07-28;íscas de carne à chinesa;bovina;ao_molho_ou_refogado;íscas de leg à chinesa;escarola ao alho;melancia
+31/07/2023;2023-07-31;carne com mandioca;bovina;cozido_ou_refogado;soja com mandioca;polenta cremosa;laranja
+01/08/2023;2023-08-01;churrasco misto;mista;churrasco_ou_espeto;croquete de legumes;farofa enriquecida;abacaxi
+02/08/2023;2023-08-02;fricassê de frango;frango;cremoso_ou_ensopado;mix de grãos;legumes sauté;curau de milho
+03/08/2023;2023-08-03;carne assada;bovina;assado;omelete com queijo;batata corada;maçã
+04/08/2023;2023-08-04;picadinho bovino;bovina;cozido_ou_refogado;hambúrguer de lenhtilha;macarrão alho e óleo;banana nanica
+07/08/2023;2023-08-07;panqueca de frango ao sugo;frango;massa_ou_montado;panqueca de soja;batata doce sautê;maçã
+08/08/2023;2023-08-08;bife à parmegiano;bovina;ao_molho_ou_refogado;berinjela à parmegiana;purê de batata;gelatina
+09/08/2023;2023-08-09;filé de frango grelhado;frango;grelhado;tortinha de alho poró;creme de milho;melancia
+10/08/2023;2023-08-10;isca de carne à milanesa;bovina;empanado_ou_a_milanesa;berinjela à milanesa;acelga com milho;banana nanica
+11/08/2023;2023-08-11;frango xadrez;frango;ao_molho_ou_refogado;ovos mexidos;macarrão alho e óleo;salada de frutas
+14/08/2023;2023-08-14;pernil assado ao molho ferrugem;suina;assado;hambúrguer de feijão preto;farofa crocante;pudim de baunilha
+15/08/2023;2023-08-15;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de grão de bico;batata palha;melancia
+16/08/2023;2023-08-16;arrumadinho nordestino;bovina;cozido_ou_refogado;arrumadinho com soja;abobrinha na salsa;abacaxi
+17/08/2023;2023-08-17;cubos de frango molho mostarda;frango;ao_molho_ou_refogado;ovos ao sugo;cenoura sautê;laranja
+18/08/2023;2023-08-18;bife de panela;bovina;cozido_ou_refogado;kibe de abobrinha;polenta cremosa;banana nanica
+21/08/2023;2023-08-21;frango assado;frango;assado;legumes assados com ervas;batata ao forno;maçã
+22/08/2023;2023-08-22;carne com mandioca;bovina;cozido_ou_refogado;soja ao sugo com mandioca;folhas refogadas;abacaxi
+23/08/2023;2023-08-23;copa lombo assado;suina;assado;omelete com milho;virado de couve;laranja
+24/08/2023;2023-08-24;lasanha frango ao molho branco;frango;massa_ou_montado;lasanha de soja molho branco;chuchu com milho;arroz doce caramelizado
+25/08/2023;2023-08-25;peixe empanado;peixe;empanado_ou_a_milanesa;omelete de forno;macarrão ao molho vermelho;salada de frutas
+28/08/2023;2023-08-28;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de soja ao sugo;purê de batata;laranja
+29/08/2023;2023-08-29;lombo ao molho limão;suina;ao_molho_ou_refogado;omelete de forno;farofa rica;gelatina bicolor
+30/08/2023;2023-08-30;filé de frango grelhado;frango;grelhado;batata recheada;polenta cremosa;banana nanica
+31/08/2023;2023-08-31;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff vegano;batata palha;melancia
+01/09/2023;2023-09-01;frango empanado;frango;empanado_ou_a_milanesa;berinjela empanada;creme de milho;flan de caramelo
+04/09/2023;2023-09-04;bife à rolê;bovina;cozido_ou_refogado;ovos ao vinagrete;purê de batata;abacaxi
+05/09/2023;2023-09-05;churrasco misto;mista;churrasco_ou_espeto;pizza de berinjela;farofa crocante;laranja
+06/09/2023;2023-09-06;panqueca de frango ao sugo;frango;massa_ou_montado;mix de grãos;repolho refogado;banana
+11/09/2023;2023-09-11;frango ao molho mostarda;frango;ao_molho_ou_refogado;bolinho de feijão enriquecido;batata doce ao alho;gelatina
+12/09/2023;2023-09-12;bife grelhado acebolado;bovina;grelhado;tota de alho poró;abóbora sautê;melancia
+13/09/2023;2023-09-13;feijoada;feijoada;cremoso_ou_ensopado;omelete de forno;farofa simples;laranja
+14/09/2023;2023-09-14;lasanha de frango molho barbecue;frango;massa_ou_montado;lasanha de soja;cenoura na manteiga;banana
+15/09/2023;2023-09-15;peixe à escabeche;peixe;cozido_ou_refogado;batata recheada;seleta de legumes;maçã
+18/09/2023;2023-09-18;polpetone recheado ao sugo;bovina;ao_molho_ou_refogado;polpetone de proteína;macarrão alho e óleo;melancia
+19/09/2023;2023-09-19;frango assado;frango;assado;ovos mexidos com cenoura;batata corada ao forno;banana
+20/09/2023;2023-09-20;carne moída com legumes;bovina;cozido_ou_refogado;proteína com legumes;polenta cremosa;abacaxi
+21/09/2023;2023-09-21;isca suinas aceboladas;suina;ao_molho_ou_refogado;isca de legumes;banana à milanesa;pudim de chocolate
+22/09/2023;2023-09-22;frango xadrez;frango;ao_molho_ou_refogado;hambúrguer de berinjela;acelga refogada;laranja
+25/09/2023;2023-09-25;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de grão de bico;cenoura sautê;maçã
+26/09/2023;2023-09-26;picadinho bovino;bovina;cozido_ou_refogado;tomate recheado;purê de mandioca;arroz doce caramelizado
+27/09/2023;2023-09-27;isca de frango à chinesa;frango;ao_molho_ou_refogado;pimentão recheado;macarrão alho e óleo;melancia
+28/09/2023;2023-09-28;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff de legumes;batata palha;abacaxi
+29/09/2023;2023-09-29;arrumadinho de frango;frango;cozido_ou_refogado;arrumadinho de soja;mix de legumes sautê;banana
+02/10/2023;2023-10-02;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de legumes;aipim frito;banana caramelada
+03/10/2023;2023-10-03;bobó de frango;frango;cremoso_ou_ensopado;tomates recheados;abobrinha empanada;maçã
+04/10/2023;2023-10-04;bife à rolê;bovina;cozido_ou_refogado;panqueca de legumes;purê de batata;salada de frutas
+05/10/2023;2023-10-05;escondidinho de frango;frango;massa_ou_montado;grãomelete;cenoura sautê;melancia
+06/10/2023;2023-10-06;assado vienense;bovina;assado;torta de abobrinha;capeleti ao sugo;laranja
+09/10/2023;2023-10-09;cupim assado;bovina;assado;caneloni de abobrinha;farofa de couve;abacaxi
+10/10/2023;2023-10-10;bisteca com abacaxi;suina;assado;ovos cozidos;batata portuguesa;creme chinês
+11/10/2023;2023-10-11;filé de frango assado;frango;assado;tempurá de cenoura;creme de brócolis;banana
+16/10/2023;2023-10-16;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de grão de bico;batata palha;pavê de chocolate simples
+17/10/2023;2023-10-17;lasanha à bolonhesa;bovina;massa_ou_montado;lasanha de berinjela;legumes sauté;abacaxi
+18/10/2023;2023-10-18;lombo suino ao alho e óleo;suina;ao_molho_ou_refogado;abobrinha recheada;farofa de ovos;melancia
+19/10/2023;2023-10-19;filé de frango à milanesa;frango;empanado_ou_a_milanesa;hambúrguer de soja;cenoura sautê;maçã
+20/10/2023;2023-10-20;filé de merluza à dorê com molho rosê;peixe;empanado_ou_a_milanesa;omelete de queijo;cuscuz paulista;salada de frutas
+23/10/2023;2023-10-23;fraldinha assada;bovina;assado;almôndegas de soja;chuchu tropeiro;abacaxi
+24/10/2023;2023-10-24;filé de frango ao molho laranja;frango;ao_molho_ou_refogado;lasanha de soja;creme de milho;gelatina morango
+25/10/2023;2023-10-25;escondidinho de carne;bovina;massa_ou_montado;moqueca de ovos;palitos de abobrinha;laranja
+26/10/2023;2023-10-26;frango assado;frango;assado;pempurá de cenoura;farofa crocante;melancia
+27/10/2023;2023-10-27;carne moída à primavera;bovina;cozido_ou_refogado;refogado de soja;macarrão alho e óleo;banana
+30/10/2023;2023-10-30;espeto misto carne bovina;mista;churrasco_ou_espeto;pimentão recheado;seleta de legumes;arroz doce
+31/10/2023;2023-10-31;carne louca;bovina;cozido_ou_refogado;torta de abobrinha;nhoque ao sugo;melancia
+01/11/2023;2023-11-01;cupim assado;bovina;assado;almôndegas de soja;purê de batata;curau
+06/11/2023;2023-11-06;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff grão bico;batata palha;abacaxi
+07/11/2023;2023-11-07;fricassê de frango;frango;cremoso_ou_ensopado;hambúrguer legumes;abóbora ao alho;melancia
+08/11/2023;2023-11-08;kibe assado recheado;bovina;assado;kibe de soja assado;seleta de legumes;banana
+09/11/2023;2023-11-09;cubos suínos molho limão;suina;ao_molho_ou_refogado;batata recheada;parafuso colorido;arroz doce
+10/11/2023;2023-11-10;isca de peixe no a milanesa;peixe;empanado_ou_a_milanesa;omelete de forno;pirão de peixe;salada de frutas
+13/11/2023;2023-11-13;frango à pizzaiolo;frango;ao_molho_ou_refogado;berinjela a pizzaiolo;creme de espinafre;maçã
+14/11/2023;2023-11-14;pernil assado;suina;assado;bolinho de lentilha;virado de cenoura;gelatina
+16/11/2023;2023-11-16;bife grelhado;bovina;grelhado;omelete com queijo;batata corada;melancia
+17/11/2023;2023-11-17;lasanha de frango (m b);frango;massa_ou_montado;lasanha de soja;vagem com ovos;banana
+21/11/2023;2023-11-21;frango com quiabo;frango;ao_molho_ou_refogado;legumes com soja;angú de inhame;melancia
+22/11/2023;2023-11-22;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;couve à mineira;laranja
+23/11/2023;2023-11-23;costelinha com canjiquinha;suina;ao_molho_ou_refogado;yakissoba de legumes;bolinho de feijão;maçã
+24/11/2023;2023-11-24;peixe no a milanesa;peixe;empanado_ou_a_milanesa;ovos ao vinagrete;vatapá;mugunzá
+27/11/2023;2023-11-27;picadinho bovino;bovina;cozido_ou_refogado;enroladinho de berinjela;polenta cremosa;maçã
+28/11/2023;2023-11-28;frango assado;frango;assado;tomate recheado;abóbora ao alho;abacaxi
+29/11/2023;2023-11-29;carne moida primavera;bovina;cozido_ou_refogado;legumes com soja;macarrão alho e óleo;gelatina
+30/11/2023;2023-11-30;espeto frango empanado;frango;empanado_ou_a_milanesa;espeto legumes empanado;cenoura na manteiga;melancia
+01/12/2023;2023-12-01;peixe empanado;peixe;empanado_ou_a_milanesa;kibe de abobrinha;cenoura sautê;salada de frutas
+04/12/2023;2023-12-04;copa lombo assado;suina;assado;moussaka de soja;couve refogada;melancia
+05/12/2023;2023-12-05;filé de frango grelhado;frango;grelhado;ovos mexidos com cenoura;creme de milho;mousse de morango
+06/12/2023;2023-12-06;bife à parmegiana;bovina;ao_molho_ou_refogado;berinjela à parmegiana;purê de batata;banana
+07/12/2023;2023-12-07;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de legumes;batata palha;laranja
+08/12/2023;2023-12-08;churrasco misto (frango e carne);mista;churrasco_ou_espeto;ovos ao vinagrete;farofa crocante;abacaxi
+11/12/2023;2023-12-11;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff grão bico;batata palha;maçã
+12/12/2023;2023-12-12;carne moída com legumes;bovina;cozido_ou_refogado;soja com legumes;macarrão espaguete ao alho e óleo;abacaxi
+13/12/2023;2023-12-13;feijoada;feijoada;cremoso_ou_ensopado;feijoada vegana;couve à mineira;laranja
+14/12/2023;2023-12-14;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de soja;legumes sauté;gelatina
+15/12/2023;2023-12-15;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff grão bico;batata palha;banana
+18/12/2023;2023-12-18;cupim recheado;bovina;assado;bolinho de feijão preto;farofa de ovos;abacaxi
+19/12/2023;2023-12-19;frango à chinesa;frango;ao_molho_ou_refogado;hambúrguer de lentilha;tempurá de legumes;pudim baunilha
+20/12/2023;2023-12-20;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de legumes;macarrão penne ao alho e óleo;melancia
+01/02/2024;2024-02-01;bobó de frango;frango;cremoso_ou_ensopado;tomates com soja;mandioca frita;gelatina bicolor
+02/02/2024;2024-02-02;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de legumes;seleta de legumes;arroz doce caramelizado
+05/02/2024;2024-02-05;cupim assado;bovina;assado;enrolado de abobrinha;farofa de couve;melancia
+06/02/2024;2024-02-06;bisteca ao abacaxi;suina;assado;tempurá de cenoura;batata portuguesa;flan de caramelo
+07/02/2024;2024-02-07;filé de frango molho mostarda;frango;ao_molho_ou_refogado;ovos ao vinagrete;creme de brócolis;maçã
+08/02/2024;2024-02-08;bife à rolê;bovina;cozido_ou_refogado;panqueca de escarola;purê de batata;abacaxi
+09/02/2024;2024-02-09;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de legumes;seleta de legumes;arroz doce caramelizado
+15/02/2024;2024-02-15;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de grão de bico;batata palha;laranja
+16/02/2024;2024-02-16;lasanha à bolonhesa;bovina;massa_ou_montado;lasanha de berinjela;cenoura sautê;banana
+19/02/2024;2024-02-19;lombo assado;suina;assado;abobrinha recheada;farofa de cebola;mousse de chocolate
+20/02/2024;2024-02-20;filé de frango empanado;frango;empanado_ou_a_milanesa;hambúrguer de soja;abóbora ao alho;maçã
+21/02/2024;2024-02-21;assado vienense;bovina;assado;torta de abobrinha;noque ao sugo;melancia
+22/02/2024;2024-02-22;escondidinho de frango;frango;massa_ou_montado;pizza de berinjela;folhas ao alho;abacaxi
+23/02/2024;2024-02-23;peixe à milanesa;peixe;empanado_ou_a_milanesa;omelete com queijo;cuscus de legumes;salada de frutas
+26/02/2024;2024-02-26;frango assado;frango;assado;tempurá de legumes;capeleti 3 queijos sugo;laranja
+27/02/2024;2024-02-27;churrasco misto bovino;mista;churrasco_ou_espeto;pimentão recheado;farofa crocante;abacaxi
+28/02/2024;2024-02-28;fraldinha assada;bovina;assado;almôndegas de soja;seleta de legumes;pudim de coco
+29/02/2024;2024-02-29;pernil assado;suina;assado;soja com legumes;batata doce sautê;maçã
+01/03/2024;2024-03-01;isca de peixe frito;peixe;frito;pizza de abobrinha;cuscuz de legumes;melancia
+04/03/2024;2024-03-04;filé de frango molho mostarda;frango;ao_molho_ou_refogado;torta de alho poró;creme de milho;banana
+05/03/2024;2024-03-05;pernil assado;suina;assado;ovos mexidos cenoura;abóbora ao alho;maçã
+06/03/2024;2024-03-06;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de legumes;macarrão alho e óleo;abacaxi
+07/03/2024;2024-03-07;frango assado;frango;assado;batata recheada soja;seleta de legumes;gelatina com creme
+08/03/2024;2024-03-08;fraldinha assada;bovina;assado;hambúrguer de grão bico;batata dorê;laranja
+11/03/2024;2024-03-11;bife de panela;bovina;cozido_ou_refogado;ovos cozidos vinagre;purê de batata;melancia
+12/03/2024;2024-03-12;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de soja;virado de folhas;arroz doce caramelizado
+13/03/2024;2024-03-13;bisteca ao abacaxi;suina;assado;bolinho de feijão preto;cenoura na manteiga;banana
+14/03/2024;2024-03-14;churrasco misto bovino;mista;churrasco_ou_espeto;churrasco de legumes;farofa crocante;laranja
+15/03/2024;2024-03-15;frango empanado;frango;empanado_ou_a_milanesa;berinjela empanada;acelga com milho;maçã
+18/03/2024;2024-03-18;parmegiana de frango;frango;ao_molho_ou_refogado;parmegiana de batata doce;legumes sauté;abacaxi
+19/03/2024;2024-03-19;carne ao molho roty;bovina;ao_molho_ou_refogado;soja com legumes;polenta cremosa;banana
+20/03/2024;2024-03-20;lasanha frango molho barbecue;frango;massa_ou_montado;lasanha de berinjela;abóbora ao alho;curau
+21/03/2024;2024-03-21;copa lombo assado;suina;assado;ovos ao sugo;couve à mineira;maçã
+22/03/2024;2024-03-22;kibe recheado;bovina;assado;torta de alho poró;batata doce corada;salada de frutas
+25/03/2024;2024-03-25;cupim assado;bovina;assado;mix de grãosd;farofa rica;melancia
+26/03/2024;2024-03-26;cubos suíno ao roty;suina;ao_molho_ou_refogado;tempuirá de cenoura;bolinho de aipim;laranja
+27/03/2024;2024-03-27;picado misto;mista;cozido_ou_refogado;hambúrguer de grão bico;parafuso colorido;maçã
+28/03/2024;2024-03-28;falsa bacalhoada;peixe;cozido_ou_refogado;escondidinho de soja;cenoura com ervilha;mousse de chocolate
+01/04/2024;2024-04-01;fricassê de frango;frango;cremoso_ou_ensopado;tortinha de alho poró;cenoura na manteiga;pudim de coco
+02/04/2024;2024-04-02;picadinho bovino;bovina;cozido_ou_refogado;soja refogada;mandioca ao alho;maçã
+03/04/2024;2024-04-03;copa lombo assado;suina;assado;kibe de abobrinha;farofa simples;abacaxi
+04/04/2024;2024-04-04;lasanha à bolonhesa;bovina;massa_ou_montado;lasanha de berinjela;folhas refogadas;melancia
+05/04/2024;2024-04-05;churrasco misto bovino;mista;churrasco_ou_espeto;batata recheada;virado de ovos;salada de frutas
+08/04/2024;2024-04-08;bife de panela;bovina;cozido_ou_refogado;hamburguer feijao preto;macarrão ao alho;mamão
+09/04/2024;2024-04-09;cubos frango ao shoyo;frango;ao_molho_ou_refogado;yakissoba de legumes;batata doce;gelatina
+10/04/2024;2024-04-10;panqueca carne;bovina;massa_ou_montado;almõndegas berinjela;abóbora sautê;melancia
+11/04/2024;2024-04-11;frango à milanesa;frango;empanado_ou_a_milanesa;mix de grãos;acelga com milho;maçã
+12/04/2024;2024-04-12;peixe à milanesa;peixe;empanado_ou_a_milanesa;ovos ao vinagrete;purê de batata;laranja
+15/04/2024;2024-04-15;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de soja;batata palha;abacaxi
+16/04/2024;2024-04-16;carne assada;bovina;assado;tortinha de alho poró;abóbrinha gratinada;melancia
+17/04/2024;2024-04-17;frango à pizzaiolo;frango;ao_molho_ou_refogado;abóbrinha à pizzaiolo;bolinho de feijão;arroz doce
+18/04/2024;2024-04-18;lombo acebolado;suina;ao_molho_ou_refogado;soja acebolada;farofa crocante;banana
+19/04/2024;2024-04-19;frango assado;frango;assado;bolinho de batata doce;macarrão ao sugo;maçã
+22/04/2024;2024-04-22;carne de panela;bovina;cozido_ou_refogado;soja com legumes;polenta cremosa;salada de frutas
+23/04/2024;2024-04-23;pernil desfiado ao molho;suina;ao_molho_ou_refogado;omelete;couve à mineira;mamão
+24/04/2024;2024-04-24;escondidinho de carne;bovina;massa_ou_montado;tomates recheados;chuchu com ovos;abacaxi
+25/04/2024;2024-04-25;isca de frango acebolada;frango;ao_molho_ou_refogado;escondidinho de soja;seleta de legumes;curau
+26/04/2024;2024-04-26;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff de grão bico;bolinho de mandioca;melancia
+29/04/2024;2024-04-29;frango xadrez;frango;ao_molho_ou_refogado;hambúrguer de leguimes;macarrão ao alho;flan caramelo
+30/04/2024;2024-04-30;churrasco misto bovino;mista;churrasco_ou_espeto;ovos mexidos;farofa de cenoura;maçã
+02/05/2024;2024-05-02;picadinho bovino;bovina;cozido_ou_refogado;charuto de soja;legumes sauté;caqui
+03/05/2024;2024-05-03;bisteca com abacaxi;suina;assado;croquete de grao de bico;virado de couve;laranja
+06/05/2024;2024-05-06;almôndegas ao sugo;bovina;ao_molho_ou_refogado;bolinho de repolho;macarrão alho e óleo;abacaxi
+07/05/2024;2024-05-07;carne assada;bovina;assado;mix de grãos;batata sauté;caqui
+08/05/2024;2024-05-08;fricassê;frango;cremoso_ou_ensopado;pizza de berinjela;cenoura palito;arroz caramelizado
+09/05/2024;2024-05-09;copa lombo assado;suina;assado;escondidinho de soja;farofa de ovos;maçã
+10/05/2024;2024-05-10;filé de frango grelhado;frango;grelhado;ovos mexidos;creme de milho;melancia
+13/05/2024;2024-05-13;bife a milanesa;bovina;empanado_ou_a_milanesa;hambúrguer grão bico;batata dorê;caqui
+14/05/2024;2024-05-14;frango empanado;frango;empanado_ou_a_milanesa;omelete;purê de batata;gelatina
+15/05/2024;2024-05-15;pernil assado;suina;assado;yakissba de legumes;farofa simples;abacaxi
+16/05/2024;2024-05-16;carne moída com ovos;bovina;cozido_ou_refogado;croquete de abóbora;macarrão alho e óleo;melancia
+17/05/2024;2024-05-17;lasanha frango molho barbecue;frango;massa_ou_montado;hambúrguer de berinjela;folhas ao alho;laranja
+20/05/2024;2024-05-20;isca suinas;suina;empanado_ou_a_milanesa;fricassê repolho;chuchu com ovos;pudim caramelo
+21/05/2024;2024-05-21;panqueca de frango;frango;massa_ou_montado;hamburguer feijao preto;escarola refogada;banana
+22/05/2024;2024-05-22;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;couve ao alho;laranja
+23/05/2024;2024-05-23;churrasco misto bovino;mista;churrasco_ou_espeto;lasanha de berinjela;farofa crocante;curau
+24/05/2024;2024-05-24;peixe frito;peixe;frito;tempurá de legumes;purê de batata;maçã
+27/05/2024;2024-05-27;bife de panela;bovina;cozido_ou_refogado;ovos cozidos;polenta cremosa;mamão
+28/05/2024;2024-05-28;escondidinho de frango;frango;massa_ou_montado;escondidinho de soja;legumes gratinados;gelatina bicolor
+29/05/2024;2024-05-29;assado vienense;bovina;assado;soja ao sugo;batata doce;caqui
+03/06/2024;2024-06-03;kibe recheado;bovina;assado;kibe de soja recheado;seleta de legumes;abacaxi
+04/06/2024;2024-06-04;filé de frango molho mostarda;frango;ao_molho_ou_refogado;pizza de berinjela;creme de milho;banana
+05/06/2024;2024-06-05;pernil assado;suina;assado;ovos mexidos com cenoura;abóbora ao alho;arroz doce
+06/06/2024;2024-06-06;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de soja;legumes sauté;mamão
+07/06/2024;2024-06-07;frango assado;frango;assado;batata recheada soja;batata corada;laranja
+10/06/2024;2024-06-10;fraldinha assada;bovina;assado;bolinho de repolho;acelga com ervilha;melancia
+11/06/2024;2024-06-11;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de soja;virado de folhas;gelatina
+12/06/2024;2024-06-12;bife de panela;bovina;cozido_ou_refogado;ovos cozidos;purê de batata;banana
+13/06/2024;2024-06-13;bisteca ao abacaxi;suina;assado;bolinho de feijão preto;abóbora ao alho;maçã
+14/06/2024;2024-06-14;peixe frito;peixe;frito;berinjela empanada;seleta de legumes;abacaxi
+17/06/2024;2024-06-17;frango empanado;frango;empanado_ou_a_milanesa;soja refogada;acelga com milho;pudim
+18/06/2024;2024-06-18;churrasco misto bovino;mista;churrasco_ou_espeto;omelete;farofa crocante;banana
+19/06/2024;2024-06-19;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;couve à mineira;laranja
+20/06/2024;2024-06-20;carne assada ao roty;bovina;assado;soja com legumes;purê de batata;melancia
+21/06/2024;2024-06-21;frango à parmegiana;frango;ao_molho_ou_refogado;yakissba de legumes;cenoura palito;mamão
+24/06/2024;2024-06-24;cupim assado;bovina;assado;mix de grãos;batata doce de forno;abacaxi
+25/06/2024;2024-06-25;cubos suínos molho limão;suina;ao_molho_ou_refogado;tempurá de cenoura;bolinho de aipim;curau
+26/06/2024;2024-06-26;picado misto;mista;ao_molho_ou_refogado;hambúrguer grão bico;parafuso colorido;mamão
+27/06/2024;2024-06-27;escondidinho de frango;frango;massa_ou_montado;escondidinho soja;abóbora ao alho;maçã
+28/06/2024;2024-06-28;lasanha à bolonhesa;bovina;massa_ou_montado;lasanha de berinjela;escarola refogada;banana
+01/07/2024;2024-07-01;escondidinho de carne;bovina;massa_ou_montado;escondidinho de soja;acelga com bacom;abacaxi
+02/07/2024;2024-07-02;filé de frango ao molho;frango;ao_molho_ou_refogado;croquete de abóbora;ratatoulle;maçã
+03/07/2024;2024-07-03;bife acebolado;bovina;ao_molho_ou_refogado;lasanha de berinjela;batata assada;melancia
+04/07/2024;2024-07-04;lombo à califórnia;suina;assado;ovos mexidos com cenoura;macarrão à primavera;gelatina com maçã
+05/07/2024;2024-07-05;falsa bacalhoada;peixe;assado;panqueca com espinafre;bolinho de legumes;mamão
+08/07/2024;2024-07-08;bisteca acebolada;suina;ao_molho_ou_refogado;hambúrgues de soja;farofa de bacom;curau
+10/07/2024;2024-07-10;carne ao molho de bacon;bovina;ao_molho_ou_refogado;omelete de leg forno;polenta cremosa;banana
+11/07/2024;2024-07-11;espeto de frango milanesa;frango;empanado_ou_a_milanesa;espeto de legumes;batata doce dorê;abacaxi
+12/07/2024;2024-07-12;hambúrguer à camões;bovina;assado;strogonoff de lentilhas;cenoura sautê;salada de frutas
+15/07/2024;2024-07-15;isca de carne à chinesa;bovina;ao_molho_ou_refogado;croquete de abóbora;virado de repolho;banana
+16/07/2024;2024-07-16;panqueca de frango;frango;massa_ou_montado;panqueca de espinafre;couve flor gratinada;maçã
+17/07/2024;2024-07-17;bife à rolê;bovina;cozido_ou_refogado;hambúrguer de soja;purê de batata;delícia de abóbora
+18/07/2024;2024-07-18;frango crocante;frango;empanado_ou_a_milanesa;ovos ao vinagrete;creme de brócolis;laranja
+19/07/2024;2024-07-19;carne ao roty;bovina;ao_molho_ou_refogado;lentilha ao molho laranja;macarrão alho e óleo;dueto de frutas
+22/07/2024;2024-07-22;isca de frango à chinesa;frango;ao_molho_ou_refogado;soja ao sugo;yakissoba de legumes;mamão
+23/07/2024;2024-07-23;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de legumes;espaguete com brócolis;canjica
+24/07/2024;2024-07-24;cassoulet;suina;cozido_ou_refogado;omelete de leg;farofa de ovos;melancia
+25/07/2024;2024-07-25;assado à paulista;bovina;assado;charruto grão de bico;polenta à parmegiana;maçã
+26/07/2024;2024-07-26;frango xadrez;frango;ao_molho_ou_refogado;lasanha de berinjela;tempurá de cenoura;abacaxi
+29/07/2024;2024-07-29;kibe assado recheado;bovina;assado;kibe de soja recheado;capeletti ao sugo;banana
+30/07/2024;2024-07-30;bobó de frango;frango;cremoso_ou_ensopado;ovo frito;palitos de abo0brinha;salada de frutas
+31/07/2024;2024-07-31;feijoada;feijoada;cremoso_ou_ensopado;feijoada vegana;virado de couve;laranja
+01/08/2024;2024-08-01;escondidinho de carne;bovina;massa_ou_montado;escondidinho de soja;acelga com bacom;abacaxi
+02/08/2024;2024-08-02;filé de frango assado ao molho;frango;assado;croquete de abóbora;ratatoulle;maçã
+05/08/2024;2024-08-05;lombo à califórnia;suina;ao_molho_ou_refogado;ovos mexidos com cenoura;macarrão à primavera;gelatina com maçã
+06/08/2024;2024-08-06;carne ao molho de bacon;bovina;ao_molho_ou_refogado;croquete de soja;polenta cremosa;banana
+07/08/2024;2024-08-07;espeto frango à milanesa;frango;empanado_ou_a_milanesa;espetinho de legumes;batata doce a dorê;abacaxi
+08/08/2024;2024-08-08;hambúrguer à camões;bovina;assado;strogonoff lentilhas;cenoura sautê;salada de frutas
+09/08/2024;2024-08-09;panqueca de frango;frango;massa_ou_montado;panqueca s de espinafre;couve flor gratinada;maçã
+12/08/2024;2024-08-12;assado à paulista;bovina;assado;charuto de grão de bico;polenta à parmegiana;maçã
+13/08/2024;2024-08-13;frango xadrez;frango;ao_molho_ou_refogado;lasanha de berinjela;tempurá de cenoura;pudim de morango
+14/08/2024;2024-08-14;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;virado de couve;laranja
+15/08/2024;2024-08-15;bobó de frango;frango;cremoso_ou_ensopado;ovo frito;palitos de abobrinha;melancia
+16/08/2024;2024-08-16;kibe assado;bovina;assado;kibe de abóbora;capeletti ao sugo;banana
+19/08/2024;2024-08-19;frango crocante;frango;assado;ovos ao vinagrete;creme de brócolis;banana
+20/08/2024;2024-08-20;bisteca acebolada;suina;ao_molho_ou_refogado;hambúrguer de soja;farofa de bacon;curau
+21/08/2024;2024-08-21;bife à rolê;bovina;cozido_ou_refogado;hambúrguer grão bico;purê de batata;delícia de abóbora
+22/08/2024;2024-08-22;isca de frango à chinesa;frango;ao_molho_ou_refogado;soja ao sugo;yakissoba de legumes;mamão
+23/08/2024;2024-08-23;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de soja;espaguete com brócolis;canjica
+02/09/2024;2024-09-02;kibe recheado;bovina;assado;kibe de soja recheado;seleta de legumes;abacaxi
+03/09/2024;2024-09-03;filé de frango grelhado;frango;grelhado;pizza de berinjela;creme de milho;banana
+04/09/2024;2024-09-04;pernil assado;suina;assado;ovos mexidos com cenoura;abóbora ao alho;arroz doce
+05/09/2024;2024-09-05;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de soja;macarrão alho e óleo;mamão
+06/09/2024;2024-09-06;frango assado;frango;assado;batata recheada soja;batata corada;laranja
+09/09/2024;2024-09-09;fraldinha assada;bovina;assado;bolinho de repolho;acelga com ervilha;melancia
+10/09/2024;2024-09-10;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de soja;virado de folhas;gelatina
+11/09/2024;2024-09-11;bife de panela;bovina;cozido_ou_refogado;ovos cozidos;purê de batata;banana
+12/09/2024;2024-09-12;bisteca grelhada;suina;grelhado;bolinho de feijão preto;abóbora ao alho;maçã
+13/09/2024;2024-09-13;peixe frito;peixe;frito;berinjela empanada;seleta de legumes;laranja
+16/09/2024;2024-09-16;frango à parmegiana;frango;ao_molho_ou_refogado;soja refogada;acelga com milho;pudim
+17/09/2024;2024-09-17;churrasco misto bovino;mista;churrasco_ou_espeto;ovos mexidos;farofa crocante;banana
+18/09/2024;2024-09-18;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;couve à mineira;abacaxi
+19/09/2024;2024-09-19;carne assada ao roty;bovina;assado;soja com legumes;purê de batata;melancia
+20/09/2024;2024-09-20;frango à parmegiana;frango;ao_molho_ou_refogado;yakissba de legumes;cenoura palito;mamão
+23/09/2024;2024-09-23;cupim assado;bovina;assado;omelete;batata doce de forno;abacaxi
+24/09/2024;2024-09-24;cubos suínos molho limão;suina;ao_molho_ou_refogado;tempurá de cenoura;bolinho de aipim;curau
+25/09/2024;2024-09-25;picado misto;mista;ao_molho_ou_refogado;hambúrguer grão bico;parafuso colorido;mamão
+26/09/2024;2024-09-26;strogonoff de frango;frango;cremoso_ou_ensopado;escondidinho soja;abóbora ao alho;maçã
+27/09/2024;2024-09-27;lasanha à bolonhesa;bovina;massa_ou_montado;lasanha de berinjela;escarola refogada;banana
+30/09/2024;2024-09-30;carne moida legumes;bovina;cozido_ou_refogado;mix de grãos;batata gratinada;abacaxi
+01/10/2024;2024-10-01;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de soja;macarrão ao alho e óleo;gelatina de limão
+02/10/2024;2024-10-02;bisteca grelhada;suina;grelhado;bolinho re repolho;farofa;maçã
+03/10/2024;2024-10-03;frango assado;frango;assado;hambúrguer de soja;batata corada;abacaxi
+04/10/2024;2024-10-04;carne ao roty;bovina;ao_molho_ou_refogado;charruto de grão bico;abóbora ao alho;melancia
+07/10/2024;2024-10-07;filé de frango molho laranja;frango;ao_molho_ou_refogado;fricassê de repolho;purê de batata doce;laranja
+08/10/2024;2024-10-08;bife de panela;bovina;cozido_ou_refogado;escondidimjo de soja;polenta;banana
+09/10/2024;2024-10-09;frango xadrez;frango;ao_molho_ou_refogado;ovos mexidos;batata doce ao alho;curau
+10/10/2024;2024-10-10;copa lombo ao molho;suina;ao_molho_ou_refogado;croquete de abóbora;farofa crocante;melancia
+11/10/2024;2024-10-11;filé de peixe à dorê;peixe;empanado_ou_a_milanesa;hambúrguer de grão bico;bolinho de aipim;salada de frutas
+16/10/2024;2024-10-16;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;couve à mineira;laranja
+17/10/2024;2024-10-17;carne moída com ovos;bovina;cozido_ou_refogado;soja com ovos mexidos;espaguete ao sugo;arroz caramelizado
+18/10/2024;2024-10-18;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de grão de bico;batata palha;mamão
+21/10/2024;2024-10-21;hambúrguer à parmegiana;bovina;ao_molho_ou_refogado;hamburguer feijão pr;batata doce ao alho;melancia
+22/10/2024;2024-10-22;cupim assado;bovina;assado;legumes assados;abóbora ao alho;laranja
+23/10/2024;2024-10-23;espetinho de frango;frango;churrasco_ou_espeto;espetinho de legiumes;parafuso colorido;maçã
+24/10/2024;2024-10-24;picado misto;mista;ao_molho_ou_refogado;ovos ao vinagrete;seleta de legumes;abacaxi
+25/10/2024;2024-10-25;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de grão bico;batata palha;pudim com calda
+28/10/2024;2024-10-28;vaca atolada;bovina;ao_molho_ou_refogado;mix de grãos;cuscuz de legumes;delícia de abóbora
+29/10/2024;2024-10-29;frango à milanesa;frango;empanado_ou_a_milanesa;lasanha de berinjela;purê de batata;maçã
+30/10/2024;2024-10-30;cubos suino ao molho lim;suina;ao_molho_ou_refogado;ovos mexidos;virado de ovos;abacaxi
+31/10/2024;2024-10-31;lagarto recheado;bovina;assado;almôndegas de soja;batata sauté;banana
+01/11/2024;2024-11-01;filé de peixe à milanesa;peixe;empanado_ou_a_milanesa;croquete de abóbora;pirão;salada de frutas
+04/11/2024;2024-11-04;isca bovina acebolada;bovina;ao_molho_ou_refogado;soja com legumes;polenta cremosa;maçã
+05/11/2024;2024-11-05;panqueca de frango;frango;massa_ou_montado;panqueca espinafre;chuchu na salsa;gelatina
+06/11/2024;2024-11-06;cubos suinos ao molho;suina;ao_molho_ou_refogado;mix de folhas refogada;abóbora ao alho;laranja
+07/11/2024;2024-11-07;filé de frango grelhado;frango;grelhado;hambúrguer de soja;creme de milho;melancia
+08/11/2024;2024-11-08;carne moida rica;bovina;cozido_ou_refogado;ovos mexidos;batata doce sautê;banana
+11/11/2024;2024-11-11;frango xadrez;frango;ao_molho_ou_refogado;ovo frito;macarrão alho e óleo;melancia
+12/11/2024;2024-11-12;escondidinho de carne;bovina;massa_ou_montado;legumes gratinados;almeirão refogada;maçã
+13/11/2024;2024-11-13;feijoada;feijoada;cremoso_ou_ensopado;feijoada vegana;farofa rica;laranja
+14/11/2024;2024-11-14;frango à pizzaiolo;frango;ao_molho_ou_refogado;pizza de berinjela;cuzcuz de legumes;curau
+18/11/2024;2024-11-18;bisteca grelhada;suina;grelhado;omelete legumes ao forno;couve refogada;banana
+19/11/2024;2024-11-19;isca de frango grelhada;frango;grelhado;berinjela empanada;repolho refogado;arroz doce
+21/11/2024;2024-11-21;carne moída com legumes;bovina;cozido_ou_refogado;soja com legumes;parafuso colorido;melancia
+22/11/2024;2024-11-22;frango crioula;frango;ao_molho_ou_refogado;ratatouille;almeirão refogada;salada de frutas
+25/11/2024;2024-11-25;cupim assado;bovina;assado;soja com vinagrete;abóbora ao alho;laranja
+26/11/2024;2024-11-26;espetinho suino;suina;churrasco_ou_espeto;hambúrguer berinj;batata sauté;banana
+27/11/2024;2024-11-27;frango crocante;frango;empanado_ou_a_milanesa;brócolis crocante;cenoura sautê;maçã
+28/11/2024;2024-11-28;carne de panela;bovina;cozido_ou_refogado;ovos mexidos com legumes;macarrão ao alho e óleo;pudim de caramelo
+29/11/2024;2024-11-29;filé de coxa;frango;grelhado;almôndega de soja;mix de folha refogada;melancia
+02/12/2024;2024-12-02;filé de frango grelhado;frango;grelhado;legumes gratinados;creme de milho;melancia
+03/12/2024;2024-12-03;copa lombo;suina;ao_molho_ou_refogado;omelete com legumes;farofa crocante;maçã
+04/12/2024;2024-12-04;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de soja;batata palha;banana
+05/12/2024;2024-12-05;carne moída com legumes;bovina;cozido_ou_refogado;mix de grãos;macarrão a e o;creme chinês
+06/12/2024;2024-12-06;isca de peixe à dorê;peixe;empanado_ou_a_milanesa;hambúrguer de berinjela;pirão;abacaxi
+09/12/2024;2024-12-09;frango caipira;frango;ao_molho_ou_refogado;ovo frito;abórora ao alho;banana
+10/12/2024;2024-12-10;bisteca grelhada;suina;grelhado;grão de bico com cenoura;virado de folhas;gelatina bicolor
+11/12/2024;2024-12-11;frango à pizzaiolo;frango;ao_molho_ou_refogado;kibe de abóbora;mix de folhas refogada;melancia
+12/12/2024;2024-12-12;carne ao molho madeira;bovina;ao_molho_ou_refogado;bolinho de repolho;parafuso colorido;abacaxi
+13/12/2024;2024-12-13;espeto de frango frito;frango;frito;espeto de legumes;batata doce sautê;maçã
+16/12/2024;2024-12-16;carne moida rica;bovina;cozido_ou_refogado;hambúrgues de soja;macarrão ao;melancia
+17/12/2024;2024-12-17;frango xadrez;frango;ao_molho_ou_refogado;mix de grãos;batata doce ao alho;mamão
+18/12/2024;2024-12-18;cubos suinos;suina;ao_molho_ou_refogado;pizza de berinjela;legumes gratinados;abacaxi
+19/12/2024;2024-12-19;cupim assado;bovina;assado;ovos mexidos;farofa rica;laranja
+20/12/2024;2024-12-20;filé de sobrecoxa recheada;frango;assado;torta de legumes;polenta;mousse de morango
+17/02/2025;2025-02-17;carne à chinesa;bovina;ao_molho_ou_refogado;charuto de soja;repolho bic refogado;banana
+18/02/2025;2025-02-18;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de grão bico;batata palha;flan de caramelo
+19/02/2025;2025-02-19;feijoada;feijoada;cremoso_ou_ensopado;feijoada vegana;virado de couve;laranja
+20/02/2025;2025-02-20;panqueca de frango;frango;massa_ou_montado;bolinho de legumes;chuchu na salsa;gelatina de uva
+21/02/2025;2025-02-21;hambúrguer assado ao molho;bovina;assado;hambúrguer soja assado ao molho;batata sauté;maçã
+24/02/2025;2025-02-24;frango à milanesa;frango;empanado_ou_a_milanesa;berinjela à milanesa;creme de milho;laranja
+25/02/2025;2025-02-25;bisteca acebolada;suina;ao_molho_ou_refogado;soja acebolada;polenta cremosa;gelatina de morango
+26/02/2025;2025-02-26;espetinho de frango;frango;churrasco_ou_espeto;espetinho de legumes;macarrão ao sugo;banana
+27/02/2025;2025-02-27;cupim assado;bovina;assado;ovos com cenoura;virado de folhas;melancia
+28/02/2025;2025-02-28;filé de sobrecoxa;frango;assado;bolinho de soja;farofa rica;maçã
+06/03/2025;2025-03-06;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de soja;cenoura na manteiga;banana
+07/03/2025;2025-03-07;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de soja;espaguete ao alho;gelatina
+10/03/2025;2025-03-10;bisteca grelhada;suina;grelhado;bolinho de repolho;virado de couve;maçã
+11/03/2025;2025-03-11;frango assado;frango;assado;soja com ovos;seleta de legumes;abacaxi
+12/03/2025;2025-03-12;carne ao roty;bovina;ao_molho_ou_refogado;ovos mexidos com cenoura;polenta cremosa;arroz doce caramelizado
+13/03/2025;2025-03-13;filé de frango grelhado;frango;grelhado;hambúrguer de soja;creme de milho;melancia
+14/03/2025;2025-03-14;escondidinho de carne;bovina;massa_ou_montado;escondidinho de soja;folhas ao alho;laranja
+17/03/2025;2025-03-17;carne moída com ovos;bovina;cozido_ou_refogado;kibe de abóbora;purê de batata;abacaxi
+18/03/2025;2025-03-18;frango xadrez;frango;ao_molho_ou_refogado;yakissoba de legumes;parafuso colorido;banana
+19/03/2025;2025-03-19;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;farofa;laranja
+20/03/2025;2025-03-20;copa lombo ao molho limão;suina;ao_molho_ou_refogado;ovos ao vinagrete;repolho com milho;maçã
+21/03/2025;2025-03-21;peixe à milanesa;peixe;empanado_ou_a_milanesa;hambérguer de soja;piirão de peixe;pudim de chocolate
+24/03/2025;2025-03-24;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de grão bico;batata palha;banana
+25/03/2025;2025-03-25;bife de panela;bovina;cozido_ou_refogado;ovos com soja;macarrão alho e óleo;gelatina com creme
+26/03/2025;2025-03-26;panqueca de frango;frango;massa_ou_montado;panqueca de soja;acelga refogada;maçã
+27/03/2025;2025-03-27;churrasco misto bovino;mista;churrasco_ou_espeto;ratatoulle;virado de couve;melancia
+28/03/2025;2025-03-28;pernil assado;suina;assado;soja com legumes;batata doce;laranja
+31/03/2025;2025-03-31;lasanha à bolonhesa;bovina;massa_ou_montado;lasanha de berinjela;repolho bic refogado;melancia
+01/04/2025;2025-04-01;fiilé de frango grelhado;frango;grelhado;omelete;batata doce ao alho;abacaxi
+02/04/2025;2025-04-02;picadinho bovino;bovina;cozido_ou_refogado;soja com legumes;abóbora;maçã
+03/04/2025;2025-04-03;escondidinho de frango;frango;massa_ou_montado;escondidinho de soja;folhas refogadas;gelatina
+04/04/2025;2025-04-04;carne moída com ovos;bovina;cozido_ou_refogado;hambúrguer de soja;escabeche de berinjela;banana
+07/04/2025;2025-04-07;cubos suinos;suina;ao_molho_ou_refogado;kibe de abóbora;purê de batata;abacaxi
+08/04/2025;2025-04-08;bife à rolê;bovina;ao_molho_ou_refogado;rolê de berinjela;mandioca ao alho;flan de baunilha com calda
+09/04/2025;2025-04-09;frango empanado;frango;empanado_ou_a_milanesa;ovos ao sugo;chuchu;banana
+10/04/2025;2025-04-10;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôntegas de soja;espaguete ao alho;tangerina
+11/04/2025;2025-04-11;coxa e sobrecoxa assada;frango;assado;pizza de berinjela;cenoura sautéé;maçã
+14/04/2025;2025-04-14;espetinho de frango;frango;churrasco_ou_espeto;espetinho de legumes;farofa de ovos;curau
+15/04/2025;2025-04-15;panqueca de carne;bovina;massa_ou_montado;panqueca de soja;seleta de legumes;abacaxi
+16/04/2025;2025-04-16;bisteca grelhada;suina;grelhado;batata recheada;bolinho de legumes;banana
+17/04/2025;2025-04-17;peixe;peixe;assado;ovos ao vinagrete;pirão de peixe;pudim de chocolate
+22/04/2025;2025-04-22;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff grão de bico;batata palha;laranja
+23/04/2025;2025-04-23;carne moída com legumes;bovina;cozido_ou_refogado;soja com legumes;purê de batata;gelatina bicolor
+24/04/2025;2025-04-24;lombo suino ao shoyo;suina;ao_molho_ou_refogado;ratatoulle;cenoura sautê;maçã
+25/04/2025;2025-04-25;isca de frango grelhada;frango;grelhado;omelete;macarrão ao sugo;banana
+28/04/2025;2025-04-28;churrasco misto bovino;mista;churrasco_ou_espeto;bolinho de repolho;farofa simples;abacaxi
+29/04/2025;2025-04-29;frango à pizzaiolo;frango;ao_molho_ou_refogado;croquete de abóbora;macarrão ao alho e óleo;arroz doce
+30/04/2025;2025-04-30;copa lombo ao molho;suina;ao_molho_ou_refogado;pizza de berinjela;palitos de cenora;tangerina
+02/05/2025;2025-05-02;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas soja ao sugo;espaguete ao alho e óleo;arroz doce caramelizado
+05/05/2025;2025-05-05;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de repolho;bolinho de legumes;pudim de baunilha
+06/05/2025;2025-05-06;isca de carne à chinesa;bovina;ao_molho_ou_refogado;hambúrguer grão de bico;abóbora ao alho;caqui
+07/05/2025;2025-05-07;frango assado;frango;assado;bolinho de feijão preto;farofa brasileira;tangerina
+08/05/2025;2025-05-08;cubos suino ao shoyo;suina;ao_molho_ou_refogado;ovos mexidos;mandioca ao alho;montanha russa
+09/05/2025;2025-05-09;isca de peixe;peixe;empanado_ou_a_milanesa;soja ao sugo;pirão de peixe;banana
+12/05/2025;2025-05-12;lasanha à bolonhesa;bovina;massa_ou_montado;lasanha de berinjela;chuchu tropeiro;curau
+13/05/2025;2025-05-13;pernil desfiado ao molho;suina;ao_molho_ou_refogado;batata recheada;polenta cremosa;melancia
+14/05/2025;2025-05-14;filé de frango grelhado;frango;grelhado;omelete com legumes;batata dorê;banana
+19/05/2025;2025-05-19;churrasco misto bovino;mista;churrasco_ou_espeto;yakissoba de legumes;batata doce;canjica com coco
+20/05/2025;2025-05-20;rocambole de carne;bovina;assado;ovos com cenoura;parafuso ao sugo;maçã
+21/05/2025;2025-05-21;filé suíno;suina;grelhado;quibe de abóbora;abóbrinha gratinada;pavê de abacaxi
+22/05/2025;2025-05-22;isca de frango molho barbecue;frango;ao_molho_ou_refogado;enrolado berinjela molho branco;cenoura palito;banana
+23/05/2025;2025-05-23;picadinho bovino;bovina;cozido_ou_refogado;grãos ao vinagrete;polenta;tangerina
+26/05/2025;2025-05-26;espetinho de frango;frango;churrasco_ou_espeto;espetinho de legumes;mandioca sauté;sagu de uva
+27/05/2025;2025-05-27;hambúrguer com ovo;bovina;grelhado;hambúrguer de soja;folhas ao alho;banana
+28/05/2025;2025-05-28;bife de panela;bovina;cozido_ou_refogado;omelete com queijo;polenta;abacaxi
+29/05/2025;2025-05-29;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff de grão bico;batata palha;salada de frutas
+30/05/2025;2025-05-30;bisteca;suina;grelhado;tomate recheado;farofa;flan de chocolate
+02/06/2025;2025-06-02;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;couve refogada;tangerina
+03/06/2025;2025-06-03;filé de frango grelhado;frango;grelhado;omelete;creme de milho;doce de abóbora com coco
+04/06/2025;2025-06-04;pernil assado;suina;assado;soja com cenoura;batata doce ao alho;maçã
+05/06/2025;2025-06-05;panqueca de frango;frango;massa_ou_montado;panqueca de escarola;repolho refogado;abacaxi
+06/06/2025;2025-06-06;churrasco misto bovino;mista;churrasco_ou_espeto;pizza de berinjela;farofa;gelatina bicolor
+09/06/2025;2025-06-09;espetinho de frango;frango;churrasco_ou_espeto;espetinho de legumes;parafuso colorido;canjica cremosa
+10/06/2025;2025-06-10;escondidinho de carne;bovina;massa_ou_montado;escondidinho de soja;acelga com milho;banana
+11/06/2025;2025-06-11;frango caipira;frango;cozido_ou_refogado;lasanha de berinjela;batata doce sautê;tangerina
+12/06/2025;2025-06-12;isca suína grelhada;suina;grelhado;ovos mexidos com cenoura;farofa de cebola;melancia
+13/06/2025;2025-06-13;carne moída com legumes;bovina;cozido_ou_refogado;soja com legumes;polenta cremosa;salada de frutas
+16/06/2025;2025-06-16;carne de panela;bovina;cozido_ou_refogado;ovos ao vinagrete;purê de batata;curau
+17/06/2025;2025-06-17;frango crocante;frango;empanado_ou_a_milanesa;rolê de berinjela crocante;chuchu com molho de ervas;abacaxi
+18/06/2025;2025-06-18;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff grão de bico;batata palha;maçã
+20/06/2025;2025-06-20;escondidinho de frango;frango;massa_ou_montado;escondidinho de soja;batata palha;flan de caramelo
+23/06/2025;2025-06-23;peixe frito;peixe;frito;yakissoba de legumes;legumes à primavera;abacaxi
+24/06/2025;2025-06-24;lasanha à bolonhesa;bovina;massa_ou_montado;moussaka;batata doce ao alho;maçã
+25/06/2025;2025-06-25;frango assado;frango;assado;bolinho de grão de bico;farofa rica;banana
+26/06/2025;2025-06-26;hambúrguer caseiro com ovo;bovina;grelhado;hambúrguer de soja;batata dorê;salada de frutas
+27/06/2025;2025-06-27;isca de frango grelhada;frango;grelhado;omelete;folha refogada;arroz doce
+01/07/2025;2025-07-01;frango à milanesa;frango;empanado_ou_a_milanesa;berinjela à milanesa;batata corada;melancia
+02/07/2025;2025-07-02;feijoada;feijoada;cremoso_ou_ensopado;feijoada vegana;virado de couve;tangerina
+03/07/2025;2025-07-03;bisteca acebolada;suina;ao_molho_ou_refogado;hambúrguer de soja;folhas ao alho;banana
+04/07/2025;2025-07-04;panqueca carne sugo;bovina;massa_ou_montado;panqueca de escarola;abóbora sautê;salada de frutas
+07/07/2025;2025-07-07;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff grão de bico;batata palha;flan de caramelo
+08/07/2025;2025-07-08;isca de carne à chinesa;bovina;ao_molho_ou_refogado;ratatoulle;purê de batata;maçã
+30/07/2025;2025-07-30;filé de frango molho laranja;frango;ao_molho_ou_refogado;bolinho de repolho;nhoque ao sugo;pudim baunilha
+31/07/2025;2025-07-31;carne de panela;bovina;cozido_ou_refogado;hambúr feijão preto;chuchu;melancia
+01/08/2025;2025-08-01;peixe frito;peixe;frito;ovos com cenoura;purê de batata;tangerina
+04/08/2025;2025-08-04;parmegiana de frango;frango;ao_molho_ou_refogado;parmegiana de berinjela;seleta de legumes;curau
+05/08/2025;2025-08-05;cubos suinos;suina;ao_molho_ou_refogado;ovos ao vinagrete;farofa simples;maçã
+06/08/2025;2025-08-06;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;couve mineira;tangerina
+07/08/2025;2025-08-07;frango xadrez;frango;ao_molho_ou_refogado;legumes ao shoyo;macarrão alho e óleo;doce de abobora
+08/08/2025;2025-08-08;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de soja;batata sauté;abacaxi
+11/08/2025;2025-08-11;churrasco misto bovino;mista;churrasco_ou_espeto;pizza de berinjela;farofa rica;abacaxi
+12/08/2025;2025-08-12;frango crocante;frango;empanado_ou_a_milanesa;hambúrguer de soja;acelga com milho;sagú de frutas
+13/08/2025;2025-08-13;bife à rolê;bovina;ao_molho_ou_refogado;bolinho de grão de bico;polenta cremosa;melancia
+14/08/2025;2025-08-14;bisteca acebolada;suina;ao_molho_ou_refogado;soja com legumes;virado de couve;tangerina
+15/08/2025;2025-08-15;isca de peixe à milanesa;peixe;empanado_ou_a_milanesa;omelete;pirão de peixe;mousse de morango
+18/08/2025;2025-08-18;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de repolho;cenoura sautê;flan de caramelo
+19/08/2025;2025-08-19;pernil ao shoyo;suina;ao_molho_ou_refogado;soja ao shoyu;farofa de cebola;maçã
+20/08/2025;2025-08-20;panqueca de carne sugo;bovina;massa_ou_montado;panqueca de espinafre;chuchu sautê;pudim baunilha com calda
+21/08/2025;2025-08-21;frango assado;frango;assado;hambúrguer grão bico;macarrão alho e óleo;abacaxi
+22/08/2025;2025-08-22;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff de legumes;batata palha;salada de frutas
+25/08/2025;2025-08-25;almôndegas ao sugo;bovina;ao_molho_ou_refogado;almôndegas de soja;espaguete alho e óleo;tangerina
+26/08/2025;2025-08-26;lasanha frango molho barbecue;frango;massa_ou_montado;lasanha de soja ao sugo;cenoura palito;arroz doce caramelizado
+27/08/2025;2025-08-27;cassoulet;suina;cremoso_ou_ensopado;cassouillet de legumes;bolinho de mandioca;abacaxi
+28/08/2025;2025-08-28;bife de panela;bovina;cozido_ou_refogado;almôndegas de soja;abóbrinha gratinada;gelatina abacaxi
+29/08/2025;2025-08-29;isca de frango grelhada;frango;grelhado;kibe de abóbora;viradoa de escarola;banana
+01/09/2025;2025-09-01;copa lombo molho limão;suina;ao_molho_ou_refogado;pizza de berinjela;cenoura palito;pudim de baunilha
+02/09/2025;2025-09-02;fiilé de frango grelhado;frango;grelhado;omelete;batata doce ao alho;abacaxi
+03/09/2025;2025-09-03;picadinho bovino;bovina;cozido_ou_refogado;soja com legumes;abóbora;maçã
+04/09/2025;2025-09-04;escondidinho de frango;frango;massa_ou_montado;escondidinho de soja;folhas refogadas;gelatina
+05/09/2025;2025-09-05;carne moída com ovos;bovina;cozido_ou_refogado;hambúrguer de soja;escabeche de berinjela;banana
+09/09/2025;2025-09-09;cubos de pernil;suina;ao_molho_ou_refogado;kibe de abóbora;purê de batata;abacaxi
+10/09/2025;2025-09-10;frango empanado;frango;empanado_ou_a_milanesa;ovos ao sugo;chuchu;banana
+11/09/2025;2025-09-11;bife à rolê;bovina;ao_molho_ou_refogado;rolê de berinjela;mandioca ao alho;flan de baunilha com calda
+12/09/2025;2025-09-12;frango assado;frango;assado;pizza de berinjela;polenta cremosa;maçã
+15/09/2025;2025-09-15;espetinho de frango;frango;churrasco_ou_espeto;espetinho de legumes;farofa de ovos;curau
+16/09/2025;2025-09-16;panqueca de carne;bovina;massa_ou_montado;panqueca de espinafre;seleta de legumes;abacaxi
+17/09/2025;2025-09-17;bisteca grelhada;suina;grelhado;batata recheada;bolinho de legumes;laranja
+18/09/2025;2025-09-18;peixe;peixe;assado;ovos ao vinagrete;pirão de peixe;pudim de chocolate
+19/09/2025;2025-09-19;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de repolho;cenoura sautê;banana
+22/09/2025;2025-09-22;churrasco misto bovino;mista;churrasco_ou_espeto;bolinho de repolho;farofa simples;arroz doce
+23/09/2025;2025-09-23;strogonoff de frango;frango;cremoso_ou_ensopado;strogonoff grão de bico;batata palha;laranja
+24/09/2025;2025-09-24;carne moída com legumes;bovina;cozido_ou_refogado;soja com legumes;purê de batata;gelatina bicolor
+25/09/2025;2025-09-25;lombo suino ao shoyo;suina;ao_molho_ou_refogado;ratatoulle;batata doce rustica;maçã
+26/09/2025;2025-09-26;isca de frango grelhada;frango;grelhado;ometele;macarrão ao sugo;banana
+29/09/2025;2025-09-29;carne de panela com batatas;bovina;cozido_ou_refogado;soja refogada com batata;cenoura sautê;melancia
+30/09/2025;2025-09-30;frango à pizzaiolo;frango;ao_molho_ou_refogado;croquete de abóbora;macarrão ao alho e óleo;laranja
+01/10/2025;2025-10-01;filé de frango ao molho laranja;frango;ao_molho_ou_refogado;bolinho de grão de bico;cuscuz de legumes;canjica
+02/10/2025;2025-10-02;panqueca de carne;bovina;massa_ou_montado;almondega de proteína;acelga com milho;banana
+03/10/2025;2025-10-03;bisteca acebolada;suina;ao_molho_ou_refogado;omelete com queijo;farofa brasileira;salada de frutas
+06/10/2025;2025-10-06;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de legumes;batata sauté;abacaxi
+07/10/2025;2025-10-07;pernil assado ao vinagrete;suina;assado;ovos ao vinagrete;couve refogada;sagu de uva
+08/10/2025;2025-10-08;churrasco misto bovino;mista;churrasco_ou_espeto;berinjela com queijo;virado de acelga;banana
+09/10/2025;2025-10-09;frango em cubos ao molho;frango;ao_molho_ou_refogado;bolinho de repolho;polenta;curau
+10/10/2025;2025-10-10;carne moida com cenoura;bovina;cozido_ou_refogado;hamburguer de proteína;purê de batata;laranja
+13/10/2025;2025-10-13;frango xadrez;frango;ao_molho_ou_refogado;legumes ao soyo;macarrão alho e óleo;melancia
+14/10/2025;2025-10-14;bisteca ao molho shoyo;suina;ao_molho_ou_refogado;soja com cenoura;batata doce a dorê;pudim de morango com calda
+15/10/2025;2025-10-15;filé de frango grelhado;frango;grelhado;bolinho de grão de bico;creme de milho;maçã
+16/10/2025;2025-10-16;escondidinho de carne;bovina;massa_ou_montado;omelete;escarola refogada;doce de abobora
+17/10/2025;2025-10-17;filé de peixe empanado;peixe;empanado_ou_a_milanesa;proteína com brócolis;pirão de legumes;banana
+20/10/2025;2025-10-20;panqueca de carne;bovina;massa_ou_montado;panqueca de escarola;folhas refogadas;maçã
+21/10/2025;2025-10-21;frango assado;frango;assado;proteína com cenoura;macarronada ao sugo;flan de caramelo
+22/10/2025;2025-10-22;lombo ao molho barbecue;suina;ao_molho_ou_refogado;berinjela a pizzaiolo;farofa de cebola;banana
+23/10/2025;2025-10-23;isca de frango crocante;frango;empanado_ou_a_milanesa;hamburguer de proteína;legumes sauté;mousse de morango
+24/10/2025;2025-10-24;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff de legumes;batata palha;abacaxi
+27/10/2025;2025-10-27;filé de frango grelhado;frango;grelhado;berinjela a pizzaiolo;parafuso ao molho branco;maçã
+28/10/2025;2025-10-28;pernil desfiado com pimentões;suina;cozido_ou_refogado;proteína com abobrinha;farofa rica;gelatina de abacaxi
+29/10/2025;2025-10-29;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;virado de couve;laranja
+30/10/2025;2025-10-30;picadinho bovino;bovina;cozido_ou_refogado;omelete;abobrinha na salsa;espumone de morango
+31/10/2025;2025-10-31;fricassê de frango;frango;cremoso_ou_ensopado;fricassê de abobrinha;abóbora refogada;salada de frutas
+03/11/2025;2025-11-03;frango xadrez;frango;ao_molho_ou_refogado;berinjela a parmeggiana;macarrão alho e óleo;maçã
+04/11/2025;2025-11-04;copa lombo ml abacaxi;suina;assado;ovos ao vinagrete;farofa rica (cenoura / salsa;pudim de chocolate
+05/11/2025;2025-11-05;panqueca de carne;bovina;massa_ou_montado;panqueca de soja;repolho com milho;banana
+06/11/2025;2025-11-06;peixe à milanesa;peixe;empanado_ou_a_milanesa;omelete;pirão;gelatina com creme
+07/11/2025;2025-11-07;fricassê de frango;frango;cremoso_ou_ensopado;hambúrguer de soja;escarola ao alho e óleo;laranja
+10/11/2025;2025-11-10;bisteca acebolada;suina;ao_molho_ou_refogado;abobrinha gratinada;batata dorê;abacaxi
+11/11/2025;2025-11-11;filé de frango ao molho laranja;frango;ao_molho_ou_refogado;proteína com legumes;abobrinha ao alho e óleo;pudim de morango
+12/11/2025;2025-11-12;cassoulet;suina;cremoso_ou_ensopado;cassoulet de legumes;couve refogada;melancia
+13/11/2025;2025-11-13;escondidinho de carne moída;bovina;massa_ou_montado;omelete;legumes sauté;canjica
+14/11/2025;2025-11-14;frango assado;frango;assado;batata recheada com soja;macarrão ao sugo;maçã
+17/11/2025;2025-11-17;churrasco misto acebolado;mista;churrasco_ou_espeto;espeto de legumes;acelga com cenoura ralada;banana
+18/11/2025;2025-11-18;pernil assado ao molho roty;suina;assado;pizza de berinjela;batata doce rustica;gelatina de limão
+19/11/2025;2025-11-19;frango em cubos ao molho;frango;ao_molho_ou_refogado;soja com cenoura;polenta cremosa;laranja
+21/11/2025;2025-11-21;strogonoff de carne;bovina;cremoso_ou_ensopado;strogonoff de legumes;batata palha;salada de frutas
+24/11/2025;2025-11-24;frango crocante;frango;empanado_ou_a_milanesa;omelete;creme de milho;maçã
+25/11/2025;2025-11-25;bife de panela;bovina;cozido_ou_refogado;hambúrguer de soja;quibebe de abobora;sagu de uva
+26/11/2025;2025-11-26;bisteca ao molho shoyo;suina;ao_molho_ou_refogado;kibe de abóbora;farofa rica;abacaxi
+27/11/2025;2025-11-27;escondidinho de frango;frango;massa_ou_montado;escondidinho de soja;couve alho e óleo;pavê de baunilha
+28/11/2025;2025-11-28;carne moida com cenoura;bovina;cozido_ou_refogado;pizza de berinjela;purê de batata;banana
+01/12/2025;2025-12-01;fricassê de frango;frango;cremoso_ou_ensopado;berinjela a parmeggiana;escarola ao alho e óleo;maçã
+02/12/2025;2025-12-02;carne moída ao sugo;bovina;ao_molho_ou_refogado;ovos ao vinagrete;polenta cremosa;pudim de morango com calda
+03/12/2025;2025-12-03;pernil assado;suina;assado;pizza de abobrinha;repolho com cenoura ralada;banana
+04/12/2025;2025-12-04;frango assado;frango;assado;soja branca com legumes;macarrão ao sugo;gelatina bicolor
+05/12/2025;2025-12-05;panqueca de carne;bovina;massa_ou_montado;hambúrguer de soja;cenoura molho ervas;abacaxi
+08/12/2025;2025-12-08;escondidinho de carne moída;bovina;massa_ou_montado;almôndegas de soja;acelga com milho;melancia
+09/12/2025;2025-12-09;filé de frango grelhado;frango;grelhado;proteína com legumes;creme de milho;sagu de uva
+10/12/2025;2025-12-10;bisteca acebolada;suina;ao_molho_ou_refogado;ovo frito;farofa rica;banana
+11/12/2025;2025-12-11;carne assada;bovina;assado;abobrinha assada com queijo;penne ao molho rose;pavê de chocolate
+12/12/2025;2025-12-12;frango xadrez;frango;ao_molho_ou_refogado;soja xadrêz;macarrão ao alho e óleo;gelatina
+15/12/2025;2025-12-15;bife de lombo suino barbecue;suina;ao_molho_ou_refogado;soja branca com batata;batata doce ao alecrim;abacaxi
+16/12/2025;2025-12-16;frango cubos ao molho;frango;ao_molho_ou_refogado;omelete;quibebe;gelatina com creme
+17/12/2025;2025-12-17;feijoada;feijoada;cremoso_ou_ensopado;feijoada de legumes;virado de couve;laranja
+18/12/2025;2025-12-18;strogonoff de frango;frango;cremoso_ou_ensopado;batata recheada com proteína;batata palha;pavê de baunilha
+19/12/2025;2025-12-19;peixe a dorê;peixe;empanado_ou_a_milanesa;berinjela gratinada;pirão de legumes;maçã
+26/02/2026;2026-02-26;isca de frango;frango;ao_molho_ou_refogado;frango vegano;polenta;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+27/02/2026;2026-02-27;carne de panela;bovina;cozido_ou_refogado;proteína de soja texturizada com legumes;macarrão alho e óleo;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+02/03/2026;2026-03-02;frango à pizzaiolo;frango;ao_molho_ou_refogado;frango vegano;brócolis e couve flor refogado;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+03/03/2026;2026-03-03;carne de panela com legumes;bovina;cozido_ou_refogado;calabresa vegana;farofa verão;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+04/03/2026;2026-03-04;lombo assado;suina;assado;proteína de soja texturizada de panela;purê de batata;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+05/03/2026;2026-03-05;sobrecoxa assada;frango;assado;frango vegano;macarrão ao sugo;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+06/03/2026;2026-03-06;isca de peixe grelhada;peixe;grelhado;frango vegano acebolado;purê;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+09/03/2026;2026-03-09;sobrecoxa assada;frango;assado;berinjela assada;mix verde refogado;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+10/03/2026;2026-03-10;costelinha assada;suina;assado;frango vegano;legumes sauté;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+11/03/2026;2026-03-11;isca de frango;frango;ao_molho_ou_refogado;calabresa vegana;farofa verão;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+12/03/2026;2026-03-12;escondidinho de carne;bovina;massa_ou_montado;frango vegano acebolado;batata palha;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+13/03/2026;2026-03-13;isca de peixe empanado;peixe;empanado_ou_a_milanesa;proteína de soja texturizada com legumes;purê;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+16/03/2026;2026-03-16;frango à pizzaiolo;frango;ao_molho_ou_refogado;calabresa vegana;repolho refogado;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+17/03/2026;2026-03-17;lombo assado;suina;assado;frango vegano;macarrão alho e óleo;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+18/03/2026;2026-03-18;isca de frango acebolada;frango;ao_molho_ou_refogado;proteína de soja refogada;farofa verão;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+20/03/2026;2026-03-20;lasanha à bolonhesa;bovina;massa_ou_montado;berinjela assada;batata palha;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+23/03/2026;2026-03-23;isca de frango;frango;ao_molho_ou_refogado;calabresa vegana;mix verao refogado;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+24/03/2026;2026-03-24;filé de peixe;peixe;assado;berinjela assada;purê;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+25/03/2026;2026-03-25;isca bovina;bovina;ao_molho_ou_refogado;proteína de soja texturizada com legumes veg;macarrão alho e óleo;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+26/03/2026;2026-03-26;strogonoff de frango;frango;cremoso_ou_ensopado;calabresa vegana;batata palha;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+27/03/2026;2026-03-27;costelinha assada;suina;assado;frango vegano;legumes sauté;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+30/03/2026;2026-03-30;frango à pizzaiolo;frango;ao_molho_ou_refogado;frango vegano;farofa verão;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+31/03/2026;2026-03-31;carne de panela;bovina;cozido_ou_refogado;proteína de soja refogada;abobrinha refogada;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+01/04/2026;2026-04-01;sobrecoxa assada;frango;assado;frango vegano;macarrão alho e óleo;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+02/04/2026;2026-04-02;peixe de forno;peixe;assado;calabresa vegana;purê de batata;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+06/04/2026;2026-04-06;isca de frango;frango;ao_molho_ou_refogado;berinjela assada cubos;farofa alegria;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+07/04/2026;2026-04-07;costelinha;suina;assado;calabresa vegana;macarrão alho e óleo;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+08/04/2026;2026-04-08;peixe assado isca;peixe;assado;proteína de soja texturizada de panela;purê;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+09/04/2026;2026-04-09;rocambole de carne recheado de forno;bovina;assado;frango vegano;polenta;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+10/04/2026;2026-04-10;lasanha à bolonhesa;bovina;massa_ou_montado;proteína de soja texturizada de panela;farofa com cebola e milho;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+13/04/2026;2026-04-13;isca de frango acebolada;frango;ao_molho_ou_refogado;berinjela assada;mix verde refogado;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+14/04/2026;2026-04-14;pernil assado ao molho;suina;assado;proteína de soja acebolada;legumes sauté mix;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+15/04/2026;2026-04-15;frango à pizzaiolo;frango;ao_molho_ou_refogado;proteína de soja refogada;macarrão alho e óleo;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+16/04/2026;2026-04-16;peixe empanado;peixe;empanado_ou_a_milanesa;frango vegano acebolado;purê;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+17/04/2026;2026-04-17;carne de panela;bovina;cozido_ou_refogado;calabresa vegana;farofa verão;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+22/04/2026;2026-04-22;isca de frango;frango;ao_molho_ou_refogado;proteína de soja refogada;legumes sauté;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+23/04/2026;2026-04-23;isca de carne acebolada;bovina;ao_molho_ou_refogado;frango vegano;farofa alegria;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+24/04/2026;2026-04-24;strogonoff de frango;frango;cremoso_ou_ensopado;berinjela assada;batata palha;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+27/04/2026;2026-04-27;filé de frango;frango;grelhado;isca de proteína de soja acebolada;batata sauté;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+28/04/2026;2026-04-28;costelinha suína;suina;assado;calabresa vegana;batata palha;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+29/04/2026;2026-04-29;carne de panela;bovina;cozido_ou_refogado;frango vegano;farofa com cebola;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+30/04/2026;2026-04-30;isca de sassami acebolada;frango;ao_molho_ou_refogado;proteína de soja;macarrão alho e óleo;fruta (maçã, melancia ou laranja, conforme disponibilidade)
+04/05/2026;2026-05-04;carne moída;bovina;cozido_ou_refogado;proteína de soja acebolada;polenta;laranja
+05/05/2026;2026-05-05;filé de frango;frango;grelhado;calabresa vegana;espaguete ao sugo;maçã
+06/05/2026;2026-05-06;bisteca;suina;grelhado;grão de bico com espinafre;couve refogada;melancia
+07/05/2026;2026-05-07;isca mista;mista;ao_molho_ou_refogado;lentilha com cenoura;farofa verão;laranja
+08/05/2026;2026-05-08;fricassê de frango;frango;cremoso_ou_ensopado;calabresa vegana;repolho refogado;gelatina
+11/05/2026;2026-05-11;carne bovina moída com legumes;bovina;cozido_ou_refogado;lentilha com cenoura;legumes sauté;maçã
+12/05/2026;2026-05-12;filé de frango ao molho laranja;frango;ao_molho_ou_refogado;grão de bico com espinafre;farofa de banana;laranja
+13/05/2026;2026-05-13;lombo grelhado;suina;grelhado;calabresa vegana;purê de abóbora;melancia
+14/05/2026;2026-05-14;frango xadrez;frango;ao_molho_ou_refogado;proteína de soja acebolada;batata corada;laranja
+15/05/2026;2026-05-15;isca mista (carne e frango);mista;ao_molho_ou_refogado;grão de bico com brócolis;cenoura;salada de frutas
+18/05/2026;2026-05-18;frango desfiado;frango;ao_molho_ou_refogado;calabresa vegana;abóbora refogada;maçã
+19/05/2026;2026-05-19;carne bovina moída com cenoura;bovina;cozido_ou_refogado;lentilha com cenoura;batata doce rosada;laranja
+20/05/2026;2026-05-20;sobrecoxa ao molho de tomate;frango;ao_molho_ou_refogado;grão de bico com abóbora;legumes sauté (chuchu, cenoura e vagem);arroz doce
+21/05/2026;2026-05-21;isca mista (frango e carne bovina);mista;ao_molho_ou_refogado;berinjela assada;purê de batata com mandioquinha;mamão
+22/05/2026;2026-05-22;escondidinho de batata com peixe;peixe;massa_ou_montado;proteína de soja refogada;abobrinha com berinjela;maçã / laranja
+25/05/2026;2026-05-25;carne bovina moída;bovina;cozido_ou_refogado;grão de bico com brócolis;mandioca cozida;tangerina
+26/05/2026;2026-05-26;frango maluco (frango desfiado com molho de tomate);frango;ao_molho_ou_refogado;lentilha com cenoura;purê de batata;maçã
+27/05/2026;2026-05-27;picadinho de carne bovina;bovina;cozido_ou_refogado;isca de proteína acebolado;farofa verão (cenoura, milho, salsa, cebola, batata palha, alho);laranja
+28/05/2026;2026-05-28;lombo grelhado;suina;grelhado;calabresa vegana;beterraba cozida;curau
+29/05/2026;2026-05-29;frango ao molho de laranja;frango;ao_molho_ou_refogado;frango vegano;abóbora refogada;manga
+01/06/2026;2026-06-01;frango maluco;frango;ao_molho_ou_refogado;isca de proteína de soja texturizada;macarrão ao molho de tomate;maçã
+02/06/2026;2026-06-02;picadinho de carne bovina com batata;bovina;cozido_ou_refogado;brócolis com grão de bico;abóbora cozida;banana
+03/06/2026;2026-06-03;panqueca de frango;frango;massa_ou_montado;lentilha com tomate e abobrinha;legumes sauté (chuchu, cenoura, batata);laranja
+08/06/2026;2026-06-08;frango à pizzaiolo;frango;ao_molho_ou_refogado;hambúrguer de lentilha com cenoura;legumes sauté (chuchu, cenoura, batata);tangerina / goiaba
+09/06/2026;2026-06-09;bife de pernil grelhado;suina;grelhado;proteína de soja texturizada ao molho de tomate;purê de abóbora;banana
+10/06/2026;2026-06-10;frango xadrez;frango;ao_molho_ou_refogado;grão de bico com espinafre;couve refogada;maçã
+11/06/2026;2026-06-11;picadinho de carne bovina com batata;bovina;cozido_ou_refogado;quibe de abóbora;farofa de banana;salada de frutas
+12/06/2026;2026-06-12;moqueca de peixe;peixe;cremoso_ou_ensopado;escondidinho de batata com proteína de soja texturizada;batata doce cozida;laranja
+15/06/2026;2026-06-15;hambúrguer com ovo;bovina;grelhado;brócolis com grão de bico;abóbora cozida;banana
+16/06/2026;2026-06-16;lombo em cubos grelhado;suina;grelhado;isca de proteína de soja texturizada acebolada;virado de couve;tangerina / goiaba
+17/06/2026;2026-06-17;isca de frango;frango;ao_molho_ou_refogado;bolinho de feijão;polenta;maçã
+18/06/2026;2026-06-18;carne moída com milho;bovina;cozido_ou_refogado;proteína de soja texturizada xadrez;abobrinha cozida;laranja
+19/06/2026;2026-06-19;fricassê;frango;cremoso_ou_ensopado;lentilha com vagem;cenoura cozida;melancia
+22/06/2026;2026-06-22;strogonoff de frango;frango;cremoso_ou_ensopado;abobrinha recheada com proteína de soja texturizada;batata palha;maçã
+23/06/2026;2026-06-23;bife de pernil grelhado;suina;grelhado;croquete de soja;farofa verão;banana
+24/06/2026;2026-06-24;carne moída;bovina;cozido_ou_refogado;grão de bico com espinafre;macarrão ao molho de tomate;melancia
+25/06/2026;2026-06-25;moqueca de peixe;peixe;cremoso_ou_ensopado;proteína de soja texturizada acebolada;batata cozida;tangerina / goiaba
+26/06/2026;2026-06-26;picadinho de carne bovina com abóbora;bovina;cozido_ou_refogado;lentilha com tomate e abobrinha;legumes sauté (chuchu, cenoura, batata);arroz doce
+29/06/2026;2026-06-29;frango grelhado;frango;grelhado;proteína de soja texturizada acebolado;abóbora cozida;maçã
+30/06/2026;2026-06-30;isca de carne bovina;bovina;ao_molho_ou_refogado;berinjela recheada com proteína de soja texturizada;legumes sauté (chuchu, cenoura, batata);laranja
+01/07/2026;2026-07-01;lombo em cubos;suina;ao_molho_ou_refogado;bolinho de feijão;batata e cenoura cozidas;melão / melancia
+02/07/2026;2026-07-02;frango xadrez;frango;ao_molho_ou_refogado;proteína de soja texturizada xadrez;couve refogada;tangerina
+03/07/2026;2026-07-03;picadinho de carne bovina;bovina;cozido_ou_refogado;lentilha com vagem;farofa verão;gelatina
+06/07/2026;2026-07-06;panqueca de carne moída;bovina;massa_ou_montado;proteína de soja texturizada ao molho de tomate;abobrinha cozida;laranja
+07/07/2026;2026-07-07;frango grelhado;frango;grelhado;berinjela recheada com proteína de soja texturizada;macarrão ao molho de tomate;banana
+08/07/2026;2026-07-08;lombo suíno ao molho shoyo;suina;ao_molho_ou_refogado;grão de bico com espinafre;batata e chuchu cozidos;melão / melancia
+29/07/2026;2026-07-29;strogonoff de frango;frango;cremoso_ou_ensopado;quibe de abóbora;batata palha;maçã
+30/07/2026;2026-07-30;picadinho de carne bovina;bovina;cozido_ou_refogado;brócolis com grão de bico;abóbora cozida;laranja
+31/07/2026;2026-07-31;lombo em cubos acebolado;suina;ao_molho_ou_refogado;abobrinha recheada com proteína de soja texturizada;farofa verão;melão / melancia
+03/08/2026;2026-08-03;picadinho de carne bovina com batata;bovina;cozido_ou_refogado;proteína de soja texturizada com batata;farofa verão;maçã
+04/08/2026;2026-08-04;lombo suíno ao molho de laranja;suina;ao_molho_ou_refogado;hambúrguer de lentilha com cenoura;couve refogada;banana
+05/08/2026;2026-08-05;fricassê de frango;frango;cremoso_ou_ensopado;brócolis com grão de bico;abóbora cozida;melão
+06/08/2026;2026-08-06;carne bovina desfiada;bovina;ao_molho_ou_refogado;abobrinha recheada com proteína de soja texturizada;macarrão ao molho de tomate;laranja
+07/08/2026;2026-08-07;frango ao molho;frango;ao_molho_ou_refogado;bolinho de feijão;batata e chuchu cozidos;maçã
+10/08/2026;2026-08-10;frango xadrez;frango;ao_molho_ou_refogado;proteína de soja texturizada xadrez;virado de couve;laranja
+11/08/2026;2026-08-11;carne moída com milho;bovina;cozido_ou_refogado;lentilha com vagem;batata doce cozida;banana
+12/08/2026;2026-08-12;lombo suíno grelhado;suina;grelhado;hambúrguer de lentilha com cenoura;farofa de banana;melancia
+13/08/2026;2026-08-13;picadinho de carne bovina;bovina;cozido_ou_refogado;bolinho de feijão;purê de abóbora;maçã
+14/08/2026;2026-08-14;panqueca de frango;frango;massa_ou_montado;grão de bico com espinafre;legumes sauté (chuchu, cenoura, batata);arroz doce
+17/08/2026;2026-08-17;strogonoff de frango;frango;cremoso_ou_ensopado;proteína de soja texturizada com batata;batata palha;maçã
+18/08/2026;2026-08-18;escondidinho de peixe;peixe;massa_ou_montado;bolinho de feijão;abóbora cozida;laranja / tangerina
+19/08/2026;2026-08-19;carne bovina desfiada;bovina;ao_molho_ou_refogado;abobrinha recheada com proteína de soja texturizada;polenta;melão
+20/08/2026;2026-08-20;isca de frango;frango;ao_molho_ou_refogado;brócolis com grão de bico;macarrão ao molho de tomate;laranja
+21/08/2026;2026-08-21;lombo suíno ao molho laranja;suina;ao_molho_ou_refogado;hambúrguer de lentilha com cenoura;farofa verão;maçã
+24/08/2026;2026-08-24;escondidinho de carne moída;bovina;massa_ou_montado;hambúrguer de lentilha com cenoura;abóbora cozida;laranja
+25/08/2026;2026-08-25;frango ao molho;frango;ao_molho_ou_refogado;lentilha com vagem;virado de couve;banana
+26/08/2026;2026-08-26;picadinho de carne bovina;bovina;cozido_ou_refogado;grão de bico com espinafre;purê de batata;arroz doce
+27/08/2026;2026-08-27;lombo suíno grelhado;suina;grelhado;bolinho de feijão;farofa de banana;melancia
+28/08/2026;2026-08-28;frango xadrez;frango;ao_molho_ou_refogado;proteína de soja texturizada xadrez;legumes sauté (chuchu, cenoura, batata);laranja
+31/08/2026;2026-08-31;frango maluco;frango;ao_molho_ou_refogado;proteína de soja texturizada com batata;macarrão ao molho de tomate;maçã
+01/09/2026;2026-09-01;lombo suíno ao molho de laranja;suina;ao_molho_ou_refogado;abobrinha recheada com proteína de soja texturizada;legumes sauté (chuchu, cenoura, batata);maçã
+02/09/2026;2026-09-02;picadinho de carne bovina com batata;bovina;cozido_ou_refogado;proteína de soja texturizada com batata;virado de couve;banana
+03/09/2026;2026-09-03;strogonoff de frango;frango;cremoso_ou_ensopado;bolinho de feijão;batata palha;melancia
+04/09/2026;2026-09-04;isca bovina;bovina;ao_molho_ou_refogado;hambúrguer de lentilha com cenoura;batata e abobrinha cozidas;laranja
+09/09/2026;2026-09-09;carne bovina desfiada;bovina;ao_molho_ou_refogado;brócolis com grão de bico;macarrão ao molho de tomate;maçã
+10/09/2026;2026-09-10;lombo suíno grelhado;suina;grelhado;pimentão recheado com proteína de soja texturizada;farofa de banana;melão
+11/09/2026;2026-09-11;frango ao molho;frango;ao_molho_ou_refogado;hambúrguer de lentilha com cenoura;farofa verão;laranja
+14/09/2026;2026-09-14;frango xadrez;frango;ao_molho_ou_refogado;proteína de soja texturizada xadrez;couve refogado;maçã
+15/09/2026;2026-09-15;strogonoff de carne;bovina;cremoso_ou_ensopado;hambúrguer de lentilha com cenoura;legumes sauté (chuchu, cenoura, batata);laranja
+16/09/2026;2026-09-16;filé de frango grelhado;frango;grelhado;brócolis com grão de bico;abóbora cozida;banana
+17/09/2026;2026-09-17;lombo suíno ao molho de laranja;suina;ao_molho_ou_refogado;abobrinha recheada com proteína de soja texturizada;farofa verão;maçã
+18/09/2026;2026-09-18;escondidinho de peixe;peixe;massa_ou_montado;bolinho de feijão;batata cozida;arroz doce
+21/09/2026;2026-09-21;carne bovina desfiada;bovina;ao_molho_ou_refogado;lentilha com vagem;batata doce cozida;melancia
+22/09/2026;2026-09-22;lombo suíno grelhado;suina;grelhado;brócolis com grão de bico;virado de couve;tangerina
+23/09/2026;2026-09-23;strogonoff de frango;frango;cremoso_ou_ensopado;abobrinha recheada com proteína de soja texturizada;batata palha;melão
+24/09/2026;2026-09-24;panqueca de carne;bovina;massa_ou_montado;panqueca de proteína de soja texturizada;abóbora cozida;maçã
+25/09/2026;2026-09-25;frango maluco;frango;ao_molho_ou_refogado;hambúrguer de lentilha com cenoura;macarrão ao molho de tomate;laranja
+28/09/2026;2026-09-28;escondidinho de carne moída;bovina;massa_ou_montado;pimentão recheado com proteína de soja texturizada;legumes sauté (chuchu, cenoura, batata);maçã
+29/09/2026;2026-09-29;isca suína;suina;ao_molho_ou_refogado;;abóbora cozida;banana
+30/09/2026;2026-09-30;frango xadrez;frango;ao_molho_ou_refogado;proteína de soja texturizada xadrez;farofa verão;arroz doce
+01/10/2026;2026-10-01;picadinho de carne bovina;bovina;cozido_ou_refogado;bolinho de feijão;batata doce cozida;laranja
+02/10/2026;2026-10-02;frango ao molho;frango;ao_molho_ou_refogado;hambúrguer de lentilha com cenoura;macarrão ao molho de tomate;maçã
+05/10/2026;2026-10-05;carne bovina desfiada;bovina;ao_molho_ou_refogado;bolinho de feijão;batata e chuchu cozidos;laranja
+06/10/2026;2026-10-06;frango xadrez;frango;ao_molho_ou_refogado;proteína de soja texturizada xadrez;farofa verão;banana
+07/10/2026;2026-10-07;lombo suíno ao molho de laranja;suina;ao_molho_ou_refogado;brócolis com grão de bico;polenta;melão
+08/10/2026;2026-10-08;carne moída á primavera (milho, ervilha e cenoura);bovina;cozido_ou_refogado;panqueca de proteína de soja texturizada;abobrinha cozida;maçã
+09/10/2026;2026-10-09;strogonoff de frango;frango;cremoso_ou_ensopado;lentilha com vagem;batata palha;laranja
+15/10/2026;2026-10-15;bife a rolê;bovina;cozido_ou_refogado;lentilha com vagem;purê de batata;maçã
+16/10/2026;2026-10-16;frango à pizzaiolo;frango;ao_molho_ou_refogado;abobrinha recheada com proteína de soja texturizada;abóbora cozida;laranja
+19/10/2026;2026-10-19;picadinho de carne bovina;bovina;cozido_ou_refogado;hambúrguer de lentilha com cenoura;virado de couve;maçã
+20/10/2026;2026-10-20;frango ao molho;frango;ao_molho_ou_refogado;pimentão recheado com proteína de soja texturizada;abóbora cozida;tangerina
+21/10/2026;2026-10-21;strogonoff de carne;bovina;cremoso_ou_ensopado;bolinho de feijão;batata palha;arroz doce
+22/10/2026;2026-10-22;fricassê de frango;frango;cremoso_ou_ensopado;lentilha com vagem;legumes sauté (chuchu, cenoura, batata);laranja
+23/10/2026;2026-10-23;lombo suíno desfiado;suina;ao_molho_ou_refogado;abobrinha recheada com proteína de soja texturizada;macarrão ao molho de tomate;maçã
+26/10/2026;2026-10-26;frango xadrez;frango;ao_molho_ou_refogado;proteína de soja texturizada xadrez;macarrão ao alho e óleo;laranja
+27/10/2026;2026-10-27;lombo suíno ao molho de laranja;suina;ao_molho_ou_refogado;brócolis com grão de bico;farofa verão;banana
+28/10/2026;2026-10-28;panqueca de frango;frango;massa_ou_montado;panqueca de proteína de soja texturizada;legumes sauté (chuchu, cenoura, batata);melancia
+29/10/2026;2026-10-29;escondidinho de peixe;peixe;massa_ou_montado;bolinho de feijão;batata doce cozida;maçã
+30/10/2026;2026-10-30;carne bovina desfiada;bovina;ao_molho_ou_refogado;pimentão recheado com proteína de soja texturizada;couve refogada;laranja

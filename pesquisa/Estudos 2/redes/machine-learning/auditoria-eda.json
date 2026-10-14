@@ -1,0 +1,134 @@
+{
+  "network": "machine-learning",
+  "source_directory": "fontes/referencias-ia-ml/txt/",
+  "txt_files_scanned": 6,
+  "unique_bibliographic_works": 5,
+  "duplicate_work_already_in_corpus": "Mastering Exploratory Analysis with pandas (Garg, 2018)",
+  "coverage": [
+    {
+      "source_id": "TUKEY-1977",
+      "file": "fontes/referencias-ia-ml/txt/Exploratory_Data_Analysis_-_John_W_Tuke.txt",
+      "topics": [
+        "stem-and-leaf",
+        "five-number summary",
+        "boxplot fences",
+        "re-expression",
+        "group comparison",
+        "scatterplots",
+        "smoothing",
+        "two-way analysis",
+        "counted fractions",
+        "binned counts",
+        "distribution shapes"
+      ],
+      "concept_notes": [
+        "Estatísticas Resistentes e Formas de Distribuição",
+        "Reexpressão de Variáveis",
+        "Análise Bivariada e Tabelas de Contingência",
+        "Suavização e Comparação de Sequências"
+      ]
+    },
+    {
+      "source_id": "CASTRO-2026",
+      "file": "fontes/referencias-ia-ml/txt/Exploratory_Data_Analysis_-_Leandro_Nunes_de_Castro.txt",
+      "topics": [
+        "data dictionary and data types",
+        "sampling and missing values",
+        "descriptive measures and associations",
+        "visualization design",
+        "geospatial",
+        "time series",
+        "text",
+        "trees and networks",
+        "storytelling and dashboards"
+      ],
+      "concept_notes": [
+        "Amostragem e Representatividade",
+        "Visualização Exploratória e Codificação Visual",
+        "Análise Bivariada e Tabelas de Contingência",
+        "Análise Multivariada Exploratória",
+        "Diagnóstico Exploratório de Séries Temporais",
+        "Análise Exploratória de Texto",
+        "Análise Exploratória de Redes e Árvores",
+        "Análise Exploratória Geoespacial"
+      ]
+    },
+    {
+      "source_id": "OLULEYE-2023",
+      "file": "fontes/referencias-ia-ml/txt/Exploratory_Data_Analysis_with_Python_Cookbook_-_Ayodele_Oluleye.txt",
+      "topics": [
+        "summary statistics",
+        "univariate, bivariate and multivariate analysis",
+        "time series",
+        "text analysis",
+        "outliers and missing values",
+        "automated EDA"
+      ],
+      "concept_notes": [
+        "Estatísticas Resistentes e Formas de Distribuição",
+        "Análise Bivariada e Tabelas de Contingência",
+        "Análise Multivariada Exploratória",
+        "Suavização e Comparação de Sequências",
+        "Diagnóstico Exploratório de Séries Temporais",
+        "Análise Exploratória de Texto",
+        "Métodos de Detecção de Outliers",
+        "Perfilamento e EDA Automatizada"
+      ]
+    },
+    {
+      "source_id": "AYD-HARRISON-2024",
+      "file": "fontes/referencias-ia-ml/txt/Pandas_Cookbook_3rd_Edition_-_William_Ayd_Matthew_Harrison.txt",
+      "topics": [
+        "visualization",
+        "groupby",
+        "reshaping",
+        "temporal data types and algorithms"
+      ],
+      "concept_notes": [
+        "Visualização Exploratória e Codificação Visual",
+        "Análise Multivariada Exploratória",
+        "Diagnóstico Exploratório de Séries Temporais"
+      ]
+    },
+    {
+      "source_id": "ATWAN-2022",
+      "file": "fontes/referencias-ia-ml/txt/Time_Series_Analysis_with_Python_Cookbook_-_Tarek_A_Atwan.txt",
+      "topics": [
+        "missing-data diagnostics and interpolation",
+        "z-score and modified z-score",
+        "Tukey outlier detection",
+        "time-series plots and decomposition",
+        "power transforms and differencing",
+        "autocorrelation and stationarity",
+        "unsupervised outlier methods"
+      ],
+      "concept_notes": [
+        "Diagnóstico Exploratório de Séries Temporais",
+        "Métodos de Detecção de Outliers",
+        "Reexpressão de Variáveis"
+      ]
+    },
+    {
+      "source_id": "GARG-2018",
+      "file": "fontes/referencias-ia-ml/txt/mastering-exploratory-analysis-with-pandas-2018.txt",
+      "duplicate_file": "txt/BOOKS/mastering-exploratory-analysis-with-pandas-2018.txt",
+      "topics": [
+        "data input and selection",
+        "reshaping and missing values",
+        "scatter, swarm, box, violin, bar and grid plots"
+      ],
+      "count_as_separate_work": false,
+      "concept_notes": [
+        "Visualização Exploratória e Codificação Visual"
+      ]
+    }
+  ],
+  "new_concept_notes": 13,
+  "limitations": [
+    "TXT extraction does not provide reliable pagination for all books.",
+    "Chapter-level locations are discovery aids; consult original works before academic citation.",
+    "Model-family suggestions in the map are hypotheses to compare, not automatic decisions."
+  ],
+  "corpus_txt_total": 53,
+  "corpus_note": "O diretório consolidado contém 53 TXT; txt_files_scanned conta apenas as fontes selecionadas para este mapa."
+}

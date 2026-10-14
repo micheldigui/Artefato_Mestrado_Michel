@@ -1,0 +1,760 @@
+Universidade Federal de Goiás
+Instituto de Informática
+Prof. Dr. Ronaldo Martins da Costa
+Aprendizado de Máquina - Supervisionado
+KNN
+➔ K-Nearest Neighbors (KNN)
+◆ algoritmo de aprendizado supervisionado usado para classificação
+◆ Para classificar uma nova amostra, o KNN procura as K amostras mais próximas dela no
+conjunto de treinamento e verifica a classe predominante entre essas vizinhas
+◆ O K representa quantos vizinhos serão considerados
+Aprendizado de Máquina - Supervisionado
+KNN
+➔ K-Nearest Neighbors (KNN)
+◆ Imagine duas características
+● comprimento da sépala: aproximadamente 4–8
+● alguma outra variável: aproximadamente 0–1000
+◆ A segunda variável poderia dominar a distância. Por isso, frequentemente usamos
+normalização ou padronização antes do KNN
+Aprendizado de Máquina - Supervisionado
+KNN
+➔ K-Nearest Neighbors (KNN)
+◆ Usando pesos (weights)
+● É possível atribuir pesos, de tal forma que vizinhos mais próximos exercem maior
+influência na classificação
+Aprendizado de Máquina - Supervisionado
+KNN
+k=3 → Versicolor
+Aprendizado de Máquina - Supervisionado
+KNN
+k=3 → Versicolor
+k=5 → Virgínica
+Aprendizado de Máquina - Supervisionado
+Decision Tree
+➔ Decision Tree
+◆ Não foi criada por uma única pessoa em um único ano. O conceito evoluiu através de várias
+pesquisas em estatística, reconhecimento de padrões e aprendizado de máquina
+◆ Os trabalhos mais importantes aplicando este algoritmo aparecem entre 1960 e 1970
+◆ O algoritmo divide os dados sucessivamente através de perguntas até chegar a uma decisão
+Aprendizado de Máquina - Supervisionado
+Pergunta
+Utiliza a estrutura de ? ? ? Decision Tree
+uma Árvore Binária
+M N
+SI Ã
+O
+Outra Pergunta
+Definida a Classe
+? ? ?
+M N
+SI Ã O
+Definida a Classe Definida a Classe
+Classificação com dados do Kaggle
+➔ Public Health Dataset (acessado em 10/08/2026) Decision Tree
+◆ https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/supervisionado_02A.csv
+Aprendizado de Máquina - Supervisionado
+Decision Tree
+➔ Como o algoritmo "Aprende" ?
+◆ O algoritmo procura perguntas que consigam separar bem as classes
+Idade *Oldpeak FC máxima Doença
+45 0.0 170 Não
+50 0.5 160 Não
+52 0.8 155 Não
+60 2.0 130 Sim
+65 2.5 120 Sim
+70 3.0 110 Sim
+* Depressão do segmento ST induzida pelo exercício em relação ao ECG em repouso
+● idade <= 54.5 ?
+● oldpeak <= 1.2 ?
+● frequência cardíaca <= 140 ?
+Aprendizado de Máquina - Supervisionado
+Decision Tree
+➔ Como o algoritmo "Aprende" ?
+◆ O algoritmo procura uma pergunta que consiga separar bem as classes
+Idade *Oldpeak FC máxima Doença
+45 0.0 170 Não
+50 0.5 160 Não IF característica <operador> valor
+52 0.8 155 Não
+60 2.0 130 Sim
+65 2.5 120 Sim
+70 3.0 110 Sim
+◆ Qual característica / valor conseguiria separar bem as linhas da tabela ?
+◆ Qual característica avaliar (idade, Oldpeak, FC Máxima, outra) ?
+Aprendizado de Máquina - Supervisionado
+Decision Tree
+➔ Imagine que o dataset possui várias características
+◆ O algoritmo procura uma pergunta que consiga separar bem as classes
+Característica 1 … Característica n Doença
+Não
+700 paciente que não possuem a "doença" Não
+Não
+Sim
+400 pacientes com a "doença" Sim
+Sim
+◆ Qual característica / valor conseguiria separar bem as linhas da tabela ?
+Aprendizado de Máquina - Supervisionado
+1.190 pacientes
+100% Decision Tree
+m
+o a s
+c n ç D e m
+o
+e o
+e
+D n
+ç
+a
+490 700
+41,18% 58,82%
+➔ Desejamos utilizar o Decision Tree para separar/classificar os pacientes com
+doença e sem doença
+◆ O algoritmo vai avaliar as características do dataset
+● age, sex, chest pain type, resting bp s, cholesterol, fasting blood sugar, resting ecg, max heart
+rate, exercise angina, oldpeak, ST slope
+Aprendizado de Máquina - Supervisionado
+➔ Suponha que após o teste com a característica age, os dados
+Decision Tree
+ficaram assim:
+age <= 50
+M
+SI N
+Ã
+O
+300 paciente 890 pacientes
+240 sem doença (80%) 460 sem doença (52%)
+60 com doença (20%) 430 com doença (48%)
+Aprendizado de Máquina - Supervisionado
+➔ Intuitivamente, podemos dizer que a divisão parece ter
+Decision Tree
+melhorado, ao menos para um dos grupo
+age <= 50
+M
+SI N
+Ã
+O
+300 paciente 890 pacientes
+240 sem doença (80%) 460 sem doença (52%)
+60 com doença (20%) 430 com doença (48%)
+➔ Um dos grupos ficou significativamente mais concentrado em uma classe
+➔ Quanto esta opção melhorou na separação dos com doença e sem doença ???
+Aprendizado de Máquina - Supervisionado
+➔ Coeficiente de GINI
+Decision Tree
+◆ QUANTO as classes foram bem ou mal separadas ?
+◆ Calculamos o coeficiente a cada pergunta (separação aplicada)
+Aprendizado de Máquina - Supervisionado
+Decision Tree
+1.190 pacientes 1.190 pacientes
+100% age <= 50
+m M
+c o n ç a D s e m SI N Ã O
+o
+e o
+e
+D n
+ç
+a
+300 paciente 890 pacientes
+490 700
+240 sem doença (80%) 460 sem doença (52%)
+41,18% 58,82%
+60 com doença (20%) 430 com doença (48%)
+Gini =1−(0,82+0,22) Gini =1−(0,51692+0,48312)
+S N
+Gini = 1−(0,41182+0,58822) Gini =0,36 Gini =0,4994
+S N
+Gini = 0,4844
+Gini = [(300/1190) x 0,36] + [(890/1190) x 0,4994] / 2
+Gini = 0,4643
+Aprendizado de Máquina - Supervisionado
+Gini Maior = Mais misturadas as amostras
+Decision Tree
+Gini Menor = Menos misturadas as amostras
+A melhoria foi de:
+Gini 0,4844
+Gini 0,4643
+1.190 pacientes
+0,4844 - 0,4643 = 0,0201 age <= 50
+100%
+m M
+c o n ç a D s e m SI N Ã O
+o
+e o
+e
+D n
+ç
+a
+300 paciente 890 pacientes
+490 700
+240 sem doença (80%) 460 sem doença (52%)
+41,18% 58,82%
+60 com doença (20%) 430 com doença (48%)
+O algoritmo Decision Tree repete a
+operação para age <= 40, 45, 50, 55,
+60, …
+Aprendizado de Máquina - Supervisionado
+➔ O algoritmo Decision Tree repete esta operação para:
+Decision Tree
+◆ age → Range (1,120)
+◆ oldpeak → Range (0.2, 5.0) isto se repetirá
+◆ cholesterol → Range (100, 500) milhares de vezes
+◆ etc.
+➔ Após as repetições teremos algo como:
+Pergunta Gini após divisão
+age <= 45 0,472
+age <= 50 0,464
+age <= 55 0,451
+oldpeak <= 0,8 0,430
+oldpeak <= 1,2 0,390
+oldpeak <= 2,0 0,421
+max_hr <= 130 0,445
+Aprendizado de Máquina - Supervisionado
+➔ O algoritmo Decision Tree repete esta operação para:
+Decision Tree
+◆ age → Range (1,120)
+◆ oldpeak → Range (0.2, 5.0)
+◆ cholesterol → Range (100, 500)
+◆ etc.
+➔ Após as repetições teremos algo como:
+Pergunta Gini após divisão
+A pergunta/característica/valor que melhor
+age <= 45 0,472
+separa as classes é:
+age <= 50 0,464
+- oldpeak <= 1,2
+age <= 55 0,451
+oldpeak <= 0,8 0,430
+Portanto esta será a questão da raiz de nossa
+oldpeak <= 1,2 0,390
+Decision Tree
+oldpeak <= 2,0 0,421
+max_hr <= 130 0,445
+A cada nível que avança na Decision Tree a
+operação se repete
+Aprendizado de Máquina - Supervisionado
+➔ O algoritmo Decision Tree possui as seguintes métricas para
+Decision Tree
+separação das classes:
+◆ Coeficiente de Gini
+● mede o quanto as classes estão misturadas em um grupo, e a árvore
+procura a divisão que mais reduz essa mistura
+◆ Critério de Entropia
+● mede o grau de desordem ou incerteza das classes em um grupo, e a
+árvore procura a divisão que mais reduz essa desordem
+◆ Log Loss
+● mede o quanto as probabilidades previstas estão próximas das classes
+reais, penalizando fortemente previsões probabilísticas muito erradas
+Aprendizado de Máquina - Supervisionado
+➔ Avaliando a classificação do Decision Tree na prática
+Decision Tree
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/supervisionado_02A.py
+Caminho e nome do arquivo (Precisa de Hardware com mais recursos para executar)
+/Users/ronaldomartinsdacosta/am-env/python_scripts/supervisionado_02B.py
+Aprendizado de Máquina - Supervisionado
+➔ Avaliando a classificação do Decision Tree na prática
+Decision Tree
+Antes de treinar um algoritmo de
+classificação, precisamos conhecer
+a distribuição da variável alvo, pois
+isso nos permite saber se as
+classes estão equilibradas,
+identificar possíveis problemas de
+desbalanceamento e interpretar
+corretamente as métricas de
+desempenho do modelo
+Aprendizado de Máquina - Supervisionado
+➔ Avaliando a classificação do Decision Tree na prática
+Decision Tree
+Quando existe uma correlação
+positiva de duas características,
+significa que existe uma tendência
+de, quando uma aumenta, a outra
+também aumentar
+Aprendizado de Máquina - Supervisionado
+➔ Avaliando a classificação do Decision Tree na prática
+Decision Tree
+Exploratório
+Apenas para entender a
+distribuição das amostra
+segundo duas
+características
+Aprendizado de Máquina - Supervisionado
+➔ Avaliando a classificação do Decision Tree na prática
+Decision Tree
+Exploratório
+Apenas para entender a
+distribuição das amostra
+segundo duas
+características
+Aprendizado de Máquina - Supervisionado
+➔ Avaliando a classificação do Decision Tree na prática
+Decision Tree
+Acurácia à medida de
+aumentam os níveis da
+Decision Tree
+Aprendizado de Máquina - Supervisionado
+➔ Avaliando a classificação do Decision Tree na prática
+Decision Tree
+Qual dos 3 critérios de separação
+das amostras divide melhor
+gini: 89.39%
+entropy: 88.27%
+log_loss: 88.27%
+Aprendizado de Máquina - Supervisionado
+➔ Avaliando a classificação do Decision Tree na prática
+Decision Tree
+Aprendizado de Máquina - Supervisionado
+➔ Avaliando a classificação do Decision Tree na prática
+Decision Tree
+Aprendizado de Máquina - Supervisionado
+➔ Random Forest → Talvez um dos mais utilizados
+Random Forest
+Aprendizado de Máquina - Supervisionado
+Random Forest
+➔ Random Forest
+◆ Imagine a possibilidade de criarmos várias Decision Tree para um único problema de
+classificação o Public Health Dataset por exemplo
+◆ Enquanto o Decision Tree trabalha com 1 (uma) árvore binária o Random Forest pode
+trabalhar com uma centena de Decision Tree
+◆ Então poderíamos ter 100 árvores classificando os dados dos pacientes. Imagine que
+conforme os dados de entrada 72 árvores apontaram que é um paciente sem a doença
+enquanto 28 árvores apontação que o paciente está com a doença
+Aprendizado de Máquina - Supervisionado
+1
+1 Random Forest
+2
+3
+… 2
+3
+…
+Com a Doença
+Sem a Doença
+28
+Supondo que a entrada nesta rede de
+72 Árvores chegou a esta classificação
+Inferência: Sem a Doença
+Aprendizado de Máquina - Supervisionado
+Random Forest
+➔ Se todas são Decision Trees, por que elas dariam respostas diferentes?
+◆ Porque a Random Forest não constrói 100 árvores exatamente iguais
+● Aleatoriedade de amostras
+○ Diferentes amostras para treinar cada árvore
+● Aleatoriedade de características
+○ Subconjunto diferente de características para cada árvore
+➔ Random Forest é um conjunto de várias Decision Trees independentes e
+diversificadas
+Aprendizado de Máquina - Supervisionado
+➔ Random Forest
+Random Forest
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/supervisionado_03.py
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ O SVM procura uma fronteira de decisão que separe as classes deixando a maior margem
+possível entre elas
+Pessoas sem a Doença
+Pessoas com a Doença
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ O primeiro passo é encontrar o "limites" entre as classes, ou seja, os pontos mais próximos
+que sejam linearmente separáveis
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ O primeiro passo é encontrar o "limites" entre as classes, ou seja, os pontos mais próximos
+que sejam linearmente separáveis
+Estes pontos são chamados
+de vetores de suporte
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ Em dataset maiores e com os dados mais "misturados" é possível encontrar muitas amostras
+como estas em destaque
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ Tendo encontrado os vetores de suporte, é possível traçar uma reta entre eles
+Tendo as retas, é possível
+traçar sua(s) perpendicular(es)
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ Tendo encontrado os vetores de suporte, é possível traçar uma reta entre eles
+Tendo as retas, é possível
+traçar sua(s) perpendicular(es)
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ Também é possível traçar suas "margens"
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ Também é possível traçar suas "margens"
+Qual reta oferece a separação
+entre as classes com maior
+distância entre as margens ?
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ Esta é a linha que melhor separa nosso exemplo
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ Existem diferentes possibilidade de separação de classes no algoritmo SVM, são os
+chamados Kernel (Linear, RBF, Polynomial e Sigmoid)
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+◆ A forma mais fácil de entender kernel é pensar que ele é uma maneira de enxergar os dados
+de outro ângulo
+À esquerda, uma reta
+não consegue separar
+as classes. O kernel
+transforma os dados
+para que, à direita, uma
+reta consiga separar
+◆ Kernel = uma transformação matemática que facilita a separação das classes
+Aprendizado de Máquina - Supervisionado
+➔ SVM - Kernel Linear
+SVM
+◆ Ele não transforma os dados, desenha apenas uma reta (ou plano, em dimensões maiores)
+◆ Use quando: os dados já são naturalmente separados
+● Exemplo: altura × peso para distinguir crianças e adultos
+Aprendizado de Máquina - Supervisionado
+➔ SVM - Kernel Polynomial
+SVM
+◆ Em vez de uma reta, ele pode criar uma parábola, cúbica etc.
+◆ Use quando: existe uma relação curvada entre as classes
+Aprendizado de Máquina - Supervisionado
+➔ SVM - Kernel RBF
+SVM
+◆ Pense nele como desenhando uma bolha ao redor de grupos de pontos
+◆ Use quando: os dados têm formatos irregulares
+Aprendizado de Máquina - Supervisionado
+➔ SVM - Kernel Sigmoid
+SVM
+◆ Ele produz uma separação parecida com uma curva em S
+◆ Ele foi inspirado nas redes neurais antigas
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+Kernel Nome Ideia principal Uso típico
+Dados aproximadamente separáveis
+Linear Linear Fronteira reta/plana
+linearmente
+Polynomial Polinomial Cria fronteiras curvas usando polinômios Relações não lineares
+Radial Basis
+RBF Mede a influência dos pontos pela distância Muito usado em dados não lineares
+Function
+Usa uma função semelhante à de redes
+Sigmoid Sigmoide Menos comum
+neurais
+Aprendizado de Máquina - Supervisionado
+➔ Maquina de Suporte de Vetores - Support Vector Machine
+SVM
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/supervisionado_04.py
+Aprendizado de Máquina - Supervisionado
+➔ SVM - Gamma e C
+SVM
+Gamma → imagine que cada ponto tenha
+uma espécie de "campo de influência"
+Quanto um ponto contribui para
+determinar a semelhança entre os dados
+O SVM vai "pensar" que os elementos
+são da mesma classe
+Aprendizado de Máquina - Supervisionado
+➔ SVM - Gamma e C
+SVM
+Gamma Pequeno → influência maior, vai
+"atingir" pontos mais distantes
+Gamma Maior → influência menor, vai
+"atingir" pontos mais próximos apenas
+Aprendizado de Máquina - Supervisionado
+➔ Métodos Ensemble
+ENSEMBLE
+◆ Ensemble significa combinar vários modelos de aprendizado de máquina para
+tomar uma decisão em conjunto
+◆ Por que usar vários modelos?
+● Porque cada modelo pode cometer erros diferentes
+Aprendizado de Máquina - Supervisionado
+➔ Métodos Ensemble - Bagging
+ENSEMBLE
+◆ Os modelos trabalham independentemente
+◆ Exemplo: Random Forest
+Aprendizado de Máquina - Supervisionado
+➔ Métodos Ensemble - Boosting
+ENSEMBLE
+◆ Os modelos são construídos um depois do outro
+◆ O próximo modelo tenta melhorar os erros cometidos anteriormente.
+Aprendizado de Máquina - Supervisionado
+➔ Métodos Ensemble - Boosting
+ENSEMBLE
+◆ No XGBoost, os modelos combinados são árvores de decisão, mais precisamente
+árvores geralmente pequenas e regularizadas
+◆ Tecnicamente, o XGBoost não passa simplesmente os erros de uma árvore para
+outra; ele utiliza o gradiente e a hessiana da função de perda para determinar
+como a próxima árvore deve melhorar o modelo
+◆ O gradiente diz para a próxima árvore "o que precisa ser corrigido". A Hessiana
+diz "o quanto essa correção deve ser ajustada considerando a forma da função de
+erro"
+Aprendizado de Máquina - Supervisionado
+➔ Métodos Ensemble - Boosting
+ENSEMBLE
+◆ No XGBoost, os modelos combinados são árvores de decisão, mais precisamente
+árvores geralmente pequenas e regularizadas
+◆ Tecnicamente, o XGBoost não passa simplesmente os erros de uma árvore para
+outra; ele utiliza o gradiente e a hessiana da função de perda para determinar
+como a próxima árvore deve melhorar o modelo
+◆ O gradiente diz para a próxima árvore "o que precisa ser corrigido". A Hessiana
+diz "o quanto essa correção deve ser ajustada considerando a forma da função de
+erro"
+Aprendizado de Máquina - Supervisionado
+➔ Calculando o Gradiente e Hessiana
+ENSEMBLE
+A primeira Árvore ficaria assim:
+Target Probabilidade inicial Gradiente Hessiana
+Paciente
+( y ) do modelo p g = p - y h = p ( 1 - p )
+age > 45
+A 0 0,5 0,5 0,25
+B 0 0,5 0,5 0,25
+C 1 0,5 -0,5 0,25 w = - (G / H) N ã o S im w = - (G / H)
+w = - (1 / 0.5)
+w = - (-1 / 0.5)
+D 1 0,5 -0,5 0,25
+w = -2
+w = +2
+... ... ... ... ...
+Pacientes Pacientes
+A e B C e D
+-2 +2
+Menor ou igual a 45 anos
+Maior que 45 anos
+A soma da Hessiana foi 0,25 + 0,25 = 0,5 para cada "ramo" da árvore
+Aprendizado de Máquina - Supervisionado
+➔ Calculando o Gradiente e Hessiana
+ENSEMBLE
+Target Probabilidade inicial Gradiente Hessiana
+Paciente w z
+( y ) do modelo p g = p - y h = p ( 1 - p )
+A 0 0,5 0,5 0,25 -2 0
+Menor ou igual a 45 anos
+B 0 0,5 0,5 0,25 -2 0
+C 1 0,5 -0,5 0,25 2 0
+Maior que 45 anos
+D 1 0,5 -0,5 0,25 2 0
+... ... ... ... ... ... ...
+Estado Inicial do Modelo
+Paciente com 40 anos: Paciente com 49 anos:
+Contribuição da Árvore Anterior
+Z = Z + w Z = Z + w
+novo anterior anterior novo anterior anterior
+Z = 0+(-2) Z = 0+2
+novo novo
+Z = -2 Z = 2
+novo novo
+Função Logistica: Função Logistica:
+p = 1 / ( 1 + e-z ) p = 1 / ( 1 + e-z )
+p = 1 / ( 1 + e2 ) p = 1 / ( 1 + e-2 )
+p = 0,119 p = 0,881
+Aprendizado de Máquina - Supervisionado
+➔ Calculando o Gradiente e Hessiana
+ENSEMBLE
+Target Probabilidade inicial Gradiente Hessiana
+Paciente w
+( y ) do modelo p g = p - y h = p ( 1 - p )
+A 0 0,119 0,119 0,1048 -1,1350
+Menor ou igual a 45 anos
+B 0 0,119 0,119 0,1048 -1,1350
+C 1 0,881 -0,119 0,1048 1,1350
+Maior que 45 anos
+D 1 0,881 -0,119 0,1048 1,1350
+... ... ... ... ... ...
+A soma da Hessiana foi 0,1048 + 0,1048 = 0,2096 para cada "ramo" da árvore
+Aprendizado de Máquina - Supervisionado
+Target
+Paciente w ENSEMBLE
+( y )
+A (140) 0 -1,1350 Modelo
+XGBoost
+B (130) 0 -1,1350
+C (160) 1 1,1350
+D (150) 1 1,1350
+... ... ... age > 45 resting
+bp > 145
+N ã o S im N ã o S im
+z = 0 ± 2 ± 1,135
+z = ± 3,135
+Pacientes Pacientes Pacientes Pacientes
+A e B C e D A e B C e D
+-2 +2 -1,135 +1,135
+Soma das
+Contribuições
+Aprendizado de Máquina - Supervisionado
+➔ Gradiente (G)
+ENSEMBLE
+◆ A Inclinação e a Direção do Erro
+● O que aponta: Indica a direção e a magnitude da primeira derivada da
+função de perda (erro) em relação à previsão atual
+● Na prática: É uma medida direta do erro de previsão
+➔ Hessiana (H)
+◆ A Curvatura e a Certeza do Modelo
+● O que aponta: Indica a curvatura (segunda derivada) da função de perda.
+Em termos simples, aponta o quão rápido o gradiente está mudando ou
+quanta informação/certeza aquele dado carrega
+● Na prática: Funciona como uma medida de confiança/sensibilidade
+● Hessiana
+○ Alta (incerteza) nas previsões
+○ Baixa (certeza) nas previsões
+Aprendizado de Máquina - Supervisionado
+➔ Decision Tree
+ENSEMBLE
+◆ utilizam coeficiente de Gini, Entropia ou Log Loss para definir o ponto de corte
+para uma nova sub-árvore
+➔ XGBoost
+◆ calcula o Ganho de Qualidade (Gain) usando os valores de G e H da
+esquerda, da direita e do nó pai
+Aprendizado de Máquina - Supervisionado
+➔ Métodos Ensemble - Boosting
+ENSEMBLE
+pip install xgboost
+brew install libomp
+python -c "from xgboost import XGBClassifier; print('XGBoost funcionando corretamente')"
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/supervisionado_05.py
+Aprendizado de Máquina - Supervisionado
+➔ KNN, SVM, Árvores de Decisão, Random Forest, XGBoost vistos e ainda
+outros são algoritmos discriminativos
+◆ aprendem a fronteira de separação diretamente dos dados
+➔
+LDA, QDA e outros são algoritmos gerativos
+◆ modelam a distribuição de probabilidade de cada classe usando estatística
+bayesiana
+Aprendizado de Máquina - Supervisionado
+➔
+Análise Discriminante Linear (LDA)
+◆ Ronald Fisher propôs o método original (discriminante linear de Fisher) em
+1936 no artigo "The Use of Multiple Measurements in Taxonomic Problems",
+usando medidas de flores para separar espécies
+◆ Em 1948, o estatístico C. R. Rao expandiu a teoria matemática para acomodar
+mais de duas classes simultaneamente, formando a base da LDA moderna
+Aprendizado de Máquina - Supervisionado
+➔ Public Health Dataset (acessado em 10/08/2026)
+◆ https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset
+chest pain resting choleste fasting blood resting max heart exercise ST
+age sex oldpeak target
+type bp s rol sugar ecg rate angina slope
+40 1 2 140 289 0 0 172 0 0.0 1 0
+49 0 3 160 180 0 0 156 0 1.0 2 1
+37 1 2 130 283 0 1 98 0 0.0 1 0
+48 0 4 138 214 0 0 108 1 1.5 2 1
+54 1 3 150 195 0 0 122 0 0.0 1 0
+39 1 3 120 339 0 0 170 0 0.0 1 0
+58 1 2 136 164 0 1 99 1 2.0 2 1
+45 0 2 130 237 0 0 170 0 0.0 1 0
+54 1 2 110 208 0 0 142 0 0.0 1 0
+37 1 4 140 207 0 0 130 1 1.5 2 1
+O LDA quer entender o que separa os pacientes Saudáveis (target = 0) dos pacientes Com Doença Cardíaca (target = 1)
+Aprendizado de Máquina - Supervisionado
+Média no Grupo Saudável Média no Grupo Doente
+Variável / Exame Diferença Percebida pelo LDA
+(target = 0) (target = 1)
+age (Idade) 44,8 anos 48,0 anos Pequena
+cholesterol (Colesterol) 258,7 mg/dL 190,2 mg/dL Moderada
+max heart rate (Freq. Cardíaca Máx.) 145,7 bpm 123,2 bpm Moderada
+oldpeak (Infradesnivelamento ST) 0 1,5 Enorme!
+exercise angina (Angina por Exercício) 0,00 (0%) 0,75 (75%) Enorme!
+ST slope (Inclinação ST) 1 2 Enorme!
+Aprendizado de Máquina - Supervisionado
+➔ Descobrindo as Variáveis Discriminantes
+◆ Variáveis com pouca importância
+● A Idade (age) é muito próxima nos dois grupos (~45 vs ~48 anos). O LDA atribui um
+peso quase nulo a ela
+◆ Variáveis com Alta Importância (Fortes Discriminantes)
+● oldpeak: No grupo saudável a média é exatamente 0,0. No grupo doente, salta para
+1,5
+● exercise angina: NENHUM saudável tem angina induzida por exercício (0%),
+enquanto 75% dos doentes apresentam esse sintoma (valor 1)
+● ST slope: É sempre 1 no grupo saudável e 2 no grupo doente
+Aprendizado de Máquina - Supervisionado
+➔ O LDA multiplica cada variável por um peso (w) proporcional à sua
+capacidade de separar os grupos:
+Escore LDA = (w x oldpeak) + (w x exercice_angina) + (w x ST_slope) - (w x max_heart_rate) + … + Constante
+1 2 3 4
+◆ oldpeak, exercise_angina e ST_slope ganham pesos positivos elevados
+● a presença deles empurra o Escore para cima
+◆ max_heart_rate ganha um peso negativo
+● frequência cardíaca máxima alta empurra o Escore para baixo, indicando saúde
+Aprendizado de Máquina - Supervisionado
+➔ Método Análise Discriminante Linear (LDA)
+pip install seaborn
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/supervisionado_06.py
+Aprendizado de Máquina - Supervisionado
+➔ Método Análise Discriminante Linear (LDA)
+Saudáveis Doentes
+Dúbios
+Aprendizado de Máquina - Supervisionado
+➔ Método Análise Discriminante Linear (LDA)
+Aprendizado de Máquina - Supervisionado
+➔ Avaliadores de Características
+◆ Ao aplicarmos técnicas de Aprendizado de Máquinas, é importante conhecer as
+características a serem processadas
+◆ Existem diversas opções de algoritmos para tal
+➔ Permutation Feature Importance
+◆ É considerada a melhor técnica universal para ranquear variáveis sem se importar
+com a escolha do modelo final
+Aprendizado de Máquina - Supervisionado
+➔ Permutation Feature Importance
+◆ Treina qualquer modelo e, no conjunto de validação/teste, o algoritmo embaralha
+aleatoriamente uma coluna por vez. A queda na performance (ex: queda na
+Acurácia ou AUC) indica a importância real daquela variável
+◆ Por que é considerada uma das melhores opções:
+● Funciona para qualquer modelo (LDA, SVM, KNN, Random Forest,
+XGBoost)
+● Não favorece colunas contínuas com muitas categorias únicas (um defeito
+clássico do Feature Importance nativo de árvores)
+● Captura interações complexas e não-lineares que seletores estatísticos
+simples não enxergam
+Aprendizado de Máquina - Supervisionado
+➔ Permutation Feature Importance
+Caminho e nome do arquivo
+/Users/ronaldomartinsdacosta/am-env/python_scripts/supervisionado_07.py
+Aprendizado de Máquina - Supervisionado
+➔ Permutation Feature Importance
+Aprendizado de Máquina - Supervisionado
+➔ Permutation Feature Importance
+Aprendizado de Máquina - Supervisionado
+➔ Permutation Feature Importance
+Critério Gráfico 1 (Informação Mútua) Gráfico 2 (Permutation Importance)
+✅ Sim (Avalia a performance do
+Depende de Modelo? ❌ Não (Avalia os dados puros)
+RandomForest)
+A variável isolada contém muita informação Embaralhar essa variável destrói a acurácia do
+O que indica um valor alto?
+sobre a classe. modelo.
+Captura interações? ❌ Não (Olha atributo por atributo) ✅ Sim (O modelo usa variáveis combinadas)
+Pré-filtragem rápida antes de qualquer Decisão final sobre quais variáveis manter no
+Uso Principal
+modelagem. pipeline.
+Aprendizado de Máquina - Supervisionado
+➔ Existem outros Avaliadores de Características
+Método Tipo Vantagens Quando Usar
+Mede a perda real de acurácia de qualquer Melhor escolha geral após treinar qualquer
+Permutation Importance Model-Agnostic
+modelo ao remover a informação. modelo inicial.
+Mede a contribuição exata e a direção de cada Para explicar o modelo e selecionar atributos
+SHAP Values Model-Agnostic
+variável para cada amostra. em datasets complexos.
+Não precisa de nenhum modelo de Machine Pré-filtragem rápida antes de rodar qualquer
+Mutual Information Filter (Estatístico)
+Learning, calcula direto dos dados. pipeline.
+Universidade Federal de Goiás
+Instituto de Informática
+Prof. Dr. Ronaldo Martins da Costa

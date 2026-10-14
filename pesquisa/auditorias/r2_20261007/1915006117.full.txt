@@ -1,0 +1,578 @@
+PÁGINA PDF 1
+Edinburgh Research Explorer
+Measuring the predictability of life outcomes with a scientific
+mass collaboration
+Citation for published version:
+Salganik, MJ, Lundberg, I, Kindel, AT, Ahearn, CE, Al-ghoneim, K, Almaatouq, A, Altschul, DM, Brand, JE,
+Carnegie, NB, Compton, RJ, Datta, D, Davidson, T, Filippova, A, Gilroy, C, Goode, BJ, Jahani, E, Kashyap,
+R, Kirchner, A, Mckay, S, Morgan, AC, Pentland, A, Polimis, K, Raes, L, Rigobon, DE, Roberts, CV,
+Stanescu, DM, Suhara, Y, Usmani, A, Wang, EH, Adem, M, Alhajri, A, Alshebli, B, Amin, R, Amos, RB,
+Argyle, LP, Baer-bositis, L, Büchi, M, Chung, B, Eggert, W, Faletto, G, Fan, Z, Freese, J, Gadgil, T, Gagné,
+J, Gao, Y, Halpern-manners, A, Hashim, SP, Hausen, S, He, G, Higuera, K, Hogan, B, Horwitz, IM,
+Hummel, LM, Jain, N, Jin, K, Jurgens, D, Kaminski, P, Karapetyan, A, Kim, EH, Leizman, B, Liu, N, Möser,
+M, Mack, AE, Mahajan, M, Mandell, N, Marahrens, H, Mercado-garcia, D, Mocz, V, Mueller-gastell, K,
+Musse, A, Niu, Q, Nowak, W, Omidvar, H, Or, A, Ouyang, K, Pinto, KM, Porter, E, Porter, KE, Qian, C,
+Rauf, T, Sargsyan, A, Schaffner, T, Schnabel, L, Schonfeld, B, Sender, B, Tang, JD, Tsurkov, E, Van Loon,
+A, Varol, O, Wang, X, Wang, Z, Wang, J, Wang, F, Weissman, S, Whitaker, K, Wolters, MK, Woon, WL,
+Wu, J, Wu, C, Yang, K, Yin, J, Zhao, B, Zhu, C, Brooks-gunn, J, Engelhardt, BE, Hardt, M, Knox, D, Levy,
+K, Narayanan, A, Stewart, BM, Watts, DJ & Mclanahan, S 2020, 'Measuring the predictability of life
+outcomes with a scientific mass collaboration', Proceedings of the National Academy of Sciences (PNAS),
+vol. 117, no. 15, pp. 8398-8403. https://doi.org/10.1073/pnas.1915006117
+Digital Object Identifier (DOI):
+10.1073/pnas.1915006117
+Link:
+Link to publication record in Edinburgh Research Explorer
+Document Version:
+Publisher's PDF, also known as Version of record
+Published In:
+Proceedings of the National Academy of Sciences (PNAS)
+General rights
+Copyright for the publications made accessible via the Edinburgh Research Explorer is retained by the author(s)
+and / or other copyright owners and it is a condition of accessing these publications that users recognise and
+abide by the legal requirements associated with these rights.
+Take down policy
+The University of Edinburgh has made every reasonable effort to ensure that Edinburgh Research Explorer
+content complies with UK legislation. If you believe that the public display of this file breaches copyright please
+contact openaccess@ed.ac.uk providing details, and we will remove access to the work immediately and
+investigate your claim.
+Download date: 07. out.. 2026
+
+PÁGINA PDF 2
+SECNEICSLAICOS
+Measuring the predictability of life outcomes with
+a scientific mass collaboration
+MatthewJ.Salganika,1,IanLundberga ,AlexanderT.Kindela,CaitlinE.Ahearnb,KhaledAl-Ghoneimc,
+AbdullahAlmaatouqd,e ,DrewM.Altschulf ,JennieE.Brandb,g,NicoleBohmeCarnegieh ,RyanJamesComptoni,
+DebanjanDattaj,ThomasDavidsonk,AnnaFilippoval,ConnorGilroym,BrianJ.Gooden,EamanJahanio,
+RidhiKashyapp,q,r ,AntjeKirchners,StephenMcKayt ,AllisonC.Morganu ,AlexPentlande,KivanPolimisv,
+LouisRaesw ,DanielE.Rigobonx,ClaudiaV.Robertsy,DianaM.Stanescuz,YoshihikoSuharae,AdanerUsmaniaa,
+ErikH.Wangz,MunaAdembb,AbdullaAlhajricc,BedoorAlSheblidd,RedwaneAminee,RyanB.Amosy,LisaP.Argyleff ,
+LiviaBaer-Bositisgg,MoritzBu¨chihh ,Bo-RyehnChungii,WilliamEggertjj,GregoryFalettokk,ZhilinFanll,
+JeremyFreesegg,TejomayGadgilmm,JoshGagne´gg,YueGaonn,AndrewHalpern-Mannersbb,SoniaP.Hashimy,
+SoniaHausengg,GuanhuaHeoo,KimberlyHigueragg,BernieHoganpp,IlanaM.Horwitzqq,LisaM.Hummelgg,
+NamanJainx,KunJinrr ,DavidJurgensss,PatrickKaminskibb,tt,AregKarapetyanuu,vv,E.H.Kimgg,BenLeizmany,
+NaijiaLiuz,MalteMo¨sery,AndrewE.Mackz,MayankMahajany,NoahMandellww,HelgeMarahrensbb,
+DianaMercado-Garciaqq,ViolaMoczxx,KatariinaMueller-Gastellgg,AhmedMusseyy,QiankunNiuee,WilliamNowakzz,
+HamidrezaOmidvaraaa,AndrewOry,KarenOuyangy,KatyM.Pintobbb,EthanPorterccc,KristinE.Porterddd,
+CrystalQiany,TamkinatRaufgg,AnahitSargsyaneee,ThomasSchaffnery,LandonSchnabelgg,BryanSchonfeldz,
+BenSenderfff,JonathanD.Tangy,EmmaTsurkovgg,AustinvanLoongg,OnurVarolggg,hhh ,XiafeiWangiii,ZhiWanghhh,jjj,
+JuliaWangy,FloraWangfff,SamanthaWeissmany,KirstieWhitakerkkk,lll,MariaK.Woltersmmm,WeiLeeWoonnnn,
+JamesWuooo,CatherineWuy,KengranYangaaa,JingwenYinll,BingyuZhaoppp,ChenyunZhull,JeanneBrooks-Gunnqqq,rrr,
+BarbaraE.Engelhardty,ii,MoritzHardtsss,DeanKnoxz,KarenLevyttt,ArvindNarayanany,BrandonM.Stewarta,
+DuncanJ.Wattsuuu,vvv,www ,andSaraMcLanahana,1
+ContributedbySaraMcLanahan,January24,2020(sentforreviewOctober1,2019;reviewedbySendhilMullainathanandBrianUzzi)
+Howpredictablearelifetrajectories?Weinvestigatedthisques- theexactsameoutcomesusingtheexactsamedata.Thesepre-
+tionwithascientificmasscollaborationusingthecommontask dictionsarethenevaluatedwiththeexactsameerrormetricthat
+method;160teamsbuiltpredictivemodelsforsixlifeoutcomes exclusively assesses their ability to predict held-out data: data
+usingdatafromtheFragileFamiliesandChildWellbeingStudy,a thatareheldbytheorganizerandnotavailabletoparticipants.
+high-qualitybirthcohortstudy.Despiteusingarichdatasetand Althoughthestructureofthepredictiontaskiscompletelystan-
+applyingmachine-learningmethodsoptimizedforprediction,the dardized,participantsarefreetouseanytechniquetogenerate
+best predictions were not very accurate and were only slightly predictions.
+better than those from a simple benchmark model. Within each The common task method produces credible estimates of
+outcome,predictionerrorwasstronglyassociatedwiththefam- predictability because of its design. If predictability is higher
+ily being predicted and weakly associated with the technique than expected, the results cannot be dismissed because of con-
+used to generate the prediction. Overall, these results suggest cernsaboutoverfitting(7)orresearcherdegreesoffreedom(8).
+practical limits to the predictability of life outcomes in some Alternatively,ifpredictabilityislowerthanexpected,theresults
+settings and illustrate the value of mass collaborations in the cannot be dismissed because of concerns about the limitations
+socialsciences.
+lifecourse|prediction|machinelearning|masscollaboration
+Authorcontributions:M.J.S.,I.L.,A.T.K.,J.B.-G.,B.E.E.,M.H.,K.L.,A.N.,B.M.S.,D.J.W.,and
+S.McLanahandesignedresearch;M.J.S.,I.L.,A.T.K.,C.E.A.,K.A.-G.,A.Almaatouq,D.M.A.,
+Socialscientistsstudyingthelifecoursehavedescribedsocial J.E.B.,N.B.C.,R.J.C.,D.D.,T.D.,A.F.,C.G.,B.J.G.,E.J.,R.K.,A.Kirchner,S.McKay,A.C.M.,
+patterns, theorized factors that shape outcomes, and esti- A.P.,K.P.,L.R.,D.E.R.,C.V.R.,D.M.S.,Y.S.,A.U.,E.H.W.,M.A.,A.Alhajri,B.A.,R.A.,R.B.A.,
+L.P.A.,L.B.-B.,M.B.,B.-R.C.,W.E.,G.F.,Z.F.,J.F.,T.G.,J.G.,Y.G.,A.H.-M.,S.P.H.,S.H.,G.H.,
+mated causal effects. Although this research has advanced sci-
+K.H.,B.H.,I.M.H.,L.M.H.,N.J.,K.J.,D.J.,P.K.,A.Karapetyan,E.H.K.,B.L.,N.L.,M.Mo¨ser,
+entific understanding and informed policy interventions, it is A.E.M.,M.Mahajan,N.M.,H.M.,D.M.-G.,V.M.,K.M.-G.,A.M.,Q.N.,W.N.,H.O.,A.O.,
+unclear how much it translates into an ability to predict indi- K.O.,K.M.P.,E.P.,K.E.P.,C.Q.,T.R.,A.S.,T.S.,L.S.,B.Schonfeld,B.Sender,J.D.T.,E.T.,A.v.L.,
+vidual life outcomes. Assessing predictability is important for O.V.,X.W.,Z.W.,J.Wang,F.W.,S.W.,K.W.,M.K.W.,W.L.W.,J.Wu,C.W.,K.Y.,J.Y.,B.Z.,
+andC.Z.analyzeddata;andM.J.S.,I.L.,A.T.K.,D.K.,andS.McLanahanwrotethepaper.y
+three reasons. First, accurate predictions can be used to target
+assistance to children and families at risk (1, 2). Second, pre- Reviewers:S.M.,UniversityofChicago;andB.U.,NorthwesternUniversity.y
+dictability of a life outcome from a person’s life trajectory can Competingintereststatement:B.E.E.isonthescientificadvisoryboardsofCelsiusTher-
+apeuticsandFreenome,iscurrentlyemployedbyGenomicsplcandFreenome,andison
+indicatesocialrigidity(3),andeffortstounderstanddifferences
+ayearleave-of-absencefromPrincetonUniversity.y
+inpredictabilityacrosssocialcontextscanstimulatescientificdis-
+ThisopenaccessarticleisdistributedunderCreativeCommonsAttribution-NonCommercial-
+coveryandimprovepolicy-making(4).Finally,effortstoimprove
+NoDerivativesLicense4.0(CCBY-NC-ND).y
+predictive performance can spark developments in theory and
+Data deposition: Predictions, code, and narrative explanations for valid submis-
+methods(5). sions to the Fragile Families Challenge and code to reproduce the results of this
+In order to measure the predictability of life outcomes for paperareavailablefromDataverseathttps://doi.org/10.7910/DVN/CXSECU.Dataused
+children, parents, and households, we created a scientific mass in the Fragile Families Challenge are currently available to approved researchers
+fromthePrincetonUniversityOfficeofPopulationResearchDataArchiveathttps://
+collaboration. Our mass collaboration—the Fragile Families
+opr.princeton.edu/archive/.y
+Challenge—used a research design common in machine learn-
+1Towhomcorrespondencemaybeaddressed.Email:mjs3@princeton.eduormclanaha@
+ingbutnotyetcommoninthesocialsciences:thecommontask
+princeton.edu.y
+method(6).Tocreateaprojectusingthecommontaskmethod,
+Thisarticlecontainssupportinginformationonlineathttps://www.pnas.org/lookup/suppl/
+anorganizerdesignsapredictiontaskandthenrecruitsalarge, doi:10.1073/pnas.1915006117/-/DCSupplemental.y
+diversegroupofresearcherswhocompletethetaskbypredicting
+www.pnas.org/cgi/doi/10.1073/pnas.1915006117 PNASLatestArticles | 1of6
+0202
+,7
+lirpA
+no
+tseug
+yb
+dedaolnwoD
+
+PÁGINA PDF 3
+Significance
+Hundreds of researchers attempted to predict six life out-
+comes, such as a child’s grade point average and whether a
+family would be evicted from their home. These researchers
+usedmachine-learningmethodsoptimizedforprediction,and
+theydrewonavastdatasetthatwaspainstakinglycollected
+bysocialscientistsover15y.However,noonemadeveryaccu-
+ratepredictions.Forpolicymakersconsideringusingpredictive
+modelsinsettingssuchascriminaljusticeandchild-protective
+services, these results raise a number of concerns. Addition-
+ally,researchersmustreconciletheideathattheyunderstand
+lifetrajectorieswiththefactthatnoneofthepredictionswere
+veryaccurate.
+of any particular researcher or method. An additional bene-
+fit of the common task method is that the standardization of
+the prediction task facilitates comparisons between different
+methodologicalandtheoreticalapproaches.
+Our mass collaboration builds on a long-running, intensive Fig.1. DatacollectionmodulesintheFragileFamiliesstudy.Eachmodule
+ismadeupof∼10sections,whereeachsectionincludesquestionsabout
+datacollection:theFragileFamiliesandChildWellbeingStudy
+aspecifictopic(e.g.,marriageattitudes,familycharacteristics,demographic
+(hereaftertheFragileFamiliesstudy).Incontrasttogovernment
+characteristics).Informationaboutthetopicsincludedineachmoduleispre-
+administrativerecordsanddigitaltracedatathatareoftenused
+sentedinSIAppendix,sectionS1.1.DuringtheFragileFamiliesChallenge,
+forprediction,thesedatawerecreatedtoenablesocialscience datafromwaves1to5(birthtoage9y)wereusedtopredictoutcomesin
+research.Theongoingstudycollectsrichlongitudinaldataabout wave6(age15y).
+thousands of families, each of whom gave birth to a child in a
+largeUScityaroundtheyear2000(9).Thestudywasdesigned
+tounderstandfamiliesformedbyunmarriedparentsandthelives makes it possible to release some cases for building predic-
+ofchildrenbornintothesefamilies. tivemodelswhilewithholdingothersforevaluatingtheresulting
+The Fragile Families data—which have been used in more predictions.
+than 750 published journal articles (10)—were collected in six Wave6(age15y)oftheFragileFamiliesstudyincludes1,617
+waves:childbirthandages1,3,5,9,and15.Eachwaveincludes variables.Fromthesevariables,weselectedsixoutcomestobe
+anumberofdifferentdatacollectionmodules.Forexample,the thefocusoftheFragileFamiliesChallenge:1)childgradepoint
+firstwave(birth)includessurveyinterviewswiththemotherand average(GPA),2)childgrit,3)householdeviction,4)household
+father.Overtime,thescopeofdatacollectionincreased,andthe material hardship, 5) primary caregiver layoff, and 6) primary
+fifthwave(age9y)includessurveyinterviewswiththemother, caregiver participation in job training. We selected these out-
+the father, the child’s primary caregiver (if not the mother or comesformanyreasons,threeofwhichweretoincludedifferent
+father),thechild’steacher,andthechild(Fig.1). typesofvariables(e.g.,binaryandcontinuous),toincludeavari-
+Each data collection module is made up of ∼10 sections, etyofsubstantivetopics(e.g.,academics,housing,employment),
+where each section includes questions about a specific topic. andtoincludeavarietyofunitsofanalysis(e.g.,child,household,
+For example, the interview with the mother in wave 1 (birth) primary caregiver). All outcomes are based on self-reported
+has sections about the following topics: child health and devel- data.SIAppendix,sectionS1.1describeshoweachoutcomewas
+opment,father–motherrelationships,fatherhood,marriageatti- measuredintheFragileFamiliesstudy.
+tudes, relationship with extended kin, environmental factors In order to predict these outcomes, participants had access
+and government programs, health and health behavior, demo- to a background dataset, a version of the wave 1 to 5 (birth to
+graphiccharacteristics,educationandemployment,andincome. age 9 y) data that we compiled for the Fragile Families Chal-
+The interview with the child in wave 5 (age 9 y) has questions lenge.Forprivacyreasons,thebackgrounddataexcludedgenetic
+about the following topics: parental supervision and relation- andgeographicinformation(11).Thebackgrounddataincluded
+ship, parental discipline, sibling relationships, routines, school, 4,242familiesand12,942variablesabouteachfamily.Thelarge
+early delinquency, task completion and behavior, and health number of predictor variables is the result of the intensive and
+andsafety. long-termdatacollectioninvolvedintheFragileFamiliesstudy.
+Inadditiontothesurveys,interviewerstraveledtothechild’s In addition to the background data, participants in the Fragile
+home at waves 3, 4, and 5 (ages 3, 5, and 9 y) to conduct FamiliesChallengealsohadaccesstotrainingdatathatincluded
+anin-homeassessmentthatincludedpsychometrictesting(e.g., thesixoutcomesforhalfofthefamilies(Fig.2).Similartoother
+Peabody Picture Vocabulary Test, Woodcock–Johnson Pas- projectsusingthecommontaskmethod,thetaskwastousedata
+sageComprehensionTest,etc.),biometricmeasurements(e.g., collectedinwaves1to5(birthtoage9y)andsomedatafrom
+height,weight,etc.),andobservationsoftheneighborhoodand wave 6 (age 15 y) to build a model that could then be used to
+home. More information about the Fragile Families data are predict the wave 6 (age 15 y) outcomes for other families. The
+includedinSIAppendix,sectionS1.1. predictiontaskwasnottoforecastoutcomesinwave6(age15y)
+When we began designing the Fragile Families Challenge, usingonlydatacollectedinwaves1to5(birthtoage9y),which
+data from waves 1 to 5 (birth to age 9 y) were already avail- wouldbemoredifficult.
+able to researchers. However, data from wave 6 (age 15 y) Thehalfoftheoutcomedatathatwasnotavailablefortrain-
+werenotyetavailabletoresearchersoutsideoftheFragileFam- ing was used for evaluation. These data were split into two
+ilies team. This moment where data have been collected but sets:leaderboardandholdout.DuringtheFragileFamiliesChal-
+are not yet available to outside researchers—a moment that lenge, participants could assess their predictive accuracy in the
+existsinalllongitudinalsurveys—createsanopportunitytoruna leaderboard set. However, predictive accuracy in the holdout
+masscollaborationusingthecommontaskmethod.Thissetting setwasunknowntoparticipants—andorganizers—untiltheend
+2of6 | www.pnas.org/cgi/doi/10.1073/pnas.1915006117 Salganiketal.
+0202
+,7
+lirpA
+no
+tseug
+yb
+dedaolnwoD
+
+PÁGINA PDF 4
+SECNEICSLAICOS
+submission was uploaded, participants could see their score on
+a leaderboard, which ranked the accuracy of all uploaded pre-
+dictionsintheleaderboarddata(14).Inordertotakepartinthe
+mass collaboration, all participants provided informed consent
+to the procedures of the Fragile Families Challenge, including
+agreeing to open-source their final submissions (SI Appendix,
+sectionS1.3).AllproceduresfortheFragileFamiliesChallenge
+wereapprovedbythePrincetonUniversityInstitutionalReview
+Board(no.8061).
+Asnotedabove,participantsintheFragileFamiliesChallenge
+attemptedtominimizethemeansquarederroroftheirpredic-
+tions on the holdout data. To aid interpretation and facilitate
+Fig.2. DatasetsintheFragileFamiliesChallenge.DuringtheFragileFam- comparisonacrossthesixoutcomes,wepresentresultsinterms
+ilies Challenge, participants used the background data (measured from of R2 , which rescales the mean squared error of a predic-
+child’sbirthtoage9y)andthetrainingdata(measuredatchildage15y) Holdout
+tionbythemeansquarederrorwhenpredictingthemeanofthe
+to predict the holdout data as accurately as possible. While the Fragile
+trainingdata(SIAppendix,sectionS1.2).
+Families Challenge was underway, participants could assess the accuracy
+of their predictions in the leaderboard data. At the end of the Frag- (cid:80) (y −yˆ)2
+i
+h
+le
+old
+Fa
+o
+m
+ut
+il
+d
+ie
+a
+s
+ta
+C
+.
+hallenge,weassessedtheaccuracyofthepredictionsinthe R
+H
+2
+oldout
+=1−(cid:80)
+i∈H
+i∈
+ol
+H
+do
+o
+u
+ld
+t
+o
+(
+u
+y
+t
+i −
+i
+y¯ Trai
+i
+ning )2
+. [1]
+R2 is bounded above by 1 and has no lower bound. It
+Holdout
+of the Fragile Families Challenge. All predictions were evalu- providesameasureofpredictiveperformancerelativetotworef-
+atedbasedonacommonerrormetric:meansquarederror(SI erencepoints.AsubmissionwithR2 =0isnomoreaccurate
+Holdout
+Appendix,sectionS1.2).SIAppendix,sectionS1.1includesmore thanpredictingthemeanofthetrainingdata,andasubmission
+information about the background, training, leaderboard, and withR2 =1isperfectlyaccurate.
+Holdout
+holdoutdata.
+We recruited participants to the Fragile Families Challenge Results
+throughavarietyofapproachesincludingcontactingcolleagues, OncetheFragileFamiliesChallengewascomplete,wescoredall
+working with faculty who wanted their students to participate, 160submissionsusingtheholdoutdata.Wediscoveredthateven
+and visiting universities, courses, and scientific conferences to the best predictions were not very accurate: R2 of about
+Holdout
+host workshops to help participants get started. Ultimately, we 0.2formaterialhardshipandGPAandabout0.05fortheother
+received 457 applications to participate from researchers in a fouroutcomes(Fig.3).Inotherwords,eventhoughtheFragile
+variety of fields and career stages (SI Appendix, section S1.3). Familiesdataincludedthousandsofvariablescollectedtohelp
+Participants often worked in teams. We ultimately received scientistsunderstandthelivesofthesefamilies,participantswere
+valid submissions from 160 teams. Many of these teams used notabletomakeaccuratepredictionsfortheholdoutcases.Fur-
+machine-learning methods that are not typically used in social ther, the best submissions, which often used complex machine-
+scienceresearchandthatexplicitlyseektomaximizepredictive learningmethodsandhadaccesstothousandsofpredictorvari-
+accuracy(12,13). ables,wereonlysomewhatbetterthantheresultsfromasimple
+WhiletheFragileFamiliesChallengewasunderway(March5, benchmark model that used linear regression (continuous out-
+2017toAugust1,2017),participantscoulduploadtheirsubmis- comes)orlogisticregression(binaryoutcomes)withfourpredic-
+sionstotheFragileFamiliesChallengewebsite.Eachsubmission torvariablesselectedbyadomainexpert:threevariablesabout
+included predictions, the code that generated those predic- themothermeasuredatthechild’sbirth(race/ethnicity,marital
+tions, and a narrative explanation of the approach. After the status,andeducationlevel)andameasureoftheoutcome—or
+1.00
+Benchmark Best submission
+1
+0.75
+0
+0 1 0 1
+Truth
+R2 0.50
+Holdout
+0.23
+0.19
+0.25
+Line 0.06 0.05 0.05
+indicates 0.03
+benchmark
+0.00
+Material GPA Grit Eviction Job Layoff
+hardship training
+Outcome at child age 15
+noitciderP
+Benchmark Best submission
+4
+1
+1 4 1 4
+Truth
+noitciderP
+Benchmark Best submission
+4
+1
+1 4 1 4
+Truth
+noitciderP
+Benchmark Best submission
+tnevE
+did
+tnevE
+derrucco
+rucco
+ton
+Benchmark Best submission
+0 1 0 1
+Density of predicted
+probability of event
+tnevE
+did
+tnevE
+derrucco
+rucco
+ton
+Benchmark Best submission
+0 1 0 1
+Density of predicted
+probability of event
+tnevE
+did
+tnevE
+derrucco
+rucco
+ton
+A Best submission for each outcome B C D
+Material hardship GPA Grit
+E F G
+Eviction Job training Layoff
+0 1 0 1
+Density of predicted
+probability of event
+Fig.3. Performanceintheholdoutdataofthebestsubmissionsandafourvariablebenchmarkmodel(SIAppendix,sectionS2.2).Ashowsthebest
+performance(bars)andabenchmarkmodel(lines).Errorbarsare95%confidenceintervals(SIAppendix,sectionS2.1).B–Dcomparethepredictionsand
+thetruth;perfectpredictionswouldliealongthediagonal.E–Gshowthepredictedprobabilitiesforcaseswheretheeventhappenedandwheretheevent
+didnothappen.InB–G,thedashedlineisthemeanofthetrainingdataforthatoutcome.
+Salganiketal. PNASLatestArticles | 3of6
+0202
+,7
+lirpA
+no
+tseug
+yb
+dedaolnwoD
+
+PÁGINA PDF 5
+Family
+maeT
+Squared error 0.0 0.1 0.2 0.3 0.4 0.5
+Family
+maeT
+Squared error
+0 1 2 3 4 5
+Family
+maeT
+Squared error
+0 1 2 3 4 5
+Family
+maeT
+Squared error
+0.00 0.25 0.50 0.75 1.00
+Family
+maeT
+Squared error
+0.00 0.25 0.50 0.75 1.00
+Family
+maeT
+A Material hardship
+B GPA
+C Grit
+D Eviction
+E Job training
+Squared error
+F Layoff 0.25 0.50 0.75
+Fig.4. Heatmapsofthesquaredpredictionerrorforeachobservationintheholdoutdata.Withineachheatmap,eachrowrepresentsateamthatmade
+aqualifyingsubmission(sortedbypredictiveaccuracy),andeachcolumnrepresentsafamily(sortedbypredictivedifficulty).Darkercolorsindicatehigher
+squarederror;scalesaredifferentacrosssubfigures;orderofrowsandcolumnsaredifferentacrosssubfigures.Thehardest-to-predictobservationstendto
+bethosethatareverydifferentfromthemeanofthetrainingdata,suchaschildrenwithunusuallyhighorlowGPAs(SIAppendix,sectionS3).Thispattern
+isparticularlyclearforthethreebinaryoutcomes—eviction,jobtraining,layoff—wheretheerrorsarelargeforfamilieswheretheeventoccurredandsmall
+forthefamilieswhereitdidnot.
+a closely related proxy—measured when the child was 9 y mates of the performance of the selected submission in new
+(Fig. 3) (SI Appendix, section S2.2). Finally, we note that our holdoutdata,butthisoptimisticbiasislikelysmallinoursetting
+procedure—usingtheholdoutdatatoselectthebestofthe160 (SIAppendix,sectionS2.4).
+submissions and then using the same holdout data to evaluate Beyond identifying the best submissions, we observed three
+that selected submission—will produce slightly optimistic esti- important patterns in the set of submissions. First, teams used
+4of6 | www.pnas.org/cgi/doi/10.1073/pnas.1915006117 Salganiketal.
+0202
+,7
+lirpA
+no
+tseug
+yb
+dedaolnwoD
+
+PÁGINA PDF 6
+SECNEICSLAICOS
+a variety of different data processing and statistical learning ficulttopredictevenwithhigh-qualitydata.Insightsforhowto
+techniques to generate predictions (SI Appendix, section S4). constructsuchtheoriesmaycomefromresearchontheweather
+Second,despitediversityintechniques,theresultingpredictions (17),thestockmarket(18),andotherphenomena(19–22)where
+were quite similar. For all outcomes, the distance between the unpredictabilityisanobjectofstudy.
+most divergent submissions was less than the distance between Policymakersusingpredictivemodelsinsettingssuchascrim-
+the best submission and the truth (SI Appendix, section S3). In inal justice (23) and child-protective services (24) should be
+other words, the submissions were much better at predicting concerned by these results. In addition to the many serious
+each other than at predicting the truth. The similarities across legal and ethical questions raised by using predictive models
+submissions meant that our attempts to create an ensemble of fordecision-making(23–26),theresultsoftheFragileFamilies
+predictionsdidnotyieldasubstantialimprovementinpredictive Challenge raise questions about the absolute level of predic-
+accuracy (SI Appendix, section S2.5). Third, many observations tive performance that is possible for some life outcomes, even
+(e.g.,theGPAofaspecificchild)wereaccuratelypredictedby with a rich dataset. Further, the results raise questions about
+allteams,whereasafewobservationswerepoorlypredictedby the relative performance of complex machine-learning mod-
+all teams (Fig. 4). Thus, within each outcome, squared predic- els compared with simple benchmark models (26, 27). In the
+tionerrorwasstronglyassociatedwiththefamilybeingpredicted Fragile Families Challenge, the simple benchmark model with
+and weakly associated with the technique used to generate the only a few predictors was only slightly worse than the most
+prediction(SIAppendix,sectionS3). accurate submission, and it actually outperformed many of the
+submissions(SIAppendix,sectionS2.2).Therefore,beforeusing
+Discussion complex predictive models, we recommend that policymakers
+TheFragileFamiliesChallengeprovidesacredibleestimateof determinewhethertheachievablelevelofpredictiveaccuracyis
+thepredictabilityoflifeoutcomesinthissetting.Becauseofthe appropriate for the setting where the predictions will be used,
+designoftheFragileFamiliesChallenge,lowpredictiveaccuracy whether complex models are more accurate than simple mod-
+cannot easily be attributed to the limitations of any particu- els or domain experts in their setting (26–28), and whether
+lar researcher or approach; hundreds of researchers attempted possible improvement in predictive performance is worth the
+thetask,andnonecouldpredictaccurately.However,theFrag- additional costs to create, test, and understand the more com-
+ile Families Challenge speaks directly to the predictability of plex model (26). Ideally, these assessments would be carried
+lifeoutcomesinonlyonesetting:sixspecificoutcomes,aspre- out with government administrative data used in policy set-
+dictedbyaparticularsetofvariablesmeasuredbyasinglestudy tingsbecausethepropertiesofthesedatalikelydifferfromthe
+for a particular group of people. Predictability is likely to vary properties of the Fragile Families data, but legal and privacy
+across settings, such as for different outcomes, over different issues make it difficult for researchers to access many types of
+timegapsbetweenthepredictorsandoutcomes,usingdifferent administrativedata(29).
+data sources, and for other social groups (SI Appendix, section In addition to providing estimates of predictability in a sin-
+S5).Nonetheless,theresultsinthisspecificsettinghaveimplica- gle setting, the Fragile Families Challenge also provides the
+tionsforscientistsandpolicymakers,andtheysuggestdirections building blocks for future research about the predictability of
+forfutureresearch. lifeoutcomesmoregenerally.Thepredictionsandopen-sourced
+Social scientists studying the life course must find a way submissions from participants provide a data source for future
+to reconcile a widespread belief that understanding has been studywiththeFragileFamiliessample(SIAppendix,sectionS6).
+generated by these data—as demonstrated by more than 750 TheFragileFamiliesChallengealsoprovidesatemplateforone
+publishedjournalarticlesusingtheFragileFamiliesdata(10)— typeofmasscollaborationinthesocialsciences(30,31).There
+with the fact that the very same data could not yield accurate are currently many longitudinal studies happening around the
+predictionsoftheseimportantoutcomes.Reconcilingthisunder- world,allwithdifferentstudypopulations,measurementcharac-
+standing/prediction paradox is possible in at least three ways. teristics,andresearchgoals.Eachofthesestudiescouldserveas
+First,ifonemeasuresourdegreeofunderstandingbyourabil- thebasisforamasscollaborationsimilartotheFragileFamilies
+ity to predict (8, 15), then the results of the Fragile Families Challenge. Progress made in these future mass collaborations
+Challengesuggestthatourunderstandingofchilddevelopment might also reveal other social research problems that we can
+andthelifecourseisactuallyquitepoor.Second,onecanargue solvebettercollectivelythanindividually.
+that prediction is not a good measure of understanding and
+that understanding can come from description or causal infer- ACKNOWLEDGMENTS.WethanktheFragileFamiliesChallengeBoardof
+AdvisorsforguidanceandT.Hartshorneforresearchassistance.Thisstudy
+ence.Forexample,inthestudyofracialdisparities,researchers
+was supported by the Russell Sage Foundation, NSF Grant 1760052, and
+maybuildunderstandingbycarefullydescribingtheblack–white EuniceKennedyShriverNationalInstituteofChildHealthandHumanDevel-
+wealth gap (16), even if they are not able to accurately predict opment (NICHD) Grant P2-CHD047879. Funding for the Fragile Families
+the wealth of any individual. Third, one can conclude that the and Child Wellbeing Study was provided by NICHD Grants R01-HD36916,
+R01-HD39135,andR01-HD40421;andaconsortiumofprivatefoundations,
+prior understanding is correct but incomplete because it lacks
+including the Robert Wood Johnson Foundation (see also SI Appendix,
+theoriesthatexplainwhyweshouldexpectoutcomestobedif- sectionS8.2).
+aDepartmentofSociology,PrincetonUniversity,Princeton,NJ08544;bDepartmentofSociology,UniversityofCalifornia,LosAngeles,CA90095;cHawaz,
+Riyadh12363,SaudiArabia;dSloanSchoolofManagement,MassachusettsInstituteofTechnology,Cambridge,MA02142;eMediaLab,Massachusetts
+InstituteofTechnology,Cambridge,MA02139;fMentalHealthDataScienceScotland,DepartmentofPsychology,TheUniversityofEdinburgh,Edinburgh
+EH89JZ,UnitedKingdom;gDepartmentofStatistics,UniversityofCalifornia,LosAngeles,CA90095;hDepartmentofMathematicalSciences,Montana
+StateUniversity,Bozeman,MT59717;iHumanComputerInteractionLab,UniversityofCalifornia,SantaCruz,CA95064;jDiscoveryAnalyticsCenter,Virginia
+PolytechnicInstituteandStateUniversity,Arlington,VA22203;kDepartmentofSociology,CornellUniversity,Ithaca,NY14853;lGitHub,SanFrancisco,
+CA94107;mDepartmentofSociology,UniversityofWashington,Seattle,WA98105;nSocialandDecisionAnalyticsLaboratory,FralinLifeSciencesInstitute,
+VirginiaPolytechnicInstituteandStateUniversity,Arlington,VA22203;oInstituteforData,SystemsandSociety,MassachusettsInstituteofTechnology,
+Cambridge,MA02139;pDepartmentofSociology,UniversityofOxford,OxfordOX11JD,UnitedKingdom;qNuffieldCollege,UniversityofOxford,Oxford
+OX11NF,UnitedKingdom;rSchoolofAnthropologyandMuseumEthnography,UniversityofOxford,OxfordOX26PE,UnitedKingdom;sProgramfor
+ResearchinSurveyMethodology,SurveyResearchDivision,RTIInternational,ResearchTrianglePark,NC27709;tSchoolofSocialandPoliticalSciences,
+UniversityofLincoln,BrayfordPool,LincolnLN67TS,UnitedKingdom;uDepartmentofComputerScience,UniversityofColorado,Boulder,CO80309;
+vCenterfortheStudyofDemographyandEcology,UniversityofWashington,Seattle,WA98105;wDepartmentofEconomics,TilburgSchoolofEconomics
+andManagement,TilburgUniversity,5037ABTilburg,TheNetherlands;xDepartmentofOperationsResearchandFinancialEngineering,Princeton
+University,Princeton,NJ08544;yDepartmentofComputerScience,PrincetonUniversity,Princeton,NJ08544;zDepartmentofPolitics,PrincetonUniversity,
+Salganiketal. PNASLatestArticles | 5of6
+0202
+,7
+lirpA
+no
+tseug
+yb
+dedaolnwoD
+
+PÁGINA PDF 7
+Princeton,NJ,08544;aaDepartmentofSociology,HarvardUniversity,Cambridge,MA02138;bbDepartmentofSociology,IndianaUniversity,Bloomington,
+IN47405;ccDepartmentofNuclearScienceandEngineering,MassachusettsInstituteofTechnology,Cambridge,MA02139;ddComputationalSocialScience
+Lab,SocialScienceDivision,NewYorkUniversityAbuDhabi,129188AbuDhabi,UnitedArabEmirates;eeBendheimCenterforFinance,Princeton
+University,Princeton,NJ08544;ffDepartmentofPoliticalScience,BrighamYoungUniversity,Provo,UT84602;ggDepartmentofSociology,Stanford
+University,Stanford,CA94305;hhDepartmentofCommunicationandMediaResearch,UniversityofZurich,Zurich,Switzerland,ZH-8050;iiCenterfor
+Statistics&MachineLearning,PrincetonUniversity,Princeton,NJ08544;jjDepartmentofMechanicalandAerospaceEngineering,PrincetonUniversity,
+Princeton,NJ08544;kkStatisticsGroup,DepartmentofDataSciencesandOperations,MarshallSchoolofBusiness,UniversityofSouthernCalifornia,Los
+Angeles,CA90089;llDepartmentofStatistics,ColumbiaUniversity,NewYork,NY10027;mmCenterforDataScience,NewYorkUniversity,NewYork,NY
+10011;nnDepartmentofIndustrialEngineeringandOperationsResearch,ColumbiaUniversity,NewYork,NY10027;ooDepartmentofMolecularBiology,
+PrincetonUniversity,Princeton,NJ08544;ppOxfordInternetInstitute,UniversityofOxford,OxfordOX13JS,UnitedKingdom;qqGraduateSchoolof
+Education,StanfordUniversity,Stanford,CA,94305;rrDepartmentofComputerScience,OhioStateUniversity,Columbus,OH43210;ssSchoolof
+Information,UniversityofMichigan,AnnArbor,MI48104;ttCenterforComplexNetworksandSystemsResearch,IndianaUniversity,Bloomington,
+IN47405;uuDepartmentofComputerScience,MasdarInstitute,KhalifaUniversity,127788AbuDhabi,UnitedArabEmirates;vvResearchInstitutefor
+MathematicalSciences,KyotoUniversity,Kyoto606-8502,Japan;wwDepartmentofAstrophysicalSciences,PrincetonUniversity,Princeton,NJ08544;
+xxDepartmentofNeuroscience,PrincetonUniversity,Princeton,NJ08544;yyDepartmentofElectricalEngineering,PrincetonUniversity,Princeton,NJ,
+08544;zzDataiku,NewYork,NY10010;aaaDepartmentofCivilandEnvironmentalEngineering,PrincetonUniversity,Princeton,NJ08544;bbbDepartmentof
+Sociology,CaliforniaStateUniversity,DominguezHills,Carson,CA90747;cccSchoolofMediaandPublicAffairs,GeorgeWashingtonUniversity,
+Washington,DC20052;dddCenterforDataInsights,MDRC,Oakland,CA94612;eeeSocialScienceDivision,NewYorkUniversityAbuDhabi,129188Abu
+Dhabi,UnitedArabEmirates;fffDepartmentofEconomics,PrincetonUniversity,Princeton,NJ08544;gggCenterforComplexNetworkResearch,
+NortheasternUniversityNetworksScienceInstitute,Boston,MA02115;hhhLuddySchoolofInformatics,Computing,&Engineering,IndianaUniversity,
+Bloomington,IN47408;iiiSchoolofSocialWork,DavidB.FalkCollegeofSportandHumanDynamics,SyracuseUniversity,NY13244;jjjSchoolofPublic
+Health,IndianaUniversity,Bloomington,IN47408;kkkTheAlanTuringInstitute,LondonNW12DB,UnitedKingdom;lllDepartmentofPsychiatry,University
+ofCambridge,CambridgeCB20SZ,UnitedKingdom;mmmSchoolofInformatics,UniversityofEdinburgh,EdinburghEH89AB,UnitedKingdom;
+nnnDepartmentofMarketplaces&YieldDataScience,ExpediaGroup,Seattle,WA98119;oooDepartmentoftheAppliedStatistics,SocialScience,and
+Humanities,NewYorkUniversity,NewYork,NY10003;pppDepartmentofEngineering,UniversityofCambridge,CambridgeCB21PZ,UnitedKingdom;
+qqqDepartmentofHumanDevelopment,TeachersCollege,ColumbiaUniversity,NewYork,NY10027;rrrDepartmentofPediatrics,VagelosCollegeof
+PhysiciansandSurgeons,ColumbiaUniversity,NewYork,NY10032;sssDepartmentofElectricalEngineeringandComputerSciences,Universityof
+California,Berkeley,CA94720;tttDepartmentofInformationScience,CornellUniversity,Ithaca,NY14853;uuuDepartmentofComputerandInformation
+Science,UniversityofPennsylvania,Philadelphia,PA19104;vvvAnnenbergSchoolofCommunication,UniversityofPennsylvania,Philadelphia,PA19104;
+andwwwOperations,InformationandDecisionsDepartment,UniversityofPennsylvania,Philadelphia,PA19104
+1. J.Kleinberg,J.Ludwig,S.Mullainathan,Z.Obermeyer,Predictionpolicyproblems. 17. R.B.Alley,K.A.Emanuel,F.Zhang,Advancesinweatherprediction.Science363,
+Am.Econ.Rev.105,491–495(2015). 342–344(2019).
+2. S.Athey,Beyondprediction:Usingbigdataforpolicyproblems.Science355,483–485 18. B.G.Malkiel,Theefficientmarkethypothesisanditscritics.J.Econ.Perspect.17,
+(2017). 59–82(2003).
+3. P.M.Blau,O.D.Duncan,TheAmericanOccupationalStructure(JohnWileyandSons, 19. M.J. Salganik, P.S. Dodds, D.J. Watts, Experimental study of inequality and
+1967). unpredictabilityinanartificialculturalmarket.Science311,854–856(2006).
+4. R.Chetty,N.Hendren,P.Kline,E.Saez,Whereisthelandofopportunity?Thegeog- 20. T.Martin,J.M.Hofman,A.Sharma,A.Anderson,D.J.Watts,“Exploringlimitsto
+raphyofintergenerationalmobilityintheUnitedStates.Q.J.Econ.129,1553–1623 predictionincomplexsocialsystems”inProceedingsofthe25thInternationalCon-
+(2014). ferenceonWorldWideWeb(InternationalWorldWideWebConferencesSteering
+5. A.Feuerverger,Y.He,S.Khatri,StatisticalsignificanceoftheNetflixchallenge.Stat. Committee,2016),pp.683–694.
+Sci.,202–231(2012). 21. L.E. Cederman, N.B. Weidmann, Predicting armed conflict: Time to adjust our
+6. D.Donoho,50yearsofdatascience.J.Comput.GraphStat.26,745–766(2017). expectations?Science355,474–476(2017).
+7. T.Hastie,R.Tibshirani,J.Friedman,TheElementsofStatisticalLearning:DataMining, 22. J.Risi,A.Sharma,R.Shah,M.Connelly,D.J.Watts,Predictinghistory.Nat.Hum.
+Inference,andPrediction(SpringerScience&BusinessMedia,2009). Behav.3,906–912(2019).
+8. J.M.Hofman,A.Sharma,D.J.Watts,Predictionandexplanationinsocialsystems. 23. J.Kleinberg,H.Lakkaraju,J.Leskovec,J.Ludwig,S.Mullainathan,Humandecisions
+Science355,486–488(2017). andmachinepredictions.Q.J.Econ.133,237–293(2017).
+9. N.E.Reichman,J.O.Teitler,I.Garfinkel,S.S.McLanahan,FragileFamilies:Sample 24. A.Chouldechova,D.Benavides-Prado,O.Fialko,R.Vaithianathan,“Acasestudy
+anddesign.Child.YouthServ.Rev.23,303–326(2001). ofalgorithm-assisteddecisionmakinginchildmaltreatmenthotlinescreeningdeci-
+10. Fragile Families & Child Wellbeing Study, Fragile Families publication search. sions”inProceedingsofthe1stConferenceonFairness,AccountabilityandTrans-
+https://ffpubs.princeton.edu/.Accessed29February2020. parency,S.A.Friedler,C.Wilson,Eds.(ProceedingsofMachineLearningResearch,
+11. I.Lundberg,A.Narayanan,K.Levy,M.J.Salganik,Privacy,ethics,anddataaccess:A 2018), vol.81,pp.134–148.
+casestudyoftheFragileFamiliesChallenge.arXiv:1809.00103(1September2018). 25. S.Barocas,A.D.Selbst,Bigdata’sdisparateimpact.Calif.LawRev.104,671–732
+12. S.Mullainathan,J.Spiess,Machinelearning:Anappliedeconometricapproach.J. (2016).
+Econ.Perspect.31,87–106(2017). 26. C.Rudin,Stopexplainingblackboxmachinelearningmodelsforhighstakesdecisions
+13. M.Molina,F.Garip,Machinelearningforsociology.Annu.Rev.Sociol.45,27–45 anduseinterpretablemodelsinstead.Nat.Mach.Intell.1,206–215(2019).
+(2019). 27. D.J.Hand,Classifiertechnologyandtheillusionofprogress.Stat.Sci.21,1–14(2006).
+14. A.Blum,M.Hardt,“Theladder:Areliableleaderboardformachinelearningcompe- 28. R.M.Dawes,D.Faust,P.E.Meehl,Clinicalversusactuarialjudgment.Science243,
+titions”inProceedingsofthe32ndInternationalConferenceonMachineLearning 1668–1674(1989).
+F.Bach,D.Blei,Eds.(ProceedingsofMachineLearningResearch,2015),Vol.37, 29. M.Salganik,BitbyBit:SocialResearchintheDigitalAge(PrincetonUniversityPress,
+pp.1006–1014. 2018).
+15. D.J.Watts,Commonsenseandsociologicalexplanations.Am.J.Sociol.120,313–351 30. OSCollaboration,Estimatingthereproducibilityofpsychologicalscience.Science349,
+(2014). aac4716(2015).
+16. M. Oliver, T. Shapiro, Black Wealth/White Wealth: A New Perspective on Racial 31. P.E.Tetlock,B.A.Mellers,J.P.Scoblic,Bringingprobabilityjudgmentsintopolicy
+Inequality(Routledge,2013). debatesviaforecastingtournaments.Science355,481–483(2017).
+6of6 | www.pnas.org/cgi/doi/10.1073/pnas.1915006117 Salganiketal.
+0202
+,7
+lirpA
+no
+tseug
+yb
+dedaolnwoD

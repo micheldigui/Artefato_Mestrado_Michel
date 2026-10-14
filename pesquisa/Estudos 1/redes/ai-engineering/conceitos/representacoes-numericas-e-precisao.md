@@ -1,0 +1,155 @@
+# 🧠 Representações Numéricas e Precisão
+
+**Rede:** `ai-engineering`  
+**Área:** `infraestrutura`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 7 — Finetuning
+- Localização: Páginas 325–328
+
+## 📝 Definição
+
+### Definição formal
+
+As **Representações Numéricas e Precisão** (*Numerical Representations and Precision*) definem os formatos e padrões de codificação em nível de bits (seguindo ou adaptando a norma IEEE 754) utilizados para armazenar e computar pesos matemáticos, ativações e gradientes em hardware de aceleração de IA. 
+
+Cada formato de ponto flutuante distribui seus bits entre três componentes fundamentais:
+1. **Bit de Sinal:** Determina se o número é positivo ou negativo ($1 \text{ bit}$);
+2. **Bits de Alcance (*Exponent*):** Determinam a magnitude máxima e mínima representável sem causar estouro numérico (*overflow* ou *underflow*);
+3. **Bits de Precisão (*Mantissa / Significand*):** Determinam a granularidade e resolução das casas decimais do valor.
+
+### Em linguagem simples
+
+É a maneira como o computador anota os números da rede neural na memória usando zeros e uns. Você pode usar um formato pesado como o FP32 (que usa 32 bits para anotar cada número com dezenas de casas decimais perfeitas) ou formatos modernos mais leves como o FP16 e o BF16 (que usam metade da memória, apenas 16 bits). A grande sacada é que o BF16 prefere ter espaço para números gigantes e minúsculos sem quebrar as contas, enquanto o FP16 prefere ter mais casas decimais exatas.
+
+### Escopo e distinções
+
+Não se confunde com o conceito de precisão em métricas de avaliação (como precisão e revocação). Trata-se da resolução computacional dos dados no silício. Formatos principais incluem **FP32** (precisão simples), **FP16** (meia precisão), **BF16** (Brain Floating Point, criado pelo Google), **TF32** (formato híbrido interno de 19 bits da NVIDIA) e formatos inteiros de quantização como **INT8** e **INT4**.
+
+## 🧩 Problema que resolve
+
+Resolve a saturação de memória e a lentidão de processamento em aceleradores de IA. Armazenar trilhões de operações em FP32 consome memória VRAM em excesso e satura barramentos físicos de transferência. A transição para formatos de 16 ou 8 bits reduz o consumo de memória pela metade ou por quatro vezes, acelerando multiplicações de matrizes nos núcleos especializados das GPUs.
+
+## 💡 Intuição
+
+Pense em medir ingredientes para fazer um bolo:
+- O formato **FP32** é uma balança de laboratório químico de alta precisão que mede até o milionésimo de grama. É perfeita, mas o display demora para estabilizar e o aparelho é enorme e caro.
+- O formato **BF16** é uma balança de cozinha comum que aguenta sacos pesados de farinha sem quebrar e mede os gramas com precisão suficiente para a receita do bolo dar certo. Para redes neurais, a "balança de cozinha" funciona tão bem quanto a balança de laboratório químico e permite produzir dez vezes mais bolos no mesmo tempo.
+
+## ⚙️ Como funciona
+
+A arquitetura dos formatos distribui os bits conforme suas prioridades operacionais:
+
+### Etapas
+
+1. **FP32 (Padrão IEEE 754):** Aloca 1 bit de sinal, 8 bits de expoente (alcance) e 23 bits de mantissa (precisão). Ocupa 4 bytes por parâmetro.
+2. **FP16 (Meia Precisão):** Aloca 1 bit de sinal, 5 bits de expoente e 10 bits de mantissa. Ocupa 2 bytes. O alcance é limitado: números maiores que $65.504$ sofrem estouro para infinito ($\text{INF}$), causando instabilidade no treino.
+3. **BF16 (BFloat16):** Aloca 1 bit de sinal, **8 bits de expoente** (o mesmo alcance que o FP32) e 7 bits de mantissa. Ocupa 2 bytes. O modelo ganha imunidade contra estouros de gradientes, sacrificando apenas pequenas casas decimais irrelevantes para redes profundas.
+4. **TF32 (TensorFloat-32):** Formato proprietário da NVIDIA para núcleos tensores que usa 19 bits (1 sinal, 8 expoente, 10 mantissa), executando com a velocidade de 16 bits sem exigir alterações de código do usuário em FP32.
+
+### Entradas e saídas
+
+- **Entradas:** Matrizes numéricas contínuas de tensores neurais.
+- **Saídas:** Representações compactadas com trade-offs conhecidos de truncamento decimal.
+
+## 📐 Formulação matemática
+
+A distribuição de bits nos formatos mais relevantes de IA estrutura-se como:
+
+$$\text{FP32:} \quad [S_1 \mid E_8 \mid M_{23}] \implies \text{Alcance: } \approx 10^{\pm 38}, \quad \text{Precisão: } \approx 7 \text{ dígitos decimais}$$
+
+$$\text{FP16:} \quad [S_1 \mid E_5 \mid M_{10}] \implies \text{Alcance: } \approx 10^{\pm 5}, \quad \text{Precisão: } \approx 3\text{--}4 \text{ dígitos decimais}$$
+
+$$\text{BF16:} \quad [S_1 \mid E_8 \mid M_7] \implies \text{Alcance: } \approx 10^{\pm 38}, \quad \text{Precisão: } \approx 2 \text{ dígitos decimais}$$
+
+O exemplo numérico do capítulo ilustra a perda de precisão com o número $1234{,}56789$:
+- Em FP32: $1234{,}56789$;
+- Em FP16: $1235{,}0$ (desvio relativo de $0{,}035\%$);
+- Em BF16: $1232{,}0$ (desvio relativo de $0{,}208\%$).
+Contudo, se o número for $123.456{,}789$, o FP16 sofre estouro para $\text{INF}$ (falha catastrófica), enquanto o BF16 o representa como $123.392{,}0$ com sucesso operacional.
+
+## 🧱 Hipóteses e condições de validade
+
+- O uso nativo de BF16 exige hardware compatível (GPUs NVIDIA da arquitetura Ampere A100/RTX 3000 em diante ou TPUs do Google); hardware mais antigo (como V100 ou T4) não suporta aceleração nativa de BF16.
+
+## ✅ Quando usar
+
+- **BF16:** Formato padrão recomendado para pré-treinamento e ajuste fino de grandes modelos de fundação em GPUs modernas.
+- **FP16:** Padrão para inferência e treinamento em aceleradores que não dispõem de suporte físico a BF16.
+- **FP32:** Reservado para o acúmulo de estados de otimizadores (Adam) e cálculo crítico de funções de perda onde a precisão de gradientes minúsculos é indispensável.
+
+## 🚫 Quando não usar
+
+- Não carregue modelos nativamente calibrados em BF16 dentro de instâncias forçadas para FP16 sem verificar a ocorrência de *overflows* (como o erro histórico que degradou o Llama 2).
+
+## ⚠️ Limitações e armadilhas
+
+- **O erro do carregamento cruzado:** Modelos modernos (Llama 2 e Llama 3) são treinados e disponibilizados em BF16. Se o engenheiro carregar o modelo em FP16 por engano em seu script, ativações que excedem $65.504$ viram $\text{INF}$, degradando drasticamente o desempenho do modelo em produção.
+- **Underflow numérico:** Em gradientes minúsculos, formatos com poucos bits de expoente arredondam o valor para zero, paralisando o aprendizado da rede.
+
+## 🔍 Comparações
+
+| Formato | Bits Totais | Bits de Expoente (Alcance) | Bits de Mantissa (Precisão) | Risco de Overflow | Uso Primário |
+|---|---|---|---|---|---|
+| **FP32** | 32 bits (4 bytes) | 8 bits | 23 bits | Desprezível | Mestre de pesos e estados do Adam |
+| **FP16** | 16 bits (2 bytes) | 5 bits | 10 bits | **Alto (teto em 65.504)** | Inferência em GPUs antigas |
+| **BF16** | 16 bits (2 bytes) | **8 bits** | 7 bits | **Mínimo (mesmo do FP32)** | **Padrão ouro de treino moderno** |
+| **TF32** | 19 bits (~2,4 bytes)| 8 bits | 10 bits | Mínimo | Aceleração interna em núcleos Tensor |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Durante o ajuste fino de um modelo de linguagem, uma camada profunda calcula um gradiente de magnitude $70.000{,}0$.
+- Se o pipeline estiver configurado em **FP16**, o maior número que o formato consegue representar é $65.504$. O valor $70.000$ vira $\text{INF}$ (infinito). Na multiplicação seguinte, qualquer número multiplicado por infinito vira $\text{NaN}$ (*Not a Number*). Em três iterações, todos os parâmetros da rede viram $\text{NaN}$ e o treinamento é irremediavelmente destruído.
+- Se o pipeline estiver em **BF16**, os 8 bits de expoente absorvem $70.000$ com facilidade (o teto é $\approx 10^{38}$). O treino prossegue estável até a convergência.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/matematica-da-memoria-de-treinamento.md|Matemática da Memória de Treinamento]]
+- [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|Modelo de Fundação]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/quantizacao.md|Quantização]]
+- [[redes/ai-engineering/conceitos/ajuste-fino-eficiente-em-parametros-peft.md|Ajuste Fino Eficiente em Parâmetros (PEFT)]]
+
+### Alternativas
+
+- Formatos de precisão dupla (FP64 / 8 bytes), impraticáveis para redes neurais profundas devido à sobrecarga de memória.
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/quantized-lora-qlora.md|Quantized LoRA (QLoRA)]]
+- [[redes/ai-engineering/conceitos/fases-de-inferencia-prefill-e-decode.md|Fases de Inferência: Prefill e Decode]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 7 — Finetuning
+- **Localização:** Páginas 325–328
+- **Evidência:** Chip Huyen destrincha as representações numéricas do padrão IEEE 754, apresenta o diagrama comparativo de bits entre FP32, FP16, BF16 e TF32 (Figura 7-6), detalha a Tabela 7-3 com conversões concretas e analisa a armadilha empírica de carregar modelos Llama 2/Llama 3 em FP16 em vez de BF16.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. Qual é a função dos bits de expoente e dos bits de mantissa na estrutura de um número de ponto flutuante?
+2. Por que o formato BF16 tornou-se a representação padrão para o treinamento de grandes modelos de linguagem em vez do FP16?
+3. O que acontece matematicamente quando uma operação em FP16 ultrapassa o valor escalar de 65.504?
+4. Qual foi o erro de engenharia comum cometido por equipes ao carregar o modelo Llama 2 no formato FP16?
+5. Como o formato proprietário TF32 da NVIDIA opera para acelerar cálculos matemáticos sem exigir mudanças de código do usuário?
+6. Por que os estados do otimizador Adam continuam sendo frequentemente armazenados em FP32 mesmo quando o modelo é treinado em BF16?
+7. Qual é a diferença fundamental entre formatos de ponto flutuante e formatos de números inteiros como INT8 e INT4?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

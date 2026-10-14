@@ -1,0 +1,216 @@
+[917] Ano | Configuração ou referência | Dias avaliados | MAE da previsão contínua | WAPE
+2023 | Base | 113 | 22,47 | 21,15%
+2023 | Base + reservas | 113 | 19,39 | 18,26%
+2023 | Base + clima | 113 | 21,96 | 20,68%
+2023 | Base + reservas + clima | 113 | 19,07 | 17,96%
+2023 | Somente reservas | 113 | 16,45 | 15,49%
+2024 | Base | 122 | 26,46 | 15,82%
+2024 | Base + reservas | 122 | 24,21 | 14,48%
+2024 | Base + clima | 122 | 26,36 | 15,76%
+2024 | Base + reservas + clima | 122 | 24,11 | 14,41%
+2024 | Somente reservas | 122 | 39,82 | 23,81%
+2025 | Base | 155 | 21,26 | 15,37%
+2025 | Base + reservas | 155 | 20,38 | 14,73%
+2025 | Base + clima | 155 | 21,31 | 15,40%
+2025 | Base + reservas + clima | 155 | 20,66 | 14,93%
+2025 | Somente reservas | 155 | 28,79 | 20,80%
+
+[918] Fonte: Resultado da Pesquisa (2026).
+
+[919] As reservas apresentaram menor MAE e WAPE em 2023, enquanto as quatro configurações de ExtraTrees tiveram menor erro em 2024 e 2025. A inclusão das reservas como atributo reduziu o MAE em todos os anos, tanto na base sem clima quanto na configuração com clima. O acréscimo de clima, por sua vez, reduziu o erro em 2023 e 2024, mas o elevou em 2025. A contribuição das fontes variou entre períodos; a média geral não resume toda essa variação.
+
+[920] Após a avaliação das previsões contínuas, o confronto entre quantidades planejadas e reservas é apresentado na Figura 18. Os planos utilizam previsões arredondadas para o inteiro superior, sem acréscimo de margem, nas mesmas 390 datas.
+
+[921] Figura 18 - Comparação pareada de previsões e reservas em 390 datas
+
+[923] Fonte: Resultado da Pesquisa (2026).
+
+[924] Os planos apresentados tiveram menor erro agregado que as reservas. Entretanto, os métodos foram escolhidos e avaliados nesse conjunto de datas, o que pode favorecer a estimativa de desempenho. Esse resultado deve ser interpretado como exploratório e confirmado em novas datas. A comparação também não isola o efeito das fontes, pois os planos utilizam métodos e conjuntos de informações diferentes.
+
+[925] Na Figura 19, estão representadas as médias diárias de excesso e déficit potenciais das regras escolhidas com dados de anos anteriores e avaliadas em 2024 e 2025, em comparação com as reservas nas mesmas datas de cada ano.
+
+[926] Figura 19 - Excesso e falta potenciais nos testes temporais
+
+[928] Fonte: Resultado da Pesquisa (2026).
+
+[929] Cada barra corresponde à soma dos excessos ou déficits potenciais dividida pelo número de dias avaliados no ano: 122 em 2024 e 155 em 2025. As regras selecionadas apresentaram menor déficit médio e maior excesso médio que as reservas. Essa mudança corresponde ao compromisso adotado no indicador 2:1, que atribui maior peso ao déficit. Os valores representam diferenças entre plano e consumo observado; não medem sobras físicas nem refeições não atendidas.
+
+[930] Além da comparação dos planos, foram examinadas características do cardápio que podem ajudar a representar a variação do consumo. Na Figura 20, estão representadas as distribuições das seis categorias mais frequentes: mista, frango, suína, bovina, peixe e feijoada. Embora seja um prato composto, a feijoada foi mantida como categoria própria na classificação.
+
+[931] Figura 20 - Consumo nas seis categorias de cardápio mais frequentes
+
+[933] Fonte: Dados da Pesquisa (2026).
+
+[934] As distribuições permitem observar diferenças de consumo entre as categorias, mas os grupos têm frequências e contextos distintos. Determinados pratos podem ocorrer mais em um ano ou dia da semana, influenciando a comparação. Os resultados descrevem o consumo registrado e não permitem afirmar que uma categoria causou maior demanda ou foi mais aceita pelos estudantes.
+
+[935] Também foram examinadas as formas de preparo. As distribuições de consumo das cinco categorias de preparo com mais registros estão representadas na Figura 21.
+
+[936] Figura 21 - Consumo segundo as cinco categorias mais frequentes de preparo
+
+[938] Fonte: Dados da Pesquisa (2026).
+
+[939] As diferenças entre os grupos devem ser interpretadas considerando o calendário, o ano e a qualidade da classificação dos pratos. A seleção das categorias decorre de sua frequência nos registros, e não da preferência dos estudantes. Essas distribuições ajudam a caracterizar os dados, mas sua contribuição para a previsão depende da avaliação temporal dos modelos.
+
+[940] A leitura integrada distingue os padrões descritivos do consumo, o erro das previsões e o efeito das margens sobre os planos. Os resultados históricos indicam alternativas para apoiar o planejamento, cuja utilidade também depende da antecedência entregue e das informações disponíveis em cada emissão. O acompanhamento em novas datas permitirá avaliar essas condições, preservando a distinção entre diferenças potenciais e resultados efetivamente registrados no serviço.
+
+[941] 5.15 Síntese integrada e etapa de validação prospectiva
+
+[942] Esta versão apresenta resultados retrospectivos parciais de 2023–2025. A etapa seguinte distinguirá a avaliação de previsões produzidas após as refeições, mas antes do recebimento dos consumos, do acompanhamento de previsões efetivamente emitidas antes do serviço. Essa distinção é necessária para identificar quais resultados são retrospectivos e quais atendem às condições de uma avaliação prospectiva.
+
+[943] As previsões de setembro de 2026 foram geradas em outubro, antes do recebimento dos consumos, mas depois das refeições. Portanto, essa avaliação será retrospectiva com alvos ainda desconhecidos no momento da geração. A emissão original foi preservada e recebeu um suplemento V1 separado, com 20 datas elegíveis em cada janela, mantendo a previsão pura e os cenários de margem.
+
+[944] Para a semana de 5 a 9 de outubro, a previsão enviada permanece preservada. A atualização V1, emitida em 4 de outubro, constitui outro registro, com antecedência efetiva de um a cinco dias. Não estão previstas refeições entre 12 e 16 de outubro, em razão do feriado e do recesso. O cronograma prevê a emissão para compras da semana de 19 a 23 de outubro em 9 de outubro e sua atualização para preparo em 16 de outubro.
+
+[945] As comparações utilizarão datas comuns, versões identificadas e a antecedência efetivamente entregue em cada emissão. A estimativa antecipada de compras e sua atualização para preparo serão preservadas e avaliadas separadamente. Esse procedimento permitirá examinar o desempenho das duas janelas sem atribuir a uma previsão retrospectiva as condições de uma emissão prospectiva.
+
+[946] 5.16 Iteração de aprimoramento com seleção temporal
+
+[947] Uma nova iteração examinou alternativas para representar mudanças no nível do consumo. Foram comparados modelos que estimam diretamente a quantidade de refeições e modelos que estimam sua diferença em relação à média recente do mesmo dia da semana. Também foram avaliados pesos maiores para registros recentes, previsões para diferentes níveis da distribuição do consumo e referências sazonais.
+
+[948] O método e a margem foram escolhidos com os resultados de 2024, utilizando o indicador médio que soma o excesso potencial a duas vezes o déficit potencial. A regra selecionada foi mantida na avaliação de 2025, com treinamento limitado às observações anteriores a cada sexta-feira. Dados de 2026 não participaram dessa escolha.
+
+[949] A regra escolhida utiliza regressão Ridge para estimar uma correção da média recente de consumo do mesmo dia da semana. Essa correção é somada à média para formar a previsão, e o plano recebe dez refeições adicionais. Com essa formulação, estima-se quanto o consumo poderá ficar acima ou abaixo de seu nível recente.
+
+[950] O período de 2024 participou da seleção da regra. Embora a escolha tenha sido preservada em 2025, esse ano já havia sido examinado durante o desenvolvimento do projeto. Os resultados permanecem, portanto, retrospectivos. O MAE dos planos da regra selecionada e das reservas está representado na Figura 22 para os dois períodos.
+
+[951] Figura 22 - Erro da regra selecionada e das reservas nos cortes históricos
+
+[953] Fonte: Resultados da pesquisa (2026).
+
+[954] A regra apresentou menor MAE que as reservas nos dois anos. A diferença foi mais acentuada em 2024, período utilizado para sua escolha, e menor em 2025. Essa variação reforça a necessidade de distinguir o desempenho observado durante a seleção daquele obtido posteriormente, sem interpretar o resultado como confirmação independente.
+
+[955] O MAE do plano, o indicador médio 2:1 e o déficit potencial acumulado estão registrados na Tabela 10, nas mesmas datas de cada ano. O indicador médio combina excesso e déficit potenciais, enquanto a última coluna informa apenas a soma das diferenças dos dias em que o plano ficou abaixo do consumo.
+
+[956] Tabela 11 - Iteração de aprimoramento com regra escolhida em 2024
+
+[957] Ano | Regra / referência | Dias avaliados | MAE do plano | Indicador médio 2:1 | Déficit potencial
+2024 | Regra selecionada | 122 | 25,42 | 36,24 | 1.320
+2024 | Reservas | 122 | 39,82 | 76,90 | 4.524
+2025 | Regra selecionada | 155 | 27,12 | 31,43 | 668
+2025 | Reservas | 155 | 28,79 | 53,28 | 3.796
+
+[958] Fonte: Resultados da pesquisa (2026).
+
+[959] Nota: A regra selecionada utiliza regressão Ridge para corrigir a média recente do mesmo dia da semana, com acréscimo de dez refeições ao plano. O indicador 2:1 corresponde à média diária de excesso potencial mais duas vezes o déficit potencial. O MAE e o déficit potencial são expressos em refeições.
+
+[960] Em 2025, o déficit potencial da regra foi de 668 refeições, frente a 3.796 nas reservas, e o MAE do plano foi de 27,12, frente a 28,79. Entretanto, a redução do déficit veio acompanhada de maior excesso potencial. O resultado favorável no indicador 2:1 depende da prioridade atribuída ao déficit e não demonstra redução simultânea dos dois desvios. A escolha desse equilíbrio precisa considerar as necessidades da gestão e ser avaliada em novas datas.
+
+[961] A combinação entre previsão e quantitativo institucional também foi examinada, utilizando participações de 25%, 50%, 75% e 100% da previsão, com margens de zero ou dez refeições. A seleção histórica manteve participação de 100% do modelo. Nessa iteração, portanto, a combinação dos dois sinais não apresentou vantagem segundo o critério de seleção adotado.
+
+[962] Em 2026, o quantitativo institucional passou a ter origem diferente das reservas estudantis utilizadas no histórico, o que limita a aplicação direta de pesos escolhidos naquele contexto. Após o diagnóstico dos dados de 2026, foi registrado outro candidato para acompanhamento: 25% da previsão sem reservas, 75% da estimativa institucional e acréscimo de dez refeições. Essa combinação será utilizada como alternativa na saída de preparo; a previsão antecipada para compras permanece independente do quantitativo futuro.
+
+[963] A combinação registrada após o diagnóstico de 2026 constitui uma alternativa de desenvolvimento e requer avaliação em novas datas. Seu desempenho será examinado separadamente da regra histórica, preservando as previsões já emitidas. Dessa forma, a iteração documenta o refinamento do artefato sem apresentar as alterações posteriores como confirmação dos resultados anteriores.
+
+[964] 6 CONSIDERAÇÕES PARCIAIS
+
+[965] Esta pesquisa desenvolveu e avaliou retrospectivamente um artefato analítico-preditivo para apoiar o planejamento de refeições em um restaurante institucional. O artefato integra dados operacionais, modelos de previsão e cenários de margem, oferecendo estimativas diárias para apoiar decisões de compras e preparo. Sua contribuição inclui a organização de uma base documentada e de um procedimento de previsão que pode ser atualizado e avaliado em novas datas.
+
+[966] O processo institucional fornece, às sextas-feiras, os quantitativos da semana seguinte, deixando o fim de semana para as compras. A versão preparada para acompanhamento organiza duas saídas: uma estimativa para a semana posterior, destinada a ampliar a antecedência do planejamento de compras, e uma atualização para preparo da próxima semana. Quando a estimativa institucional estiver disponível, a saída de preparo também apresenta uma alternativa combinada. As previsões informam quantidades de refeições por dia; não calculam quantidades de ingredientes ou produtos a adquirir.
+
+[967] A base de modelagem reúne 500 dias úteis de 2023-2025. Na comparação controlada com ExtraTrees, realizada em 390 datas, a inclusão das reservas reduziu o MAE de 23,24 para 21,29 refeições. O acréscimo de clima produziu diferenças pequenas, e sua disponibilidade no momento das decisões históricas não pôde ser comprovada. Por essas razões, o clima permanece restrito aos experimentos históricos e não integra a versão preparada para acompanhamento.
+
+[968] Na comparação dos planos arredondados, o ExtraTrees com histórico de consumo e calendário apresentou MAE de 22,89 refeições, e o comitê com reservas, de 20,66, frente a 28,66 das reservas utilizadas diretamente como plano. Esses resultados indicam menor erro agregado, mas os métodos foram escolhidos e avaliados na própria amostra. Além disso, a vantagem dos modelos não foi uniforme entre os anos, o que limita a generalização das conclusões.
+
+[969] As margens permitiram examinar o equilíbrio entre excesso e déficit potenciais. Na seleção temporal, as regras escolhidas com dados de anos anteriores apresentaram menor indicador 2:1 que as reservas nos testes de 2024 e 2025. Na iteração de aprimoramento, a regressão Ridge que corrige a média recente do mesmo dia da semana, acrescida de dez refeições, apresentou MAE do plano de 27,12 em 2025, frente a 28,79 das reservas. A redução do déficit potencial veio acompanhada de maior excesso, de modo que a escolha da margem depende da prioridade de planejamento adotada.
+
+[970] Os resultados representam diferenças entre previsões ou planos e consumo observado. A pesquisa não dispõe de registros contínuos de produção, sobras físicas e refeições não atendidas que permitam comprovar redução do desperdício ou melhoria do atendimento. A contribuição para esses resultados permanece potencial e dependeria de uma avaliação do uso do artefato no serviço. O estudo também não avalia custos nem estima economia decorrente das previsões.
+
+[971] Os objetivos foram atendidos em graus distintos: consumo, cardápio e calendário foram integrados; reservas e clima foram examinados como fontes adicionais; modelos e margens foram comparados respeitando a ordem temporal; e o procedimento foi documentado. A utilidade da antecedência adicional para compras, a compreensão dos cenários e sua aplicação pela gestora e pela nutricionista ainda precisam ser avaliadas.
+
+[972] O acompanhamento deverá preservar as previsões emitidas, suas versões, as informações disponíveis e a antecedência efetivamente entregue. Após o recebimento do consumo, cada saída será comparada com o processo institucional nas mesmas datas. A estimativa antecipada para compras e sua atualização para preparo serão avaliadas separadamente. Alterações nos modelos ou nas margens receberão nova identificação e utilizarão apenas informações anteriores à nova emissão.
+
+[973] A etapa final distinguirá a avaliação retrospectiva de setembro, cujas previsões foram geradas após as refeições e antes do recebimento dos consumos, do acompanhamento prospectivo das emissões realizadas antes das refeições de outubro. Essa distinção permitirá examinar os resultados conforme as condições reais de cada previsão, sem tratar a avaliação histórica como comprovação de eficácia operacional.
+
+[974] A aplicação em outros restaurantes exige dados locais, adaptação do procedimento e nova avaliação temporal. O desempenho observado nesta instituição oferece evidências para continuar o desenvolvimento, mas não assegura os mesmos resultados em outros contextos. 
+
+[975] REFERÊNCIAS
+
+[976] ABELSON, R. P. A variance explanation paradox: When a little is a lot. Psychological Bulletin, v. 97, n. 1, p. 129–133, 1985. DOI: https://doi.org/10.1037/0033-2909.97.1.129.
+
+[977] ACI, M.; YERGÖK, D. Demand forecasting for food production using machine learning algorithms: a case study of university refectory. Tehnički vjesnik, v. 30, n. 6, p. 1683–1691, 2023. DOI: 10.17559/TV-20230117000232.
+
+[978] BIRISCI, E.; MCGARVEY, R. G. Optimal production planning utilizing leftovers for an all-you-care-to-eat food service operation. Journal of Cleaner Production, v. 171, p. 984-994, 2018. DOI: 10.1016/j.jclepro.2017.10.052.
+
+[979] BREIMAN, L. Random forests. Machine Learning, v. 45, p. 5-32, 2001. DOI: 10.1023/A:1010933404324.
+
+[981] CHAI, T.; DRAXLER, R. R. Root mean square error (RMSE) or mean absolute error (MAE)? Arguments against avoiding RMSE in the literature. Geoscientific Model Development, v. 7, p. 1247-1250, 2014. DOI: 10.5194/gmd-7-1247-2014.
+
+[983] CHEN, T.; GUESTRIN, C. XGBoost: a scalable tree boosting system. In: ACM SIGKDD INTERNATIONAL CONFERENCE ON KNOWLEDGE DISCOVERY AND DATA MINING, 22., 2016, San Francisco. Proceedings [...]. New York: ACM, 2016. p. 785-794. DOI: 10.1145/2939672.2939785.
+
+[985] DEVLIN, J.; CHANG, M.-W.; LEE, K.; TOUTANOVA, K. BERT: pre-training of deep bidirectional transformers for language understanding. In: CONFERENCE OF THE NORTH AMERICAN CHAPTER OF THE ASSOCIATION FOR COMPUTATIONAL LINGUISTICS: HUMAN LANGUAGE TECHNOLOGIES, 2019, Minneapolis. Proceedings [...]. Stroudsburg: Association for Computational Linguistics, 2019. p. 4171-4186. DOI: 10.18653/v1/N19-1423.
+
+[987] DHIR, A.; TALWAR, S.; KAUR, P.; MALIBARI, A. Food waste in hospitality and food services: a systematic literature review and framework development approach. Journal of Cleaner Production, v. 270, artigo 122861, 2020. DOI: 10.1016/j.jclepro.2020.122861.
+
+[989] ELNAKIB, S. A.; QUICK, V.; MENDEZ, M.; DOWNS, S.; WACKOWSKI, O. A.; ROBSON, M. G. Food waste in schools: a pre-/post-test study design examining the impact of a food service training intervention to reduce food waste. International Journal of Environmental Research and Public Health, v. 18, n. 12, artigo 6389, 2021. DOI: 10.3390/ijerph18126389.
+
+[991] FAEZIRAD, M.; POOYA, A.; NAJI-AZIMI, Z.; AMIR HAERI, M. Preventing food waste in subsidy-based university dining systems: an artificial neural network-aided model under uncertainty. Waste Management & Research, v. 39, n. 8, p. 1027-1038, 2021. DOI: 10.1177/0734242X211017974.
+
+[993] FUNDER, D. C.; OZER, D. J. Evaluating effect size in psychological research: Sense and nonsense. Advances in Methods and Practices in Psychological Science, v. 2, n. 2, p. 156–168, 2019. DOI: https://doi.org/10.1177/2515245919847202.
+
+[994] FRIEDMAN, J. H. Greedy function approximation: a gradient boosting machine. The Annals of Statistics, v. 29, n. 5, p. 1189-1232, 2001. DOI: 10.1214/aos/1013203451.
+
+[996] GEURTS, P.; ERNST, D.; WEHENKEL, L. Extremely randomized trees. Machine Learning, v. 63, p. 3-42, 2006. DOI: 10.1007/s10994-006-6226-1.
+
+[998] HARRIS, C. R.; MILLMAN, K. J.; VAN DER WALT, S. J. et al. Array programming with NumPy. Nature, v. 585, p. 357-362, 2020. DOI: 10.1038/s41586-020-2649-2.
+
+[1000] HEVNER, A. R.; MARCH, S. T.; PARK, J.; RAM, S. Design science in information systems research. MIS Quarterly, v. 28, n. 1, p. 75-105, 2004.
+
+[1002] HUNTER, J. D. Matplotlib: a 2D graphics environment. Computing in Science & Engineering, v. 9, n. 3, p. 90-95, 2007. DOI: 10.1109/MCSE.2007.55.
+
+[1004] KIM, S.; GU, N.; MOON, J.; KIM, K.; HWANG, Y.; LEE, K. Comparative analysis of model performance for predicting the customer of cafeteria using unstructured data. Communications for Statistical Applications and Methods, v. 30, n. 5, p. 485-499, 2023. DOI: 10.29220/CSAM.2023.30.5.485.
+
+[1006] KLUYVER, T.; RAGAN-KELLEY, B.; PÉREZ, F.; GRANGER, B.; BUSSONNIER, M.; FREDERIC, J.; KELLEY, K.; HAMRICK, J.; GROUT, J.; CORLAY, S.; IVANOV, P.; AVILA, D.; ABDALLA, S.; WILLING, C. Jupyter notebooks: a publishing format for reproducible computational workflows. In: INTERNATIONAL CONFERENCE ON ELECTRONIC PUBLISHING, 20., 2016, Göttingen. Positioning and Power in Academic Publishing: Players, Agents and Agendas. Amsterdam: IOS Press, 2016. p. 87-90. DOI: 10.3233/978-1-61499-649-1-87.
+
+[1008] KODORS, S.; ZVAIGZNE, A.; LITAVNIECE, L.; LONSKA, J.; SILICKA, I.; KOTANE, I.; DEKSNE, J. Plate waste forecasting using the Monte Carlo method for effective decision making in Latvian schools. Nutrients, v. 14, n. 3, artigo 587, 2022. DOI: 10.3390/nu14030587.
+
+[1010] KÜHL, N.; HIRT, R.; BAIER, L.; SCHMITZ, B.; SATZGER, G. How to conduct rigorous supervised machine learning in information systems research: the supervised machine learning report card. Communications of the Association for Information Systems, v. 48, artigo 45, p. 589-615, 2021. DOI: 10.17705/1CAIS.04845.
+
+[1012] LANDRY, M. J.; HAGEDORN-HATFIELD, R. L.; ZIGMONT, V. A. Barriers to college student food access: a scoping review examining policies, systems, and the environment. Journal of Nutritional Science, v. 13, e51, 2024. DOI: 10.1017/jns.2024.25.
+
+[1014] MALEFORS, C.; SECONDI, L.; MARCHETTI, S.; ERIKSSON, M. Food waste reduction and economic savings in times of crisis: the potential of machine learning methods to plan guest attendance in Swedish public catering during the Covid-19 pandemic. Socio-Economic Planning Sciences, v. 82, artigo 101041, 2022. DOI: 10.1016/j.seps.2021.101041.
+
+[1016] MCKINNEY, W. Data structures for statistical computing in Python. In: PYTHON IN SCIENCE CONFERENCE, 9., 2010, Austin. Proceedings [...]. Austin: SciPy, 2010. p. 56-61.
+
+[1018] MIENYE, I. D.; JERE, N. A survey of decision trees: concepts, algorithms, and applications. IEEE Access, v. 12, p. 86716-86727, 2024. DOI: 10.1109/ACCESS.2024.3416838.
+
+[1020] NAÇÕES UNIDAS. Assembleia Geral. Transformando nosso mundo: a Agenda 2030 para o Desenvolvimento Sustentável. Resolução A/RES/70/1, de 25 de setembro de 2015. Disponível em: https://docs.un.org/pt/A/RES/70/1. Acesso em: 22 set. 2026.
+
+[1022] PEDREGOSA, F.; VAROQUAUX, G.; GRAMFORT, A. et al. Scikit-learn: machine learning in Python. Journal of Machine Learning Research, v. 12, p. 2825-2830, 2011.
+
+[1024] PEFFERS, K.; TUUNANEN, T.; ROTHENBERGER, M. A.; CHATTERJEE, S. A design science research methodology for information systems research. Journal of Management Information Systems, v. 24, n. 3, p. 45-77, 2007. DOI: 10.2753/MIS0742-1222240302.
+
+[1026] POSCH, K.; TRUDEN, C.; HUNGERLÄNDER, P.; PILZ, J. A Bayesian approach for predicting food and beverage sales in staff canteens and restaurants. International Journal of Forecasting, v. 38, n. 1, p. 321–338, 2022. DOI: https://doi.org/10.1016/j.ijforecast.2021.06.001.
+
+[1028] PROKHORENKOVA, L.; GUSEV, G.; VOROBEV, A.; DOROGUSH, A. V.; GULIN, A. CatBoost: unbiased boosting with categorical features. In: CONFERENCE ON NEURAL INFORMATION PROCESSING SYSTEMS, 32., 2018, Montréal. Advances in Neural Information Processing Systems. Red Hook: Curran Associates, 2018. v. 31. Disponível em: https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html. Acesso em: 3 out. 2026.
+
+[1030] ROBERTS, D. R. et al. Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. Ecography, v. 40, n. 8, p. 913-929, 2017. DOI: 10.1111/ecog.02881.
+
+[1031] RODRIGUES, M.; MIGUÉIS, V.; FREITAS, S.; MACHADO, T. Machine learning models for short-term demand forecasting in food catering services: a solution to reduce food waste. Journal of Cleaner Production, v. 435, artigo 140265, 2024. DOI: 10.1016/j.jclepro.2023.140265.
+
+[1033] SALGANIK, M. J. et al. Measuring the predictability of life outcomes with a scientific mass collaboration. Proceedings of the National Academy of Sciences, v. 117, n. 15, p. 8398–8403, 2020. DOI: https://doi.org/10.1073/pnas.1915006117.
+
+[1034] SEL, Ç.; PINARBAŞI, M.; SOYSAL, M.; ÇİMEN, M. A green model for the catering industry under demand uncertainty. Journal of Cleaner Production, v. 167, p. 459-472, 2017. DOI: 10.1016/j.jclepro.2017.08.100.
+
+[1035] SHMUELI, G. To explain or to predict? Statistical Science, v. 25, n. 3, p. 289–310, 2010. DOI: https://doi.org/10.1214/10-STS330.
+
+[1036] SHMUELI, G.; KOPPIUS, O. R. Predictive analytics in information systems research. Hyderabad: Indian School of Business, 2010. Working paper. Disponível em: http://eprints.exchange.isb.edu/297/.
+
+[1038] SOUZA, M. S.; ARIMA, C. H.; ORSI, R. N. Gestão de suprimentos em sistemas produtivos: uma abordagem preditiva com ciência de dados e inteligência artificial. Relato técnico apresentado no SINGEP-CIK 2025, 2025.
+
+[1040] SOUZA, M. S.; ARIMA, C. H.; ORSI, R. N.; SOUZA, P. A. Análise exploratória de dados para previsão da demanda de refeições e redução do desperdício alimentar em instituição de ensino. Relato técnico apresentado no SIMPROF 2025, 2025.
+
+[1042] SOUZA, M. S.; ORSI, R. N. Sustentabilidade na mesa: redução do desperdício alimentar em uma instituição de ensino com previsão de demanda por aprendizado de máquina. Relato técnico apresentado no SIMPROF 2024, 2024.
+
+[1044] STEEN, H.; MALEFORS, C.; RÖÖS, E.; ERIKSSON, M. Identification and modelling of risk factors for food waste generation in school and pre-school catering units. Waste Management, v. 77, p. 172-184, 2018. DOI: 10.1016/j.wasman.2018.05.024.
+
+[1046] TASHMAN, L. J. Out-of-sample tests of forecasting accuracy: an analysis and review. International Journal of Forecasting, v. 16, n. 4, p. 437-450, 2000. DOI: 10.1016/S0169-2070(00)00065-0.
+
+[1047] TRIPATHI, S.; MUHR, D.; BRUNNER, M.; JODLBAUER, H.; DEHMER, M.; EMMERT-STREIB, F. Ensuring the robustness and reliability of data-driven knowledge discovery models in production and manufacturing. Frontiers in Artificial Intelligence, v. 4, artigo 576892, 2021. DOI: 10.3389/frai.2021.576892.
+
+[1049] TURKER, G. F. Reducing food waste in campus dining: a data-driven approach to demand prediction and sustainability. Sustainability, v. 17, n. 2, artigo 379, 2025. DOI: 10.3390/su17020379.
+
+[1051] VARMA, S.; SIMON, R. Bias in error estimation when using cross-validation for model selection. BMC Bioinformatics, v. 7, artigo 91, 2006. DOI: 10.1186/1471-2105-7-91.
+
+[1052] WAGNER, F.; KANELI, T.; MASANGO, M. Exploring the relationship between food insecurity with hunger and academic progression at a large South African university. South African Journal of Higher Education, v. 35, n. 5, p. 296-309, 2021. DOI: 10.20853/35-5-4099.
+
+[1054] XU, Z.; TANG, N.; XU, C.; CHENG, X. Data science: connotation, methods, technologies, and development. Data Science and Management, v. 1, n. 1, p. 32-37, 2021. DOI: 10.1016/j.dsm.2021.02.002.

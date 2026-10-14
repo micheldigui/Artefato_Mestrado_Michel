@@ -1,0 +1,159 @@
+# 🧠 Estratégias de Paralelismo em Inferência
+
+**Rede:** `ai-engineering`  
+**Área:** `infraestrutura`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 9 — Inference Optimization
+- Localização: Páginas 444–447
+
+## 📝 Definição
+
+### Definição formal
+
+As **Estratégias de Paralelismo em Inferência** (*Parallelism Strategies for Inference*) representam o conjunto de métodos de computação distribuída e particionamento matricial utilizados para hospedar e executar [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|modelos de fundação]] cuja escala de parâmetros ou volume de requisições excede a capacidade de memória VRAM ou os requisitos de latência de um único acelerador de hardware, estruturando-se em quatro modalidades primárias:
+1. **Paralelismo de Réplicas (*Replica Parallelism*):** Instanciação de múltiplas cópias completas do modelo idêntico em dispositivos separados, particionando o tráfego de usuários através de balanceadores de carga;
+2. **Paralelismo de Tensores (*Tensor Parallelism* / Intra-operador):** Fracionamento das matrizes de peso de cada camada individual (atenção e feedforward) ao longo de linhas ou colunas através de múltiplos aceleradores interconectados, computando partes da mesma multiplicação matricial em paralelo;
+3. **Paralelismo de Pipeline (*Pipeline Parallelism* / Inter-estágios):** Particionamento sequencial do modelo ao longo de suas camadas (ex.: camadas 1 a 20 na GPU 1, camadas 21 a 40 na GPU 2), processando lotes divididos em micro-lotes que fluem através das máquinas em linha de montagem;
+4. **Paralelismo de Contexto e Sequência (*Context / Sequence Parallelism*):** Divisão de sequências ultra-longas de tokens de entrada através de múltiplos dispositivos para viabilizar o cálculo da atenção em contextos de milhões de tokens.
+
+### Em linguagem simples
+
+É como dividir o trabalho pesado entre vários computadores quando a IA é grande demais para caber em uma única placa de vídeo. Se você tem muitos clientes, a forma mais fácil é colocar várias cópias da mesma IA em computadores separados (**Paralelismo de Réplicas**). Se a IA for um monstro de 70 bilhões de parâmetros que não cabe em uma placa só, você fatia as equações matemáticas ao meio para duas placas resolverem juntas (**Paralelismo de Tensores**) ou coloca as primeiras camadas em uma placa e as camadas finais em outra (**Paralelismo de Pipeline**).
+
+### Escopo e distinções
+
+Diferencia-se do paralelismo de treinamento. No treinamento, o paralelismo de pipeline é amplamente utilizado para aumentar a vazão de dados; na inferência com restrições rígidas de latência, o paralelismo de pipeline é evitado porque adiciona atrasos de comunicação sequencial (*bubbles*), sendo preterido em favor do paralelismo de tensores e réplicas.
+
+## 🧩 Problema que resolve
+
+Resolve a impossibilidade física de carregar modelos de dezenas ou centenas de bilhões de parâmetros em uma única GPU. Permite que modelos como o Llama 3-70B (que ocupa 140 GB em FP16) rodem com latência ultra-baixa distribuídos em nós de 4 ou 8 GPUs de 24 GB ou 80 GB interconectadas.
+
+## 💡 Intuição
+
+Pense em carregar um piano de cauda escada acima:
+- **Paralelismo de Réplicas:** Você tem 50 pessoas querendo subir de elevador com mochilas leves. Você constrói 4 elevadores idênticos e divide as pessoas entre eles.
+- **Paralelismo de Tensores:** O piano de cauda pesa 500 kg e nenhum homem consegue levantá-lo sozinho. Quatro carregadores fortes seguram o mesmo piano ao mesmo tempo, cada um levantando um pé do instrumento e subindo os degraus em perfeita sincronia milimétrica.
+- **Paralelismo de Pipeline:** Uma linha de montagem de baldes de água: a pessoa na base do poço enche o balde e passa para quem está no meio da escada, que por sua vez passa para quem está no topo.
+
+## ⚙️ Como funciona
+
+Cada estratégia de particionamento intervém em um nível diferente da pilha de software:
+
+### Etapas
+
+1. **Paralelismo de Tensores (Matmul Paralelo):**
+   - Na camada de atenção, as matrizes de projeção de Query, Key e Value ($W_q, W_k, W_v$) são fatiadas verticalmente (por colunas) entre $N$ GPUs.
+   - Cada GPU multiplica o tensor de entrada por sua respectiva fatia sem precisar conversar com as outras placas.
+   - Na camada de projeção de saída ($W_o$), a matriz é fatiada horizontalmente (por linhas).
+   - Ao final da operação, uma primitiva de comunicação coletiva **All-Reduce** sincroniza e soma os resultados parciais de todas as placas via barramento NVLink de altíssima velocidade.
+2. **Paralelismo de Pipeline:**
+   - O lote de entrada é fragmentado em micro-lotes.
+   - Enquanto a GPU 2 processa o micro-lote 1 na camada 21, a GPU 1 já está processando o micro-lote 2 na camada 1, criando sobreposição temporal de execução.
+3. **Paralelismo de Réplicas (Bin-Packing):**
+   - Um algoritmo de empacotamento distribui modelos de diferentes tamanhos (8B, 70B) na quantidade exata de placas para maximizar a densidade de atendimento por Watt consumido.
+
+### Entradas e saídas
+
+- **Entradas:** Modelo de fundação particionado e fluxo distribuído de requisições de inferência.
+- **Saídas:** Inferência executada com menor tempo por token e capacidade de atendimento massiva.
+
+## 📐 Formulação matemática
+
+No **Paralelismo de Tensores Colunar** (Shoeybi et al., Megatron-LM), a matriz de pesos $W \in \mathbb{R}^{d \times k}$ é particionada em $N$ fatias verticais $W = [W_1 \mid W_2 \mid \dots \mid W_N]$, onde cada fatia $W_i \in \mathbb{R}^{d \times (k/N)}$ reside na GPU $i$:
+
+$$Y_i = X \cdot W_i, \quad \text{onde } Y = [Y_1 \mid Y_2 \mid \dots \mid Y_N]$$
+
+No **Paralelismo de Tensores Linear**, a matriz subsequente $V \in \mathbb{R}^{k \times m}$ é particionada horizontalmente:
+
+$$V = \begin{bmatrix} V_1 \\ V_2 \\ \vdots \\ V_N \end{bmatrix} \implies Z = Y \cdot V = \sum_{i=1}^N Y_i \cdot V_i = \text{All-Reduce}\Big(Y_i \cdot V_i\Big)$$
+
+A operação exige exatamente duas comunicações coletivas All-Reduce por bloco Transformer, tornando a latência diretamente dependente da largura de banda da interconexão entre as placas físicas.
+
+## 🧱 Hipóteses e condições de validade
+
+- O Paralelismo de Tensores exige que as GPUs estejam no **mesmo nó físico** conectadas por barramentos de altíssima velocidade (como NVLink com taxas de centenas de GB/s); tentar rodar paralelismo de tensores entre servidores distantes conectados por cabos de rede comuns destrói a performance devido à latência do All-Reduce.
+
+## ✅ Quando usar
+
+- **Paralelismo de Tensores:** Modelos que excedem a memória de uma única GPU ou aplicações que exigem reduzir a latência de TPOT dividindo o esforço da camada entre múltiplos núcleos simultâneos.
+- **Paralelismo de Réplicas:** Aplicações com alto volume de usuários concorrentes onde o modelo cabe com folga dentro de um único chip (ou dentro de um único par).
+
+## 🚫 Quando não usar
+
+- Evite Paralelismo de Pipeline para sistemas interativos de suporte ao cliente com exigência de baixa latência individual de resposta.
+
+## ⚠️ Limitações e armadilhas
+
+- **Sobrecarga de Comunicação (*Communication Overhead*):** Conforme o grau de paralelismo de tensores se expande além de 8 GPUs, o tempo gasto somando gradientes e ativações no All-Reduce começa a superar o tempo ganho na matemática paralela.
+- **Bolhas de Pipeline (*Pipeline Bubbles*):** No paralelismo de pipeline, instâncias a jusante passam tempo ociosas esperando as primeiras camadas processarem os dados iniciais.
+
+## 🔍 Comparações
+
+| Estratégia de Paralelismo | Onde particiona? | Impacto na Latência (TPOT) | Requisito de Hardware |
+|---|---|---|---|
+| **Réplicas (*Data*)** | Não particiona (duplica tudo) | Não altera (mesma da placa única) | GPUs isoladas sem interconexão rápida |
+| **Tensores (*Tensor*)** | **Dentro de cada camada (matrizes)** | **Reduz a latência (acelera a matemática)**| **Mandatório NVLink local no mesmo nó** |
+| **Pipeline (*Pipeline*)** | Entre camadas sequenciais | **Aumenta a latência individual** | Conexões padrão de rede entre nós |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Uma empresa precisa servir o modelo Llama 3-70B em precisão FP16:
+- O modelo exige 140 GB de VRAM. A empresa tem servidores com 4 placas de 48 GB cada (total de 192 GB por servidor).
+- A equipe configura **Paralelismo de Tensores com grau 4 ($TP=4$)**:
+  - Cada uma das 4 GPUs carrega exatamente 35 GB de pesos na memória HBM.
+  - Quando um token chega, todas as 4 GPUs multiplicam suas fatias da matriz de atenção ao mesmo tempo.
+  - O barramento NVLink soma as 4 fatias em milissegundos.
+O modelo funciona perfeitamente, cabe com folga na memória e gera tokens quase quatro vezes mais rápido do que geraria se tentasse rodar em uma única máquina sobrecarregada.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|Modelo de Fundação]]
+- [[redes/ai-engineering/conceitos/aceleradores-de-ia-e-hierarquia-de-memoria.md|Aceleradores de IA e Hierarquia de Memória]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/gargalos-computacionais-e-intensidade-aritmetica.md|Gargalos Computacionais e Intensidade Aritmética]]
+- [[redes/ai-engineering/conceitos/metricas-de-desempenho-de-inferencia.md|Métricas de Desempenho de Inferência]]
+
+### Alternativas
+
+- Hospedagem monolítica em GPU única com modelos comprimidos via [[redes/ai-engineering/conceitos/quantizacao.md|quantização]].
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/desacoplamento-de-prefill-e-decode.md|Desacoplamento de Prefill e Decode]]
+- [[redes/ai-engineering/conceitos/batching-continuo-e-dinamico.md|Batching Contínuo e Dinâmico]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 9 — Inference Optimization
+- **Localização:** Páginas 444–447
+- **Evidência:** Chip Huyen formaliza o problema de bin-packing no paralelismo de réplicas, destrincha o funcionamento do paralelismo de tensores ilustrado com diagrama matricial (Figura 9-18) e o paralelismo de pipeline com micro-lotes (Figura 9-19), analisando também extensões de paralelismo de contexto e sequência para sequências ultra-longas.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. Quais são as quatro modalidades primárias de paralelismo aplicáveis à inferência de modelos de fundação?
+2. Como funciona a partição de matrizes de atenção e feedforward no Paralelismo de Tensores (Megatron-LM)?
+3. Por que o Paralelismo de Tensores exige que os aceleradores estejam no mesmo nó físico conectados por barramentos como o NVLink?
+4. Qual é a razão pela qual o Paralelismo de Pipeline é amplamente evitado em sistemas de inferência interativos de baixa latência?
+5. Como o Paralelismo de Réplicas atua para aumentar a vazão de atendimento em aplicações com alto tráfego concorrente?
+6. O que são as primitivas de comunicação coletiva All-Reduce e em qual momento do cálculo matricial elas são acionadas?
+7. Como o Paralelismo de Contexto opera para viabilizar o processamento de prompts que contêm centenas de milhares de tokens?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.

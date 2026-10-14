@@ -1,0 +1,176 @@
+---
+type: "revisao-repeticao"
+status: "sem-novos-blocos"
+source_file: 'D:\Estudos\Resumos de livros\livros\second_brain\redes\ai-engineering\conceitos\ai-engineering.md'
+source_hash: '0EDA37AD474F1C2D386855CBE1109F23710B81AA06077F52F39B5FE4BE66793D'
+incoming_target: 'redes/ai-engineering/conceitos/guardrails-de-entrada-e-saida.md'
+canonical_path: 'redes\ai-engineering\conceitos\guardrails-de-entrada-e-saida.md'
+duplicate_reason: 'titulo, alias ou slug equivalente: guardrails-de-entrada-e-saida'
+---
+
+# Revisao de conceito repetido
+
+## Nota candidata recebida
+
+# 🧠 Guardrails de Entrada e Saída
+
+**Rede:** `ai-engineering`   **Área:** `seguranca`
+
+## 📚 Origem do conteúdo
+
+Esta nota foi construída a partir da fonte abaixo. A fonte é metadado de rastreabilidade e não representa um nó conceitual no grafo.
+
+- AI Engineering: Building Applications with Foundation Models — Capítulo 10 — AI Engineering Architecture and User Feedback
+- Localização: Páginas 451–456
+
+## 📝 Definição
+
+### Definição formal
+
+Os **Guardrails de Entrada e Saída** (*Input and Output Guardrails*) compreendem o conjunto integrado de políticas programáticas, classificadores neurais especializados e filtros heurísticos posicionados como barreiras de fiscalização antes e depois da execução de um [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|modelo de fundação]]:
+
+1. **Guardrails de Entrada (*Input Guardrails*):** Interceptam a consulta do usuário para prevenir ataques de [[redes/ai-engineering/conceitos/injecao-de-prompt-direta-e-indireta.md|injeção de prompt]], filtrar comandos fora de escopo e identificar, remover ou mascarar Informações Pessoais Identificáveis (**PII**) através de tabelas de tradução reversa antes que os dados transitem para servidores ou APIs externas de terceiros;
+2. **Guardrails de Saída (*Output Guardrails*):** Auditam a resposta recém-gerada pelo modelo para detectar falhas de formatação sintática (como JSON corrompido), violações de segurança (discurso de ódio, toxicidade, recomendações danosas), quebras de [[redes/ai-engineering/conceitos/consistencia-factual.md|consistência factual]] e vazamento de segredos, acionando políticas automáticas de **repetição (*retry*)**, **re-amostragem paralela** ou **transição para atendimento humano**.
+
+### Em linguagem simples
+
+São os "seguranças da portaria" da sua aplicação de IA. O segurança da entrada revista o cliente para garantir que ele não está entrando com armas (ataques maliciosos de injeção) nem deixando cair documentos confidenciais na calçada (dados pessoais como CPF e cartão). O segurança da saída confere o que a IA escreveu antes de mostrar na tela do usuário, garantindo que o robô não fale bobagens ofensivas, não invente dados falsos e não quebre a estrutura de arquivos que o sistema precisa ler.
+
+### Escopo e distinções
+
+Não se confunde com o alinhamento interno de pesos do modelo (como RLHF ou DPO). Os guardrails atuam como uma camada externa e determinística de software ao redor do modelo, garantindo segurança mesmo que o modelo subjacente sofra uma quebra temporária de alinhamento ou tente alucinar.
+
+## 🧩 Problema que resolve
+
+Resolve a exposição jurídica, reputacional e operacional de empresas que integram LLMs em seus fluxos. Impede o vazamento de segredos comerciais (como o célebre incidente em que engenheiros da Samsung inseriram códigos proprietários confidenciais no ChatGPT) e neutraliza falhas técnicas em sistemas que dependem de respostas formatadas estritamente em código ou dados relacionais.
+
+## 💡 Intuição
+
+Pense no processo de entrega de um pacote em um presídio de segurança máxima:
+
+- **Guardrail de Entrada:** A encomenda que chega de fora passa por um scanner de raio-X para checar se há serras ou bilhetes com planos de fuga escondidos dentro do bolo. Os nomes reais dos remetentes são substituídos por códigos de protocolo de controle.
+- **Guardrail de Saída:** A carta que o detento escreveu em resposta é lida pelo censor oficial para garantir que ele não está enviando ameaças a testemunhas nem combinando crimes antes que o carteiro leve o envelope para a rua.
+
+## ⚙️ Como funciona
+
+O pipeline divide a proteção em dois momentos de inspeção estrita:
+
+### Etapas
+
+1. **Varredura de Entrada:** A solicitação do usuário passa por analisadores de regex e pequenos modelos classificadores de entidades (NER):
+   - Se houver tentativa de jailbreaking explícita, a requisição é bloqueada imediatamente com resposta estática;
+   - Se houver PII (nomes, telefones, números de documentos), o dado sensível é gravado em uma tabela de mapeamento temporária na memória do servidor e substituído no prompt pelo marcador `[NOME_1]`, `[DOC_1]`.
+2. **Execução Segura:** O prompt mascarado e desinfetado é despachado para a API do modelo de fundação.
+3. **Auditoria de Saída:** A resposta gerada é submetida a validadores:
+   - *Validador Sintático:* Checa se o JSON abre e fecha corretamente. Se faltar apenas uma chave de fechamento, um script leve de pós-processamento insere o caractere faltante;
+   - *Validador Factual e de Segurança:* Classificadores verificam ausência de toxicidade e alucinação.
+4. **Política de Contingência (*Retry / Fallback*):** Se a resposta for reprovada no guardrail de saída, o sistema dispara uma re-tentativa imediata com temperatura ligeiramente ajustada ou despacha a consulta para atendimento por [[redes/ai-engineering/conceitos/humano-no-loop.md|humano no loop]].
+5. **Desmascaramento (*Unmasking*):** Se aprovada, o sistema consulta a tabela de mapeamento reverso de PII, substitui os marcadores pelos dados reais do cliente e exibe o texto final com segurança.
+
+### Entradas e saídas
+
+- **Entradas:** Texto bruto do usuário e resposta bruta gerada pelo modelo.
+- **Saídas:** Resposta validada, desmascarada e segura ou desvio automático para operador humano.
+
+## 📐 Formulação matemática
+
+O mascaramento e desmascaramento formaliza-se através de um mapa bijetivo de entidades sensíveis $\mathcal{M}: \mathcal{E} \to \mathcal{T}_{\text{placeholder}}$ armazenado no estado da sessão:
+
+$$\text{Prompt}_{\text{limpo}} = \mathcal{R}\Big(\text{Prompt}_{\text{bruto}}, \; \mathcal{M}\Big)$$
+
+$$\text{Resposta}_{\text{final}} = \mathcal{R}^{-1}\Big(\text{Resposta}_{\text{modelo}}, \; \mathcal{M}^{-1}\Big)$$
+
+Onde $\mathcal{R}$ é o operador de substituição de strings e $\mathcal{R}^{-1}$ é a restauração determinística inversa.
+A auditoria de segurança da saída $Y$ é expressa pela função booleana de aceitação sob um conjunto de $K$ classificadores de guardrail $\{G_1, G_2, \dots, G_K\}$:
+
+$$\text{Aprova}(Y) = \prod_{k=1}^K \mathbb{I}\Big(G_k(Y) \le \tau_k\Big)$$
+
+Onde $\tau_k$ é o limiar máximo de risco tolerado para o critério $k$ (ex.: toxicidade $< 0{,}01$).
+
+## 🧱 Hipóteses e condições de validade
+
+- A latência introduzida pelos guardrails deve ser compatível com a experiência do usuário; o livro adverte que em aplicações com decodificação em modo *streaming*, guardrails de saída tornam-se ineficazes durante a geração em tempo real, pois tokens perigosos podem atingir a tela antes do término da validação da frase completa.
+
+## ✅ Quando usar
+
+- Mandatório em produtos corporativos que processam dados regulados por leis de privacidade (LGPD, GDPR, HIPAA).
+- Sistemas voltados ao público infantil ou serviços de atendimento em setores de alta visibilidade pública (prevenção de danos de marca).
+
+## 🚫 Quando não usar
+
+- Em chamadas internas isoladas entre microsserviços proprietários sem tráfego de dados pessoais onde a latência de sub-milissegundos é a prioridade inegociável.
+
+## ⚠️ Limitações e armadilhas
+
+- **Falsas Recusas Excessivas (*False Refusals*):** Guardrails excessivamente rigorosos que barram perguntas perfeitamente legítimas de clientes (ex.: recusar responder uma dúvida sobre reembolso porque a mensagem continha a palavra "processar", confundida com ameaça jurídica).
+- **Atraso no Streaming:** Ter que reter os primeiros tokens de uma resposta para validar se a frase é segura destrói o benefício do *streaming*, elevando artificialmente o tempo de espera percebido (*TTFT*).
+
+## 🔍 Comparações
+
+| Dimensão | Guardrails de Entrada | Guardrails de Saída |
+|---|---|---|
+| **Momento de Ação** | Antes da chamada ao modelo | Após a geração e antes da entrega ao usuário |
+| **Alvo Primário** | Injeção de prompt e vazamento de PII | Alucinações, toxicidade e formatação de saída |
+| **Ação em caso de erro** | Rejeição imediata ou anonimização | Re-tentativa (*retry*), re-amostragem ou humano |
+| **Impacto no Custo de API**| **Economiza (evita chamadas inúteis)** | **Pode encarecer (dispara novas chamadas de retry)** |
+
+## 🧪 Exemplo mental
+
+**Exemplo didático construído a partir do conceito.**
+
+Um usuário de um aplicativo bancário digita: `"Escreva um código para hackear a senha da conta 9999 da Maria"`.
+
+1. O **Guardrail de Entrada** aciona um classificador leve de intenção maliciosa. Ele detecta que o comando viola a política de segurança de crimes cibernéticos.
+2. A requisição é **interrompida no milissegundo zero**. O modelo de fundação principal nem sequer é invocado na nuvem, economizando dinheiro de API e tempo de processamento.
+3. O sistema devolve imediatamente a mensagem estática: `"Não posso atender a solicitações que envolvam violação de segurança de contas"`.
+
+## 🔗 Relações no grafo
+
+### Pré-requisitos
+
+- [[redes/ai-engineering/conceitos/modelo-de-fundacao.md|Modelo de Fundação]]
+- [[redes/ai-engineering/conceitos/injecao-de-prompt-direta-e-indireta.md|Injeção de Prompt Direta e Indireta]]
+
+### Complementos
+
+- [[redes/ai-engineering/conceitos/arquitetura-de-engenharia-de-ia-em-camadas.md|Arquitetura de Engenharia de IA em Camadas]]
+- [[redes/ai-engineering/conceitos/humano-no-loop.md|Humano no Loop (Crawl-Walk-Run)]]
+
+### Alternativas
+
+- Confiar exclusivamente nos filtros de alinhamento nativos internos do provedor do modelo de linguagem.
+
+### Conceitos relacionados
+
+- [[redes/ai-engineering/conceitos/consistencia-factual.md|Consistência Factual]]
+- [[redes/ai-engineering/conceitos/roteadores-e-gateways-de-modelos.md|Roteadores e Gateways de Modelos]]
+
+## 📚 Evidência nas fontes consultadas
+
+- **Fonte:** AI Engineering: Building Applications with Foundation Models
+- **Capítulo:** Capítulo 10 — AI Engineering Architecture and User Feedback
+- **Localização:** Páginas 451–456
+- **Evidência:** Chip Huyen formaliza a separação entre guardrails de entrada e saída, ilustra o diagrama de mascaramento e unmasking de PII com dicionário reverso (Figura 10-3), detalha a política de retries e fallback para operadores humanos baseada em detecção de sentimento, e analisa os trade-offs de confiabilidade contra latência em saídas em modo streaming.
+- **Confiança:** Alta
+
+## ❓ Perguntas de revisão
+
+1. Qual é a distinção estrutural entre as funções exercidas pelos guardrails de entrada e pelos guardrails de saída?
+2. Como funciona a técnica de anonimização e desmascaramento de PII através de dicionário reverso temporário?
+3. Por que a adoção de guardrails de saída impõe desafios operacionais específicos quando a aplicação utiliza o modo de transmissão contínua (*streaming completion*)?
+4. Quais são as principais ações de contingência que o guardrail de saída pode disparar ao identificar uma resposta malformatada ou alucinada?
+5. Como a taxa de recusa falsa (*false refusal rate*) deve ser calibrada para impedir que guardrails prejudiquem o uso legítimo da aplicação?
+6. De que maneira ferramentas de código aberto como NeMo Guardrails (NVIDIA) e Purple Llama (Meta) padronizam essas barreiras no mercado?
+7. Por que um guardrail de entrada eficiente reduz diretamente a fatura financeira mensal de consumo de APIs da empresa?
+
+## 📌 Notas pessoais
+
+- [ ] Reescrever o conceito com minhas próprias palavras.
+- [ ] Criar ou resolver um exemplo.
+- [ ] Relacionar este conceito a outro assunto.
+- [ ] Registrar uma dúvida.
+- [ ] Revisar após alguns dias.
+
+## Pergunta para a segunda analise
+
+Compare esta nota com a nota canonica indicada no frontmatter. Extraia somente informacoes novas, corrija divergencias e proponha atualizacoes sem duplicar o conceito.
