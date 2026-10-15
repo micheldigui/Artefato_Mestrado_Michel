@@ -1,6 +1,6 @@
 ﻿politica,total_dias_avaliados,potencial_sobra_refeicoes,potencial_falta_refeicoes,total_desvios_refeicoes,dias_com_falta,taxa_dias_falta_pct,indice_protecao_aluno_pct,mae,rmse,custo_desperdicio_sobra_rs,custo_social_falta_rs
 Reserva dos Alunos (2023-2025),458,2916,9494,12410,292,63.8,36.2,27.1,36.38,24786.0,201747.5
-Quantitativo Nutricionista (2026),83,1545,518,2063,34,41.0,59.0,24.86,37.08,13132.5,11007.5
-IA Pura - Ridge t+1 (2026),83,1238,667,1906,36,43.4,56.6,22.97,33.4,10530.71,14183.06
-Modelo Híbrido 50/50 (2026),83,1289,489,1778,36,43.4,56.6,21.43,33.05,10957.24,10409.37
-IA + Conformal P85 (2026),83,2364,236,2601,13,15.7,84.3,31.34,41.54,20101.73,5028.56
+Quantitativo Nutricionista (2026),73,1198,508,1706,32,43.8,56.2,23.37,34.7,10183.0,10795.0
+IA Pura - Ridge t+1 (2026),73,1046,535,1582,32,43.8,56.2,21.67,30.87,8893.52,11388.57
+Modelo Híbrido 50/50 (2026),73,1037,437,1474,33,45.2,54.8,20.2,30.94,8818.54,9292.49
+IA + Conformal P85 (2026),73,1994,167,2162,11,15.1,84.9,29.62,39.12,16956.41,3562.51

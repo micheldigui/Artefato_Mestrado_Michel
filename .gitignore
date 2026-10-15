@@ -32,3 +32,16 @@ Desktop.ini
 ~$*.docx
 ~$*.xlsx
 ~$*.pptx
+*.tmp
+
+# Scratch e arquivos temporarios de auditoria
+scratch/
+scratch_*/
+audit_figuras_1a6.py
+extract_imgs.py
+inspect_figuras_detalhado.py
+inspect_pretextuais.py
+scratch_pretextuais.txt
+dissertacao/*.json
+dissertacao/*.txt
+dissertacao/bck_dissertacao/

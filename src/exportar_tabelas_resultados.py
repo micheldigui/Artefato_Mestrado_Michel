@@ -8,21 +8,21 @@ import os
 import pandas as pd
 import numpy as np
 
-# Configurar diretórios de saída
-DIR_DADOS_GOLD = "dados/gold/resultados_experimentos"
-DIR_REPORTS = "reports/tabelas"
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+DIR_DADOS_GOLD = os.path.join(ROOT_DIR, "dados/gold/resultados_experimentos")
+DIR_REPORTS = os.path.join(ROOT_DIR, "reports/tabelas")
 
 os.makedirs(DIR_DADOS_GOLD, exist_ok=True)
 os.makedirs(DIR_REPORTS, exist_ok=True)
 
-print("[INFO] Iniciando consolidação dos resultados dos experimentos...")
+print("[INFO] Iniciando consolidação dos resultados dos experimentos (Corte 31/08/2026; N=73)...")
 
 # -------------------------------------------------------------
-# 1. Carregar Dados de 2026 (Predições Walk-Forward t+1)
+# 1. Carregar Dados de 2026 (Predições Walk-Forward t+1 até 31/08/2026)
 # -------------------------------------------------------------
-pred_path = "dados/gold/predicoes_detalhadas_walk_forward.parquet"
+pred_path = os.path.join(ROOT_DIR, "dados/gold/predicoes_detalhadas_walk_forward.parquet")
 df_pred = pd.read_parquet(pred_path)
-df_t1 = df_pred[df_pred["horizonte"] == "Semana_t1"].copy()
+df_t1 = df_pred[(df_pred["horizonte"] == "Semana_t1") & (df_pred["data_iso"] <= "2026-08-31")].copy()
 
 df_ridge = df_t1[(df_t1["algoritmo"] == "Ridge") & (df_t1["cenario"] == "Cenario_3_Com_Nutricionista")][["data_iso", "y_real", "y_pred"]].rename(columns={"y_pred": "pred_ia"})
 df_nutri = df_t1[df_t1["algoritmo"] == "Estimativa_Nutricionista_Pura"][["data_iso", "y_pred"]].rename(columns={"y_pred": "reserva_nutri"})
@@ -132,7 +132,7 @@ df_previsoes_detalhadas["falta_hibrido"] = np.maximum(0, df_previsoes_detalhadas
 # -------------------------------------------------------------
 # 6. Comparativo Histórico: Alunos (2023-2025) vs Nutricionista (2026) vs IA
 # -------------------------------------------------------------
-df_fato = pd.read_parquet("dados/silver/silver_fato_diaria.parquet")
+df_fato = pd.read_parquet(os.path.join(ROOT_DIR, "dados/silver/silver_fato_diaria.parquet"))
 df_alunos = df_fato[df_fato["regime_reserva"] == "aluno_manifestacao"].dropna(subset=["consumo", "reservas"]).copy()
 
 met_alunos = avaliar_estrategia(df_alunos["consumo"], df_alunos["reservas"], "Reserva dos Alunos (2023-2025)")

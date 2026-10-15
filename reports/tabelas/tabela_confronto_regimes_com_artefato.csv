@@ -1,6 +1,6 @@
 ﻿estrategia,dias_base,sobra_acumulada,falta_acumulada,pct_dias_falta,mae_diario,custo_desperdicio_sobra_rs,diagnostico
-1. Reserva dos Alunos (2023-2025),458,2916,9494,63.8,27.1,24786.0,"Subnotificação crônica (63,8% dos dias com déficit)"
-2. Quantitativo Nutricionista (2026),83,1545,518,41.0,24.86,13132.5,Superestimativa preventiva (R$ 13.132 em sobras)
-3. IA Pura (Ridge t+1 - 2026),83,1238,667,43.4,22.97,10530.71,"Reduz sobras, mas função de perda é simétrica"
-4. Modelo Híbrido Ótimo (50/50),83,1289,489,43.4,21.43,10957.24,"Menor MAE da pesquisa (21,4) e menor falta (489)"
-5. Híbrido + Conformal P85 (+12 ref),83,1994,199,16.9,26.43,16952.79,"Proteção de 83,1% contra faltas com sobriedade"
+1. Reserva dos Alunos (2023-2025),458,2916,9494,63.8,27.1,40824.0,"Subnotificação crônica (63,8% dos dias com déficit)"
+2. Quantitativo Nutricionista (2026),73,1198,508,43.8,23.37,16772.0,Superestimativa preventiva (R$ 13.132 em sobras)
+3. IA Pura (Ridge t+1 - 2026),73,1046,535,43.8,21.67,14648.15,"Reduz sobras, mas função de perda é simétrica"
+4. Modelo Híbrido Ótimo (50/50),73,1037,437,45.2,20.2,14524.65,"Menor MAE da pesquisa (21,4) e menor falta (489)"
+5. Híbrido + Conformal P85 (+12 ref),73,1640,164,20.5,24.73,22969.23,"Proteção de 83,1% contra faltas com sobriedade"

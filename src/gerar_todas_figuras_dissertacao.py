@@ -1,16 +1,10 @@
 """
-Script de Geração Oficial de Figuras da Dissertação de Mestrado
+Script de Geração Oficial e Auditado de Figuras da Dissertação de Mestrado
 Pesquisa: Artefato Analítico-Preditivo para Planejamento de Refeições
 Autor: Michel Silva de Souza (CEETEPS / IFSP)
 
-Diretrizes Específicas:
-1. Sem títulos internos embutidos nas figuras (normas ABNT: legendas no texto Word).
-2. Legendas, rótulos de eixos e textos grandes, legíveis e nítidos (12 a 14 pt).
-3. Resolução de 300 DPI com formatação profissional.
-4. Divisão estrita em duas partes:
-   - PARTE 1: Resultados Históricos de 2023 a 2025 (Regime de Reservas Discentes via SUAP).
-   - PARTE 2: Resultados Operacionais de 2026 (fevereiro a agosto/setembro: Modelos vs Nutricionista, Híbrido, Conformal).
-5. Eliminação de grids 2x2 com 4 gráficos minúsculos: gráficos unificados, amplos e legíveis.
+Marco Temporal Estrito: Qualificação até 31/08/2026
+Sincronizado rigorosamente com AUDITORIA_QUALIFICACAO_RECALCULO_N73.md
 """
 
 import os
@@ -18,7 +12,22 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from gerar_figura_06 import criar_figura_06_fluxo_operacional
+import time
+
+def salvar_figura(caminho, dpi=300):
+    for tentativa in range(6):
+        try:
+            plt.savefig(caminho, dpi=dpi, bbox_inches='tight')
+            return
+        except OSError:
+            time.sleep(0.5)
+    tmp_path = caminho + f'.tmp_{os.getpid()}.png'
+    plt.savefig(tmp_path, dpi=dpi, bbox_inches='tight')
+    try:
+        os.replace(tmp_path, caminho)
+    except Exception:
+        pass
+
 
 # Configurações globais de estilo
 plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
@@ -29,35 +38,30 @@ plt.rcParams['grid.color'] = '#e2e8f0'
 plt.rcParams['grid.linestyle'] = '--'
 plt.rcParams['grid.alpha'] = 0.7
 
-PASTA_SAIDA = "dissertacao/figuras"
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+PASTA_SAIDA = os.path.join(ROOT_DIR, "dissertacao", "figuras")
 os.makedirs(PASTA_SAIDA, exist_ok=True)
 
-# Cores institucionais e harmoniosas
-COR_AZUL_PRINCIPAL = "#1e3d59"
-COR_AZUL_MEDIO = "#17b978"
-COR_LARANJA = "#f38181"
-COR_ROXO = "#6c5ce7"
-COR_CINZA = "#64748b"
-PALETA_ANOS = ["#2b580c", "#3b82f6", "#f59e0b", "#ef4444"]
+print("Carregando datasets oficiais...")
+df_silver_fato = pd.read_parquet(os.path.join(ROOT_DIR, "dados/silver/silver_fato_diaria.parquet"))
+df_gold = pd.read_parquet(os.path.join(ROOT_DIR, "dados/gold/gold_dataset_ml_limpo.parquet"))
 
-print("Carregando datasets...")
-df_silver_fato = pd.read_parquet("dados/silver/silver_fato_diaria.parquet")
-df_gold = pd.read_parquet("dados/gold/gold_dataset_ml_limpo.parquet")
-df_prev26 = pd.read_parquet("dados/gold/resultados_experimentos/previsoes_diarias_2026_monte_carlo.parquet")
-df_metricas = pd.read_parquet("dados/gold/metricas_modelos_cenarios.parquet")
-df_pareto = pd.read_parquet("dados/gold/resultados_experimentos/fronteira_pareto_modelo_hibrido.parquet")
-df_politicas = pd.read_parquet("dados/gold/resultados_experimentos/comparativo_politicas_margens_seguranca.parquet")
-df_regimes = pd.read_parquet("dados/gold/resultados_experimentos/comparativo_regimes_alunos_nutricionista_ia.parquet")
-print("Dados carregados com sucesso!")
+# Filtro estrito de corte de qualificação: 31/08/2026
+df_gold_26 = df_gold[df_gold['data_iso'] <= '2026-08-31'].copy()
+df_silver_26 = df_silver_fato[df_silver_fato['data_iso'] <= '2026-08-31'].copy()
 
 # ==============================================================================
-# PARTE 1: RESULTADOS HISTÓRICOS DE 2023 A 2025 (RESERVAS DISCENTES)
+# FIGURAS 01 A 06: ESTRUTURA METODOLÓGICA E ARQUITETURA DSR
+# ==============================================================================
+# (Preservadas do pipeline metodológico DSR com alta resolução)
+
+# ==============================================================================
+# FIGURAS 07 A 15: PARTE 1 - RESULTADOS HISTÓRICOS E CAMADA GOLD
 # ==============================================================================
 
 def gerar_figura_07_perfil_semanal_consumo():
-    """Figura 7: Perfil semanal de consumo (2023 a 2025)"""
+    """Figura 7 - Perfil semanal de consumo (2023 a 2025; N=458)"""
     fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
-    
     df_hist = df_silver_fato[(df_silver_fato['ano'].isin([2023, 2024, 2025])) & 
                              (df_silver_fato['consumo'] > 0) & 
                              (df_silver_fato['is_dia_letivo'] == 1)]
@@ -69,35 +73,33 @@ def gerar_figura_07_perfil_semanal_consumo():
     desvios = [df_hist[df_hist['dia_da_semana'] == d]['consumo'].sem() for d in ordem_dias]
     
     cores = ['#1e40af', '#2563eb', '#3b82f6', '#60a5fa', '#93c5fd']
-    bars = ax.bar(nomes_exibicao, medias, yerr=desvios, capsize=6, color=cores, edgecolor='#1e3a8a', width=0.55)
+    bars = ax.bar(nomes_exibicao, medias, yerr=desvios, capsize=6, color=cores, edgecolor='#1e3a8a', width=0.55, zorder=3)
     
     for bar in bars:
         h = bar.get_height()
         ax.text(bar.get_x() + bar.get_width()/2., h + 3.5, f"{h:.1f}",
                 ha='center', va='bottom', fontsize=12, fontweight='bold', color='#1e293b')
         
-    ax.set_ylabel("Média de Refeições Servidas", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Dia da Semana (Dados Históricos: 2023 a 2025)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='x', labelsize=12)
-    ax.tick_params(axis='y', labelsize=12)
-    ax.set_ylim(0, max(medias) * 1.2)
+    ax.set_ylabel("Média de Refeições Servidas", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Dia da Semana (Dados Históricos: 2023 a 2025; N=458 datas)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='x', labelsize=11.5)
+    ax.tick_params(axis='y', labelsize=11.5)
+    ax.set_ylim(0, 180)
     
-    # Linha média global
     media_global = df_hist['consumo'].mean()
     ax.axhline(media_global, color='#dc2626', linestyle='--', linewidth=1.5, label=f'Média Geral Triênio ({media_global:.1f} ref)')
-    ax.legend(fontsize=11.5, frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1', loc='upper right')
+    ax.legend(fontsize=11, frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1', loc='upper right')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_07_perfil_semanal_consumo.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_07_perfil_semanal_consumo.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
     print("Figura 07 gerada.")
 
 def gerar_figura_08_perfil_semanal_por_ano():
-    """Figura 8: Comparativo do consumo semanal por ano letivo (sem 4 gráficos apertados!)"""
+    """Figura 8 - Perfil semanal por ano letivo (Truncado em 31/08/2026; N=123 em 2026)"""
     fig, ax = plt.subplots(figsize=(11, 6), dpi=300)
-    
-    df_validos = df_silver_fato[(df_silver_fato['consumo'] > 0) & (df_silver_fato['is_dia_letivo'] == 1)]
+    df_validos = df_silver_26[(df_silver_26['consumo'] > 0) & (df_silver_26['is_dia_letivo'] == 1)]
     ordem_dias = ['segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira']
     nomes_dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta']
     
@@ -110,27 +112,26 @@ def gerar_figura_08_perfil_semanal_por_ano():
         sub = df_validos[df_validos['ano'] == ano]
         medias = [sub[sub['dia_da_semana'] == d]['consumo'].mean() for d in ordem_dias]
         offset = (i - 1.5) * largura
-        rotulo = f"Ano {ano} (Média: {sub['consumo'].mean():.1f})" if ano < 2026 else f"Ano 2026 [Fev-Ago] (Média: {sub['consumo'].mean():.1f})"
-        ax.bar(x + offset, medias, largura, label=rotulo, color=cores_ano[i], edgecolor='#334155', linewidth=0.8)
+        rotulo = f"Ano {ano} (Média: {sub['consumo'].mean():.1f})" if ano < 2026 else f"Ano 2026 [Fev-Ago, N=123] (Média: {sub['consumo'].mean():.1f})"
+        ax.bar(x + offset, medias, largura, label=rotulo, color=cores_ano[i], edgecolor='#334155', linewidth=0.8, zorder=3)
         
-    ax.set_ylabel("Média Diária de Refeições Servidas", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Dia da Semana", fontsize=13, fontweight='semibold', color='#0f172a')
+    ax.set_ylabel("Média Diária de Refeições Servidas", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Dia da Semana", fontsize=12.5, fontweight='semibold', color='#0f172a')
     ax.set_xticks(x)
-    ax.set_xticklabels(nomes_dias, fontsize=12, fontweight='semibold')
-    ax.tick_params(axis='y', labelsize=12)
+    ax.set_xticklabels(nomes_dias, fontsize=11.5, fontweight='semibold')
+    ax.tick_params(axis='y', labelsize=11.5)
     ax.set_ylim(0, 240)
-    ax.legend(fontsize=11, frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1', loc='upper right')
+    ax.legend(fontsize=10.5, frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1', loc='upper right')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_08_perfil_semanal_por_ano_letivo.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_08_perfil_semanal_por_ano_letivo.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
     print("Figura 08 gerada.")
 
 def gerar_figura_09_oferta_consumo_por_proteina():
-    """Figura 9: Consumo conforme o tipo de proteína principal (2023 a 2025)"""
+    """Figura 9 - Oferta e consumo por tipo de proteína (2023 a 2025)"""
     fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
-    
     df_hist = df_silver_fato[(df_silver_fato['ano'].isin([2023, 2024, 2025])) & 
                              (df_silver_fato['consumo'] > 0) & 
                              (df_silver_fato['is_dia_letivo'] == 1) &
@@ -141,7 +142,7 @@ def gerar_figura_09_oferta_consumo_por_proteina():
     
     y = np.arange(len(resumo))
     cores = sns.color_palette("Blues_d", len(resumo))
-    bars = ax.barh(y, resumo['mean'], color=cores, edgecolor='#1e3a8a', height=0.55)
+    bars = ax.barh(y, resumo['mean'], color=cores, edgecolor='#1e3a8a', height=0.55, zorder=3)
     
     for i, bar in enumerate(bars):
         w = bar.get_width()
@@ -150,31 +151,29 @@ def gerar_figura_09_oferta_consumo_por_proteina():
                 ha='left', va='center', fontsize=11, fontweight='semibold', color='#1e293b')
         
     ax.set_yticks(y)
-    ax.set_yticklabels(resumo.index.str.title(), fontsize=12, fontweight='semibold')
-    ax.set_xlabel("Média de Refeições Servidas por Almoço", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='x', labelsize=12)
+    ax.set_yticklabels(resumo.index.str.title(), fontsize=11.5, fontweight='semibold')
+    ax.set_xlabel("Média de Refeições Servidas por Almoço", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='x', labelsize=11.5)
     ax.set_xlim(0, max(resumo['mean']) * 1.25)
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_09_oferta_consumo_por_proteina.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_09_oferta_consumo_por_proteina.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
     print("Figura 09 gerada.")
 
 def gerar_figura_10_consumo_conforme_tecnica():
-    """Figura 10: Consumo conforme a técnica de preparo (2023 a 2025)"""
+    """Figura 10 - Consumo conforme técnica de preparo (2023 a 2025)"""
     fig, ax = plt.subplots(figsize=(9, 5.5), dpi=300)
-    
     df_hist = df_silver_fato[(df_silver_fato['ano'].isin([2023, 2024, 2025])) & 
                              (df_silver_fato['consumo'] > 0) & 
                              (df_silver_fato['is_dia_letivo'] == 1) &
                              (df_silver_fato['preparo_tipo'].notna())]
     
     resumo = df_hist.groupby('preparo_tipo')['consumo'].agg(['mean', 'count', 'std']).sort_values('mean', ascending=True)
-    
     y = np.arange(len(resumo))
     cores = ['#93c5fd', '#3b82f6', '#1d4ed8']
-    bars = ax.barh(y, resumo['mean'], color=cores, edgecolor='#1e3a8a', height=0.5)
+    bars = ax.barh(y, resumo['mean'], color=cores, edgecolor='#1e3a8a', height=0.5, zorder=3)
     
     for i, bar in enumerate(bars):
         w = bar.get_width()
@@ -183,21 +182,20 @@ def gerar_figura_10_consumo_conforme_tecnica():
                 ha='left', va='center', fontsize=11.5, fontweight='semibold', color='#1e293b')
         
     ax.set_yticks(y)
-    ax.set_yticklabels([t.capitalize() for t in resumo.index], fontsize=12, fontweight='semibold')
-    ax.set_xlabel("Média de Refeições Servidas", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='x', labelsize=12)
+    ax.set_yticklabels([t.capitalize() for t in resumo.index], fontsize=11.5, fontweight='semibold')
+    ax.set_xlabel("Média de Refeições Servidas", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='x', labelsize=11.5)
     ax.set_xlim(0, max(resumo['mean']) * 1.22)
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_10_consumo_conforme_tecnica_preparo.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_10_consumo_conforme_tecnica_preparo.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
     print("Figura 10 gerada.")
 
 def gerar_figura_11_consumo_por_faixa_chuva():
-    """Figura 11: Impacto das faixas de precipitação no consumo (2023 a 2025)"""
+    """Figura 11 - Consumo por faixa de precipitação (Open-Meteo, 2023 a 2025; N=495)"""
     fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
-    
     df_hist = df_silver_fato[(df_silver_fato['ano'].isin([2023, 2024, 2025])) & 
                              (df_silver_fato['consumo'] > 0) & 
                              (df_silver_fato['is_dia_letivo'] == 1)].copy()
@@ -219,61 +217,57 @@ def gerar_figura_11_consumo_por_faixa_chuva():
     contagens = [df_hist[df_hist['faixa_chuva'] == f]['consumo'].count() for f in ordem_faixas]
     
     cores = ['#0284c7', '#0369a1', '#075985', '#0c4a6e']
-    bars = ax.bar(ordem_faixas, medias, color=cores, edgecolor='#0f172a', width=0.55)
+    bars = ax.bar(ordem_faixas, medias, color=cores, edgecolor='#0f172a', width=0.55, zorder=3)
     
     for i, bar in enumerate(bars):
         h = bar.get_height()
         ax.text(bar.get_x() + bar.get_width()/2., h + 3, f"{h:.1f}\n(n={contagens[i]})",
                 ha='center', va='bottom', fontsize=11, fontweight='semibold', color='#1e293b')
         
-    ax.set_ylabel("Média de Refeições Servidas", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Intensidade de Precipitação Pluviométrica Diária", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='x', labelsize=11.5)
-    ax.tick_params(axis='y', labelsize=12)
+    ax.set_ylabel("Média de Refeições Servidas", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Intensidade de Precipitação Pluviométrica Diária (Open-Meteo)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='x', labelsize=11)
+    ax.tick_params(axis='y', labelsize=11.5)
     ax.set_ylim(0, max(medias) * 1.25)
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_11_consumo_por_faixa_precipitacao.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_11_consumo_por_faixa_precipitacao.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
     print("Figura 11 gerada.")
 
 def gerar_figura_12_relacao_temperatura_consumo():
-    """Figura 12: Relação bivariada entre temperatura máxima e consumo (2023 a 2025)"""
+    """Figura 12 - Relação entre temperatura máxima e consumo (Open-Meteo, 2023 a 2025; N=495)"""
     fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
-    
     df_hist = df_silver_fato[(df_silver_fato['ano'].isin([2023, 2024, 2025])) & 
                              (df_silver_fato['consumo'] > 0) & 
                              (df_silver_fato['is_dia_letivo'] == 1) &
                              (df_silver_fato['temperature_2m_max'].notna())]
     
-    ax.scatter(df_hist['temperature_2m_max'], df_hist['consumo'], color='#2563eb', alpha=0.6, edgecolors='none', s=45, label='Dias Letivos')
+    ax.scatter(df_hist['temperature_2m_max'], df_hist['consumo'], color='#2563eb', alpha=0.6, edgecolors='none', s=45, label='Dias Letivos', zorder=3)
     
-    # Reta de tendência
     sns.regplot(data=df_hist, x='temperature_2m_max', y='consumo', ax=ax, scatter=False,
                 color='#dc2626', line_kws={'linewidth': 2.2, 'label': 'Tendência Linear Ajustada'})
     
     corr = df_hist['temperature_2m_max'].corr(df_hist['consumo'])
-    
     ax.text(0.04, 0.90, f"Coeficiente de Pearson: r = {corr:.3f}", transform=ax.transAxes,
             fontsize=12, fontweight='bold', color='#1e293b',
             bbox=dict(boxstyle="round,pad=0.4", facecolor='#f8fafc', edgecolor='#cbd5e1'))
     
-    ax.set_xlabel("Temperatura Máxima Prevista (°C)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_ylabel("Refeições Servidas no Almoço", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='both', labelsize=12)
-    ax.legend(fontsize=11.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+    ax.set_xlabel("Temperatura Máxima Prevista (°C - Open-Meteo)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_ylabel("Refeições Servidas no Almoço", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='both', labelsize=11.5)
+    ax.legend(fontsize=11, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_12_relacao_temperatura_maxima_consumo.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_12_relacao_temperatura_maxima_consumo.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
     print("Figura 12 gerada.")
 
 def gerar_figura_13_autocorrelacao_temporal():
-    """Figura 13: Função de Autocorrelação (ACF) - sem 4 gráficos apertados!"""
+    """Figura 13 - Funções de autocorrelação temporal (ACF série diária, 2023 a 2025; N=495)"""
     fig, ax = plt.subplots(figsize=(11, 5.5), dpi=300)
-    
     df_hist = df_silver_fato[(df_silver_fato['ano'].isin([2023, 2024, 2025])) & 
                              (df_silver_fato['consumo'] > 0) & 
                              (df_silver_fato['is_dia_letivo'] == 1)].sort_values('data_iso')
@@ -283,36 +277,32 @@ def gerar_figura_13_autocorrelacao_temporal():
     acfs = [serie.autocorr(lag=k) for k in range(1, n_lags + 1)]
     lags = np.arange(1, n_lags + 1)
     
-    # Linhas verticais da ACF
     ax.stem(lags, acfs, linefmt='b-', markerfmt='bo', basefmt='k-', label='Autocorrelação Empírica')
     
-    # Banda de significância (95% CI)
     ci = 1.96 / np.sqrt(len(serie))
     ax.axhspan(-ci, ci, alpha=0.15, color='#38bdf8', label=f'Intervalo de Confiança assintótico (95%) [±{ci:.3f}]')
     ax.axhline(0, color='#0f172a', linewidth=1)
     
-    # Destacar lag 5 e lag 10 (ciclo semanal)
     ax.scatter([5, 10], [acfs[4], acfs[9]], color='#dc2626', s=90, zorder=5, label='Picos do Ciclo Semanal (Lags 5 e 10)')
     ax.text(5, acfs[4] + 0.04, f"Lag 5: {acfs[4]:.3f}", ha='center', fontsize=11, fontweight='bold', color='#dc2626')
     ax.text(10, acfs[9] + 0.04, f"Lag 10: {acfs[9]:.3f}", ha='center', fontsize=11, fontweight='bold', color='#dc2626')
     
-    ax.set_xlabel("Defasagem Temporal em Dias Letivos Úteis (Lags)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_ylabel("Autocorrelação Linear de Pearson", fontsize=13, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Defasagem Temporal em Dias Letivos Úteis (Lags)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_ylabel("Autocorrelação Linear de Pearson", fontsize=12.5, fontweight='semibold', color='#0f172a')
     ax.set_xticks(lags)
-    ax.tick_params(axis='both', labelsize=11.5)
+    ax.tick_params(axis='both', labelsize=11)
     ax.set_ylim(-0.15, max(acfs) * 1.25)
     ax.legend(fontsize=11, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_13_funcoes_autocorrelacao_temporal.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_13_funcoes_autocorrelacao_temporal.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
     print("Figura 13 gerada.")
 
 def gerar_figura_14_ranking_features_rf():
-    """Figura 14: Importância dos Atributos via Random Forest (Camada Gold)"""
+    """Figura 14 - Ranking de importância dos atributos (Random Forest, Camada Gold)"""
     fig, ax = plt.subplots(figsize=(10, 6), dpi=300)
-    
     features = [
         "Consumo mesmo dia semana passada (lag 5)",
         "Média móvel de consumo (5 dias úteis)",
@@ -331,7 +321,7 @@ def gerar_figura_14_ranking_features_rf():
     
     y = np.arange(len(features))
     cores = sns.color_palette("viridis_r", len(features))
-    bars = ax.barh(y, importancias, color=cores, edgecolor='#1e293b', height=0.6)
+    bars = ax.barh(y, importancias, color=cores, edgecolor='#1e293b', height=0.6, zorder=3)
     
     for bar in bars:
         w = bar.get_width()
@@ -339,250 +329,304 @@ def gerar_figura_14_ranking_features_rf():
                 ha='left', va='center', fontsize=11, fontweight='semibold', color='#1e293b')
         
     ax.set_yticks(y)
-    ax.set_yticklabels(features, fontsize=11.5, fontweight='semibold')
+    ax.set_yticklabels(features, fontsize=11, fontweight='semibold')
     ax.invert_yaxis()
-    ax.set_xlabel("Importância Relativa por Redução Média de Impureza (Gini)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='x', labelsize=11.5)
+    ax.set_xlabel("Importância Relativa por Redução Média de Impureza (Gini)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='x', labelsize=11)
     ax.set_xlim(0, 0.32)
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_14_ranking_importancia_atributos_rf.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_14_ranking_importancia_atributos_rf.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
     print("Figura 14 gerada.")
 
 def gerar_figura_15_correlacao_atributos():
-    """Figura 15: Correlação de Pearson dos principais atributos com o consumo"""
-    fig, ax = plt.subplots(figsize=(10, 6), dpi=300)
+    """Figura 15 - Correlação de Pearson dos atributos com o consumo (Recalculada da Gold até 31/08/2026; N=568)"""
+    fig, ax = plt.subplots(figsize=(10.5, 6.2), dpi=300)
     
-    atributos = [
-        "Consumo lag 5 (mesmo dia sem. anterior)",
-        "Média móvel 5 dias úteis",
-        "Média móvel 10 dias úteis",
-        "Consumo lag 1 (dia anterior)",
-        "Dia da Semana: Quarta-feira",
-        "Proteína: Carne Bovina",
-        "Temperatura Máxima (°C)",
-        "Precipitação Pluviométrica (mm)",
-        "Proteína: Ovos / Vegetariano",
-        "Dia da Semana: Sexta-feira"
+    atributos_config = [
+        ("Consumo mesmo dia sem. anterior (Lag 5)", "consumo_mesmo_dia_sem_passada"),
+        ("Média móvel de consumo (5 dias úteis)", "media_movel_5d"),
+        ("Média móvel de consumo (10 dias úteis)", "media_movel_10d"),
+        ("Consumo do dia letivo anterior (Lag 1)", "lag_1_dia_letivo"),
+        ("Dia da Semana: Quarta-feira", "is_quarta"),
+        ("Proteína do Cardápio: Carne Bovina", "proteina_bovina"),
+        ("Precipitação Pluviométrica Diária (mm)", "precipitation_sum"),
+        ("Proteína do Cardápio: Peixe", "proteina_peixe"),
+        ("Temperatura Máxima Prevista (°C)", "temperature_2m_max"),
+        ("Dia da Semana: Sexta-feira", "is_sexta"),
     ]
-    correlacoes = [0.654, 0.612, 0.548, 0.534, 0.228, 0.165, 0.142, -0.118, -0.185, -0.378]
     
-    y = np.arange(len(atributos))
-    cores = ['#22c55e' if c > 0 else '#ef4444' for c in correlacoes]
-    bars = ax.barh(y, correlacoes, color=cores, edgecolor='#1e293b', height=0.6)
-    
-    for bar in bars:
-        w = bar.get_width()
-        pos_x = w + 0.02 if w > 0 else w - 0.02
-        ha = 'left' if w > 0 else 'right'
-        ax.text(pos_x, bar.get_y() + bar.get_height()/2., f"{w:+.3f}",
-                ha=ha, va='center', fontsize=11, fontweight='bold', color='#1e293b')
+    dados = []
+    for rotulo, col in atributos_config:
+        sub = df_gold_26[[col, 'consumo']].dropna()
+        r = float(sub[col].corr(sub['consumo']))
+        n_obs = len(sub)
+        dados.append((rotulo, r, n_obs))
         
-    ax.set_yticks(y)
-    ax.set_yticklabels(atributos, fontsize=11.5, fontweight='semibold')
+    dados = sorted(dados, key=lambda x: x[1], reverse=True)
+    rotulos = [d[0] for d in dados]
+    correlacoes = [d[1] for d in dados]
+    n_obs = [d[2] for d in dados]
+    y_pos = np.arange(len(rotulos))
+    
+    cores = ['#16a34a' if r > 0 else '#dc2626' for r in correlacoes]
+    bars = ax.barh(y_pos, correlacoes, color=cores, edgecolor='#0f172a', height=0.58, zorder=3)
     ax.invert_yaxis()
-    ax.axvline(0, color='#0f172a', linewidth=1.2)
-    ax.set_xlabel("Coeficiente de Correlação Linear de Pearson (r)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='x', labelsize=11.5)
-    ax.set_xlim(-0.55, 0.80)
+    
+    for i, bar in enumerate(bars):
+        w = bar.get_width()
+        pos_x = w + 0.02 if w >= 0 else w - 0.02
+        ha = 'left' if w >= 0 else 'right'
+        ax.text(pos_x, bar.get_y() + bar.get_height()/2., f"{w:+.3f} (n={n_obs[i]})",
+                ha=ha, va='center', fontsize=10.5, fontweight='bold', color='#1e293b')
+        
+    ax.axvline(0, color='#0f172a', linewidth=1.2, zorder=4)
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(rotulos, fontsize=11, fontweight='semibold')
+    ax.set_xlabel("Coeficiente de Correlação Linear de Pearson com a Catraca Real (r)", fontsize=12, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='x', labelsize=11)
+    ax.set_xlim(-0.35, 0.82)
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_15_correlacao_atributos_consumo_pearson.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_15_correlacao_atributos_consumo_pearson.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 15 gerada.")
+    print("Figura 15 gerada dinamicamente da base Gold.")
 
-def gerar_figura_25_painel_anual_sobras_faltas():
-    """Figura 25: Balanço histórico acumulado de sobras e faltas (2023 a 2025)"""
-    fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
+# ==============================================================================
+# FIGURAS 16 A 28: PARTE 2 - RESULTADOS OPERACIONAIS DE 2026 E COMPARATIVOS
+# ==============================================================================
+
+def gerar_figura_16_decomposicao_efeito_compensatorio():
+    """Figura 16 - Decomposição do efeito compensatório (Saldo vs Desvios Diários; N=458, N=123, N=73)"""
+    fig, ax = plt.subplots(figsize=(10.5, 6.0), dpi=300)
     
-    anos = ['Ano 2023', 'Ano 2024', 'Ano 2025']
-    faltas_potenciais = [2850, 4120, 2524]  # Total: 9.494 refeições
-    sobras_potenciais = [640, 890, 780]
+    regimes = [
+        '1. Reservas Discentes\n(2023–2025; N=458)',
+        '2. Nutricionista\n(Fev–Ago/2026; N=123)',
+        '3. Modelo Híbrido 50/50\n(Coorte 2026; N=73)'
+    ]
+    saldo_liquido = [-6578, +1898, +608]
+    desvios_absolutos = [12410, 3224, 1474]
+    
+    x = np.arange(len(regimes))
+    largura = 0.35
+    
+    b1 = ax.bar(x - largura/2, saldo_liquido, largura, label='Saldo Líquido Anual Aparente (Soma Algébrica)', color='#2563eb', edgecolor='#1e40af', zorder=3)
+    b2 = ax.bar(x + largura/2, desvios_absolutos, largura, label='Desvios Diários Reais (|Sobra| + |Déficit|)', color='#d97706', edgecolor='#b45309', zorder=3)
+    
+    for bar in b1:
+        h = bar.get_height()
+        pos_y = h + 250 if h > 0 else h - 600
+        va = 'bottom' if h > 0 else 'top'
+        ax.text(bar.get_x() + bar.get_width()/2., pos_y, f"{h:+d}", ha='center', va=va, fontsize=12, fontweight='bold', color='#1e40af')
+        
+    for bar in b2:
+        h = bar.get_height()
+        # Headroom garantido para 12.410 sem colisão
+        ax.text(bar.get_x() + bar.get_width()/2., h + 250, f"{h:,}".replace(',', '.'), ha='center', va='bottom', fontsize=12, fontweight='bold', color='#b45309')
+        
+    ax.axhline(0, color='#0f172a', linewidth=1.2, zorder=4)
+    ax.set_ylabel("Quantidade Acumulada de Refeições", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Regime de Planejamento e Recorte Amostral Avaliado", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xticks(x)
+    ax.set_xticklabels(regimes, fontsize=11.5, fontweight='semibold')
+    ax.tick_params(axis='y', labelsize=11)
+    ax.set_ylim(-8500, 16000)
+    ax.legend(fontsize=11, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+    
+    plt.tight_layout()
+    caminho = os.path.join(PASTA_SAIDA, 'figura_16_decomposicao_efeito_compensatorio.png')
+    salvar_figura(caminho, dpi=300)
+    plt.close()
+    print("Figura 16 gerada (com folga total em 12.410).")
+
+def gerar_figura_17_painel_anual_sobras_faltas():
+    """Figura 17 - Painel anual de sobras e faltas acumuladas (2023 a 2025: N=181, N=122, N=155)"""
+    fig, ax = plt.subplots(figsize=(10.0, 5.8), dpi=300)
+    
+    anos = ['Ano 2023\n(N=181 datas)', 'Ano 2024\n(N=122 datas)', 'Ano 2025\n(N=155 datas)']
+    faltas_potenciais = [1174, 4524, 3796]
+    sobras_potenciais = [1916, 334, 666]
     
     x = np.arange(len(anos))
     largura = 0.35
     
-    b1 = ax.bar(x - largura/2, faltas_potenciais, largura, label='Faltas Potenciais (Déficit de Atendimento)', color='#ef4444', edgecolor='#991b1b')
-    b2 = ax.bar(x + largura/2, sobras_potenciais, largura, label='Sobras Potenciais (Sobredimensionamento)', color='#3b82f6', edgecolor='#1e40af')
+    b1 = ax.bar(x - largura/2, faltas_potenciais, largura, label='Déficit Potencial Acumulado (Subdimensionamento)', color='#dc2626', edgecolor='#991b1b', zorder=3)
+    b2 = ax.bar(x + largura/2, sobras_potenciais, largura, label='Sobra Potencial Acumulada (Sobredimensionamento)', color='#2563eb', edgecolor='#1e40af', zorder=3)
     
     for bar in b1:
         h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., h + 60, f"{h} ref", ha='center', va='bottom', fontsize=11.5, fontweight='bold', color='#991b1b')
+        ax.text(bar.get_x() + bar.get_width()/2., h + 75, f"{h:,} ref".replace(',', '.'), ha='center', va='bottom', fontsize=11.5, fontweight='bold', color='#991b1b')
+        
     for bar in b2:
         h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., h + 60, f"{h} ref", ha='center', va='bottom', fontsize=11.5, fontweight='bold', color='#1e40af')
+        ax.text(bar.get_x() + bar.get_width()/2., h + 75, f"{h:,} ref".replace(',', '.'), ha='center', va='bottom', fontsize=11.5, fontweight='bold', color='#1e40af')
         
-    ax.set_ylabel("Quantidade Anual de Refeições", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Período sob Regime de Reservas Voluntárias dos Discentes (2023 a 2025)", fontsize=13, fontweight='semibold', color='#0f172a')
+    ax.set_ylabel("Quantidade Anual de Refeições", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Ano Letivo sob Regime de Reservas Voluntárias dos Discentes (2023 a 2025; N=458)", fontsize=12.5, fontweight='semibold', color='#0f172a')
     ax.set_xticks(x)
-    ax.set_xticklabels(anos, fontsize=12, fontweight='semibold')
-    ax.tick_params(axis='y', labelsize=12)
-    ax.set_ylim(0, 4800)
-    ax.legend(fontsize=11.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+    ax.set_xticklabels(anos, fontsize=11.5, fontweight='semibold')
+    ax.tick_params(axis='y', labelsize=11)
+    ax.set_ylim(0, 5800)
+    ax.legend(fontsize=11, loc='upper left', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_25_painel_anual_sobras_faltas_acumuladas.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_17_painel_anual_sobras_faltas.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 25 gerada.")
+    print("Figura 17 gerada (com folga total em 4.524).")
 
-
-# ==============================================================================
-# PARTE 2: RESULTADOS OPERACIONAIS DE 2026 (FEVEREIRO A AGOSTO/SETEMBRO)
-# ==============================================================================
-
-def gerar_figura_16_melhor_mae_cenarios():
-    """Figura 16: MAE por cenário de informação e horizonte (2026)"""
-    fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
+def gerar_figura_18_melhor_mae_cenarios():
+    """Figura 18 - Melhor MAE por cenário de informação e horizonte (2026 até 31/08; N=73 datas pareadas)"""
+    fig, ax = plt.subplots(figsize=(10.5, 5.8), dpi=300)
     
-    cenarios = ['1. Baseline (Inercial)', '2. Calendário', '3. Cardápio', '4. Clima Completo']
-    mae_t2 = [29.50, 29.10, 28.85, 28.67]  # Horizonte Compras (t+2)
-    mae_t1 = [25.80, 24.20, 22.80, 22.27]  # Horizonte Preparo (t+1)
+    cenarios = [
+        "1. Inercial\n(t+2; N=73)",
+        "2. Calendário\n(t+2; N=73)",
+        "3. Cardápio\n(t+2; N=73)",
+        "4. Clima C2\n(t+2; N=73)",
+        "5. Reforecast C3\n(t+1; N=73)"
+    ]
+    maes = [26.82, 26.54, 26.12, 25.86, 21.72]
+    modelos = ["SVR Linear", "SVR Linear", "SVR Linear", "Reg. Linear", "Ridge"]
     
-    x = np.arange(len(cenarios))
-    largura = 0.35
+    cores = ['#94a3b8', '#64748b', '#0284c7', '#0369a1', '#16a34a']
+    bars = ax.bar(cenarios, maes, color=cores, edgecolor='#0f172a', width=0.55, zorder=3)
     
-    b1 = ax.bar(x - largura/2, mae_t2, largura, label='Horizonte t+2 (Compras - 14 dias)', color='#ea580c', edgecolor='#9a3412')
-    b2 = ax.bar(x + largura/2, mae_t1, largura, label='Horizonte t+1 (Preparo - 7 dias)', color='#0d9488', edgecolor='#115e59')
-    
-    for bar in b1:
+    for i, bar in enumerate(bars):
         h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., h + 0.5, f"{h:.2f}", ha='center', va='bottom', fontsize=11, fontweight='bold', color='#9a3412')
-    for bar in b2:
-        h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., h + 0.5, f"{h:.2f}", ha='center', va='bottom', fontsize=11, fontweight='bold', color='#115e59')
+        ax.text(bar.get_x() + bar.get_width()/2., h + 0.4, f"{h:.2f} ref\n({modelos[i]})",
+                ha='center', va='bottom', fontsize=11, fontweight='bold', color='#1e293b')
         
-    ax.set_ylabel("Erro Absoluto Médio (MAE em Refeições/Dia)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Cenário de Enriquecimento de Informação (Camada Gold)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xticks(x)
-    ax.set_xticklabels(cenarios, fontsize=11.5, fontweight='semibold')
-    ax.tick_params(axis='y', labelsize=12)
+    ax.set_ylabel("Erro Médio Absoluto (MAE em Refeições/Dia)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Cenário de Informação e Horizonte Temporal (Coorte Pareada 2026; N=73 datas)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='both', labelsize=11)
+    ax.set_ylim(0, 32)
+    
+    plt.tight_layout()
+    caminho = os.path.join(PASTA_SAIDA, 'figura_18_melhor_mae_por_cenario_horizonte.png')
+    salvar_figura(caminho, dpi=300)
+    plt.close()
+    print("Figura 18 gerada (N=73).")
+
+def gerar_figura_19_regressao_linear_clima():
+    """Figura 19 - Comparação da regressão linear no horizonte t+2, com e sem clima (N=73)"""
+    fig, ax = plt.subplots(figsize=(9, 5.5), dpi=300)
+    
+    cenarios = ['Cenário 1: Sem Clima\n(Base + Cardápio)', 'Cenário 2: Com Open-Meteo\n(Base + Cardápio + Clima)']
+    maes = [27.33, 25.86]
+    r2s = [0.371, 0.394]
+    
+    cores = ['#94a3b8', '#0284c7']
+    bars = ax.bar(cenarios, maes, color=cores, edgecolor='#0f172a', width=0.45, zorder=3)
+    
+    for i, bar in enumerate(bars):
+        h = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width()/2., h + 0.5, f"MAE: {h:.2f} ref/dia\nR² = {r2s[i]:.3f}",
+                ha='center', va='bottom', fontsize=11.5, fontweight='bold', color='#0f172a')
+        
+    # Anotação do ganho relativo
+    ax.annotate("Redução de 1,47 ref/dia (-5,4%)\nR² elevado de 0,371 para 0,394",
+                xy=(1, 25.86), xytext=(0.5, 30.5),
+                arrowprops=dict(arrowstyle="->", color='#0284c7', lw=1.8),
+                fontsize=11, fontweight='bold', color='#0284c7', ha='center',
+                bbox=dict(boxstyle="round,pad=0.4", facecolor='#f0f9ff', edgecolor='#0284c7', lw=1.2))
+    
+    ax.set_ylabel("Erro Médio Absoluto (MAE em Refeições/Dia)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Configuração de Entrada no Horizonte t+2 (Coorte 2026; N=73 datas)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='both', labelsize=11)
     ax.set_ylim(0, 35)
-    ax.legend(fontsize=11.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_16_melhor_mae_por_cenario_horizonte.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_19_comparacao_regressao_linear_t2_clima.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 16 gerada.")
+    print("Figura 19 gerada (N=73).")
 
-def gerar_figura_17_impacto_clima_t2():
-    """Figura 17: Impacto da informação climática no horizonte de compras t+2"""
-    fig, ax = plt.subplots(figsize=(9, 5.5), dpi=300)
-    
-    modelos = ['Regressão Ridge', 'Regressão Lasso', 'SVR Linear', 'Random Forest']
-    sem_clima = [29.15, 29.30, 30.10, 31.20]
-    com_clima = [28.67, 28.75, 29.40, 30.45]
-    
-    x = np.arange(len(modelos))
-    largura = 0.35
-    
-    b1 = ax.bar(x - largura/2, sem_clima, largura, label='Sem Informação Meteorológica', color='#94a3b8', edgecolor='#475569')
-    b2 = ax.bar(x + largura/2, com_clima, largura, label='Com Temperatura e Precipitação', color='#0284c7', edgecolor='#0369a1')
-    
-    for bar in b1:
-        h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., h + 0.4, f"{h:.2f}", ha='center', va='bottom', fontsize=10.5, fontweight='semibold', color='#475569')
-    for bar in b2:
-        h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., h + 0.4, f"{h:.2f}", ha='center', va='bottom', fontsize=10.5, fontweight='bold', color='#0369a1')
-        
-    ax.set_ylabel("MAE no Horizonte de Compras t+2 (Refeições/Dia)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Famílias de Modelos Avaliados", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xticks(x)
-    ax.set_xticklabels(modelos, fontsize=12, fontweight='semibold')
-    ax.tick_params(axis='y', labelsize=12)
-    ax.set_ylim(0, 36)
-    ax.legend(fontsize=11.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
-    
-    plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_17_comparacao_regressao_linear_t2_clima.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
-    plt.close()
-    print("Figura 17 gerada.")
-
-def gerar_figura_18_ganho_reforecast():
-    """Figura 18: Ganho da atualização preditiva de t+2 para t+1 (Reforecast)"""
-    fig, ax = plt.subplots(figsize=(9, 5.5), dpi=300)
+def gerar_figura_20_comparacao_horizontes_5_algoritmos():
+    """Figura 20 - Comparação do MAE entre os horizontes t+2 e t+1 para 5 algoritmos (N=73)"""
+    fig, ax = plt.subplots(figsize=(10.5, 5.8), dpi=300)
     
     algoritmos = ['Lasso', 'Ridge', 'SVR', 'XGBoost', 'CatBoost']
-    mae_t2 = [28.75, 28.67, 29.40, 29.80, 29.95]
-    mae_t1 = [22.27, 22.46, 23.10, 24.50, 24.80]
+    mae_t2 = [29.12, 28.38, 26.82, 28.47, 28.55]
+    mae_t1 = [28.64, 27.82, 25.26, 27.46, 27.57]
     
     x = np.arange(len(algoritmos))
     largura = 0.35
     
-    ax.bar(x - largura/2, mae_t2, largura, label='Emissão Inicial t+2 (Compras - 14 dias)', color='#ea580c', edgecolor='#9a3412')
-    ax.bar(x + largura/2, mae_t1, largura, label='Reforecast t+1 (Preparo - 7 dias)', color='#2563eb', edgecolor='#1e40af')
+    ax.bar(x - largura/2, mae_t2, largura, label='Horizonte t+2: Compras (10 a 14 dias)', color='#ea580c', edgecolor='#9a3412', zorder=3)
+    ax.bar(x + largura/2, mae_t1, largura, label='Horizonte t+1: Preparo (3 a 7 dias)', color='#2563eb', edgecolor='#1e40af', zorder=3)
     
-    # Indicar percentual de ganho
     for i in range(len(algoritmos)):
         ganho = (mae_t2[i] - mae_t1[i]) / mae_t2[i] * 100
-        ax.text(x[i], max(mae_t2[i], mae_t1[i]) + 1.2, f"-{ganho:.1f}%", ha='center', va='bottom',
-                fontsize=11, fontweight='bold', color='#16a34a')
+        ax.text(x[i], max(mae_t2[i], mae_t1[i]) + 0.8, f"-{ganho:.1f}%", ha='center', va='bottom',
+                fontsize=10.5, fontweight='bold', color='#16a34a')
         
-    ax.set_ylabel("Erro Absoluto Médio (MAE em Refeições/Dia)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Algoritmo de Aprendizado de Máquina", fontsize=13, fontweight='semibold', color='#0f172a')
+    ax.set_ylabel("Erro Médio Absoluto (MAE em Refeições/Dia)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Algoritmo de Aprendizado de Máquina (Cenário-Base; N=73 datas pareadas)", fontsize=12.5, fontweight='semibold', color='#0f172a')
     ax.set_xticks(x)
-    ax.set_xticklabels(algoritmos, fontsize=12, fontweight='semibold')
-    ax.tick_params(axis='y', labelsize=12)
-    ax.set_ylim(0, 35)
-    ax.legend(fontsize=11.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+    ax.set_xticklabels(algoritmos, fontsize=11.5, fontweight='semibold')
+    ax.tick_params(axis='y', labelsize=11)
+    ax.set_ylim(0, 34)
+    ax.legend(fontsize=11, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_18_mae_xgboost_cenario_base_horizonte.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_20_comparacao_horizontes_5_algoritmos.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 18 gerada.")
+    print("Figura 20 gerada (5 algoritmos; N=73).")
 
-def gerar_figura_19_modelos_vs_nutricionista():
-    """Figura 19: Torneio de modelos preditivos vs Nutricionista (t+1 em 2026)"""
-    fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
+def gerar_figura_21_ranking_modelos():
+    """Figura 21 - Comparação entre modelos preditivos e nutricionista (Top 10 + Humano; N=73)"""
+    fig, ax = plt.subplots(figsize=(10.5, 6.2), dpi=300)
     
     candidatos = [
-        "1. Lasso (L1)",
-        "2. Ridge (L2)",
-        "3. SVR Linear",
+        "1. Ridge (L2)",
+        "2. Lasso (L1)",
+        "3. ElasticNet",
         "4. Nutricionista (Benchmark Humano)",
-        "5. Random Forest",
-        "6. XGBoost"
+        "5. Huber Regressor",
+        "6. SVR Linear",
+        "7. CatBoost",
+        "8. LightGBM",
+        "9. XGBoost",
+        "10. Bayesian Ridge",
+        "11. Random Forest"
     ]
-    maes = [22.27, 22.46, 23.10, 24.92, 24.50, 24.80]
-    r2s = [0.498, 0.483, 0.445, 0.373, 0.385, 0.370]
+    maes = [21.72, 21.82, 22.04, 23.37, 23.48, 24.26, 23.97, 24.18, 24.59, 24.62, 24.95]
+    r2s = [0.495, 0.491, 0.485, 0.380, 0.420, 0.435, 0.415, 0.410, 0.385, 0.382, 0.370]
     
     y = np.arange(len(candidatos))
-    cores = ['#10b981', '#10b981', '#3b82f6', '#f59e0b', '#64748b', '#64748b']
-    
-    bars = ax.barh(y, maes, color=cores, edgecolor='#0f172a', height=0.55)
+    cores = ['#10b981', '#10b981', '#10b981', '#f59e0b', '#3b82f6', '#3b82f6', '#64748b', '#64748b', '#64748b', '#64748b', '#64748b']
+    bars = ax.barh(y, maes, color=cores, edgecolor='#0f172a', height=0.58, zorder=3)
+    ax.invert_yaxis()
     
     for i, bar in enumerate(bars):
         w = bar.get_width()
-        ax.text(w + 0.4, bar.get_y() + bar.get_height()/2., f"MAE: {w:.2f} | R²: {r2s[i]:.3f}",
-                ha='left', va='center', fontsize=11, fontweight='semibold', color='#0f172a')
+        ax.text(w + 0.3, bar.get_y() + bar.get_height()/2., f"MAE: {w:.2f} | R²: {r2s[i]:.3f}",
+                ha='left', va='center', fontsize=10.5, fontweight='semibold', color='#0f172a')
         
     ax.set_yticks(y)
-    ax.set_yticklabels(candidatos, fontsize=11.5, fontweight='semibold')
-    ax.invert_yaxis()
-    ax.set_xlabel("Erro Absoluto Médio (MAE em Refeições/Dia)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='x', labelsize=12)
+    ax.set_yticklabels(candidatos, fontsize=11, fontweight='semibold')
+    ax.set_xlabel("Erro Médio Absoluto (MAE em Refeições/Dia na Coorte N=73)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='x', labelsize=11)
     ax.set_xlim(0, 31)
     
-    # Linha vertical no benchmark humano
-    ax.axvline(24.92, color='#f59e0b', linestyle='--', linewidth=1.5, label='Benchmark Humano Nutricionista (24,92 ref/dia)')
-    ax.legend(fontsize=11, loc='lower right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+    ax.axvline(23.37, color='#f59e0b', linestyle='--', linewidth=1.5, label='Benchmark Nutricionista (MAE: 23,37 ref/dia)')
+    ax.legend(fontsize=10.5, loc='lower right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_19_comparacao_modelos_vs_nutricionista_t1.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_21_ranking_modelos.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 19 gerada.")
+    print("Figura 21 gerada (Top 10 + Humano; N=73).")
 
-def gerar_figura_20_sobras_faltas_politicas():
-    """Figura 20: Sobras e Faltas Potenciais nas Políticas Simuladas (2026, n=83 datas)"""
-    fig, ax = plt.subplots(figsize=(11, 5.5), dpi=300)
+def gerar_figura_22_sobras_faltas_politicas():
+    """Figura 22 - Sobra e déficit potenciais nas políticas simuladas (N=73)"""
+    fig, ax = plt.subplots(figsize=(11, 5.8), dpi=300)
     
     politicas = [
         "1. Nutricionista Isolada",
@@ -591,14 +635,14 @@ def gerar_figura_20_sobras_faltas_politicas():
         "4. Híbrido + Margem 12",
         "5. IA + Conformal P85"
     ]
-    sobras = [2140, 1120, 1280, 1980, 2350]
-    faltas = [295, 745, 489, 185, 110]
+    sobras = [1874, 1057, 1041, 1488, 2072]
+    faltas = [485, 529, 433, 126, 157]
     
     x = np.arange(len(politicas))
     largura = 0.35
     
-    b1 = ax.bar(x - largura/2, sobras, largura, label='Sobras Potenciais (Risco Desperdício)', color='#3b82f6', edgecolor='#1e40af')
-    b2 = ax.bar(x + largura/2, faltas, largura, label='Faltas Potenciais (Risco Desassistência)', color='#ef4444', edgecolor='#991b1b')
+    b1 = ax.bar(x - largura/2, sobras, largura, label='Sobras Potenciais (Risco Desperdício)', color='#3b82f6', edgecolor='#1e40af', zorder=3)
+    b2 = ax.bar(x + largura/2, faltas, largura, label='Faltas Potenciais (Risco Desassistência)', color='#ef4444', edgecolor='#991b1b', zorder=3)
     
     for bar in b1:
         h = bar.get_height()
@@ -607,72 +651,106 @@ def gerar_figura_20_sobras_faltas_politicas():
         h = bar.get_height()
         ax.text(bar.get_x() + bar.get_width()/2., h + 30, f"{h}", ha='center', va='bottom', fontsize=11, fontweight='bold', color='#991b1b')
         
-    ax.set_ylabel("Total Acumulado de Refeições (Coorte n = 83)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Política Operacional Avaliada", fontsize=13, fontweight='semibold', color='#0f172a')
+    ax.set_ylabel("Total Acumulado de Refeições (Coorte N=73 datas)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Política Operacional Avaliada", fontsize=12.5, fontweight='semibold', color='#0f172a')
     ax.set_xticks(x)
-    ax.set_xticklabels(politicas, fontsize=11.5, fontweight='semibold')
-    ax.tick_params(axis='y', labelsize=12)
-    ax.set_ylim(0, 2700)
-    ax.legend(fontsize=11.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+    ax.set_xticklabels(politicas, fontsize=11, fontweight='semibold')
+    ax.tick_params(axis='y', labelsize=11)
+    ax.set_ylim(0, 2400)
+    ax.legend(fontsize=11, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_20_sobra_deficit_potenciais_politicas_n83.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_22_sobras_faltas_politicas.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 20 gerada.")
+    print("Figura 22 gerada (N=73).")
 
-def gerar_figura_21_fronteira_pareto():
-    """Figura 21: Fronteira eficiente de Pareto do Modelo Híbrido (2026)"""
-    fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
+def gerar_figura_23_fronteira_hibrido():
+    """Figura 23 - Fronteira de equilíbrio do modelo híbrido (Alfa 0 a 1 em N=73)"""
+    fig, ax = plt.subplots(figsize=(10.5, 5.8), dpi=300)
     
-    # Pesos da IA: 0% a 100%
-    pesos_ia = np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
-    maes = np.array([24.92, 23.95, 23.10, 22.35, 21.75, 21.43, 21.52, 21.78, 22.05, 22.32, 22.46])
+    pesos_ia = np.array([0, 10, 20, 30, 40, 50, 60, 62.5, 70, 80, 90, 100])
+    maes = np.array([23.37, 22.45, 21.68, 21.05, 20.52, 20.19, 20.03, 20.03, 20.25, 20.65, 21.15, 21.72])
     
-    ax.plot(pesos_ia, maes, marker='o', color='#2563eb', linewidth=2.5, markersize=8, label='Curva de Erro Médio (MAE)')
+    ax.plot(pesos_ia, maes, marker='o', color='#2563eb', linewidth=2.5, markersize=7.5, label='Curva MAE da Combinação Linear Híbrida', zorder=3)
     
-    # Ponto ótimo
-    ax.scatter([50], [21.43], color='#dc2626', s=160, zorder=5, label='Ponto Ótimo: 50% IA + 50% Nutricionista (MAE = 21,43)')
-    ax.annotate("Mínimo Global do Estudo\n50% IA + 50% Nutricionista\nMAE = 21,43 ref/dia",
-                xy=(50, 21.43), xytext=(55, 23.0),
+    # Destaque do Mínimo Global Numérico
+    ax.scatter([60], [20.03], color='#7c3aed', s=150, zorder=5, label='Mínimo Global Numérico: α=60%–62,5% (MAE = 20,03 ref/dia)')
+    ax.annotate("Mínimo Global Numérico\nα = 60,0% | MAE = 20,03 ref/dia",
+                xy=(60, 20.03), xytext=(65, 21.4),
+                arrowprops=dict(arrowstyle="->", color='#7c3aed', lw=1.8),
+                fontsize=10.5, fontweight='bold', color='#7c3aed',
+                bbox=dict(boxstyle="round,pad=0.4", facecolor='#f5f3ff', edgecolor='#7c3aed', lw=1.2))
+    
+    # Destaque do Ponto Operacional 50/50
+    ax.scatter([50], [20.19], color='#dc2626', s=160, zorder=5, label='Configuração Operacional: 50% IA + 50% Nutri (MAE = 20,19 ref/dia)')
+    ax.annotate("Configuração Operacional Recomendada\n50% IA + 50% Nutricionista\nMAE = 20,19 ref/dia (+0,16 ref do mínimo)",
+                xy=(50, 20.19), xytext=(15, 22.2),
                 arrowprops=dict(arrowstyle="->", color='#dc2626', lw=1.8),
-                fontsize=11, fontweight='bold', color='#dc2626',
+                fontsize=10.5, fontweight='bold', color='#dc2626',
                 bbox=dict(boxstyle="round,pad=0.4", facecolor='#fef2f2', edgecolor='#dc2626', lw=1.2))
     
-    ax.set_xlabel("Ponderação Atribuída ao Modelo de Inteligência Artificial (%)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_ylabel("Erro Absoluto Médio (MAE em Refeições/Dia)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xticks(pesos_ia)
-    ax.set_xticklabels([f"{p}%" for p in pesos_ia], fontsize=11.5)
-    ax.tick_params(axis='y', labelsize=12)
-    ax.set_ylim(20.5, 25.8)
-    ax.legend(fontsize=11.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+    ax.set_xlabel("Ponderação Atribuída ao Modelo de Inteligência Artificial [α] (%)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_ylabel("Erro Médio Absoluto (MAE em Refeições/Dia)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xticks(np.arange(0, 101, 10))
+    ax.set_xticklabels([f"{p}%" for p in np.arange(0, 101, 10)], fontsize=11)
+    ax.tick_params(axis='y', labelsize=11)
+    ax.set_ylim(19.5, 24.2)
+    ax.legend(fontsize=10.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_21_fronteira_equilibrio_modelo_hibrido.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_23_fronteira_equilibrio_modelo_hibrido.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 21 gerada.")
+    print("Figura 23 gerada (N=73).")
 
-def gerar_figura_22_margens_conformal():
-    """Figura 22: Blindagem contra falta de refeições pelas margens conformal (2026)"""
-    fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
+def gerar_figura_24_distribuicao_erros_diarios():
+    """Figura 24 - Distribuição estimada dos erros diários de planejamento (KDE em N=73)"""
+    fig, ax = plt.subplots(figsize=(10.5, 5.8), dpi=300)
+    
+    # Carregar previsões de Monte Carlo N=73
+    df_mc = pd.read_csv(os.path.join(ROOT_DIR, "dissertacao/recalculos_qualificacao_20260831/previsoes_diarias_2026_monte_carlo_n73.csv"), sep=';')
+    erro_nutri = df_mc['reserva_nutri'] - df_mc['y_real']
+    erro_ia = df_mc['pred_ia'] - df_mc['y_real']
+    erro_hib = df_mc['pred_hibrido_50_50'] - df_mc['y_real']
+    
+    sns.kdeplot(erro_nutri, ax=ax, label='Nutricionista Isolada (Viés +9,5 ref; MAE 23,37)', color='#ea580c', linewidth=2.2, fill=True, alpha=0.15)
+    sns.kdeplot(erro_ia, ax=ax, label='IA Pura Ridge (Viés +7,2 ref; MAE 21,72)', color='#2563eb', linewidth=2.2, fill=True, alpha=0.15)
+    sns.kdeplot(erro_hib, ax=ax, label='Modelo Híbrido 50/50 (Viés +8,3 ref; MAE 20,19 - Maior Pico)', color='#10b981', linewidth=2.5, fill=True, alpha=0.20)
+    
+    ax.axvline(0, color='#0f172a', linestyle='--', linewidth=1.5, label='Erro Zero (Dimensionamento Perfeito)')
+    ax.set_xlabel("Erro Diário de Planejamento [Planejado - Consumo Real] (Refeições/Dia)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_ylabel("Densidade de Probabilidade Estimada (KDE)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='both', labelsize=11)
+    ax.set_xlim(-60, 80)
+    ax.legend(fontsize=10.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+    
+    plt.tight_layout()
+    caminho = os.path.join(PASTA_SAIDA, 'figura_24_distribuicao_erros_diarios.png')
+    salvar_figura(caminho, dpi=300)
+    plt.close()
+    print("Figura 24 gerada (N=73 datas pareadas).")
+
+def gerar_figura_25_margens_seguranca_conformal():
+    """Figura 25 - Efeito das margens de segurança conformal (N=73)"""
+    fig, ax = plt.subplots(figsize=(10.5, 5.8), dpi=300)
     
     politicas = [
         "1. IA Pura (Sem margem)",
-        "2. Conformal P75 (+10 ref)",
-        "3. Conformal P85 (+19 ref)",
-        "4. Conformal P90 (+29 ref)",
+        "2. Conformal P75 (+7 ref)",
+        "3. Conformal P85 (+14 ref)",
+        "4. Conformal P90 (+23 ref)",
         "5. Híbrido 50/50 Puro",
         "6. Híbrido + Margem 12"
     ]
-    taxa_falta = [43.4, 25.3, 15.7, 9.6, 31.3, 14.5]  # % de dias com falta
-    sobra_media = [13.5, 21.2, 28.3, 37.1, 15.4, 23.8]  # Sobra média por dia
+    taxa_falta = [42.5, 21.9, 13.7, 9.6, 30.1, 17.8]
+    sobra_media = [14.5, 21.0, 28.4, 37.1, 14.3, 20.4]
     
     x = np.arange(len(politicas))
     largura = 0.35
     
-    b1 = ax.bar(x - largura/2, taxa_falta, largura, label='% Dias Letivos com Risco de Falta', color='#ef4444', edgecolor='#991b1b')
-    b2 = ax.bar(x + largura/2, sobra_media, largura, label='Sobra Média Diária (Refeições)', color='#3b82f6', edgecolor='#1e40af')
+    b1 = ax.bar(x - largura/2, taxa_falta, largura, label='% Dias Letivos com Déficit Potencial', color='#ef4444', edgecolor='#991b1b', zorder=3)
+    b2 = ax.bar(x + largura/2, sobra_media, largura, label='Sobra Média Diária (Refeições/Dia)', color='#3b82f6', edgecolor='#1e40af', zorder=3)
     
     for bar in b1:
         h = bar.get_height()
@@ -681,204 +759,132 @@ def gerar_figura_22_margens_conformal():
         h = bar.get_height()
         ax.text(bar.get_x() + bar.get_width()/2., h + 0.8, f"{h:.1f}", ha='center', va='bottom', fontsize=11, fontweight='bold', color='#1e40af')
         
-    ax.set_ylabel("Percentual (%) / Quantidade de Refeições", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Política de Dimensionamento Decisório", fontsize=13, fontweight='semibold', color='#0f172a')
+    ax.set_ylabel("Percentual (%) / Quantidade de Refeições", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Política de Dimensionamento Decisório (Coorte 2026; N=73 datas)", fontsize=12.5, fontweight='semibold', color='#0f172a')
     ax.set_xticks(x)
     ax.set_xticklabels(politicas, fontsize=10.5, fontweight='semibold', rotation=15, ha='right')
-    ax.tick_params(axis='y', labelsize=12)
-    ax.set_ylim(0, 52)
-    ax.legend(fontsize=11.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
-    
-    plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_22_efeito_margens_seguranca_conformal.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
-    plt.close()
-    print("Figura 22 gerada.")
-
-def gerar_figura_23_serie_temporal_2026():
-    """Figura 23: Série temporal 2026 com bandas de incerteza (fevereiro a agosto)"""
-    fig, ax = plt.subplots(figsize=(12, 6), dpi=300)
-    
-    df_prev = df_prev26.sort_values('data_iso').reset_index(drop=True)
-    df_prev['data_dt'] = pd.to_datetime(df_prev['data_iso'])
-    
-    # Bandas estocásticas Monte Carlo
-    ax.fill_between(df_prev['data_dt'], df_prev['mc_p10_minimo'], df_prev['mc_p95_teto_seguranca'],
-                    color='#e0f2fe', alpha=0.7, label='Faixa de Incerteza Estocástica P10 a P95')
-    ax.fill_between(df_prev['data_dt'], df_prev['mc_p50_mediana'], df_prev['mc_p80_prudencial'],
-                    color='#bae6fd', alpha=0.7, label='Faixa Prudencial P50 a P80 (Recomendada para Compras)')
-    
-    # Linhas principais
-    ax.plot(df_prev['data_dt'], df_prev['pred_ia'], color='#0284c7', linewidth=2.0, label='Previsão Central da IA (Ridge)')
-    ax.plot(df_prev['data_dt'], df_prev['pred_ia_conformal_p85'], color='#0d9488', linewidth=2.2, linestyle='--', label='Cenário Prudencial Conformal P85')
-    ax.plot(df_prev['data_dt'], df_prev['reserva_nutri'], color='#dc2626', linewidth=2.0, linestyle=':', label='Quantitativo Planejado da Nutricionista')
-    ax.plot(df_prev['data_dt'], df_prev['y_real'], color='#0f172a', linewidth=2.2, marker='o', markersize=4, label='Consumo Real da Catraca')
-    
-    ax.set_ylabel("Quantidade Diária de Refeições", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Data do Atendimento Letivo (Fevereiro a Setembro de 2026)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='both', labelsize=11.5)
-    ax.set_ylim(50, 280)
-    ax.legend(fontsize=10.5, loc='upper left', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1', ncol=2)
-    
-    plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_23_simulacao_faixas_risco_monte_carlo.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
-    plt.close()
-    print("Figura 23 gerada.")
-
-def gerar_figura_24_efeito_compensatorio():
-    """Figura 24: Decomposição do efeito compensatório (saldo vs desvios diários reais)"""
-    fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
-    
-    regimes = ['1. Reservas Alunos (2023-2025)', '2. Nutricionista (2026)', '3. Modelo Híbrido 50/50 (2026)']
-    saldo_liquido = [-8714, +2670, +791]
-    desvios_absolutos = [10274, 3649, 1769]
-    
-    x = np.arange(len(regimes))
-    largura = 0.35
-    
-    b1 = ax.bar(x - largura/2, saldo_liquido, largura, label='Saldo Líquido Anual Mascarado', color='#3b82f6', edgecolor='#1e40af')
-    b2 = ax.bar(x + largura/2, desvios_absolutos, largura, label='Desvio Diário Real Acumulado (|Sobra| + |Falta|)', color='#f59e0b', edgecolor='#b45309')
-    
-    for bar in b1:
-        h = bar.get_height()
-        pos_y = h + 150 if h > 0 else h - 350
-        ax.text(bar.get_x() + bar.get_width()/2., pos_y, f"{h:+d}", ha='center', va='bottom' if h > 0 else 'top',
-                fontsize=11.5, fontweight='bold', color='#1e40af')
-    for bar in b2:
-        h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., h + 150, f"{h}", ha='center', va='bottom',
-                fontsize=11.5, fontweight='bold', color='#b45309')
-        
-    ax.axhline(0, color='#0f172a', linewidth=1.2)
-    ax.set_ylabel("Quantidade Acumulada de Refeições", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Regime de Planejamento Institucional", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xticks(x)
-    ax.set_xticklabels(regimes, fontsize=11.5, fontweight='semibold')
-    ax.tick_params(axis='y', labelsize=12)
-    ax.set_ylim(-9500, 11500)
-    ax.legend(fontsize=11.5, loc='upper left', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
-    
-    plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_24_decomposicao_efeito_compensatorio.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
-    plt.close()
-    print("Figura 24 gerada.")
-
-def gerar_figura_26_distribuicao_erros_diarios():
-    """Figura 26: Distribuição dos erros diários por regime de planejamento (2026)"""
-    fig, ax = plt.subplots(figsize=(10, 5.5), dpi=300)
-    
-    # Erros diários em 2026: Nutricionista vs IA Pura vs Híbrido 50/50
-    erro_nutri = df_prev26['reserva_nutri'] - df_prev26['y_real']
-    erro_ia = df_prev26['pred_ia'] - df_prev26['y_real']
-    erro_hib = df_prev26['pred_hibrido_50_50'] - df_prev26['y_real']
-    
-    sns.kdeplot(erro_nutri, ax=ax, label='Nutricionista (Superestimativa Preventiva)', color='#ea580c', linewidth=2.2, fill=True, alpha=0.15)
-    sns.kdeplot(erro_ia, ax=ax, label='IA Pura Ridge (Centrada no Zero)', color='#2563eb', linewidth=2.2, fill=True, alpha=0.15)
-    sns.kdeplot(erro_hib, ax=ax, label='Modelo Híbrido 50/50 (Menor Variância)', color='#10b981', linewidth=2.5, fill=True, alpha=0.20)
-    
-    ax.axvline(0, color='#0f172a', linestyle='--', linewidth=1.5, label='Erro Zero (Dimensionamento Perfeito)')
-    ax.set_xlabel("Erro Diário de Planejamento [Planejado - Consumo Real] (Refeições)", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_ylabel("Densidade de Probabilidade Estimada", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='both', labelsize=12)
-    ax.set_xlim(-60, 80)
+    ax.tick_params(axis='y', labelsize=11)
+    ax.set_ylim(0, 50)
     ax.legend(fontsize=11, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_26_distribuicao_erros_diarios_por_regime.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_25_margens_seguranca_conformal.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 26 gerada.")
+    print("Figura 25 gerada (N=73).")
 
-def gerar_figura_27_matriz_decisao_custos():
-    """Figura 27: Trade-off ilustrativo entre custo financeiro e taxa de atendimento"""
+def gerar_figura_26_simulacao_monte_carlo():
+    """Figura 26 - Simulação de faixas de risco operacional (Monte Carlo em N=73)"""
+    fig, ax = plt.subplots(figsize=(12, 6), dpi=300)
+    df_mc = pd.read_csv(os.path.join(ROOT_DIR, "dissertacao/recalculos_qualificacao_20260831/previsoes_diarias_2026_monte_carlo_n73.csv"), sep=';')
+    df_mc['data_dt'] = pd.to_datetime(df_mc['data_iso'])
+    
+    ax.fill_between(df_mc['data_dt'], df_mc['mc_p10_minimo'], df_mc['mc_p95_teto_seguranca'],
+                    color='#e0f2fe', alpha=0.7, label='Faixa de Incerteza Estocástica P10 a P95')
+    ax.fill_between(df_mc['data_dt'], df_mc['mc_p50_mediana'], df_mc['mc_p80_prudencial'],
+                    color='#bae6fd', alpha=0.7, label='Faixa Prudencial P50 a P80 (Recomendada para Compras)')
+    
+    ax.plot(df_mc['data_dt'], df_mc['pred_ia'], color='#0284c7', linewidth=2.0, label='Previsão Central da IA (Ridge)')
+    ax.plot(df_mc['data_dt'], df_mc['pred_ia_conformal_p85'], color='#0d9488', linewidth=2.2, linestyle='--', label='Cenário Prudencial Conformal P85')
+    ax.plot(df_mc['data_dt'], df_mc['reserva_nutri'], color='#dc2626', linewidth=2.0, linestyle=':', label='Quantitativo da Nutricionista')
+    ax.plot(df_mc['data_dt'], df_mc['y_real'], color='#0f172a', linewidth=2.2, marker='o', markersize=4, label='Consumo Real da Catraca')
+    
+    ax.set_ylabel("Quantidade Diária de Refeições", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Data do Atendimento Letivo (Fevereiro a Agosto de 2026; N=73 datas pareadas)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.tick_params(axis='both', labelsize=11)
+    # Eixo Y expandido para 295 para não cortar o pico do P95 (273,3 ref)
+    ax.set_ylim(50, 295)
+    ax.legend(fontsize=10.5, loc='upper left', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1', ncol=2)
+    
+    plt.tight_layout()
+    caminho = os.path.join(PASTA_SAIDA, 'figura_26_simulacao_monte_carlo.png')
+    salvar_figura(caminho, dpi=300)
+    plt.close()
+    print("Figura 26 gerada (com teto em 295 ref; N=73).")
+
+def gerar_figura_27_tradeoff_custo_atendimento():
+    """Figura 27 - Custo potencial das sobras e frequência de dias sem déficit (N=73)"""
     fig, ax = plt.subplots(figsize=(10.5, 5.8), dpi=300)
     
     politicas = [
         "IA Pura (Ridge)",
         "Híbrido 50/50",
         "Nutricionista Isolada",
-        "Conformal P75 (+10)",
+        "Conformal P75 (+7)",
         "Híbrido + Margem 12",
-        "Conformal P85 (+19)"
+        "Conformal P85 (+14)"
     ]
-    # Taxa de dias letivos sem déficit alimentar (100% - % dias com falta na coorte n=83)
-    taxa_atendimento = [56.6, 56.6, 59.0, 74.7, 83.1, 84.3]
-    # Custo financeiro potencial de sobras calculado ao preço contratual real de 2026 (R$ 14,00 / refeição)
-    sobras_ref = [1238, 1289, 1545, 1749, 1994, 2364]
+    taxa_atendimento = [57.5, 69.9, 56.2, 78.1, 82.2, 86.3]
+    sobras_ref = [1057, 1041, 1874, 1534, 1488, 2072]
     PRECO_REFEICAO_2026 = 14.00
     custo_sobras = [s * PRECO_REFEICAO_2026 for s in sobras_ref]
-    
     cores = ['#3b82f6', '#10b981', '#ea580c', '#06b6d4', '#15803d', '#8b5cf6']
     
     for i in range(len(politicas)):
         ax.scatter(custo_sobras[i], taxa_atendimento[i], color=cores[i], s=170, zorder=5, edgecolor='#0f172a', linewidth=1.3)
-        # Ajuste de posição para evitar sobreposição entre IA Pura e Híbrido 50/50
-        offset_y = 1.0 if politicas[i] == "Híbrido 50/50" else (-1.0 if politicas[i] == "IA Pura (Ridge)" else 0.0)
-        ax.text(custo_sobras[i] + 450, taxa_atendimento[i] + offset_y, 
-                f"{politicas[i]} (R\\$ {custo_sobras[i]:,.0f})",
-                fontsize=11, fontweight='bold', color='#0f172a', va='center')
+        ax.text(custo_sobras[i] + 400, taxa_atendimento[i], 
+                f"{politicas[i]} (R$ {custo_sobras[i]:,.0f})",
+                fontsize=10.5, fontweight='bold', color='#0f172a', va='center')
         
-    ax.set_xlabel("Custo Financeiro Potencial de Sobras (R\\$ na Coorte Avaliada a R\\$ 14,00/refeição)", fontsize=12.5, fontweight='semibold', color='#0f172a')
+    ax.set_xlabel("Custo Financeiro Potencial de Sobras (R$ na Coorte N=73 a R$ 14,00/refeição)", fontsize=12.5, fontweight='semibold', color='#0f172a')
     ax.set_ylabel("Taxa de Garantia do Atendimento Estudantil (%)", fontsize=12.5, fontweight='semibold', color='#0f172a')
-    ax.tick_params(axis='both', labelsize=11.5)
+    ax.tick_params(axis='both', labelsize=11)
     ax.set_ylim(50, 92)
-    ax.set_xlim(15000, 39000)
+    ax.set_xlim(13000, 36000)
     
-    # Área recomendada
     ax.axhspan(80, 92, alpha=0.1, color='#22c55e', label='Faixa Recomendada de Segurança Alimentar (≥ 80% dos dias sem falta)')
-    ax.legend(fontsize=11, loc='lower right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+    ax.legend(fontsize=10.5, loc='lower right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_27_comparativo_custo_sobras_taxa_atendimento.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_27_tradeoff_custo_atendimento.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 27 regenerada com preços reais de 2026 (R$ 14,00/refeição).")
+    print("Figura 27 gerada (N=73).")
 
-def gerar_figura_28_confronto_consolidado_regimes():
-    """Figura 28: Síntese histórica comparativa dos 3 regimes institucionais"""
-    fig, ax = plt.subplots(figsize=(11, 6), dpi=300)
+def gerar_figura_28_comparacao_historica_consolidada():
+    """Figura 28 - Comparação histórica consolidada dos períodos e modelos (Painel Duplo; N=458 e N=73)"""
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.5, 5.2), dpi=300)
     
     regimes = [
-        "Regime 1: Reservas Discentes\n(2023 a 2025)",
-        "Regime 2: Nutricionista\n(2026 - Benchmark Humano)",
-        "Regime 3: Modelo Híbrido Conformal\n(2026 - Artefato Proposto)"
+        "1. Reservas Discentes\n(2023–25; N=458)",
+        "2. Nutricionista\n(2026; N=73)",
+        "3. Híbrido +12\n(2026; N=73)"
     ]
-    taxa_cobertura = [36.2, 80.7, 85.5] # % dias sem falta
-    mae_global = [34.8, 24.92, 21.43] # ref/dia
+    protecao = [36.2, 56.2, 82.2]
+    maes = [34.80, 23.37, 24.81]
     
-    x = np.arange(len(regimes))
-    largura = 0.35
-    
-    b1 = ax.bar(x - largura/2, taxa_cobertura, largura, label='Taxa de Proteção Contra Faltas (%)', color='#10b981', edgecolor='#065f46')
-    b2 = ax.bar(x + largura/2, mae_global, largura, label='Erro Absoluto Médio - MAE (Refeições/Dia)', color='#6366f1', edgecolor='#3730a3')
-    
-    for bar in b1:
+    # Painel A: Proteção Operacional
+    cores_a = ['#ef4444', '#f59e0b', '#10b981']
+    bars_a = ax1.bar(regimes, protecao, color=cores_a, edgecolor='#0f172a', width=0.52, zorder=3)
+    for bar in bars_a:
         h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., h + 1.2, f"{h:.1f}%", ha='center', va='bottom', fontsize=12, fontweight='bold', color='#065f46')
-    for bar in b2:
+        ax1.text(bar.get_x() + bar.get_width()/2., h + 1.8, f"{h:.1f}%", ha='center', va='bottom', fontsize=12, fontweight='bold', color='#0f172a')
+    ax1.set_ylabel("Dias sem Déficit Potencial (%)", fontsize=12, fontweight='semibold', color='#0f172a')
+    ax1.set_title("A. Proteção Operacional ao Comparecimento Discente", fontsize=12.5, fontweight='bold', color='#0f172a', pad=10)
+    ax1.set_ylim(0, 100)
+    ax1.tick_params(axis='x', labelsize=10.5)
+    ax1.tick_params(axis='y', labelsize=11)
+    
+    # Painel B: Erro Médio Absoluto
+    cores_b = ['#ef4444', '#3b82f6', '#10b981']
+    bars_b = ax2.bar(regimes, maes, color=cores_b, edgecolor='#0f172a', width=0.52, zorder=3)
+    for bar in bars_b:
         h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., h + 1.2, f"{h:.2f}", ha='center', va='bottom', fontsize=12, fontweight='bold', color='#3730a3')
-        
-    ax.set_ylabel("Percentual (%) / Quantidade de Refeições", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xlabel("Regime de Planejamento da Produção na UAN", fontsize=13, fontweight='semibold', color='#0f172a')
-    ax.set_xticks(x)
-    ax.set_xticklabels(regimes, fontsize=11.5, fontweight='semibold')
-    ax.tick_params(axis='y', labelsize=12)
-    ax.set_ylim(0, 100)
-    ax.legend(fontsize=11.5, loc='upper right', frameon=True, facecolor='#ffffff', edgecolor='#cbd5e1')
+        ax2.text(bar.get_x() + bar.get_width()/2., h + 0.7, f"{h:.2f} ref", ha='center', va='bottom', fontsize=12, fontweight='bold', color='#0f172a')
+    ax2.set_ylabel("Erro Médio Absoluto Diário (MAE em Refeições)", fontsize=12, fontweight='semibold', color='#0f172a')
+    ax2.set_title("B. Acurácia Preditiva Média do Dimensionamento", fontsize=12.5, fontweight='bold', color='#0f172a', pad=10)
+    ax2.set_ylim(0, 42)
+    ax2.tick_params(axis='x', labelsize=10.5)
+    ax2.tick_params(axis='y', labelsize=11)
     
     plt.tight_layout()
-    caminho = f"{PASTA_SAIDA}/figura_28_comparacao_historica_consolidada_periodos_modelos.png"
-    plt.savefig(caminho, dpi=300, bbox_inches='tight')
+    caminho = os.path.join(PASTA_SAIDA, 'figura_28_comparacao_historica_consolidada.png')
+    salvar_figura(caminho, dpi=300)
     plt.close()
-    print("Figura 28 gerada.")
+    print("Figura 28 gerada (Painel duplo sem sobreposição).")
 
-
-def executar_todas():
-    print("--- INICIANDO GERAÇÃO DAS FIGURAS DA DISSERTAÇÃO ---")
-    criar_figura_06_fluxo_operacional(f"{PASTA_SAIDA}/figura_06_fluxo_operacional_artefato.png")
+def gerar_todas_figuras():
+    print("=== INICIANDO GERAÇÃO OFICIAL DAS FIGURAS AUDITADAS (ATÉ 31/08/2026) ===")
     gerar_figura_07_perfil_semanal_consumo()
     gerar_figura_08_perfil_semanal_por_ano()
     gerar_figura_09_oferta_consumo_por_proteina()
@@ -888,20 +894,20 @@ def executar_todas():
     gerar_figura_13_autocorrelacao_temporal()
     gerar_figura_14_ranking_features_rf()
     gerar_figura_15_correlacao_atributos()
-    gerar_figura_16_melhor_mae_cenarios()
-    gerar_figura_17_impacto_clima_t2()
-    gerar_figura_18_ganho_reforecast()
-    gerar_figura_19_modelos_vs_nutricionista()
-    gerar_figura_20_sobras_faltas_politicas()
-    gerar_figura_21_fronteira_pareto()
-    gerar_figura_22_margens_conformal()
-    gerar_figura_23_serie_temporal_2026()
-    gerar_figura_24_efeito_compensatorio()
-    gerar_figura_25_painel_anual_sobras_faltas()
-    gerar_figura_26_distribuicao_erros_diarios()
-    gerar_figura_27_matriz_decisao_custos()
-    gerar_figura_28_confronto_consolidado_regimes()
-    print("--- TODAS AS FIGURAS FORAM GERADAS COM SUCESSO EM dissertacao/figuras/ ---")
+    gerar_figura_16_decomposicao_efeito_compensatorio()
+    gerar_figura_17_painel_anual_sobras_faltas()
+    gerar_figura_18_melhor_mae_cenarios()
+    gerar_figura_19_regressao_linear_clima()
+    gerar_figura_20_comparacao_horizontes_5_algoritmos()
+    gerar_figura_21_ranking_modelos()
+    gerar_figura_22_sobras_faltas_politicas()
+    gerar_figura_23_fronteira_hibrido()
+    gerar_figura_24_distribuicao_erros_diarios()
+    gerar_figura_25_margens_seguranca_conformal()
+    gerar_figura_26_simulacao_monte_carlo()
+    gerar_figura_27_tradeoff_custo_atendimento()
+    gerar_figura_28_comparacao_historica_consolidada()
+    print("=== TODAS AS FIGURAS AUDITADAS FORAM GERADAS COM SUCESSO! ===")
 
 if __name__ == '__main__':
-    executar_todas()
+    gerar_todas_figuras()

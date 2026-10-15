@@ -1,0 +1,11 @@
+atributo_exibicao;variavel_coluna;familia_atributo;correlacao_pearson_r;n_registros_validos
+Consumo mesmo dia sem. anterior (Lag 5);consumo_mesmo_dia_sem_passada;Inércia / Sazonalidade Semanal;0.6383;464
+Média móvel de consumo (5 dias úteis);media_movel_5d;Tendência Recente de Curto Prazo;0.5658;563
+Média móvel de consumo (10 dias úteis);media_movel_10d;Tendência de Médio Prazo;0.5245;558
+Consumo do dia letivo anterior (Lag 1);lag_1_dia_letivo;Inércia Imediata de Curto Prazo;0.4908;567
+Dia da Semana: Quarta-feira;is_quarta;Pico Sazonal do Calendário;0.1366;568
+Proteína do Cardápio: Carne Bovina;proteina_bovina;Atratividade Alimentar;-0.0212;568
+Precipitação Pluviométrica Diária (mm);precipitation_sum;Meteorologia (Open-Meteo);-0.0375;568
+Proteína do Cardápio: Peixe;proteina_peixe;Atratividade Alimentar;-0.0526;568
+Temperatura Máxima Prevista (°C);temperature_2m_max;Meteorologia (Open-Meteo);-0.0551;568
+Dia da Semana: Sexta-feira;is_sexta;Retração Sazonal do Calendário;-0.2;568

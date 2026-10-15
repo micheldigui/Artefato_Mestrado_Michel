@@ -1,0 +1,8 @@
+politica;n;data_inicio;data_fim;margem_refeicoes;sobra_potencial_ref;deficit_potencial_ref;dias_com_deficit;pct_dias_com_deficit;taxa_protecao_pct;mae;custo_potencial_sobras_rs14_param;custo_interno_insumos_rs850_param;logica_operacional
+Ridge sem margem;73;2026-02-26;2026-08-31;0;1057;529;31;42.5;57.5;21.72;14798.0;8984.5;Previsão do Ridge pura arredondada
+IA P75;73;2026-02-26;2026-08-31;10;1534;276;16;21.9;78.1;24.8;21476.0;13039.0;Previsão Ridge + quantil empírico P75 (+10 ref)
+IA P85;73;2026-02-26;2026-08-31;19;2072;157;10;13.7;86.3;30.53;29008.0;17612.0;Previsão Ridge + quantil empírico P85 (+19 ref)
+IA P90;73;2026-02-26;2026-08-31;29;2706;62;7;9.6;90.4;37.92;37884.0;23001.0;Previsão Ridge + quantil empírico P90 (+29 ref)
+Híbrido 50/50;73;2026-02-26;2026-08-31;0;1041;433;33;45.2;54.8;20.19;14574.0;8848.5;Média entre Ridge e Nutricionista
+Híbrido +12;73;2026-02-26;2026-08-31;12;1648;163;13;17.8;82.2;24.81;23072.0;14008.0;Híbrido 50/50 + margem residual fixa (+12 ref)
+Parâmetro institucional (Nutri);73;2026-02-26;2026-08-31;0;1198;508;32;43.8;56.2;23.37;16772.0;10183.0;Quantitativo informado pela nutricionista

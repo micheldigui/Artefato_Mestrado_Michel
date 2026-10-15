@@ -1,0 +1,3 @@
+modelo;horizonte;cenario;n;data_inicio;data_fim;mae;rmse;r2;wape_pct
+Regressão Linear;t+2 (10 a 14 dias);Cenário 1 (Base + Cardápio - Sem Clima);73;2026-02-19;2026-08-31;27.33;36.04;0.371;16.11
+Regressão Linear;t+2 (10 a 14 dias);Cenário 2 (Com Clima Open-Meteo);73;2026-02-19;2026-08-31;25.86;35.38;0.394;15.25
