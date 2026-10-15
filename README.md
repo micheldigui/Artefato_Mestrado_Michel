@@ -2,15 +2,17 @@
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![DSR](https://img.shields.io/badge/Metodologia-Design_Science_Research_(DSR)-orange.svg)](docs/trajetoria_do_artefato.md)
-[![ProfEPT](https://img.shields.io/badge/Programa-ProfEPT%20%7C%20IFSP%20%7C%20CEETEPS-green.svg)](https://profept.ifes.edu.br/)
+[![PPG-GTSP](https://img.shields.io/badge/Programa-PPG--GTSP%20%7C%20CEETEPS-green.svg)](https://posgraduacao.cps.sp.gov.br/)
 [![Corte Qualificação](https://img.shields.io/badge/Qualificação-31%2F08%2F2026%20(N%3D73)-purple.svg)](dissertacao/AUDITORIA_QUALIFICACAO_RECALCULO_N73.md)
 [![Licença](https://img.shields.io/badge/Licença-MIT-lightgrey.svg)](LICENSE)
 
-> **Pesquisa de Mestrado Profissional em Educação Profissional e Tecnológica (ProfEPT)**  
-> **Linha de Pesquisa:** Gestão e Organização do Trabalho Pedagógico na EPT / Sistemas de Informação e Tecnologias Digitais  
-> **Instituição:** Instituto Federal de São Paulo (IFSP) / Centro Paula Souza (CEETEPS)  
-> **Autor:** Michel Silva de Souza  
-> **Objeto de Estudo:** Restaurante Escolar do IFSP Campus Itaquaquecetuba  
+> **Pesquisa de Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)**  
+> **Área de Concentração:** Sistemas Produtivos  
+> **Linha de Pesquisa:** Linha 2 — Sistemas de Informação e Tecnologias Digitais  
+> **Instituição Mantenedora:** Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)  
+> **Campo de Aplicação Empírica:** Restaurante Estudantil do IFSP Campus Itaquaquecetuba  
+> **Autor / Desenvolvedor:** Michel Silva de Souza (*Michel Digui*)  
+> **Abordagem Metodológica:** Design Science Research (DSR)  
 
 ---
 
@@ -172,8 +174,9 @@ Acesse a aplicação no navegador em `http://localhost:8501`.
 ---
 
 ## 👤 Autor e Contato
-
-* **Pesquisador:** Michel Silva de Souza  
-* **Programa:** Mestrado Profissional em EPT (ProfEPT / IFSP / CEETEPS)  
+ 
+* **Pesquisador:** Michel Silva de Souza (*Michel Digui*)  
+* **Programa:** Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)  
+* **Instituição Mantenedora:** Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)  
 * **GitHub:** [@micheldigui](https://github.com/micheldigui)  
 * **Repositório Oficial:** [Artefato_Mestrado_Michel](https://github.com/micheldigui/Artefato_Mestrado_Michel)

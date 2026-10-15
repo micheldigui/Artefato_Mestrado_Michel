@@ -1,8 +1,9 @@
 # Minuta Textual do Capítulo de Resultados e Discussão
 
-**Programa:** Mestrado Profissional em Educação Profissional e Tecnológica (ProfEPT)  
-**Instituição:** Instituto Federal de São Paulo (IFSP) — Campus Itaquaquecetuba  
-**Linha de Pesquisa:** Gestão Pública e Organização Escolar  
+**Programa:** Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)  
+**Instituição Mantenedora:** Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)  
+**Instituição Parceira / Objeto Empírico:** Instituto Federal de São Paulo (IFSP) — Campus Itaquaquecetuba  
+**Linha de Pesquisa:** Linha 2 — Sistemas de Informação e Tecnologias Digitais  
 **Produto Técnico:** Artefato de Apoio à Decisão Operacional para Previsão de Demanda de Refeições  
 **Localização:** Pasta `docs/`  
 **Data:** Outubro de 2026  

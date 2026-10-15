@@ -1,8 +1,10 @@
 # Catálogo de Referências Bibliográficas e Metodológicas (Normas ABNT)
 
 **Projeto:** Artefato Técnico de Apoio à Decisão Operacional para Previsão de Demanda de Refeições  
-**Instituição:** Instituto Federal de São Paulo (IFSP) — Campus Itaquaquecetuba  
-**Programa:** Mestrado Profissional em Educação Profissional e Tecnológica (ProfEPT / Linha de Gestão Pública)  
+**Instituição Mantenedora:** Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)  
+**Programa:** Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)  
+**Área / Linha:** Sistemas Produtivos / Linha 2 — Sistemas de Informação e Tecnologias Digitais  
+**Campo de Estudo:** Instituto Federal de São Paulo (IFSP) — Campus Itaquaquecetuba  
 **Localização no Projeto:** Pasta `docs/`  
 **Última Atualização:** Outubro de 2026  
 

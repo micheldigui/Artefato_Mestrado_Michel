@@ -1,6 +1,6 @@
 # Documentação Técnica e Metodológica — Artefato IFSP Itaquaquecetuba
 
-Este diretório (`docs/`) reúne os registros teóricos, bibliográficos e operacionais desenvolvidos para fundamentar o **Artefato Técnico de Previsão de Demanda de Refeições do IFSP Campus Itaquaquecetuba**, no âmbito do **Mestrado Profissional em Educação Profissional e Tecnológica (ProfEPT / Gestão Pública)**.
+Este diretório (`docs/`) reúne os registros teóricos, bibliográficos e operacionais desenvolvidos para fundamentar o **Artefato Analítico-Preditivo de Demanda de Refeições do IFSP Campus Itaquaquecetuba**, no âmbito do **Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)** do **Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)**.
 
 ---
 

@@ -1,8 +1,10 @@
 # Memorial Metodológico e Trajetória Evolutiva do Artefato Técnico
 
 **Projeto:** Sistema de Apoio à Decisão Operacional para Previsão de Demanda de Refeições  
-**Instituição:** Instituto Federal de Educação, Ciência e Tecnologia de São Paulo (IFSP) — Campus Itaquaquecetuba  
-**Programa:** Mestrado Profissional em Educação Profissional e Tecnológica (ProfEPT / Linha de Gestão Pública)  
+**Instituição Parceira / Campo Empírico:** Instituto Federal de Educação, Ciência e Tecnologia de São Paulo (IFSP) — Campus Itaquaquecetuba  
+**Instituição Mantenedora:** Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)  
+**Programa:** Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)  
+**Área / Linha:** Sistemas Produtivos / Linha 2 — Sistemas de Informação e Tecnologias Digitais  
 **Localização:** Pasta `docs/`  
 **Data de Consolidação:** Outubro de 2026  
 

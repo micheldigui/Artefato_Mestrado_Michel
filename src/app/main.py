@@ -1,9 +1,12 @@
 """
 Interface Web Operacional do Artefato — Apoio à Decisão e Storytelling da Pesquisa
-Desenvolvido no Padrão de Identidade Visual do Instituto Federal (IF)
 Pesquisa: Artefato Analítico-Preditivo para Planejamento da Produção de Refeições e Combate ao Desperdício
 Autor: Michel Silva de Souza (Michel Digui)
-Mestrado Profissional em Educação Profissional e Tecnológica (ProfEPT / IFSP / CEETEPS)
+Programa: Programa de Pós-Graduação em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)
+Instituição: Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)
+Área de Concentração: Sistemas Produtivos
+Linha de Pesquisa: Linha 2 — Sistemas de Informação e Tecnologias Digitais
+Campo de Aplicação Empírica: Restaurante Estudantil do IFSP Campus Itaquaquecetuba
 """
 
 import os
@@ -12,6 +15,9 @@ import sys
 app_dir = os.path.dirname(os.path.abspath(__file__))
 if app_dir not in sys.path:
     sys.path.insert(0, app_dir)
+
+# Raiz do projeto
+ROOT_DIR = os.path.abspath(os.path.join(app_dir, "..", ".."))
 
 import streamlit as st
 import pandas as pd
@@ -58,33 +64,31 @@ except ImportError:
 
 # Configuração da página
 st.set_page_config(
-    page_title="Artefato de Previsão de Refeições — IFSP Itaquaquecetuba",
+    page_title="Artefato Preditivo de Refeições — CEETEPS & IFSP",
     page_icon="🍽️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Estilização no Manual de Identidade Visual do Instituto Federal (IF)
+# Estilização Adaptativa — Impecável em Tema Claro (Light) e Tema Escuro (Dark)
 st.markdown("""
 <style>
     :root {
         --if-green: #006633;
         --if-green-dark: #004d26;
-        --if-green-light: #e8f5e9;
-        --if-red: #c8102e;
-        --if-red-dark: #9b0b23;
-        --if-text: #1e293b;
-        --if-card-bg: #1e293b;
+        --if-green-light: #ecfdf5;
+        --ceeteps-red: #c8102e;
+        --ceeteps-red-dark: #991b1b;
     }
 
-    /* Topo Institucional */
+    /* Topo Institucional de Alto Impacto */
     .if-header-box {
-        background: linear-gradient(135deg, #006633 0%, #004d26 60%, #1e293b 100%);
+        background: linear-gradient(135deg, #006633 0%, #004d26 50%, #0f172a 100%);
         border-radius: 12px;
-        padding: 18px 26px;
-        color: #ffffff;
+        padding: 20px 26px;
+        color: #ffffff !important;
         margin-bottom: 22px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -113,70 +117,97 @@ st.markdown("""
         border-radius: 50% !important;
     }
     .if-title {
-        font-size: 23px;
+        font-size: 22px;
         font-weight: 800;
-        letter-spacing: -0.5px;
-        color: #ffffff;
-        margin-bottom: 3px;
+        letter-spacing: -0.4px;
+        color: #ffffff !important;
+        margin-bottom: 4px;
+        line-height: 1.25;
     }
     .if-subtitle {
-        font-size: 13.5px;
-        color: #e2e8f0;
+        font-size: 13px;
+        color: #e2e8f0 !important;
         font-weight: 400;
+        line-height: 1.4;
     }
     .if-badge-mestrado {
-        background: rgba(200, 16, 46, 0.9);
-        color: #ffffff;
-        padding: 6px 14px;
+        background: rgba(200, 16, 46, 0.95);
+        color: #ffffff !important;
+        padding: 7px 16px;
         border-radius: 20px;
-        font-size: 12.5px;
+        font-size: 11.5px;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        white-space: nowrap;
+        text-align: center;
     }
 
-    /* Cards de Métricas Operacionais */
+    /* Cards de Métricas Operacionais com Contraste Perfeito em Tema Claro e Escuro */
     div[data-testid="stMetric"] {
-        background-color: #1e293b !important;
-        border: 1px solid #334155 !important;
+        background: var(--secondary-background-color, #f8fafc) !important;
+        border: 1px solid rgba(148, 163, 184, 0.35) !important;
         border-top: 4px solid #006633 !important;
-        border-radius: 8px !important;
-        padding: 12px 16px !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
+        border-radius: 10px !important;
+        padding: 12px 14px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-top-color 0.2s ease !important;
     }
     div[data-testid="stMetric"]:hover {
         border-top-color: #c8102e !important;
-        transition: border-color 0.3s ease;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1) !important;
     }
     div[data-testid="stMetricLabel"] {
-        color: #94a3b8 !important;
+        color: var(--text-color, #334155) !important;
         font-size: 13px !important;
         font-weight: 600 !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        line-height: 1.25 !important;
     }
     div[data-testid="stMetricValue"] {
-        color: #22c55e !important;
+        color: #006633 !important;
         font-weight: 800 !important;
-        font-size: 26px !important;
+        font-size: 21px !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        line-height: 1.2 !important;
+        margin-top: 3px !important;
     }
     div[data-testid="stMetricDelta"] {
-        color: #38bdf8 !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
+        font-size: 12px !important;
+        white-space: normal !important;
+        word-break: break-word !important;
     }
 
-    /* Botões Primários no Verde Oficial do IF */
-    div.stButton > button:first-child[kind="primary"] {
+    /* Botões Primários e Botões de Submissão no Verde Oficial */
+    button[kind="primary"],
+    button[data-testid="baseButton-primary"],
+    button[data-testid="stBaseButton-primary"],
+    div.stButton > button,
+    div[data-testid="stFormSubmitButton"] > button {
         background-color: #006633 !important;
         color: #ffffff !important;
         border: none !important;
-        border-radius: 6px !important;
+        border-radius: 8px !important;
         font-weight: 700 !important;
-        padding: 8px 18px !important;
-        transition: all 0.2s ease-in-out;
+        padding: 10px 22px !important;
+        font-size: 15px !important;
+        transition: all 0.2s ease-in-out !important;
+        box-shadow: 0 2px 6px rgba(0, 102, 51, 0.25) !important;
     }
-    div.stButton > button:first-child[kind="primary"]:hover {
+    button[kind="primary"]:hover,
+    button[data-testid="baseButton-primary"]:hover,
+    button[data-testid="stBaseButton-primary"]:hover,
+    div.stButton > button:hover,
+    div[data-testid="stFormSubmitButton"] > button:hover {
         background-color: #004d26 !important;
-        box-shadow: 0 4px 12px rgba(0, 102, 51, 0.35) !important;
+        box-shadow: 0 4px 14px rgba(0, 102, 51, 0.4) !important;
         transform: translateY(-1px);
     }
 
@@ -184,36 +215,37 @@ st.markdown("""
     button[data-baseweb="tab"] {
         font-weight: 700 !important;
         font-size: 14.5px !important;
-        color: #94a3b8 !important;
+        color: var(--text-color, #64748b) !important;
     }
     button[data-baseweb="tab"][aria-selected="true"] {
-        color: #4ade80 !important;
+        color: #006633 !important;
         border-bottom-color: #006633 !important;
     }
 
-    /* Caixas de Destaque e Storytelling */
+    /* Caixas de Destaque e Storytelling Adaptativas */
     .card-story {
-        background-color: #1e293b !important;
-        border: 1px solid #334155 !important;
+        background-color: var(--secondary-background-color, #f8fafc) !important;
+        border: 1px solid rgba(148, 163, 184, 0.35) !important;
         border-left: 5px solid #006633 !important;
         border-radius: 8px !important;
         padding: 16px 20px !important;
         margin-bottom: 16px !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
     }
     .card-story-red {
         border-left-color: #c8102e !important;
     }
     .card-story h4 {
-        color: #4ade80 !important;
+        color: #006633 !important;
         margin-top: 0;
         margin-bottom: 8px;
         font-weight: 700;
     }
     .card-story-red h4 {
-        color: #f87171 !important;
+        color: #c8102e !important;
     }
     .card-story p, .card-story li {
-        color: #cbd5e1 !important;
+        color: var(--text-color, #334155) !important;
         font-size: 14px !important;
         line-height: 1.6;
     }
@@ -237,28 +269,42 @@ st.markdown("""
         </div>
         <div>
             <div class="if-title">🍽️ Artefato Analítico-Preditivo de Refeições Escolares</div>
-            <div class="if-subtitle">IFSP Campus Itaquaquecetuba | ProfEPT / CEETEPS — Pesquisa em Gestão Pública e Alimentação Escolar</div>
+            <div class="if-subtitle">Centro Estadual de Educação Tecnológica Paula Souza — CEETEPS | PPG em Gestão e Tecnologia em Sistemas Produtivos<br>Pesquisa Aplicada no Restaurante Estudantil do IFSP Campus Itaquaquecetuba</div>
         </div>
     </div>
-    <div class="if-badge-mestrado">ProfEPT / IFSP</div>
+    <div class="if-badge-mestrado">CEETEPS / PPG-GTSP</div>
 </div>
 """, unsafe_allow_html=True)
 
 # Barra Lateral Informativa
 with st.sidebar:
     st.markdown("""
-    <div style="text-align: center; margin-bottom: 12px;">
-        <div style="font-size: 34px;">🏛️</div>
-        <div style="font-weight: 800; color: #22c55e; font-size: 17px;">Instituto Federal</div>
-        <div style="font-size: 12.5px; color: #94a3b8;">Campus Itaquaquecetuba</div>
+    <div style="text-align: center; margin-bottom: 14px;">
+        <div style="font-size: 34px;">🏭</div>
+        <div style="font-weight: 800; color: #006633; font-size: 16px; letter-spacing: -0.3px;">CEETEPS — Centro Paula Souza</div>
+        <div style="font-size: 11.5px; color: var(--text-color, #64748b); font-weight: 600;">PPG em Gestão e Tecnologia em Sistemas Produtivos</div>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     **Pesquisador:**  
     Michel Silva de Souza (*Michel Digui*)  
+    
     **Mestrado Profissional:**  
-    ProfEPT / IFSP / CEETEPS  
+    Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)  
+    
+    **Instituição Mantenedora:**  
+    Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)  
+    
+    **Área de Concentração:**  
+    Sistemas Produtivos  
+    
+    **Linha de Pesquisa:**  
+    Sistemas de Informação e Tecnologias Digitais  
+    
+    **Campo de Estudo Aplicado:**  
+    IFSP Campus Itaquaquecetuba  
+    
     **Orientação Metodológica:**  
     Design Science Research (DSR)  
     """)
@@ -312,13 +358,21 @@ with aba1:
     # Cards de status do dia
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        st.metric("Consumo Real (Catraca)", f"{int(dados_dia['consumo'])} ref" if dados_dia['consumo'] is not None else "Não apurado")
+        val_c1 = f"{int(dados_dia['consumo'])} ref" if dados_dia['consumo'] is not None else "Não apurado"
+        delta_c1 = "Catraca física" if dados_dia['consumo'] is not None else "Aguardando contagem"
+        st.metric("Consumo Real", val_c1, delta=delta_c1)
     with c2:
-        st.metric("Reservas Alunos (SUAP)", f"{int(dados_dia['reservas'])} ref" if dados_dia['reservas'] is not None else "Não cadastrado")
+        val_c2 = f"{int(dados_dia['reservas'])} ref" if dados_dia['reservas'] is not None else "Não cadastrado"
+        delta_c2 = "Portal SUAP" if dados_dia['reservas'] is not None else "Sem reservas no SUAP"
+        st.metric("Reservas Alunos", val_c2, delta=delta_c2)
     with c3:
-        st.metric("Quantitativo Nutricionista", f"{int(dados_dia['planejado_nutri'])} ref" if dados_dia['planejado_nutri'] is not None else "Não informado")
+        val_c3 = f"{int(dados_dia['planejado_nutri'])} ref" if dados_dia['planejado_nutri'] is not None else "Não informado"
+        delta_c3 = "Meta nutricional" if dados_dia['planejado_nutri'] is not None else "Pendente nutricionista"
+        st.metric("Quantitativo Nutri", val_c3, delta=delta_c3)
     with c4:
-        st.metric("Previsão do Clima", f"{dados_dia['temperature_2m_max']:.1f} °C", delta=f"{dados_dia['precipitation_sum']:.1f} mm chuva")
+        val_c4 = f"{dados_dia['temperature_2m_max']:.1f} °C"
+        delta_c4 = f"Chuva: {dados_dia['precipitation_sum']:.1f} mm"
+        st.metric("Previsão do Clima", val_c4, delta=delta_c4)
 
     st.markdown("---")
     st.markdown("#### ✏️ Formulário de Edição e Lançamento de Dados")
@@ -614,7 +668,7 @@ with aba4:
         caminho_img = os.path.join(pasta_figuras, arq)
         if os.path.exists(caminho_img):
             st.markdown(f"##### {tit}")
-            st.image(caminho_img, caption=tit, use_column_width=True)
+            st.image(caminho_img, caption=tit, use_container_width=True)
             st.write("")
         else:
             st.warning(f"Arquivo não localizado na pasta ativa: {arq}")
@@ -624,9 +678,13 @@ with aba4:
     st.markdown("### 🎓 Ficha Técnica e Autoria do Projeto")
     st.markdown("""
     * **Pesquisador e Desenvolvedor do Artefato:** Michel Silva de Souza (*Michel Digui*)
-    * **Programa:** Programa de Pós-Graduação em Educação Profissional e Tecnológica (ProfEPT)
-    * **Linha de Pesquisa:** Gestão e Organização do Trabalho Pedagógico na EPT / Sistemas de Informação e Tecnologias Digitais
-    * **Instituições Cooperadas:** Instituto Federal de São Paulo (IFSP) / Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)
+    * **Programa de Pós-Graduação:** Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)
+    * **Modalidade:** Mestrado Profissional
+    * **Instituição Mantenedora:** Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)
+    * **Área de Concentração:** Sistemas Produtivos
+    * **Linha de Pesquisa:** Linha 2 — Sistemas de Informação e Tecnologias Digitais
+    * **Campo de Aplicação Empírica:** Restaurante Estudantil do IFSP Campus Itaquaquecetuba
+    * **Abordagem Metodológica:** Design Science Research (DSR)
     * **Repositório Oficial:** [github.com/micheldigui/Artefato_Mestrado_Michel](https://github.com/micheldigui/Artefato_Mestrado_Michel)
     * **Ano de Qualificação:** 2026
     """)

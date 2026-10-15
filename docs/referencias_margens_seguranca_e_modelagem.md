@@ -1,7 +1,8 @@
 # Referencial Teórico e Bibliográfico: Margens de Segurança, Perda Assimétrica e Modelos Híbridos em Alimentação Coletiva
 
-**Projeto:** Artefato Técnico de Previsão de Demanda de Refeições — IFSP Campus Itaquaquecetuba  
-**Mestrado Profissional em Educação Profissional e Tecnológica (ProfEPT / Gestão Pública)**  
+**Projeto:** Artefato Analítico-Preditivo de Demanda de Refeições — IFSP Campus Itaquaquecetuba  
+**Programa:** Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)  
+**Instituição Mantenedora:** Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)  
 **Data de Consolidação:** Outubro de 2026  
 
 ---
