@@ -70,98 +70,55 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilização Adaptativa — Impecável em Tema Claro (Light) e Tema Escuro (Dark)
+# Estilização Adaptativa com Alto Contraste para Tema Claro (Light) e Tema Escuro (Dark)
 st.markdown("""
 <style>
-    :root {
-        --if-green: #006633;
-        --if-green-dark: #004d26;
-        --if-green-light: #ecfdf5;
-        --ceeteps-red: #c8102e;
-        --ceeteps-red-dark: #991b1b;
-    }
-
-    /* Topo Institucional de Alto Impacto */
+    /* Topo Institucional com Alto Contraste */
     .if-header-box {
-        background: linear-gradient(135deg, #006633 0%, #004d26 50%, #0f172a 100%);
+        background: linear-gradient(135deg, #005a2b 0%, #004220 50%, #0f172a 100%) !important;
         border-radius: 12px;
-        padding: 20px 26px;
+        padding: 20px 24px;
         color: #ffffff !important;
         margin-bottom: 22px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-left: 6px solid #c8102e;
-    }
-    .if-title-area {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-    }
-    .if-logo-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 12px);
-        grid-gap: 3.5px;
-        background: transparent;
-        padding: 4px;
-    }
-    .if-dot {
-        width: 12px;
-        height: 12px;
-        background-color: #ffffff;
-        border-radius: 2px;
-    }
-    .if-dot-red {
-        background-color: #c8102e !important;
-        border-radius: 50% !important;
-    }
-    .if-title {
-        font-size: 22px;
-        font-weight: 800;
-        letter-spacing: -0.4px;
-        color: #ffffff !important;
-        margin-bottom: 4px;
-        line-height: 1.25;
-    }
-    .if-subtitle {
-        font-size: 13px;
-        color: #e2e8f0 !important;
-        font-weight: 400;
-        line-height: 1.4;
+        border-left: 6px solid #ef4444;
     }
     .if-badge-mestrado {
-        background: rgba(200, 16, 46, 0.95);
+        background: #ef4444 !important;
         color: #ffffff !important;
         padding: 7px 16px;
         border-radius: 20px;
         font-size: 11.5px;
-        font-weight: 700;
+        font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         white-space: nowrap;
         text-align: center;
     }
 
-    /* Cards de Métricas Operacionais com Contraste Perfeito em Tema Claro e Escuro */
+    /* Cards de Métricas Operacionais — Sem Forçar Cores Fixas que Quebram no Dark/Light */
     div[data-testid="stMetric"] {
-        background: var(--secondary-background-color, #f8fafc) !important;
-        border: 1px solid rgba(148, 163, 184, 0.35) !important;
-        border-top: 4px solid #006633 !important;
+        background-color: rgba(128, 128, 128, 0.07) !important;
+        border: 1px solid rgba(128, 128, 128, 0.25) !important;
+        border-top: 4px solid #10b981 !important;
         border-radius: 10px !important;
         padding: 12px 14px !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
         transition: transform 0.2s ease, box-shadow 0.2s ease, border-top-color 0.2s ease !important;
     }
     div[data-testid="stMetric"]:hover {
-        border-top-color: #c8102e !important;
+        border-top-color: #ef4444 !important;
         transform: translateY(-2px);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12) !important;
     }
     div[data-testid="stMetricLabel"] {
-        color: var(--text-color, #334155) !important;
-        font-size: 13px !important;
+        color: inherit !important;
+        opacity: 0.9 !important;
+        font-size: 13.5px !important;
         font-weight: 600 !important;
         white-space: normal !important;
         word-break: break-word !important;
@@ -169,7 +126,7 @@ st.markdown("""
         line-height: 1.25 !important;
     }
     div[data-testid="stMetricValue"] {
-        color: #006633 !important;
+        color: #10b981 !important;
         font-weight: 800 !important;
         font-size: 21px !important;
         white-space: normal !important;
@@ -191,7 +148,7 @@ st.markdown("""
     button[data-testid="stBaseButton-primary"],
     div.stButton > button,
     div[data-testid="stFormSubmitButton"] > button {
-        background-color: #006633 !important;
+        background-color: #008744 !important;
         color: #ffffff !important;
         border: none !important;
         border-radius: 8px !important;
@@ -199,53 +156,58 @@ st.markdown("""
         padding: 10px 22px !important;
         font-size: 15px !important;
         transition: all 0.2s ease-in-out !important;
-        box-shadow: 0 2px 6px rgba(0, 102, 51, 0.25) !important;
+        box-shadow: 0 2px 6px rgba(0, 135, 68, 0.3) !important;
     }
     button[kind="primary"]:hover,
     button[data-testid="baseButton-primary"]:hover,
     button[data-testid="stBaseButton-primary"]:hover,
     div.stButton > button:hover,
     div[data-testid="stFormSubmitButton"] > button:hover {
-        background-color: #004d26 !important;
-        box-shadow: 0 4px 14px rgba(0, 102, 51, 0.4) !important;
+        background-color: #006633 !important;
+        box-shadow: 0 4px 14px rgba(0, 135, 68, 0.45) !important;
         transform: translateY(-1px);
     }
 
-    /* Abas Superiores */
+    /* Abas Superiores com Alto Contraste */
     button[data-baseweb="tab"] {
         font-weight: 700 !important;
         font-size: 14.5px !important;
-        color: var(--text-color, #64748b) !important;
+        color: inherit !important;
+        opacity: 0.75 !important;
+    }
+    button[data-baseweb="tab"]:hover {
+        opacity: 1 !important;
     }
     button[data-baseweb="tab"][aria-selected="true"] {
-        color: #006633 !important;
-        border-bottom-color: #006633 !important;
+        color: #10b981 !important;
+        border-bottom: 3px solid #10b981 !important;
+        opacity: 1 !important;
     }
 
     /* Caixas de Destaque e Storytelling Adaptativas */
     .card-story {
-        background-color: var(--secondary-background-color, #f8fafc) !important;
-        border: 1px solid rgba(148, 163, 184, 0.35) !important;
-        border-left: 5px solid #006633 !important;
+        background-color: rgba(128, 128, 128, 0.08) !important;
+        border: 1px solid rgba(128, 128, 128, 0.25) !important;
+        border-left: 5px solid #10b981 !important;
         border-radius: 8px !important;
         padding: 16px 20px !important;
         margin-bottom: 16px !important;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
     }
     .card-story-red {
-        border-left-color: #c8102e !important;
+        border-left-color: #ef4444 !important;
     }
     .card-story h4 {
-        color: #006633 !important;
+        color: #10b981 !important;
         margin-top: 0;
         margin-bottom: 8px;
         font-weight: 700;
     }
     .card-story-red h4 {
-        color: #c8102e !important;
+        color: #ef4444 !important;
     }
     .card-story p, .card-story li {
-        color: var(--text-color, #334155) !important;
+        color: inherit !important;
         font-size: 14px !important;
         line-height: 1.6;
     }
@@ -255,21 +217,12 @@ st.markdown("""
 # Topo Institucional
 st.markdown("""
 <div class="if-header-box">
-    <div class="if-title-area">
-        <div class="if-logo-grid">
-            <div class="if-dot if-dot-red"></div>
-            <div class="if-dot"></div>
-            <div class="if-dot"></div>
-            <div class="if-dot"></div>
-            <div class="if-dot"></div>
-            <div class="if-dot"></div>
-            <div class="if-dot"></div>
-            <div class="if-dot"></div>
-            <div class="if-dot"></div>
-        </div>
+    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <div style="font-size: 32px;">🍽️</div>
         <div>
-            <div class="if-title">🍽️ Artefato Analítico-Preditivo de Refeições Escolares</div>
-            <div class="if-subtitle">Centro Estadual de Educação Tecnológica Paula Souza — CEETEPS | PPG em Gestão e Tecnologia em Sistemas Produtivos<br>Pesquisa Aplicada no Restaurante Estudantil do IFSP Campus Itaquaquecetuba</div>
+            <div style="font-size: 20px; font-weight: 800; color: #ffffff !important; line-height: 1.25; margin-bottom: 3px;">Artefato Analítico-Preditivo de Refeições Escolares</div>
+            <div style="font-size: 13px; color: #f1f5f9 !important; line-height: 1.4;">Centro Paula Souza (CEETEPS) — PPG em Gestão e Tecnologia em Sistemas Produtivos</div>
+            <div style="font-size: 12px; color: #e2e8f0 !important; opacity: 0.9;">Aplicação Empírica: Restaurante Estudantil do IFSP Campus Itaquaquecetuba</div>
         </div>
     </div>
     <div class="if-badge-mestrado">CEETEPS / PPG-GTSP</div>
@@ -281,8 +234,8 @@ with st.sidebar:
     st.markdown("""
     <div style="text-align: center; margin-bottom: 14px;">
         <div style="font-size: 34px;">🏭</div>
-        <div style="font-weight: 800; color: #006633; font-size: 16px; letter-spacing: -0.3px;">CEETEPS — Centro Paula Souza</div>
-        <div style="font-size: 11.5px; color: var(--text-color, #64748b); font-weight: 600;">PPG em Gestão e Tecnologia em Sistemas Produtivos</div>
+        <div style="font-weight: 800; color: #10b981; font-size: 16px; letter-spacing: -0.3px;">CEETEPS — Centro Paula Souza</div>
+        <div style="font-size: 12px; font-weight: 600; opacity: 0.85;">PPG em Gestão e Tecnologia em Sistemas Produtivos</div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -531,7 +484,7 @@ with aba2:
     chart_t1 = alt.Chart(df_graf).mark_bar().encode(
         x=alt.X("Série:N", title=None),
         y=alt.Y("Valor:Q", title="Refeições"),
-        color=alt.Color("Série:N", scale=alt.Scale(domain=["Recomendação com Margem", "Previsão Central (Base)", "Nutricionista Institucional"], range=["#006633", "#38bdf8", "#c8102e"])),
+        color=alt.Color("Série:N", scale=alt.Scale(domain=["Recomendação com Margem", "Previsão Central (Base)", "Nutricionista Institucional"], range=["#10b981", "#38bdf8", "#ef4444"])),
         column=alt.Column("Dia:N", title="Dias Úteis da Semana t+1")
     ).properties(height=320)
     st.altair_chart(chart_t1)
