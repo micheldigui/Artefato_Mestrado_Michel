@@ -43,7 +43,7 @@ try:
     )
     import pipeline
     importlib.reload(pipeline)
-    from pipeline import executar_pipeline_previsao, DIAS_SEMANA_PT, obter_proximos_dias_uteis
+    from pipeline import executar_pipeline_previsao, DIAS_SEMANA_PT, obter_proximos_dias_uteis, CENARIOS_DICT, MODELOS_RANKING, MARGENS_INFO
 except ImportError:
     from . import storage, pipeline
     importlib.reload(storage)
@@ -60,7 +60,7 @@ except ImportError:
         carregar_fato_diaria_completa,
         CSV_CONSUMO_ATUALIZADO
     )
-    from .pipeline import executar_pipeline_previsao, DIAS_SEMANA_PT, obter_proximos_dias_uteis
+    from .pipeline import executar_pipeline_previsao, DIAS_SEMANA_PT, obter_proximos_dias_uteis, CENARIOS_DICT, MODELOS_RANKING, MARGENS_INFO
 
 # Configuração da página
 st.set_page_config(
@@ -427,52 +427,76 @@ with aba1:
 # ==============================================================================
 # ABA 2: PREVISÃO JANELA CURTA (t+1: PREPARO E HORTIFRÚTI)
 # ==============================================================================
+# ==============================================================================
+# ABA 2: PREVISÃO JANELA CURTA (t+1: PREPARO E HORTIFRÚTI)
+# ==============================================================================
 with aba2:
     st.subheader("⏱️ Previsão Operacional — Janela Curta (t+1: Próxima Semana)")
     st.write(
-        "Utilizada na **sexta-feira anterior** para emissão de ordens de produção e compras de hortifrúti. "
-        "Apresenta como **padrão recomendado os modelos campeões da pesquisa**: "
-        "**Modelo Híbrido 50/50** (IA Ridge + Nutricionista, MAE 20,20) e **Margem Conformal P85 (+18 ref)**."
+        "Utilizada na **sexta-feira anterior** para emissão de ordens de produção e compras de perecíveis/hortifrúti. "
+        "Você pode **selecionar o cenário de features, comparar os algoritmos com seus MAEs auditados e ajustar a política de margem de segurança**."
     )
     
-    with st.expander("⚙️ Painel de Configuração e Ajuste Fino dos Modelos", expanded=False):
-        c_conf1, c_conf2, c_conf3 = st.columns(3)
-        with c_conf1:
-            modelo_t1 = st.selectbox(
-                "Modelo Base de Machine Learning",
-                ["Híbrido 50/50 (Campeão Auditado)", "Ridge Regression (Linear L2)", "Lasso Regression (L1)", "Regressão Linear"],
-                index=0
-            )
-            usar_nutri_t1 = st.checkbox("Combinar com Quantitativo da Nutricionista (Híbrido)", value=True)
-        with c_conf2:
-            usar_clima_t1 = st.checkbox("Considerar Previsão do Clima (Open-Meteo)", value=True)
-            usar_cardapio_t1 = st.checkbox("Considerar Atratividade do Cardápio", value=True)
-        with c_conf3:
-            tipo_margem_t1 = st.selectbox(
-                "Política de Margem de Segurança Decisória",
-                [
-                    "Conformal P85 (+18 ref / Padrão Pesquisa)",
-                    "Conformal P75 (+10 ref / Moderada)",
-                    "Conformal P90 (+29 ref / Máxima Proteção)",
-                    "Predição Pura (+0 ref)"
-                ],
-                index=0
-            )
+    # Painel de Seleção 100% Aberto e Transparente
+    st.markdown("#### ⚙️ Painel de Decisão Preditiva — Cenários, Modelos e Margens")
+    c_conf1, c_conf2, c_conf3 = st.columns([1.1, 1.2, 1.1])
+    
+    with c_conf1:
+        cenario_sel_t1 = st.selectbox(
+            "🎯 Cenário Experimental de Features",
+            list(CENARIOS_DICT.keys()),
+            index=0,
+            key="cenario_t1"
+        )
+        st.caption(f"📌 {CENARIOS_DICT[cenario_sel_t1]['descricao']}")
+        
+    with c_conf2:
+        modelo_sel_t1 = st.selectbox(
+            "🤖 Algoritmo de Previsão / IA",
+            list(MODELOS_RANKING.keys()),
+            index=0,
+            key="modelo_t1"
+        )
+        info_mod_t1 = MODELOS_RANKING[modelo_sel_t1]
+        st.caption(f"🏆 **{info_mod_t1['posicao']}** | MAE: **{info_mod_t1['mae_t1']:.2f} ref/dia** ({info_mod_t1['tipo']})")
+        
+    with c_conf3:
+        margem_sel_t1 = st.selectbox(
+            "🛡️ Política de Margem Conformal",
+            list(MARGENS_INFO.keys()),
+            index=0,
+            key="margem_t1"
+        )
+        info_marg_t1 = MARGENS_INFO[margem_sel_t1]
+        st.caption(f"📊 Cobertura Protegida: **{info_marg_t1['cobertura']}** (Risco de falta: {info_marg_t1['taxa_falta']})")
 
+    # Cards Resumo em Tempo Real do Cenário e Modelo Escolhido
+    cp1, cp2, cp3, cp4 = st.columns(4)
+    with cp1:
+        st.metric("Modelo Selecionado", modelo_sel_t1.split("(")[0].strip(), delta=info_mod_t1["posicao"])
+    with cp2:
+        ganho_mae_t1 = 26.21 - info_mod_t1["mae_t1"]
+        st.metric("Desempenho (MAE)", f"{info_mod_t1['mae_t1']:.2f} ref/dia", delta=f"{ganho_mae_t1:+.2f} ref vs Nutri")
+    with cp3:
+        val_marg_t1 = info_marg_t1["margem_hibrido"] if "Híbrido" in modelo_sel_t1 else info_marg_t1["margem_ia"]
+        st.metric("Margem Conformal", f"+{int(val_marg_t1)} ref", delta=f"{info_marg_t1['cobertura']} atendimento")
+    with cp4:
+        st.metric("Cenário Ativo", cenario_sel_t1.split("(")[0].strip(), delta=f"MAE: {CENARIOS_DICT[cenario_sel_t1]['mae_t1']:.2f} ref")
+
+    # Execução do Pipeline com Parâmetros Selecionados
     df_t1, df_feat_t1 = executar_pipeline_previsao(
         horizonte_alvo="Semana_t1",
-        usar_clima=usar_clima_t1,
-        usar_cardapio=usar_cardapio_t1,
-        usar_nutri=usar_nutri_t1,
-        modelo_escolhido=modelo_t1,
-        tipo_margem=tipo_margem_t1
+        cenario_escolhido=cenario_sel_t1,
+        modelo_escolhido=modelo_sel_t1,
+        tipo_margem=margem_sel_t1
     )
     
-    st.markdown("#### 📊 Grade de Previsão Semanal para a Produção ($t+1$)")
+    st.markdown("---")
+    st.markdown("#### 📊 Grade Semanal de Previsão e Ordens de Produção ($t+1$)")
     cols_apres = ["data", "dia_semana", "prato_principal", "proteina_tipo", "chuva_mm", "temp_max_c", "estimativa_nutri", "ia_pura", "pred_base_combinada", "margem_aplicada", "recomendacao_final", "alertas"]
     st.dataframe(df_t1[cols_apres], use_container_width=True)
     
-    # Gráfico de barras comparativo
+    # Gráfico comparativo de barras
     graf_data = []
     for _, r in df_t1.iterrows():
         graf_data.append({"Dia": f"{r['dia_semana'][:3]} ({r['data'][:5]})", "Valor": r["recomendacao_final"], "Série": "Recomendação com Margem"})
@@ -501,30 +525,68 @@ with aba3:
     st.subheader("📦 Previsão Operacional — Janela Longa (t+2: Semana Subsequente)")
     st.write(
         "Utilizada para **planejamento de contratos e compras de gêneros secos/estocáveis** com 10 a 14 dias de antecedência. "
-        "Nesse horizonte, ainda não há cardápio detalhado nem quantitativo da nutricionista; a previsão opera de forma **autônoma** "
-        "ancorada no calendário escolar, inércia de consumo e na previsão climática estendida do **Open-Meteo** (MAE 27,79 no modelo campeão)."
+        "Nesse horizonte, ainda não há cardápio detalhado nem quantitativo da nutricionista; você pode **selecionar o cenário, "
+        "o algoritmo e a margem de segurança** para dimensionar as compras com proteção contra desabastecimento."
     )
     
+    # Painel de Seleção 100% Aberto e Transparente para t+2
+    st.markdown("#### ⚙️ Painel de Decisão para Compras — Cenários, Modelos e Margens (t+2)")
+    c_t2_1, c_t2_2, c_t2_3 = st.columns([1.1, 1.2, 1.1])
+    
+    with c_t2_1:
+        cenario_sel_t2 = st.selectbox(
+            "🎯 Cenário de Antecipação (t+2)",
+            list(CENARIOS_DICT.keys()),
+            index=1, # Cenário 2 (Calendário + Clima Open-Meteo) é o padrão ótimo de t+2
+            key="cenario_t2"
+        )
+        st.caption(f"📌 {CENARIOS_DICT[cenario_sel_t2]['descricao']}")
+        
+    with c_t2_2:
+        modelos_t2_opcoes = [m for m in MODELOS_RANKING.keys() if "Nutricionista" not in m]
+        modelo_sel_t2 = st.selectbox(
+            "🤖 Algoritmo de Previsão para t+2",
+            modelos_t2_opcoes,
+            index=1 if len(modelos_t2_opcoes) > 1 else 0, # Ridge Regression é o campeão autônomo t+2
+            key="modelo_t2"
+        )
+        info_mod_t2 = MODELOS_RANKING[modelo_sel_t2]
+        st.caption(f"🏆 MAE em t+2: **{info_mod_t2['mae_t2']:.2f} ref/dia** ({info_mod_t2['tipo']})")
+        
+    with c_t2_3:
+        margem_sel_t2 = st.selectbox(
+            "🛡️ Política de Margem de Segurança Conformal (t+2)",
+            list(MARGENS_INFO.keys()),
+            index=0,
+            key="margem_t2"
+        )
+        info_marg_t2 = MARGENS_INFO[margem_sel_t2]
+        st.caption(f"📊 Cobertura Protegida: **{info_marg_t2['cobertura']}** (Risco de falta: {info_marg_t2['taxa_falta']})")
+
+    # Execução do Pipeline para t+2
     df_t2, df_feat_t2 = executar_pipeline_previsao(
         horizonte_alvo="Pos_Semana_t2",
-        usar_clima=True,
-        usar_cardapio=False,
-        usar_nutri=False,
-        modelo_escolhido="Ridge Regression (Linear L2)",
-        tipo_margem="Conformal P85 (+18 ref / Padrão Pesquisa)"
+        cenario_escolhido=cenario_sel_t2,
+        modelo_escolhido=modelo_sel_t2,
+        tipo_margem=margem_sel_t2
     )
     
-    c_tot1, c_tot2, c_tot3 = st.columns(3)
-    total_semana = int(df_t2["recomendacao_final"].sum())
-    media_dia = int(df_t2["recomendacao_final"].mean())
+    total_semana_t2 = int(df_t2["recomendacao_final"].sum())
+    media_dia_t2 = int(df_t2["recomendacao_final"].mean())
+    val_marg_t2 = info_marg_t2["margem_ia"]
+    
+    c_tot1, c_tot2, c_tot3, c_tot4 = st.columns(4)
     with c_tot1:
-        st.metric("Total Semanal Estimado", f"{total_semana:,} ref".replace(",", "."))
+        st.metric("Total Semanal para Compras", f"{total_semana_t2:,} ref".replace(",", "."), delta="Semana t+2")
     with c_tot2:
-        st.metric("Média Diária Prevista", f"{media_dia} ref/dia")
+        st.metric("Média Diária Prevista", f"{media_dia_t2} ref/dia", delta=f"+{int(val_marg_t2)} margem")
     with c_tot3:
-        st.metric("Horizonte de Antecedência", "10 a 14 dias", delta="Compras de Secos")
+        st.metric("Modelo Ativo em t+2", modelo_sel_t2.split("(")[0].strip(), delta=f"MAE: {info_mod_t2['mae_t2']:.2f} ref")
+    with c_tot4:
+        st.metric("Horizonte de Antecedência", "10 a 14 dias", delta=f"{info_marg_t2['cobertura']} proteção")
         
-    st.markdown("#### 📋 Grade de Planejamento de Compras ($t+2$)")
+    st.markdown("---")
+    st.markdown("#### 📋 Grade de Planejamento de Compras de Gêneros Secos ($t+2$)")
     st.dataframe(df_t2[["data", "dia_semana", "chuva_mm", "temp_max_c", "ia_pura", "margem_aplicada", "recomendacao_final", "alertas"]], use_container_width=True)
     
     with st.expander("🔍 Inspecionar Features da Janela Longa (t+2)", expanded=False):

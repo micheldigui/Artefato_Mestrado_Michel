@@ -8,6 +8,7 @@ import os
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import Ridge, Lasso, LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from datetime import datetime, timedelta
 
 try:
@@ -28,6 +29,116 @@ DIAS_SEMANA_PT = {
     4: "Sexta-feira",
     5: "Sábado",
     6: "Domingo"
+}
+
+# Metadados Auditados dos Cenários Experimentais (Caderno 05 da Qualificação)
+CENARIOS_DICT = {
+    "Cenário 4 (Completo: Calendário + Clima + Cardápio)": {
+        "usar_clima": True,
+        "usar_cardapio": True,
+        "mae_t1": 20.70,
+        "mae_t2": 27.79,
+        "descricao": "Conjunto integral de features: sazonalidade, inércia, meteorologia Open-Meteo e atratividade culinária"
+    },
+    "Cenário 2 (Calendário + Clima Open-Meteo)": {
+        "usar_clima": True,
+        "usar_cardapio": False,
+        "mae_t1": 21.05,
+        "mae_t2": 27.79,
+        "descricao": "Variáveis temporais e meteorológicas (chuva e temperatura), ideal para compras antecipadas (t+2)"
+    },
+    "Cenário 3 (Calendário + Cardápio)": {
+        "usar_clima": False,
+        "usar_cardapio": True,
+        "mae_t1": 21.42,
+        "mae_t2": 28.50,
+        "descricao": "Variáveis de calendário e composição proteica da refeição (bovina, frango, suína, peixe, ovo)"
+    },
+    "Cenário 1 (Baseline: Calendário e Inércia)": {
+        "usar_clima": False,
+        "usar_cardapio": False,
+        "mae_t1": 21.80,
+        "mae_t2": 29.10,
+        "descricao": "Baseline com lags de 5 e 10 dias e dias da semana, sem variáveis externas"
+    }
+}
+
+# Ranking Oficial de Modelos Auditados (Coorte Pareada N=73 / Qualificação 31/08/2026)
+MODELOS_RANKING = {
+    "Híbrido 50/50 (Campeão Absoluto)": {
+        "mae_t1": 20.20,
+        "mae_t2": 27.79,
+        "posicao": "1º Lugar (Campeão)",
+        "tipo": "Human-in-the-Loop",
+        "detalhe": "Combinação linear ótima: 50% Ridge + 50% Nutricionista institucional"
+    },
+    "Ridge Regression (Linear L2)": {
+        "mae_t1": 20.70,
+        "mae_t2": 27.79,
+        "posicao": "2º Lugar (Melhor IA Pura)",
+        "tipo": "Linear Regularizado",
+        "detalhe": "Excelente estabilidade frente à colinearidade com penalização quadrática L2"
+    },
+    "Regressão Linear (OLS)": {
+        "mae_t1": 20.75,
+        "mae_t2": 27.85,
+        "posicao": "3º Lugar",
+        "tipo": "Linear",
+        "detalhe": "Mínimos quadrados ordinários sem regularização"
+    },
+    "Lasso Regression (Linear L1)": {
+        "mae_t1": 20.83,
+        "mae_t2": 28.10,
+        "posicao": "4º Lugar",
+        "tipo": "Linear Esparso",
+        "detalhe": "Penalização L1 com seleção automática de coeficientes"
+    },
+    "Random Forest (Ensemble)": {
+        "mae_t1": 21.34,
+        "mae_t2": 28.45,
+        "posicao": "5º Lugar",
+        "tipo": "Ensemble Não-Linear",
+        "detalhe": "Florestas aleatórias de decisão capturando não-linearidades do cardápio"
+    },
+    "Nutricionista Institucional (Benchmark Humano)": {
+        "mae_t1": 26.21,
+        "mae_t2": 26.21,
+        "posicao": "Benchmark Humano",
+        "tipo": "Estimativa Humana Fixa",
+        "detalhe": "Planejamento empírico tradicional da gestão com média de 182,7 ref/dia"
+    }
+}
+
+# Políticas de Margem de Segurança Conformal Calibradas
+MARGENS_INFO = {
+    "Conformal P85 (+18 ref / Padrão Pesquisa)": {
+        "margem_ia": 18.0,
+        "margem_hibrido": 12.0,
+        "cobertura": "84,9%",
+        "taxa_falta": "15,1%",
+        "descricao": "Política oficial recomendada: balanço ótimo entre combate ao desperdício e proteção estudantil"
+    },
+    "Conformal P90 (+29 ref / Máxima Proteção)": {
+        "margem_ia": 29.0,
+        "margem_hibrido": 20.0,
+        "cobertura": "90,4%",
+        "taxa_falta": "9,6%",
+        "descricao": "Conservadora: quase nula tolerância à falta, indicada para semanas de exames ou eventos"
+    },
+    "Conformal P75 (+10 ref / Econômica)": {
+        "margem_ia": 10.0,
+        "margem_hibrido": 7.0,
+        "cobertura": "75,3%",
+        "taxa_falta": "24,7%",
+        "descricao": "Econômica: foco em redução severa de sobras e custos financeiros de descarte"
+    },
+    "Predição Pura (+0 ref / Sem Margem)": {
+        "margem_ia": 0.0,
+        "margem_hibrido": 0.0,
+        "cobertura": "50,0%",
+        "taxa_falta": "50,0%",
+        "descricao": "Estimativa central não-enviesada (esperança matemática da demanda)"
+    }
 }
 
 def obter_proximos_dias_uteis(origem_dt=None, num_dias=10):
@@ -110,18 +221,23 @@ def treinar_modelos(df_treino):
     modelo_lasso = Lasso(alpha=0.5, random_state=42)
     modelo_lasso.fit(X, y)
 
-    # 3. Regressão Linear Simples
+    # 3. Regressão Linear Simples OLS
     modelo_linear = LinearRegression()
     modelo_linear.fit(X, y)
     
-    return modelo_ridge, modelo_lasso, modelo_linear, cols_features
+    # 4. Random Forest Regressor (Ensemble)
+    modelo_rf = RandomForestRegressor(n_estimators=50, max_depth=6, random_state=42)
+    modelo_rf.fit(X, y)
+    
+    return modelo_ridge, modelo_lasso, modelo_linear, modelo_rf, cols_features
 
 def executar_pipeline_previsao(
     horizonte_alvo="todos",
+    cenario_escolhido="Cenário 4 (Completo: Calendário + Clima + Cardápio)",
     usar_clima=True,
     usar_cardapio=True,
     usar_nutri=True,
-    modelo_escolhido="Híbrido 50/50 (Campeão)",
+    modelo_escolhido="Híbrido 50/50 (Campeão Absoluto)",
     peso_ia=0.5,
     tipo_margem="Conformal P85 (+18 ref / Padrão Pesquisa)",
     margem_adicional=0
@@ -130,12 +246,16 @@ def executar_pipeline_previsao(
     Executa a inferência para os horizontes futuros com flexibilidade de seleção de dados
     e retorna tanto a tabela de previsões consolidadas quanto a matriz de features geradas.
     """
+    if cenario_escolhido in CENARIOS_DICT:
+        usar_clima = CENARIOS_DICT[cenario_escolhido]["usar_clima"]
+        usar_cardapio = CENARIOS_DICT[cenario_escolhido]["usar_cardapio"]
+
     df_consumo_hist = carregar_historico_consumo()
     df_planejamento = carregar_planejamento_nutricionista()
     df_clima_futuro = obter_previsao_clima_futura(dias_frente=16) if usar_clima else pd.DataFrame()
     df_treino = construir_dataset_treino()
     
-    modelo_ridge, modelo_lasso, modelo_linear, cols_features = treinar_modelos(df_treino)
+    modelo_ridge, modelo_lasso, modelo_linear, modelo_rf, cols_features = treinar_modelos(df_treino)
     
     datas_uteis = obter_proximos_dias_uteis(num_dias=10)
     
@@ -203,8 +323,8 @@ def executar_pipeline_previsao(
             "consumo_lag_5": lag_5,
             "consumo_lag_10": lag_10,
             "media_movel_5d": media_recente_5d,
-            "precipitation_sum": precip,
-            "temperature_2m_max": temp_max,
+            "precipitation_sum": precip if usar_clima else 0.0,
+            "temperature_2m_max": temp_max if usar_clima else mediana_temp,
             "is_dia_sem_0": 1 if dia_sem_num == 0 else 0,
             "is_dia_sem_1": 1 if dia_sem_num == 1 else 0,
             "is_dia_sem_2": 1 if dia_sem_num == 2 else 0,
@@ -222,6 +342,7 @@ def executar_pipeline_previsao(
         pred_ridge = float(modelo_ridge.predict(X_instancia)[0])
         pred_lasso = float(modelo_lasso.predict(X_instancia)[0])
         pred_linear = float(modelo_linear.predict(X_instancia)[0])
+        pred_rf = float(modelo_rf.predict(X_instancia)[0])
         
         # Seleção do estimador de IA conforme escolha do usuário
         if "Ridge" in modelo_escolhido:
@@ -230,16 +351,22 @@ def executar_pipeline_previsao(
             pred_ia_base = pred_lasso
         elif "Linear" in modelo_escolhido:
             pred_ia_base = pred_linear
+        elif "Forest" in modelo_escolhido:
+            pred_ia_base = pred_rf
         else:
-            # Híbrido ou Ridge como padrão
+            # Híbrido usa Ridge como base de IA
             pred_ia_base = pred_ridge
 
         # Combinação Híbrida se nutricionista estiver presente
-        if val_nutri is not None and usar_nutri:
-            p_ia = float(peso_ia)
-            p_nutri = 1.0 - p_ia
-            pred_base = p_ia * pred_ia_base + p_nutri * val_nutri
-            margem_padrao_auditada = 12.0 # Margem ótima calibrada para o modelo híbrido
+        if val_nutri is not None and usar_nutri and ("Híbrido" in modelo_escolhido or "Nutricionista" in modelo_escolhido):
+            if "Nutricionista" in modelo_escolhido and "Híbrido" not in modelo_escolhido:
+                pred_base = val_nutri
+                margem_padrao_auditada = 0.0
+            else:
+                p_ia = float(peso_ia)
+                p_nutri = 1.0 - p_ia
+                pred_base = p_ia * pred_ia_base + p_nutri * val_nutri
+                margem_padrao_auditada = 12.0 # Margem ótima calibrada para o modelo híbrido
         else:
             pred_base = pred_ia_base
             margem_padrao_auditada = 18.0 # Margem conformal P85 auditada para IA Pura (15,1% falta)
@@ -248,9 +375,9 @@ def executar_pipeline_previsao(
         if "P85" in tipo_margem:
             margem_valor = margem_padrao_auditada
         elif "P75" in tipo_margem:
-            margem_valor = 10.0
+            margem_valor = 7.0 if (val_nutri is not None and usar_nutri and "Híbrido" in modelo_escolhido) else 10.0
         elif "P90" in tipo_margem:
-            margem_valor = 29.0
+            margem_valor = 20.0 if (val_nutri is not None and usar_nutri and "Híbrido" in modelo_escolhido) else 29.0
         elif "Pura" in tipo_margem:
             margem_valor = 0.0
         elif "Personalizada" in tipo_margem:
