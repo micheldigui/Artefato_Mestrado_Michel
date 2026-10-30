@@ -1750,25 +1750,32 @@ elif pagina_ativa == "Previsões":
         full_grid_html = f'<div class="day-prod-grid">{"".join(cards_items)}</div>'
         st.markdown(full_grid_html, unsafe_allow_html=True)
 
-        # TABELA OPERACIONAL COMPLETA
-        st.markdown("##### Tabela Operacional de Produção")
+        # TABELA OPERACIONAL COMPLETA (APOIO À DECISÃO)
+        st.markdown("##### Tabela Operacional de Produção — Apoio à Decisão da Nutricionista")
         df_exibir = pd.DataFrame()
         df_exibir["Data"] = df_t1["data"]
         df_exibir["Dia"] = df_t1["dia_semana"]
         df_exibir["Prato Principal"] = df_t1["prato_principal"]
         df_exibir["Proteína"] = df_t1["proteina_tipo"].str.title()
-        df_exibir["Previsão Base (IA)"] = df_t1["pred_base_combinada"].astype(int).astype(str) + " ref"
+        
+        def formatar_nutri_t1(val):
+            if pd.isna(val) or val is None or val == 0:
+                return "A definir"
+            return f"{int(round(val))} ref"
+            
+        df_exibir["Quantitativo Nutrição (Meta)"] = df_t1["estimativa_nutri"].map(formatar_nutri_t1)
+        df_exibir["Previsão Base (IA)"] = df_t1["ia_pura"].astype(int).astype(str) + " ref"
         df_exibir["Margem Segura"] = "+" + df_t1["margem_aplicada"].astype(int).astype(str) + " ref"
-        df_exibir["Ordem de Preparo (Final)"] = df_t1["recomendacao_final"].astype(int).astype(str) + " refeições"
+        df_exibir["Sugestão de Preparo (Final)"] = df_t1["recomendacao_final"].astype(int).astype(str) + " refeições"
         
         faixa_min = (df_t1["pred_base_combinada"] - 8).clip(lower=0).astype(int)
         faixa_max = (df_t1["recomendacao_final"] + 8).astype(int)
         df_exibir["Faixa Sugerida (Mín - Máx)"] = faixa_min.astype(str) + " a " + faixa_max.astype(str) + " ref"
         
-        def formatar_alertas(al_list):
-            if isinstance(al_list, list) and al_list:
-                return " | ".join(al_list)
-            return "️ Operação regular"
+        def formatar_alertas(al_txt):
+            if not al_txt or pd.isna(al_txt):
+                return "Operação regular"
+            return str(al_txt).replace("\ufe0f", "").strip()
             
         df_exibir["Alertas"] = df_t1["alertas"].apply(formatar_alertas)
         st.dataframe(df_exibir, use_container_width=True, hide_index=True)
@@ -2172,11 +2179,45 @@ elif pagina_ativa == "Compras & Suprimentos":
         )
     )
     
+    st.info(
+        "**Apoio à Decisão e Soberania Técnica:** "
+        "Os quantitativos calculados abaixo representam **sugestões de preparo e dimensionamento antecipado de insumos** gerados pelos modelos preditivos da pesquisa com margens de segurança conformal. "
+        "A decisão operacional final de compra, faturamento contratual e preparo pertence integralmente à Nutricionista Responsável Técnica e à Gestora do Restaurante."
+    )
+    
+    with st.expander("Ajuste Fino de Modelo e Margens para Suprimentos (Opcional)", expanded=False):
+        col_sup1, col_sup2 = st.columns(2)
+        with col_sup1:
+            modelo_sup = st.selectbox(
+                "Modelo Preditivo para Compras:",
+                [
+                    "Híbrido 50/50 (Combina IA + Quantitativo Nutrição)",
+                    "Ridge Regression (IA Pura / Autônomo)"
+                ],
+                index=0,
+                key="cfg_mod_sup"
+            )
+        with col_sup2:
+            margem_sup = st.selectbox(
+                "Margem Conformal Protetiva:",
+                [
+                    "Conformal P85 (+18 ref / 84,9% Proteção) - Campeã Auditada",
+                    "Conformal P90 (+29 ref / 89,8% Proteção)",
+                    "Conformal P75 (+10 ref / 74,6% Proteção)",
+                    "IA Pura (Sem Margem Aditiva)"
+                ],
+                index=0,
+                key="cfg_mar_sup"
+            )
+
+    cenario_sup = "Cenário 3 (Cenário 2 + Quantitativo Institucional)" if "Híbrido" in modelo_sup else "Cenário 2 (Cenário 1 + Clima Open-Meteo)"
+    modelo_nome_exec = "Híbrido 50/50 (Campeão Absoluto)" if "Híbrido" in modelo_sup else "Ridge Regression (Linear L2)"
+
     df_t2, df_feat_t2 = executar_pipeline_previsao(
         horizonte_alvo="Pos_Semana_t2",
-        cenario_escolhido="Cenário 2 (Cenário 1 + Clima Open-Meteo)",
-        modelo_escolhido="Ridge Regression (Linear L2)",
-        tipo_margem="Conformal P85 (+18 ref / 84,9% Proteção) - Campeã Auditada"
+        cenario_escolhido=cenario_sup,
+        modelo_escolhido=modelo_nome_exec,
+        tipo_margem=margem_sup
     )
     
     if not df_t2.empty:
@@ -2185,30 +2226,39 @@ elif pagina_ativa == "Compras & Suprimentos":
         
         c_tot1, c_tot2, c_tot3 = st.columns(3)
         with c_tot1:
-            st.metric("Volume Total de Compras (Semana t+2)", f"{total_semana_t2:,} refeições".replace(",", "."))
+            st.metric("Volume Total Sugerido (Semana t+2)", f"{total_semana_t2:,} refeições".replace(",", "."))
         with c_tot2:
-            st.metric("Média Diária Prevista", f"{media_dia_t2} ref/dia")
+            st.metric("Média Diária Sugerida", f"{media_dia_t2} ref/dia")
         with c_tot3:
-            st.metric("Margem Protetiva Embutida", "+18 refeições/dia", delta="84,9% proteção")
+            st.metric("Margem Protetiva Embutida", f"+{int(df_t2['margem_aplicada'].mean())} ref/dia", delta="Proteção Conformal")
             
         st.markdown("---")
-        st.markdown("#### Grade Quinzenal de Compras e Insumos")
+        st.markdown("#### Grade Quinzenal de Compras e Sugestão de Preparo")
         
         df_exibir_t2 = pd.DataFrame()
         df_exibir_t2["Data"] = df_t2["data"]
         df_exibir_t2["Dia da Semana"] = df_t2["dia_semana"]
+        df_exibir_t2["Cardápio / Prato Previsto"] = df_t2["prato_principal"] + " (" + df_t2["proteina_tipo"] + ")"
+        
+        def formatar_nutri_t2(val):
+            if pd.isna(val) or val is None or val == 0:
+                return "A definir"
+            return f"{int(round(val))} ref"
+            
+        df_exibir_t2["Quantitativo Nutrição (Meta)"] = df_t2["estimativa_nutri"].map(formatar_nutri_t2)
         df_exibir_t2["Previsão Base (IA)"] = df_t2["ia_pura"].astype(int).astype(str) + " ref"
         df_exibir_t2["Margem de Segurança"] = "+" + df_t2["margem_aplicada"].astype(int).astype(str) + " ref"
-        df_exibir_t2["Total Sugerido para Compras"] = df_t2["recomendacao_final"].astype(int).astype(str) + " refeições"
+        df_exibir_t2["Sugestão de Preparo (Final)"] = df_t2["recomendacao_final"].astype(int).astype(str) + " refeições"
         df_exibir_t2["Previsão do Tempo"] = df_t2["temp_max_c"].map(lambda x: f"{x:.1f}°C") + " / " + df_t2["chuva_mm"].map(lambda x: f"{x:.1f} mm chuva")
+        df_exibir_t2["Alertas e Condições"] = df_t2["alertas"]
         
         st.dataframe(df_exibir_t2, use_container_width=True, hide_index=True)
         
         csv_t2 = df_exibir_t2.to_csv(index=False, sep=";").encode("utf-8-sig")
         st.download_button(
-            label="Baixar Grade de Compras (CSV)",
+            label="Baixar Grade de Compras e Sugestão de Preparo (CSV)",
             data=csv_t2,
-            file_name=f"planejamento_compras_t2_{date.today().strftime('%Y%m%d')}.csv",
+            file_name=f"planejamento_compras_sugestao_preparo_t2_{date.today().strftime('%Y%m%d')}.csv",
             mime="text/csv"
         )
 
