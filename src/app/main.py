@@ -168,7 +168,7 @@ with st.sidebar:
                 btn_login = st.form_submit_button("Entrar", use_container_width=True)
                 
                 if btn_login:
-                    if perfil_sel == "Nutricionista / Gestora" and (senha_input in [SENHA_NUTRI, "nutri2026", "ifsp2026"]):
+                    if perfil_sel == "Nutricionista / Gestora" and (senha_input in [SENHA_NUTRI, "nutri2026", "gestao2026"]):
                         st.session_state["autenticado"] = True
                         st.session_state["usuario_nome"] = "Nutricionista Responsável / Gestora"
                         st.session_state["usuario_perfil"] = "operador"
@@ -365,19 +365,34 @@ div[data-testid="stExpander"] details summary p {{
 /* Preservação estrita dos ícones do Streamlit (Material Symbols / Icons) */
 [data-testid="stIconMaterial"],
 [class*="material-symbols"],
-[class*="material-icons"],
-div[data-testid="stExpander"] details summary svg {{
+[class*="material-icons"] {{
     font-family: 'Material Symbols Rounded', 'Material Icons', sans-serif !important;
     text-transform: none !important;
     letter-spacing: normal !important;
     white-space: nowrap !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
 }}
 
 /* Alinhamento flexível e espaçamento limpo no cabeçalho do expander */
 div[data-testid="stExpander"] details summary {{
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 10px !important;
+    padding: 10px 14px !important;
+}}
+
+div[data-testid="stExpander"] details summary svg {{
+    flex-shrink: 0 !important;
+}}
+
+div[data-testid="stExpander"] details summary p {{
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-block !important;
 }}
 
 /* Monospace apenas para números e métricas operacionais */
@@ -1815,8 +1830,12 @@ elif pagina_ativa == "🧪 Simulador de Cenários":
             st.caption("Defina a data-alvo, objetivo operacional e os modelos treinados da pesquisa.")
             
             # Data padrão: próximo dia útil
-            proximos_uteis = obter_proximos_dias_uteis(dias_frente=5)
-            data_padrao = proximos_uteis[0] if proximos_uteis else date.today() + timedelta(days=1)
+            proximos_uteis = obter_proximos_dias_uteis(num_dias=5)
+            if proximos_uteis:
+                d_cand = proximos_uteis[0]
+                data_padrao = d_cand.date() if (hasattr(d_cand, "date") and callable(d_cand.date)) else d_cand
+            else:
+                data_padrao = date.today() + timedelta(days=1)
             
             data_sim = st.date_input(
                 "📅 Selecione a Data para Simular:",
@@ -2214,7 +2233,7 @@ elif pagina_ativa == "📝 Cadastrar Dados":
                     btn_desbloquear = st.form_submit_button("Desbloquear Edição", use_container_width=True)
                     
                 if btn_desbloquear:
-                    if perfil_rapido == "Nutricionista / Gestora" and (senha_rapida in [SENHA_NUTRI, "nutri2026", "ifsp2026"]):
+                    if perfil_rapido == "Nutricionista / Gestora" and (senha_rapida in [SENHA_NUTRI, "nutri2026", "gestao2026"]):
                         st.session_state["autenticado"] = True
                         st.session_state["usuario_nome"] = "Nutricionista Responsável / Gestora"
                         st.session_state["usuario_perfil"] = "operador"

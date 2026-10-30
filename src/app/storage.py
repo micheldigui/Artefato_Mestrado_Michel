@@ -108,7 +108,8 @@ def consultar_dados_completos_data(data_str):
     dt = pd.to_datetime(data_str)
     data_iso = dt.strftime("%Y-%m-%d")
     data_fmt = dt.strftime("%d/%m/%Y")
-    dia_semana_nome = dt.strftime("%A")
+    dias_pt = {0: "Segunda-feira", 1: "Terça-feira", 2: "Quarta-feira", 3: "Quinta-feira", 4: "Sexta-feira", 5: "Sábado", 6: "Domingo"}
+    dia_semana_nome = dias_pt.get(dt.dayofweek, "Dia Útil")
 
     df_fato = carregar_fato_diaria_completa()
     reg = df_fato[df_fato["data_iso"] == data_iso]
@@ -203,10 +204,11 @@ def salvar_edicao_operacional_completa(data_str, dados_editados):
 
     # Se houver planejamento da nutricionista ou cardápio, sincroniza em planejamento_nutri
     if any(k in dados_editados for k in ["planejado_nutri", "prato_principal", "proteina_tipo", "preparo_tipo"]):
+        dias_pt = {0: "Segunda-feira", 1: "Terça-feira", 2: "Quarta-feira", 3: "Quinta-feira", 4: "Sexta-feira", 5: "Sábado", 6: "Domingo"}
         df_n = pd.DataFrame([{
             "data_iso": data_iso,
             "data": data_fmt,
-            "dia_semana": dt.strftime("%A"),
+            "dia_semana": dias_pt.get(dt.dayofweek, "Dia Útil"),
             "prato_principal": dados_editados.get("prato_principal", ""),
             "proteina_tipo": dados_editados.get("proteina_tipo", "Frango"),
             "preparo_tipo": dados_editados.get("preparo_tipo", "Assado / Grelhado"),

@@ -160,10 +160,13 @@ MARGENS_INFO = {
     }
 }
 
-def obter_proximos_dias_uteis(origem_dt=None, num_dias=10):
+def obter_proximos_dias_uteis(origem_dt=None, num_dias=10, dias_frente=None):
     """
     Retorna lista de datas úteis futuras (segunda a sexta).
+    Aceita num_dias ou dias_frente de forma intercambiável.
     """
+    if dias_frente is not None:
+        num_dias = dias_frente
     if origem_dt is None:
         origem_dt = datetime.now()
     
@@ -530,7 +533,12 @@ def simular_previsao_data(
         mm5 = 160.0
         mm10 = 160.0
 
-    df_mesmo = df_hist[df_hist["dia_da_semana_num"] == dia_sem] if "dia_da_semana_num" in df_hist.columns else pd.DataFrame()
+    if "dia_da_semana_num" in df_hist.columns:
+        df_mesmo = df_hist[df_hist["dia_da_semana_num"] == dia_sem]
+    elif "data_dt" in df_hist.columns:
+        df_mesmo = df_hist[pd.to_datetime(df_hist["data_dt"]).dt.dayofweek == dia_sem]
+    else:
+        df_mesmo = pd.DataFrame()
     lag5 = float(df_mesmo.iloc[-1]["consumo"]) if len(df_mesmo) >= 1 else mm5
     lag10 = float(df_mesmo.iloc[-2]["consumo"]) if len(df_mesmo) >= 2 else mm5
 
