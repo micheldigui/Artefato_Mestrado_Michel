@@ -47,35 +47,31 @@ DIAS_SEMANA_PT = {
     6: "Domingo"
 }
 
-# Metadados Auditados dos Cenários Experimentais (Caderno 05 da Qualificação)
+# Metadados Auditados dos Cenários Experimentais (Ablation Study da Dissertação / Caderno 05)
 CENARIOS_DICT = {
-    "Cenário 4 (Consumo + Calendário + Clima + Cardápio)": {
+    "Cenário 3 (Cenário 2 + Quantitativo Institucional)": {
         "usar_clima": True,
         "usar_cardapio": True,
+        "usar_nutri": True,
+        "mae_t1": 19.88,
+        "mae_t2": 26.91,
+        "descricao": "Cenário 2 + Quantitativo Institucional da Nutrição (Modelo Híbrido Campeão da Pesquisa, MAE 19,88 ref)"
+    },
+    "Cenário 2 (Cenário 1 + Clima Open-Meteo)": {
+        "usar_clima": True,
+        "usar_cardapio": True,
+        "usar_nutri": False,
         "mae_t1": 20.70,
         "mae_t2": 27.79,
-        "descricao": "Conjunto integral de dados: histórico de consumo, calendário escolar, meteorologia Open-Meteo e carnes do cardápio"
+        "descricao": "Cenário 1 + Meteorologia via satélite Open-Meteo (ideal para compras de despensa t+2 e previsão autônoma)"
     },
-    "Cenário 2 (Consumo + Calendário + Clima)": {
-        "usar_clima": True,
-        "usar_cardapio": False,
-        "mae_t1": 21.05,
-        "mae_t2": 27.79,
-        "descricao": "Histórico de consumo, calendário escolar e meteorologia via satélite (ideal para compras de despensa t+2 antes de fechar o cardápio)"
-    },
-    "Cenário 3 (Consumo + Calendário + Cardápio)": {
+    "Cenário 1 (Consumo + Cardápio + Calendário)": {
         "usar_clima": False,
         "usar_cardapio": True,
+        "usar_nutri": False,
         "mae_t1": 21.42,
         "mae_t2": 28.50,
-        "descricao": "Histórico de consumo, calendário escolar e tipo de carne do almoço, sem dados meteorológicos"
-    },
-    "Cenário 1 (Base: Consumo + Calendário)": {
-        "usar_clima": False,
-        "usar_cardapio": False,
-        "mae_t1": 21.80,
-        "mae_t2": 29.10,
-        "descricao": "Apenas as médias recentes de consumo e os dias da semana, sem cardápio e sem dados climáticos"
+        "descricao": "Base operacional: histórico de consumo, atratividade das proteínas do cardápio e calendário escolar"
     }
 }
 
@@ -273,7 +269,7 @@ def obter_modelos_treinados():
 
 def executar_pipeline_previsao(
     horizonte_alvo="todos",
-    cenario_escolhido="Cenário 4 (Consumo + Calendário + Clima + Cardápio)",
+    cenario_escolhido="Cenário 3 (Cenário 2 + Quantitativo Institucional)",
     usar_clima=True,
     usar_cardapio=True,
     usar_nutri=True,
@@ -289,11 +285,13 @@ def executar_pipeline_previsao(
     if cenario_escolhido in CENARIOS_DICT:
         usar_clima = CENARIOS_DICT[cenario_escolhido]["usar_clima"]
         usar_cardapio = CENARIOS_DICT[cenario_escolhido]["usar_cardapio"]
+        usar_nutri = CENARIOS_DICT[cenario_escolhido].get("usar_nutri", True)
     else:
         for k, v in CENARIOS_DICT.items():
             if k.split("(")[0].strip() == str(cenario_escolhido).split("(")[0].strip():
                 usar_clima = v["usar_clima"]
                 usar_cardapio = v["usar_cardapio"]
+                usar_nutri = v.get("usar_nutri", True)
                 break
 
     df_consumo_hist = carregar_historico_consumo()
