@@ -1451,7 +1451,13 @@ elif pagina_ativa == "🔮 Previsões":
             usar_margem_sim = st.checkbox("Incluir Margem de Segurança Prudencial (+12 ref)", value=True, key="sim_margem_fast")
 
     # Lógica de Inferência Rápida do Simulador com Calibração Empírica da Pesquisa
-    precip_val = 0.0 if "0 mm" in clima_sim else (3.0 if "3 mm" in clima_sim else (10.0 if "10 mm" in clima_sim else 30.0))
+    clima_precip_map = {
+        "☀️ Seco / Sem Chuva (0 mm)": 0.0,
+        "⛅ Garoa Leve (3 mm)": 3.0,
+        "🌧️ Chuva Moderada (10 mm)": 10.0,
+        "⛈️ Tempestade / Alagamentos (30 mm)": 30.0
+    }
+    precip_val = clima_precip_map.get(clima_sim, 0.0)
     prot_tipo = "bovina" if "Bovina" in prot_sim else ("frango" if "Frango" in prot_sim else ("suina" if "Suína" in prot_sim else ("peixe" if "Peixe" in prot_sim else "ovo")))
     dia_num_map = {"Segunda-feira": 0, "Terça-feira": 1, "Quarta-feira": 2, "Quinta-feira": 3, "Sexta-feira": 4}
     dia_num = dia_num_map[dia_sim_nome]
@@ -1543,9 +1549,9 @@ elif pagina_ativa == "📦 Compras & Suprimentos":
             "Ajuda a equipe de suprimentos a dimensionar pedidos quinzenais de carnes congeladas, arroz, feijão e faturamento contratual."
         ),
         como_foi_feito_ciencia=(
-            "**Modelo Preditivo para Longo Prazo (Cenário 2 via Open-Meteo):** "
+            "**Modelo Preditivo para Longo Prazo (Cenário 2: Consumo + Calendário + Clima via Open-Meteo):** "
             "A 14 dias de distância, o cardápio exato do dia ainda não está fechado. "
-            "A pesquisa provou que cruzar o calendário escolar com a previsão climática estendida de satélite gera a melhor estimativa para compras."
+            "A pesquisa provou que cruzar o histórico recente com o calendário escolar e a previsão meteorológica estendida de satélite gera a melhor estimativa para compras antecipadas."
         ),
         como_usar_passos=(
             "1. **Consulte a cada 15 dias** o volume quinzenal total estimado.\n"
@@ -1556,7 +1562,7 @@ elif pagina_ativa == "📦 Compras & Suprimentos":
     
     df_t2, df_feat_t2 = executar_pipeline_previsao(
         horizonte_alvo="Pos_Semana_t2",
-        cenario_escolhido="Cenário 2 (Calendário + Clima Open-Meteo)",
+        cenario_escolhido="Cenário 2 (Consumo + Calendário + Clima Open-Meteo)",
         modelo_escolhido="Ridge Regression (Linear L2)",
         tipo_margem="Conformal P85 (+18 ref / 84,9% Proteção) - Campeã Auditada"
     )
