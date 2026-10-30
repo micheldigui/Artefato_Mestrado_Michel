@@ -30,16 +30,23 @@ def construir_features_gold():
     # -------------------------------------------------------------
     print("[*] Construindo lags e estatísticas móveis...")
     
-    # Filtrar apenas dias com consumo real para criar defasagens na sequência letiva
-    df_consumo = df[df["consumo"].notna()].sort_values("data_dt").copy()
+    # Filtrar apenas dias regulares com consumo para criar defasagens na sequência letiva regular
+    # Dias marcados como atípicos (ou eventos extremos de enchente/alagamento) são desconsiderados
+    # para que não quebrem ou contaminem a memória operacional dos dias regulares subsequentes
+    is_atipico_mask = (
+        df["status_dado"].astype(str).str.strip().str.lower().isin(["atipico", "atípico"]) |
+        df["observacao"].fillna("").str.lower().str.contains(r"at[ií]pico", regex=True) |
+        (df["status_qualidade_registro"] == "EVENTO_EXTREMO_EXTERNO")
+    )
+    df_consumo = df[df["consumo"].notna() & (~is_atipico_mask)].sort_values("data_dt").copy()
     
-    # Lags em sequência de dias úteis com refeição
+    # Lags em sequência de dias úteis com refeição regular
     df_consumo["lag_1_dia_letivo"] = df_consumo["consumo"].shift(1)
     df_consumo["lag_2_dia_letivo"] = df_consumo["consumo"].shift(2)
-    df_consumo["lag_5_dias_letivos"] = df_consumo["consumo"].shift(5)   # ~1 semana útil atrás
-    df_consumo["lag_10_dias_letivos"] = df_consumo["consumo"].shift(10) # ~2 semanas úteis atrás
+    df_consumo["lag_5_dias_letivos"] = df_consumo["consumo"].shift(5)   # ~1 semana útil regular atrás
+    df_consumo["lag_10_dias_letivos"] = df_consumo["consumo"].shift(10) # ~2 semanas úteis regulares atrás
     
-    # Estatísticas móveis (baseadas nos dias letivos anteriores - shift 1 para não vazar o dia atual)
+    # Estatísticas móveis (baseadas nos dias regulares anteriores - shift 1 para não vazar o dia atual)
     df_consumo["media_movel_5d"] = df_consumo["consumo"].rolling(5).mean().shift(1)
     df_consumo["desvio_movel_5d"] = df_consumo["consumo"].rolling(5).std().shift(1)
     df_consumo["min_movel_5d"] = df_consumo["consumo"].rolling(5).min().shift(1)
@@ -50,7 +57,7 @@ def construir_features_gold():
     df_consumo["media_movel_20d"] = df_consumo["consumo"].rolling(20).mean().shift(1)
     
     # Lags por tempo calendário (mesmo dia da semana 7 e 14 dias corridos atrás)
-    df_cal_lags = df[["data_dt", "consumo"]].dropna().copy()
+    df_cal_lags = df[["data_dt", "consumo"]][df["consumo"].notna() & (~is_atipico_mask)].copy()
     
     df_lag7 = df_cal_lags.copy()
     df_lag7["data_dt"] = df_lag7["data_dt"] + pd.Timedelta(days=7)
@@ -69,6 +76,18 @@ def construir_features_gold():
     df = pd.merge(df, df_consumo[cols_roll], on="data_iso", how="left")
     df = pd.merge(df, df_lag7, on="data_dt", how="left")
     df = pd.merge(df, df_lag14, on="data_dt", how="left")
+    
+    # Propagar a memória do último dia regular para cobrir dias atípicos ou vazios
+    cols_to_propagate = [
+        "lag_1_dia_letivo", "lag_2_dia_letivo", "lag_5_dias_letivos", "lag_10_dias_letivos",
+        "media_movel_5d", "desvio_movel_5d", "min_movel_5d", "max_movel_5d", "amplitude_movel_5d",
+        "media_movel_10d", "media_movel_20d"
+    ]
+    df[cols_to_propagate] = df[cols_to_propagate].ffill()
+    
+    # Preencher dias homólogos semanais ausentes (ex: feriado ou atípico 7/14 dias atrás) com a média móvel
+    df["consumo_mesmo_dia_sem_passada"] = df["consumo_mesmo_dia_sem_passada"].fillna(df["media_movel_5d"]).fillna(df["lag_1_dia_letivo"])
+    df["consumo_mesmo_dia_sem_retrasada"] = df["consumo_mesmo_dia_sem_retrasada"].fillna(df["media_movel_5d"]).fillna(df["lag_1_dia_letivo"])
     
     # -------------------------------------------------------------
     # 2. ENGENHARIA DE CALENDÁRIO E TRANSFORMAÇÕES CÍCLICAS
@@ -156,12 +175,13 @@ def construir_features_gold():
     # -------------------------------------------------------------
     # 6. FILTRO DE TREINAMENTO SEGURO (DATA QUALITY MASK)
     # -------------------------------------------------------------
-    # Dias válidos para treino: dias letivos com consumo regular, sem greve, sem apagão/dispensa, sem enchente extrema
+    # Dias válidos para treino: dias letivos com consumo regular, sem greve, sem apagão/dispensa, sem enchente extrema/dias atípicos
     df["is_treino_valido"] = (
         (df["is_dia_letivo"] == True) &
         (df["consumo"].notna()) &
         (df["status_qualidade_registro"] == "REGULAR") &
-        (df["flag_greve"] == False)
+        (df["flag_greve"] == False) &
+        (~is_atipico_mask)
     ).astype(int)
     
     # Partição temporal (Split para Machine Learning sem vazamento):

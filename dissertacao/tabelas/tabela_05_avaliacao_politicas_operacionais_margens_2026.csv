@@ -1,8 +1,0 @@
-Politica,n,Margem,Sobra Potencial,Deficit Potencial,Dias com Deficit,MAE,Custo Potencial Sobras (R$ 14.00)
-Ridge sem margem,83,0,1238,667,36 (43.4%),22.97,"R$ 17.332,00"
-IA P75,83,+10,1749,383,21 (25.3%),25.70,"R$ 24.486,00"
-IA P85,83,+19,2364,236,13 (15.7%),31.34,"R$ 33.096,00"
-IA P90,83,+29,3074,123,9 (10.8%),38.54,"R$ 43.036,00"
-Hibrido 50/50,83,0,1289,489,36 (43.4%),21.43,"R$ 18.046,00"
-Hibrido +12,83,+12,1994,199,14 (16.9%),26.43,"R$ 27.916,00"
-Parametro institucional,83,Sem margem,1545,518,34 (41.0%),24.86,"R$ 21.630,00"

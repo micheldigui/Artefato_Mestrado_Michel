@@ -1,9 +1,0 @@
-﻿Modelo,Familia,n,MAE,RMSE,R2,WAPE
-Lasso,Linear L1,83,22.27,32.33,0.498,12.99%
-Ridge,Linear L2,83,22.46,32.82,0.483,13.11%
-Regressao linear,Regressao OLS,83,22.87,32.56,0.491,13.34%
-Estimativa institucional,Referencia institucional,83,24.92,36.94,0.373,14.55%
-LightGBM,Boosting,83,25.11,33.98,0.445,14.65%
-ExtraTrees,Arvores extremamente aleatorizadas,83,25.25,34.2,0.438,14.73%
-Random Forest,Bagging de arvores,83,25.27,35.24,0.403,14.74%
-CatBoost,Boosting,83,25.65,35.17,0.406,14.96%

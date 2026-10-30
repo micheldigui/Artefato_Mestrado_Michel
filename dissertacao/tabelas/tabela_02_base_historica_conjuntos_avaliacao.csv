@@ -1,7 +1,0 @@
-﻿Conjunto,Quantidade,Criterio ou Finalidade
-Consumo registrado,655 datas,Registros de 2023 a agosto de 2026; base para a decomposicao anual.
-Base Gold de modelagem,588 datas x 106 colunas,Registros com atributos disponiveis para o pipeline supervisionado.
-Competicao de algoritmos,61 linhas de metricas,"12 algoritmos em cinco combinacoes de cenario/horizonte, mais o benchmark institucional."
-Classificacao e politicas pareadas,83 datas,Comparacao de modelos e simulacao das politicas no recorte de 2026.
-Regime de reservas,458 datas,"Soma das coortes anuais de 2023 a 2025: 181, 122 e 155 datas."
-Regime institucional,140 datas anuais; 83 pareadas,140 datas na decomposicao anual de 2026; 83 na comparacao pareada de modelos e politicas.

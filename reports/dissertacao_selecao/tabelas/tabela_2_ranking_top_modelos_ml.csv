@@ -1,9 +1,0 @@
-﻿cenario,horizonte,algoritmo,mae,rmse,r2,wape_pct,total_sobra_ref,total_falta_ref
-Cenario_3_Com_Nutricionista,Semana_t1 (Curto Prazo),Lasso,22.27,32.33,0.498,12.99,1107,741
-Cenario_3_Com_Nutricionista,Semana_t1 (Curto Prazo),Ridge,22.46,32.82,0.483,13.11,1161,703
-Cenario_3_Com_Nutricionista,Semana_t1 (Curto Prazo),Regressao_Linear,22.87,32.56,0.491,13.34,916,981
-Benchmark_Humano,Semana_t1 (Curto Prazo),Estimativa_Nutricionista_Pura,24.92,36.94,0.373,14.55,2705,684
-Cenario_3_Com_Nutricionista,Semana_t1 (Curto Prazo),LightGBM,25.11,33.98,0.445,14.65,1080,1003
-Cenario_3_Com_Nutricionista,Semana_t1 (Curto Prazo),Extra_Trees,25.25,34.2,0.438,14.73,951,1143
-Cenario_3_Com_Nutricionista,Semana_t1 (Curto Prazo),Random_Forest,25.27,35.24,0.403,14.74,1051,1045
-Cenario_3_Com_Nutricionista,Semana_t1 (Curto Prazo),CatBoost,25.65,35.17,0.406,14.96,971,1157

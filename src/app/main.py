@@ -134,7 +134,6 @@ with st.sidebar:
             "Simulador de Cenários",
             "Compras & Suprimentos",
             "Cadastrar Dados",
-            "Auditoria Científica",
             "Guia Prático"
         ],
         index=0,
@@ -901,6 +900,18 @@ div[data-testid="stRadio"] > div[role="radiogroup"] {{
     color: var(--text-muted);
     border: 1px solid var(--border-subtle);
 }}
+
+/* Oculta completamente barra superior, botao do GitHub, menu Streamlit e rodape */
+#MainMenu { visibility: hidden !important; display: none !important; }
+header { visibility: hidden !important; display: none !important; }
+footer { visibility: hidden !important; display: none !important; }
+div[data-testid="stToolbar"] { visibility: hidden !important; display: none !important; }
+div[data-testid="stDecoration"] { visibility: hidden !important; display: none !important; }
+div[data-testid="stStatusWidget"] { visibility: hidden !important; display: none !important; }
+.stDeployButton { display: none !important; }
+[data-testid="manage-app-button"] { display: none !important; }
+a[href*="github.com"] { display: none !important; }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -968,7 +979,7 @@ def renderizar_painel_explicativo(objetivo_rotina, como_foi_feito_ciencia, como_
 # PÁGINA 1: DASHBOARD (SEÇÕES DINÂMICAS E FILTROS INTERATIVOS)
 # ==============================================================================
 if pagina_ativa == "Dashboard":
-    st.markdown('<div class="story-badge">ETAPA 1 DE 7 • DIAGNÓSTICO HISTÓRICO</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 1 DE 6 • DIAGNÓSTICO HISTÓRICO</div>', unsafe_allow_html=True)
     st.markdown("### Visão Geral e Indicadores Históricos")
     st.markdown('<p class="story-subtitle">Compreenda a história do refeitório: os descompassos dos regimes anteriores (2023–2026) e as evidências reais que regem a frequência discente.</p>', unsafe_allow_html=True)
     
@@ -1684,7 +1695,7 @@ if pagina_ativa == "Dashboard":
 # PÁGINA 2: PREVISÕES (ORDEM DE PREPARO E SIMULADOR "E SE...?")
 # ==============================================================================
 elif pagina_ativa == "Previsões":
-    st.markdown('<div class="story-badge">ETAPA 2 DE 7 • ORDEM DE PREPARO SEMANAL (t+1)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 2 DE 6 • ORDEM DE PREPARO SEMANAL (t+1)</div>', unsafe_allow_html=True)
     st.markdown("### Previsões e Ordem de Preparo Semanal")
     st.markdown('<p class="story-subtitle">Toda sexta-feira: consulte a recomendação diária calibrada para a próxima semana útil, embasada no modelo híbrido campeão com calibração conformal.</p>', unsafe_allow_html=True)
     
@@ -1846,7 +1857,7 @@ elif pagina_ativa == "Previsões":
 # PÁGINA 3: SIMULADOR DE CENÁRIOS ("E SE...?")
 # ==============================================================================
 elif pagina_ativa == "Simulador de Cenários":
-    st.markdown('<div class="story-badge">ETAPA 3 DE 7 • LABORATÓRIO DE SIMULAÇÕES ("E SE...?")</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 3 DE 6 • LABORATÓRIO DE SIMULAÇÕES ("E SE...?")</div>', unsafe_allow_html=True)
     st.markdown("### Simulador de Cenários e Decisão Operacional")
     st.markdown('<p class="story-subtitle">Simule qualquer data do calendário com integridade temporal estrita (walk-forward). Teste os algoritmos treinados da pesquisa, cenários de dados e margens de proteção alimentar.</p>', unsafe_allow_html=True)
     
@@ -2195,7 +2206,7 @@ elif pagina_ativa == "Simulador de Cenários":
 # PÁGINA 4: COMPRAS & SUPRIMENTOS (JANELA LONGA t+2: 14 DIAS)
 # ==============================================================================
 elif pagina_ativa == "Compras & Suprimentos":
-    st.markdown('<div class="story-badge">ETAPA 4 DE 7 • PLANEJAMENTO DE SUPRIMENTOS (t+2)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 4 DE 6 • PLANEJAMENTO DE SUPRIMENTOS (t+2)</div>', unsafe_allow_html=True)
     st.markdown("###  Planejamento de Compras e Estoque — Janela Longa (10 a 14 dias)")
     st.markdown('<p class="story-subtitle">A cada 15 dias: dimensione pedidos antecipados de carnes congeladas e mantimentos de despensa com auxílio da previsão climática estendida.</p>', unsafe_allow_html=True)
     
@@ -2312,7 +2323,7 @@ elif pagina_ativa == "Compras & Suprimentos":
 # PÁGINA 5: CADASTRAR DADOS (LANÇAMENTO E CONSULTA DE ROTINA)
 # ==============================================================================
 elif pagina_ativa == "Cadastrar Dados":
-    st.markdown('<div class="story-badge">ETAPA 5 DE 7 • ALIMENTAÇÃO CONTÍNUA & ROTINA</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 5 DE 6 • ALIMENTAÇÃO CONTÍNUA & ROTINA</div>', unsafe_allow_html=True)
     st.markdown("### Lançamento e Atualização de Informações do Refeitório")
     st.markdown('<p class="story-subtitle">Diariamente após o almoço: gaste 1 minuto para lançar o consumo verificado e manter os modelos sempre afinados com a realidade discente.</p>', unsafe_allow_html=True)
     
@@ -2663,119 +2674,10 @@ elif pagina_ativa == "Cadastrar Dados":
                 st.rerun()
 
 # ==============================================================================
-# PÁGINA 6: AUDITORIA CIENTÍFICA (DSR E GALERIA DAS 33 FIGURAS EM 300 DPI)
-# ==============================================================================
-elif pagina_ativa == "Auditoria Científica":
-    st.markdown('<div class="story-badge">ETAPA 6 DE 7 • FUNDAMENTAÇÃO CIENTÍFICA DSR</div>', unsafe_allow_html=True)
-    st.markdown("### Auditoria Científica & Fundamentação DSR")
-    st.markdown('<p class="story-subtitle">Acesso a todos os experimentos da dissertação de mestrado: protocolo walk-forward, modelo híbrido, margens conformal e as 33 figuras oficiais em 300 DPI.</p>', unsafe_allow_html=True)
-    
-    renderizar_painel_explicativo(
-        objetivo_rotina=(
-            "**Apresentar a comprovação acadêmica e científica da pesquisa de mestrado.** "
-            "Destinada à banca examinadora, à comunidade científica e aos gestores públicos que desejam auditar a metodologia e a precisão do artefato."
-        ),
-        como_foi_feito_ciencia=(
-            "**Método Design Science Research (DSR):** "
-            "Pesquisa desenvolvida no Programa de Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP). "
-            "Os modelos foram testados com validação temporal estrita (walk-forward), provando redução do erro de 25% para menos de 9%."
-        ),
-        como_usar_passos=(
-            "1. **Leia a síntese dos dois regimes históricos** abaixo para entender o problema público enfrentado.\n"
-            "2. **Utilize o seletor temático** para inspecionar todas as 33 figuras científicas oficiais em alta resolução (300 DPI).\n"
-            "3. **Todos os gráficos e códigos** estão disponíveis no repositório oficial da pesquisa."
-        )
-    )
-    
-    col_hist1, col_hist2 = st.columns(2)
-    with col_hist1:
-        with st.container(border=True):
-            st.markdown("#### 1. O Problema Real: Assimetria e Descompasso")
-            st.markdown("""No Restaurante Estudantil de uma instituição pública de ensino, o almoço é gratuito. Historicamente, dois regimes operaram com limitações:
-
-* **Reservas Feitas pelos Discentes (2023–2025):** O preenchimento voluntário de reservas discentes entrou em descontinuidade. Em **63,8% dos dias** faltavam reservas (déficit potencial de 9.494 refeições; MAE de 27,10 ref/dia).
-* **Censo Institucional da Nutrição (2026):** Para evitar desabastecimento, adotou-se quantitativo fixo com folga preventiva, gerando sobreoferta de +1.898 refeições em 123 datas (MAE de 26,21 ref/dia).""")
-        
-    with col_hist2:
-        with st.container(border=True):
-            st.markdown("#### 2. A Solução: Artefato Preditivo com IA Híbrida")
-            st.markdown("""O artefato proposto introduz três inovações práticas:
-
-* **Duas Janelas Temporais:** Suporte em t+2 (compras com 14 dias via Open-Meteo) e t+1 (re-forecast na sexta-feira).
-* **Modelo Híbrido 50/50:** Combinação linear ponderada que alcança o menor erro global (**MAE 20,20 ref/dia**).
-* **Margens Conformal:** Calibração não-paramétrica (P85 com +18 ref) garantindo **84,9% de proteção estudantil** contra falta de comida.""")
-
-    # Galeria Completa das 33 Figuras Oficiais
-    st.markdown("---")
-    st.markdown("### Galeria Visual da Pesquisa (Figuras Oficiais em 300 DPI)")
-    
-    pasta_figuras = os.path.join(ROOT_DIR, "dissertacao", "figuras")
-    
-    categorias_fig = {
-        "Etapa 1: Arquitetura e Metodologia DSR": [
-            ("figura_01_aplicacao_dsr_pesquisa.png", "Figura 01 — Aplicação do método DSR à pesquisa de gestão pública alimentar"),
-            ("figura_02_sintese_metodologica.png", "Figura 02 — Síntese das seis etapas do percurso metodológico DSR"),
-            ("figura_03_pipeline_dados_camadas.png", "Figura 03 — Arquitetura de dados em camadas Medallion (Bronze, Silver e Gold)"),
-            ("figura_04_protocolo_modelagem_validacao.png", "Figura 04 — Protocolo experimental de validação walk-forward"),
-            ("figura_05_arquitetura_sistemica_artefato.png", "Figura 05 — Arquitetura sistêmica do artefato computacional preditivo"),
-            ("figura_06_fluxo_operacional_artefato.png", "Figura 06 — Fluxo operacional preditivo nas janelas t+1 e t+2")
-        ],
-        "Etapa 2: Diagnóstico Histórico e Consumo (2023 a 2025)": [
-            ("figura_07_perfil_semanal_consumo.png", "Figura 07 — Perfil semanal médio de consumo de refeições (2023 a 2025)"),
-            ("figura_08_perfil_semanal_por_ano_letivo.png", "Figura 08 — Variação do perfil semanal de consumo ano a ano"),
-            ("figura_09_oferta_consumo_por_proteina.png", "Figura 09 — Oferta e consumo por tipo de proteína servida"),
-            ("figura_10_consumo_conforme_tecnica_preparo.png", "Figura 10 — Consumo médio conforme a técnica culinária de preparo"),
-            ("figura_11_consumo_por_faixa_precipitacao.png", "Figura 11 — Consumo diário por faixa de chuva acumulada"),
-            ("figura_12_relacao_temperatura_maxima_consumo.png", "Figura 12 — Relação linear entre temperatura máxima (Open-Meteo) e consumo"),
-            ("figura_13_funcoes_autocorrelacao_temporal.png", "Figura 13 — Função de autocorrelação temporal (ACF simples)")
-        ],
-        "Etapa 3: Engenharia de Features e Camada Gold": [
-            ("figura_14_ranking_importancia_atributos_rf.png", "Figura 14 — Ranking de importância dos atributos via Random Forest"),
-            ("figura_15_correlacao_atributos_consumo_pearson.png", "Figura 15 — Correlação linear de Pearson calculada na base Gold")
-        ],
-        "Etapa 4: Efeito Compensatório e Confronto de Regimes": [
-            ("figura_16_decomposicao_efeito_compensatorio.png", "Figura 16 — Decomposição do efeito compensatório (saldo líquido vs desvios diários)"),
-            ("figura_17_painel_anual_sobras_faltas.png", "Figura 17 — Painel anual de sobras e déficits potenciais nas reservas discentes")
-        ],
-        "Etapa 5: Modelagem Preditiva e Ranking de Modelos (2026)": [
-            ("figura_18_melhor_mae_por_cenario_horizonte.png", "Figura 18 — Melhor MAE obtido por cenário e horizonte de decisão"),
-            ("figura_19_comparacao_regressao_linear_t2_clima.png", "Figura 19 — Impacto preditivo da meteorologia Open-Meteo no horizonte t+2"),
-            ("figura_20_comparacao_horizontes_5_algoritmos.png", "Figura 20 — Comparação de desempenho dos principais algoritmos"),
-            ("figura_21_ranking_modelos.png", "Figura 21 — Ranking geral dos modelos preditivos vs quantitativo humano")
-        ],
-        "Etapa 6: Modelo Híbrido, Margens Conformal e Riscos": [
-            ("figura_22_sobras_faltas_politicas.png", "Figura 22 — Balanço de sobras e déficits potenciais sob diferentes políticas"),
-            ("figura_23_fronteira_equilibrio_modelo_hibrido.png", "Figura 23 — Fronteira de equilíbrio do modelo híbrido em função de alpha"),
-            ("figura_24_distribuicao_erros_diarios.png", "Figura 24 — Distribuição dos erros diários (KDE: Nutri vs IA vs Híbrido)"),
-            ("figura_25_margens_seguranca_conformal.png", "Figura 25 — Efeito das margens de segurança Conformal Prediction"),
-            ("figura_26_simulacao_faixas_risco_monte_carlo.png", "Figura 26 — Simulação de incerteza estocástica de Monte Carlo"),
-            ("figura_27_tradeoff_custo_atendimento.png", "Figura 27 — Trade-off entre custo de desperdício e taxa de atendimento"),
-            ("figura_28_comparacao_historica_consolidada.png", "Figura 28 — Confronto histórico consolidado dos regimes com o artefato")
-        ],
-        "Etapa 7: Validação Prospectiva da Defesa (Setembro e Outubro/2026)": [
-            ("figura_29_serie_temporal_setembro_chuva_vs_consumo.png", "Figura 29 — Série temporal de setembro/2026 com eventos extremos de chuva"),
-            ("figura_30_confronto_diario_setembro_ia_vs_nutricionista.png", "Figura 30 — Confronto em setembro/2026: Consumo real vs IA vs Nutrição"),
-            ("figura_31_balanco_sobras_faltas_politicas_setembro.png", "Figura 31 — Balanço de sobras e faltas acumuladas em setembro sob 3 políticas"),
-            ("figura_32_validacao_semana_retorno_outubro_catraca_vs_ia_nutri.png", "Figura 32 — Validação cega na semana de retorno pós-recesso de outubro: Consumo real vs IA"),
-            ("figura_33_distribuicao_residuos_recalculo_margens_seguranca.png", "Figura 33 — Recálculo empírico das margens de segurança na validação prospectiva")
-        ]
-    }
-    
-    cat_sel = st.selectbox("Selecione o Bloco Temático da Pesquisa:", list(categorias_fig.keys()))
-    for arq, tit in categorias_fig[cat_sel]:
-        caminho_img = os.path.join(pasta_figuras, arq)
-        if os.path.exists(caminho_img):
-            st.markdown(f"##### {tit}")
-            st.image(caminho_img, caption=tit, use_container_width=True)
-            st.write("")
-        else:
-            st.warning(f"Arquivo não localizado na pasta: {arq}")
-
-# ==============================================================================
-# PÁGINA 7: GUIA PRÁTICO (POP DE ROTINA EM 3 MINUTOS)
+# PÁGINA 6: GUIA PRÁTICO (POP DE ROTINA EM 3 MINUTOS)
 # ==============================================================================
 elif pagina_ativa == "Guia Prático":
-    st.markdown('<div class="story-badge">ETAPA 7 DE 7 • MANUAL OPERACIONAL PADRÃO (POP)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 6 DE 6 • MANUAL OPERACIONAL PADRÃO (POP)</div>', unsafe_allow_html=True)
     st.markdown("### Guia Prático & Procedimento Operacional Padrão (POP)")
     st.markdown('<p class="story-subtitle">Cartilha operacional resumida em 3 minutos para apoio diário da nutricionista, da gestora e da equipe da cozinha terceirizada.</p>', unsafe_allow_html=True)
     

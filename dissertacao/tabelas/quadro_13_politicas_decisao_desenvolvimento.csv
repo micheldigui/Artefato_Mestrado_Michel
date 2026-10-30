@@ -1,8 +1,0 @@
-﻿Politica Avaliada,Logica Aplicada,Resultado na Coorte Pareada de 83 Datas
-Ridge sem margem,"Previsao do Ridge, arredondada para cima; sem acrescimo.","MAE 22,97; 1.238 refeicoes de sobra potencial; 667 de deficit potencial; 36 dias com deficit (43,4%)."
-IA P75,Previsao com acrescimo fixo de 10 refeicoes (Conformal P75).,"MAE 25,70; 1.749 de sobra potencial; 383 de deficit; 21 dias com deficit (25,3%)."
-IA P85,Previsao com acrescimo de 19 refeicoes (Conformal P85).,"MAE 31,34; 2.364 de sobra potencial; 236 de deficit; 13 dias com deficit (15,7%)."
-IA P90,Previsao com acrescimo de 29 refeicoes (Conformal P90).,"MAE 38,54; 3.074 de sobra potencial; 123 de deficit; 9 dias com deficit (10,8%)."
-Hibrido 50/50,Media entre a previsao do Ridge e a estimativa institucional da nutricionista.,"MAE 21,43; 1.289 de sobra potencial; 489 de deficit; 36 dias com deficit (43,4%)."
-Hibrido +12,Hibrido 50/50 com acrescimo residual de 12 refeicoes.,"MAE 26,43; 1.994 de sobra potencial; 199 de deficit; 14 dias com deficit (16,9%)."
-Referencia institucional,"Quantitativo diario informado pela nutricionista, sem margem adicional.","MAE 24,86; 1.545 de sobra potencial; 518 de deficit; 34 dias com deficit (41,0%)."

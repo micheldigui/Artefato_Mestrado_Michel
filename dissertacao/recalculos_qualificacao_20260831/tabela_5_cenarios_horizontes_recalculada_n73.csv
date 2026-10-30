@@ -1,6 +1,0 @@
-horizonte;cenario;melhor_modelo;n_datas;data_inicio;data_fim;mae;rmse;r2;wape_pct
-t+2 (10 a 14 dias);1: base + cardápio;SVR;73;2026-02-19;2026-08-31;26.82;36.33;0.361;15.81
-t+2 (10 a 14 dias);2: inclui Open-Meteo;Regressao_Linear;73;2026-02-19;2026-08-31;25.86;35.38;0.394;15.25
-t+1 (3 a 7 dias);1: base + cardápio;SVR;73;2026-02-26;2026-08-31;25.26;35.65;0.393;14.73
-t+1 (3 a 7 dias);2: inclui Open-Meteo;Regressao_Linear;73;2026-02-26;2026-08-31;24.75;34.17;0.443;14.43
-t+1 (3 a 7 dias);3: clima + estimativa institucional;Ridge;73;2026-02-26;2026-08-31;21.72;30.94;0.543;12.67

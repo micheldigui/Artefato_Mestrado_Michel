@@ -1,5 +1,0 @@
-﻿ano,regime_operacional,total_dias_letivos,consumo_medio_diario,reserva_media_diaria,saldo_liquido_anual_refeicoes,sobra_acumulada_real_refeicoes,falta_acumulada_real_refeicoes,dias_com_falta,taxa_dias_falta_pct,dias_com_sobra,taxa_dias_sobra_pct,dias_acerto_exato,mae_diario_refeicoes,rmse_diario_refeicoes,pior_falta_um_dia_refeicoes,pior_sobra_um_dia_refeicoes,custo_sobras_reais_rs
-2023,aluno_manifestacao,181,107.8,111.9,742,1916,1174,69,38.1,102,56.4,10,17.1,21.9,43,86,16286.0
-2024,aluno_manifestacao,122,167.3,132.9,-4190,334,4524,101,82.8,20,16.4,1,39.8,51.8,133,51,2839.0
-2025,aluno_manifestacao,155,138.4,118.2,-3130,666,3796,122,78.7,31,20.0,2,28.8,35.2,98,78,5661.0
-2026,nutricionista_estimativa,140,167.1,186.2,2670,3354,684,52,37.1,85,60.7,3,28.8,47.0,58,221,28509.0

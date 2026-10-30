@@ -42,6 +42,16 @@ extract_imgs.py
 inspect_figuras_detalhado.py
 inspect_pretextuais.py
 scratch_pretextuais.txt
-dissertacao/*.json
-dissertacao/*.txt
-dissertacao/bck_dissertacao/
+
+# Scripts de apoio da dissertacao / defesa
+src/gerar_*.py
+
+# Pastas privadas de pesquisa, dissertacao, defesa e analise (mantidas apenas localmente)
+notebooks/
+reports/
+pesquisa/
+defesa/
+dissertacao/
+docs/
+archive/
+.codex/

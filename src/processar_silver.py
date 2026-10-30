@@ -124,8 +124,11 @@ def processar_consumo():
         dfs.append(valid[["data_dt", "data", "data_iso", "consumo", "status_dado", "observacao", "arquivo_origem"]])
         
     df_cons = pd.concat(dfs, ignore_index=True)
-    # Em caso de mesma data, prioriza registros com observação detalhada
-    df_cons = df_cons.sort_values(by=["data_dt", "observacao"], na_position="first").drop_duplicates(subset=["data_iso"], keep="last")
+    # Em caso de mesma data, prioriza registros com status_dado atípico ou observação detalhada
+    df_cons["_peso_prioridade"] = 0
+    df_cons.loc[df_cons["observacao"].notna() & (df_cons["observacao"] != ""), "_peso_prioridade"] += 1
+    df_cons.loc[df_cons["status_dado"].astype(str).str.strip().str.lower().isin(["atipico", "atípico"]), "_peso_prioridade"] += 2
+    df_cons = df_cons.sort_values(by=["data_dt", "_peso_prioridade"]).drop_duplicates(subset=["data_iso"], keep="last").drop(columns=["_peso_prioridade"])
     return df_cons
 
 def processar_reservas():
@@ -165,15 +168,22 @@ def consolidar_silver_fato_diaria(df_cal, df_card, df_clima, df_cons, df_res):
     # -------------------------------------------------------------
     # REGRAS DE AUDITORIA E QUALIDADE DE DADOS (DATA QUALITY FLAGS)
     # -------------------------------------------------------------
+    # Flag: Dias Atípicos Identificados na Origem (Bronze) ou em Observações
+    m["flag_atipico"] = (
+        m["status_dado"].astype(str).str.strip().str.lower().isin(["atipico", "atípico"]) |
+        m["observacao"].fillna("").str.lower().str.contains(r"at[ií]pico", regex=True)
+    )
+    
     # 1. Flag: Consumo Quase Nulo em Dia Letivo (Suspeita de Dispensa / Apagão / Interrupção)
     m["flag_consumo_anormal_baixo"] = (m["is_dia_letivo"] == True) & (m["consumo"].notna()) & (m["consumo"] < 40.0)
     
-    # 2. Flag: Eventos Severos Documentados (Greve ou Enchentes/Alagamentos)
+    # 2. Flag: Eventos Severos Documentados (Greve ou Enchentes/Alagamentos/Atípicos)
     obs_lower = m["observacao"].fillna("").str.lower()
     m["flag_greve"] = m["evento_tipo"].fillna("").str.contains("greve", case=False)
     m["flag_evento_severo"] = (
         obs_lower.str.contains("chuva|enchente|suspens|sem aula", regex=True) |
-        m["flag_greve"]
+        m["flag_greve"] |
+        m["flag_atipico"]
     )
     
     # 3. Flag: Subnotificação Crônica de Alunos (Consumo muito maior que a reserva)
@@ -188,7 +198,7 @@ def consolidar_silver_fato_diaria(df_cal, df_card, df_clima, df_cons, df_res):
             return "NAO_LETIVO"
         if pd.isna(row["consumo"]):
             return "SEM_CONSUMO_REGISTRADO"
-        if row["flag_evento_severo"]:
+        if row["flag_atipico"] or row["flag_evento_severo"]:
             return "EVENTO_EXTREMO_EXTERNO"
         if row["flag_consumo_anormal_baixo"]:
             return "ANOMALIA_DISPENSA_OPERACIONAL"
@@ -202,8 +212,8 @@ def consolidar_silver_fato_diaria(df_cal, df_card, df_clima, df_cons, df_res):
     first_cols = [
         "data", "data_iso", "dia_da_semana", "ano", "mes", "semestre",
         "is_dia_letivo", "is_fim_de_semana", "is_sabado_letivo", "status_legal", "evento_tipo",
-        "consumo", "reservas", "regime_reserva", "diff_consumo_reserva", "taxa_comparecimento",
-        "status_qualidade_registro", "flag_greve", "flag_consumo_anormal_baixo", "flag_evento_severo",
+        "consumo", "status_dado", "reservas", "regime_reserva", "diff_consumo_reserva", "taxa_comparecimento",
+        "status_qualidade_registro", "flag_greve", "flag_atipico", "flag_consumo_anormal_baixo", "flag_evento_severo",
         "prato_principal", "proteina_tipo", "preparo_tipo", "guarnicao", "sobremesa",
         "precipitation_sum", "precipitation_hours", "temperature_2m_max", "temperature_2m_min", "wind_speed_10m_max",
         "flag_chuva_forte", "observacao"

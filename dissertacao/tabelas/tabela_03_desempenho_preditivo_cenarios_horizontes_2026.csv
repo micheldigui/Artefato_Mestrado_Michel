@@ -1,6 +1,0 @@
-﻿Horizonte,Cenario,Melhor Modelo por MAE,MAE,RMSE,R2,WAPE
-t+2 (14 dias),1: base + cardapio,XGBoost,29.5,39.82,0.222,17.35%
-t+2 (14 dias),2: inclui Open-Meteo,Regressao linear,28.67,38.64,0.268,16.86%
-t+1 (7 dias),1: base + cardapio,XGBoost,27.81,38.59,0.285,16.23%
-t+1 (7 dias),2: inclui Open-Meteo,Regressao linear,27.39,37.43,0.327,15.98%
-t+1 (7 dias),3: clima + estimativa institucional,Lasso,22.27,32.33,0.498,12.99%
