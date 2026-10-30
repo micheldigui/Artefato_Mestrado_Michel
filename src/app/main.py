@@ -53,10 +53,14 @@ try:
         obter_modelos_treinados,
         simular_previsao_data
     )
+    import clima
+    importlib.reload(clima)
+    from clima import obter_clima_data
 except ImportError:
-    from . import storage, pipeline
+    from . import storage, pipeline, clima
     importlib.reload(storage)
     importlib.reload(pipeline)
+    importlib.reload(clima)
     from .storage import (
         carregar_historico_consumo,
         salvar_consumo_diario,
@@ -79,6 +83,7 @@ except ImportError:
         obter_modelos_treinados,
         simular_previsao_data
     )
+    from .clima import obter_clima_data
 
 # Configuração da página
 st.set_page_config(
@@ -1965,23 +1970,33 @@ elif pagina_ativa == "🧪 Simulador de Cenários":
             chuva_existente = 0.0
             temp_existente = 25.0
             
+            origem_clima_rotulo = "Consolidado na Base"
             if not row_fato.empty and pd.notna(row_fato.iloc[0].get("precipitation_sum")):
                 tem_clima = True
                 chuva_existente = float(row_fato.iloc[0]["precipitation_sum"])
                 temp_existente = float(row_fato.iloc[0].get("temperature_2m_max", 25.0))
+                origem_clima_rotulo = "Base Histórica"
+            else:
+                # Consulta automática e instantânea à API Open-Meteo
+                c_api, t_api, f_api = obter_clima_data(data_iso_str)
+                if c_api is not None and t_api is not None:
+                    tem_clima = True
+                    chuva_existente = float(c_api)
+                    temp_existente = float(t_api)
+                    origem_clima_rotulo = f"{f_api} (Satélite)"
                 
             chuva_custom_override = None
             temp_custom_override = None
             
             if usar_clima:
                 if tem_clima:
-                    st.success(f"✅ **Clima Registrado:** {chuva_existente:.1f} mm chuva | {temp_existente:.1f}°C máx")
-                    simular_outro_clima = st.checkbox("Simular condição de chuva diferente?", value=False, key="sim_chk_clima")
+                    st.success(f"✅ **Clima:** {chuva_existente:.1f} mm chuva | {temp_existente:.1f}°C máx ({origem_clima_rotulo})")
+                    simular_outro_clima = st.checkbox("Simular condição climática diferente?", value=False, key="sim_chk_clima")
                     if simular_outro_clima:
                         chuva_custom_override = st.slider("Chuva Hipotética (mm):", min_value=0.0, max_value=40.0, value=chuva_existente, step=1.0, key="sim_chuva_slider_sub")
                         temp_custom_override = st.slider("Temperatura Máx (°C):", min_value=12.0, max_value=38.0, value=temp_existente, step=0.5, key="sim_temp_slider_sub")
                 else:
-                    st.warning("⚠️ **Clima não consolidado na base para esta data.**")
+                    st.warning("⚠️ **Clima não localizado nos satélites para esta data.**")
                     st.caption("Ajuste a meteorologia estimada para que os algoritmos calculem a sensibilidade climática:")
                     chuva_custom_override = st.slider("Precipitação Prevista (mm):", min_value=0.0, max_value=40.0, value=0.0, step=1.0, key="sim_chuva_slider_empty")
                     temp_custom_override = st.slider("Temperatura Máxima (°C):", min_value=12.0, max_value=38.0, value=25.0, step=0.5, key="sim_temp_slider_empty")

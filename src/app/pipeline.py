@@ -29,10 +29,10 @@ except ImportError:
 
 try:
     from storage import carregar_historico_consumo, carregar_planejamento_nutricionista, salvar_predicoes_geradas, carregar_fato_diaria_completa
-    from clima import obter_previsao_clima_futura
+    from clima import obter_previsao_clima_futura, obter_clima_data
 except ImportError:
     from .storage import carregar_historico_consumo, carregar_planejamento_nutricionista, salvar_predicoes_geradas, carregar_fato_diaria_completa
-    from .clima import obter_previsao_clima_futura
+    from .clima import obter_previsao_clima_futura, obter_clima_data
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 GOLD_DATASET = os.path.join(ROOT_DIR, "dados", "gold", "gold_dataset_ml_limpo.parquet")
@@ -570,10 +570,20 @@ def simular_previsao_data(
     tem_clima_base = False
     chuva_base = None
     temp_base = None
+    fonte_clima = "Não localizado"
     if not row_fato.empty and pd.notna(row_fato.iloc[0].get("precipitation_sum")):
         tem_clima_base = True
         chuva_base = float(row_fato.iloc[0]["precipitation_sum"])
         temp_base = float(row_fato.iloc[0].get("temperature_2m_max", 25.0))
+        fonte_clima = "Base Histórica Consolidada"
+    else:
+        # Busca meteorologia automática em tempo real via Open-Meteo API
+        chuva_api, temp_api, fonte_api = obter_clima_data(data_iso)
+        if chuva_api is not None and temp_api is not None:
+            tem_clima_base = True
+            chuva_base = float(chuva_api)
+            temp_base = float(temp_api)
+            fonte_clima = fonte_api
 
     chuva_utilizada = float(chuva_custom if chuva_custom is not None else (chuva_base if tem_clima_base else 0.0))
     temp_utilizada = float(temp_custom if temp_custom is not None else (temp_base if tem_clima_base else 25.0))
@@ -705,6 +715,7 @@ def simular_previsao_data(
         "prot_base": prot_base,
         "prep_base": prep_base,
         "tem_clima_base": tem_clima_base,
+        "fonte_clima": fonte_clima,
         "chuva_base": chuva_base,
         "temp_base": temp_base,
         "tem_nutri_base": tem_nutri_base,
