@@ -47,7 +47,6 @@ scratch_pretextuais.txt
 src/gerar_*.py
 
 # Pastas privadas de pesquisa, dissertacao, defesa e analise (mantidas apenas localmente)
-notebooks/
 reports/
 pesquisa/
 defesa/
