@@ -8,7 +8,7 @@ import requests
 import pandas as pd
 import numpy as np
 
-# Coordenadas geográficas da instituição de ensino (Campus Itaquaquecetuba / SP)
+# Coordenadas geográficas da instituição pública de ensino
 LATITUDE = -23.4862
 LONGITUDE = -46.3483
 
