@@ -1724,8 +1724,8 @@ elif pagina_ativa == "Previsões":
     )
 
     if not df_t1.empty:
-        # CARTÕES DIÁRIOS HORIZONTAIS DA SEMANA (GRADE DA COZINHA)
-        st.markdown("##### Ordem de Preparo para os Próximos 5 Dias Úteis")
+                # CARTOES DIARIOS HORIZONTAIS DA SEMANA (GRADE DA COZINHA)
+        st.markdown("##### Sugestão de Preparo para os Próximos 5 Dias Úteis (Calendário Acadêmico)")
         
         cards_items = []
         for _, row_dia in df_t1.iterrows():
@@ -1735,42 +1735,70 @@ elif pagina_ativa == "Previsões":
             d_ordem = int(row_dia["recomendacao_final"])
             d_base = int(row_dia["pred_base_combinada"])
             d_marg = int(row_dia["margem_aplicada"])
+            is_let = bool(row_dia.get("is_dia_letivo", True))
             
-            card_html = (
-                f'<div class="day-prod-card">'
-                f'<div class="day-prod-date">{d_nome} ({d_data[:5]})</div>'
-                f'<div class="day-prod-dish">{d_prato}</div>'
-                f'<div class="day-prod-number">{d_ordem}</div>'
-                f'<div class="day-prod-badge">Ordem de Preparo</div>'
-                f'<div class="day-prod-sub">Base: {d_base} | Margem: +{d_marg}</div>'
-                f'</div>'
-            )
+            if not is_let:
+                card_html = (
+                    f'<div class="day-prod-card" style="opacity: 0.85; border-color: #cbd5e1; background: #f8fafc;">'
+                    f'<div class="day-prod-date">{d_nome} ({d_data[:5]})</div>'
+                    f'<div class="day-prod-dish" style="color: #64748b; font-weight: 600;">{d_prato}</div>'
+                    f'<div class="day-prod-number" style="color: #94a3b8;">0</div>'
+                    f'<div class="day-prod-badge" style="background: #e2e8f0; color: #475569; border: 1px solid #cbd5e1;">Feriado / Sem Atendimento</div>'
+                    f'<div class="day-prod-sub" style="color: #94a3b8;">Não Letivo • Calendário Acadêmico</div>'
+                    f'</div>'
+                )
+            else:
+                card_html = (
+                    f'<div class="day-prod-card">'
+                    f'<div class="day-prod-date">{d_nome} ({d_data[:5]})</div>'
+                    f'<div class="day-prod-dish">{d_prato}</div>'
+                    f'<div class="day-prod-number">{d_ordem}</div>'
+                    f'<div class="day-prod-badge">Sugestão de Preparo</div>'
+                    f'<div class="day-prod-sub">Base: {d_base} | Margem: +{d_marg}</div>'
+                    f'</div>'
+                )
             cards_items.append(card_html)
             
         full_grid_html = f'<div class="day-prod-grid">{"".join(cards_items)}</div>'
         st.markdown(full_grid_html, unsafe_allow_html=True)
 
-        # TABELA OPERACIONAL COMPLETA (APOIO À DECISÃO)
+        # TABELA OPERACIONAL COMPLETA (APOIO A DECISAO)
         st.markdown("##### Tabela Operacional de Produção — Apoio à Decisão da Nutricionista")
         df_exibir = pd.DataFrame()
         df_exibir["Data"] = df_t1["data"]
         df_exibir["Dia"] = df_t1["dia_semana"]
         df_exibir["Prato Principal"] = df_t1["prato_principal"]
-        df_exibir["Proteína"] = df_t1["proteina_tipo"].str.title()
+        df_exibir["Proteína"] = df_t1.apply(lambda r: "—" if not r.get("is_dia_letivo", True) else str(r["proteina_tipo"]).title(), axis=1)
         
-        def formatar_nutri_t1(val):
+        def formatar_nutri_t1(row):
+            if not row.get("is_dia_letivo", True):
+                return "Não se aplica (Feriado)"
+            val = row.get("estimativa_nutri")
             if pd.isna(val) or val is None or val == 0:
                 return "A definir"
             return f"{int(round(val))} ref"
             
-        df_exibir["Quantitativo Nutrição (Meta)"] = df_t1["estimativa_nutri"].map(formatar_nutri_t1)
+        df_exibir["Quantitativo Nutrição (Meta)"] = df_t1.apply(formatar_nutri_t1, axis=1)
         df_exibir["Previsão Base (IA)"] = df_t1["ia_pura"].astype(int).astype(str) + " ref"
         df_exibir["Margem Segura"] = "+" + df_t1["margem_aplicada"].astype(int).astype(str) + " ref"
-        df_exibir["Sugestão de Preparo (Final)"] = df_t1["recomendacao_final"].astype(int).astype(str) + " refeições"
         
-        faixa_min = (df_t1["pred_base_combinada"] - 8).clip(lower=0).astype(int)
-        faixa_max = (df_t1["recomendacao_final"] + 8).astype(int)
-        df_exibir["Faixa Sugerida (Mín - Máx)"] = faixa_min.astype(str) + " a " + faixa_max.astype(str) + " ref"
+        def formatar_sugestao_t1(row):
+            if not row.get("is_dia_letivo", True):
+                return "0 refeições (Fechado)"
+            return f"{int(row.get('recomendacao_final', 0))} refeições"
+            
+        df_exibir["Sugestão de Preparo (Final)"] = df_t1.apply(formatar_sugestao_t1, axis=1)
+        
+        def formatar_faixa_t1(row):
+            if not row.get("is_dia_letivo", True):
+                return "0 ref (Fechado)"
+            base = row.get("pred_base_combinada", 0)
+            rec = row.get("recomendacao_final", 0)
+            f_min = max(0, int(base - 8))
+            f_max = int(rec + 8)
+            return f"{f_min} a {f_max} ref"
+            
+        df_exibir["Faixa Sugerida (Mín - Máx)"] = df_t1.apply(formatar_faixa_t1, axis=1)
         
         def formatar_alertas(al_txt):
             if not al_txt or pd.isna(al_txt):
@@ -1922,6 +1950,15 @@ elif pagina_ativa == "Simulador de Cenários":
             dia_sem_num = data_sim.weekday()
             dia_sem_rotulo = DIAS_SEMANA_PT.get(dia_sem_num, "Dia")
             st.caption(f"Verificação de integridade para **{data_sim.strftime('%d/%m/%Y')}** ({dia_sem_rotulo}).")
+            
+            is_letivo_sim = True
+            evento_sim = "Letivo Regular"
+            if not row_fato.empty:
+                is_letivo_sim = bool(row_fato.iloc[0].get("is_dia_letivo", True))
+                evento_sim = str(row_fato.iloc[0].get("evento_tipo", "Letivo Regular"))
+            
+            if not is_letivo_sim:
+                st.info(f"**Data Não Letiva no Calendário Acadêmico:** {data_sim.strftime('%d/%m/%Y')} está classificada como **{evento_sim.replace('_', ' ').title()}**. O restaurante não opera refeições regulares nesta data (sugestão = 0 refeições).")
             
             dt_alvo_ts = pd.to_datetime(data_sim)
             data_iso_str = dt_alvo_ts.strftime("%Y-%m-%d")
@@ -2238,17 +2275,26 @@ elif pagina_ativa == "Compras & Suprimentos":
         df_exibir_t2 = pd.DataFrame()
         df_exibir_t2["Data"] = df_t2["data"]
         df_exibir_t2["Dia da Semana"] = df_t2["dia_semana"]
-        df_exibir_t2["Cardápio / Prato Previsto"] = df_t2["prato_principal"] + " (" + df_t2["proteina_tipo"] + ")"
+        df_exibir_t2["Cardápio / Prato Previsto"] = df_t2.apply(
+            lambda r: r["prato_principal"] if not r.get("is_dia_letivo", True) else f"{r['prato_principal']} ({r['proteina_tipo']})",
+            axis=1
+        )
         
-        def formatar_nutri_t2(val):
+        def formatar_nutri_t2(row):
+            if not row.get("is_dia_letivo", True):
+                return "Não se aplica (Feriado)"
+            val = row.get("estimativa_nutri")
             if pd.isna(val) or val is None or val == 0:
                 return "A definir"
             return f"{int(round(val))} ref"
             
-        df_exibir_t2["Quantitativo Nutrição (Meta)"] = df_t2["estimativa_nutri"].map(formatar_nutri_t2)
+        df_exibir_t2["Quantitativo Nutrição (Meta)"] = df_t2.apply(formatar_nutri_t2, axis=1)
         df_exibir_t2["Previsão Base (IA)"] = df_t2["ia_pura"].astype(int).astype(str) + " ref"
         df_exibir_t2["Margem de Segurança"] = "+" + df_t2["margem_aplicada"].astype(int).astype(str) + " ref"
-        df_exibir_t2["Sugestão de Preparo (Final)"] = df_t2["recomendacao_final"].astype(int).astype(str) + " refeições"
+        df_exibir_t2["Sugestão de Preparo (Final)"] = df_t2.apply(
+            lambda r: "0 refeições (Fechado)" if not r.get("is_dia_letivo", True) else f"{int(r['recomendacao_final'])} refeições",
+            axis=1
+        )
         df_exibir_t2["Previsão do Tempo"] = df_t2["temp_max_c"].map(lambda x: f"{x:.1f}°C") + " / " + df_t2["chuva_mm"].map(lambda x: f"{x:.1f} mm chuva")
         df_exibir_t2["Alertas e Condições"] = df_t2["alertas"]
         

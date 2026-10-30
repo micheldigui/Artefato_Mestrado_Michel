@@ -353,9 +353,13 @@ def executar_pipeline_previsao(
             precip = 0.0
             temp_max = mediana_temp
             
-        # Planejamento da nutricionista e cardápio
+        # Planejamento da nutricionista e cardapio
         plan_row = df_planejamento[df_planejamento["data_iso"] == data_iso]
-        if not plan_row.empty and usar_cardapio and pd.notna(plan_row.iloc[0].get("prato_principal")) and str(plan_row.iloc[0].get("prato_principal")).strip() != "":
+        if not is_letivo:
+            prato = f"Feriado / Sem Atendimento ({evento_nome.replace('_', ' ').title()})"
+            prot = "—"
+            preparo = "—"
+        elif not plan_row.empty and usar_cardapio and pd.notna(plan_row.iloc[0].get("prato_principal")) and str(plan_row.iloc[0].get("prato_principal")).strip() != "":
             prato = str(plan_row.iloc[0].get("prato_principal"))
             prot = str(plan_row.iloc[0].get("proteina_tipo", "frango")).lower()
             preparo = str(plan_row.iloc[0].get("preparo_tipo", "assado"))
@@ -364,7 +368,7 @@ def executar_pipeline_previsao(
             prot = str(row_fato.iloc[0].get("proteina_tipo", "frango")).lower()
             preparo = str(row_fato.iloc[0].get("preparo_tipo", "assado"))
         else:
-            prato = "Padrão Escolar Regular" if is_letivo else f"Feriado / Sem Atendimento ({evento_nome.replace('_', ' ').title()})"
+            prato = "Padrão Escolar Regular"
             prot = "frango"
             preparo = "assado"
             
@@ -490,17 +494,19 @@ def executar_pipeline_previsao(
             "data": data_formatada,
             "data_iso": data_iso,
             "dia_semana": dia_sem_nome,
+            "is_dia_letivo": is_letivo,
+            "evento_tipo": evento_nome,
             "horizonte": "Semana t+1 (Preparo)" if horizonte == "Semana_t1" else "Semana t+2 (Compras)",
-            "prato_principal": prato if usar_cardapio else "Cardápio Neutro",
-            "proteina_tipo": prot.capitalize() if usar_cardapio else "Geral",
-            "preparo_tipo": preparo.capitalize() if usar_cardapio else "Geral",
+            "prato_principal": prato if (usar_cardapio or not is_letivo) else "Cardápio Neutro",
+            "proteina_tipo": prot.capitalize() if is_letivo else "—",
+            "preparo_tipo": preparo.capitalize() if is_letivo else "—",
             "chuva_mm": round(precip, 1) if usar_clima else 0.0,
             "temp_max_c": round(temp_max, 1) if usar_clima else round(mediana_temp, 1),
-            "estimativa_nutri": round(val_nutri) if val_nutri is not None else None,
+            "estimativa_nutri": round(val_nutri) if (val_nutri is not None and is_letivo) else None,
             "ia_pura": round(pred_ia_base) if is_letivo else 0,
-            "pred_base_combinada": round(pred_base),
-            "margem_aplicada": round(margem_valor),
-            "recomendacao_final": round(pred_final),
+            "pred_base_combinada": round(pred_base) if is_letivo else 0,
+            "margem_aplicada": round(margem_valor) if is_letivo else 0,
+            "recomendacao_final": round(pred_final) if is_letivo else 0,
             "alertas": "; ".join(alertas) if alertas else "Operação normal dentro da média"
         })
 
@@ -709,8 +715,21 @@ def simular_previsao_data(
 
     pred_final = max(0, pred_base + margem_val)
 
+    is_letivo_sim = True
+    evento_tipo_sim = "Letivo Regular"
+    if not row_fato.empty:
+        is_letivo_sim = bool(row_fato.iloc[0].get("is_dia_letivo", True))
+        evento_tipo_sim = str(row_fato.iloc[0].get("evento_tipo", "Letivo Regular"))
+
+    if not is_letivo_sim:
+        pred_base = 0.0
+        margem_val = 0.0
+        pred_final = 0.0
+
     alertas = []
-    if is_fim_semana:
+    if not is_letivo_sim:
+        alertas.append(f"Feriado / Não Letivo ({evento_tipo_sim.replace('_', ' ').title()}): Restaurante sem atendimento regular.")
+    elif is_fim_semana:
         alertas.append("Fim de semana (sábado/domingo): refeitório fechado ou com cardápio excepcional.")
     elif dia_sem == 4:
         alertas.append("Sexta-feira: retração histórica de ~20% no comparecimento à tarde.")
@@ -735,6 +754,8 @@ def simular_previsao_data(
         "data_str": data_formatada,
         "dia_semana_nome": dia_sem_nome,
         "is_fim_semana": is_fim_semana,
+        "is_dia_letivo": is_letivo_sim,
+        "evento_tipo": evento_tipo_sim,
         "objetivo": objetivo,
         "cenario_escolhido": cenario_escolhido,
         "modelo_escolhido": modelo_escolhido,
