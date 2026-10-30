@@ -86,7 +86,11 @@ def carregar_fato_diaria_completa():
             if len(idx) > 0:
                 for col in df_edicoes.columns:
                     if col not in ["data_iso", "timestamp_edicao"]:
-                        df_fato.loc[idx, col] = row[col]
+                        # Se o campo da edição for nulo/vazio, não sobrescreve dado válido existente na base
+                        val = row[col]
+                        if pd.isna(val) or val is None or val == "":
+                            continue
+                        df_fato.loc[idx, col] = val
             else:
                 novo_df = pd.DataFrame([row.to_dict()])
                 df_fato = pd.concat([df_fato, novo_df], ignore_index=True)
@@ -153,6 +157,19 @@ def consultar_dados_completos_data(data_str):
         resultado["temperature_2m_max"] = float(r["temperature_2m_max"]) if pd.notna(r.get("temperature_2m_max")) else 25.0
         resultado["wind_speed_10m_max"] = float(r["wind_speed_10m_max"]) if pd.notna(r.get("wind_speed_10m_max")) else 10.0
         resultado["observacao"] = str(r.get("observacao", "")) if pd.notna(r.get("observacao")) else ""
+        resultado["clima_fonte"] = "Base Consolidada (Silver)" if pd.notna(r.get("temperature_2m_max")) else "Padrão"
+
+    # Se temperatura ou chuva não estavam consolidadas na base, consulta API Open-Meteo
+    if reg.empty or pd.isna(reg.iloc[-1].get("temperature_2m_max")):
+        try:
+            from .clima import obter_clima_data
+            p_api, t_api, fonte = obter_clima_data(data_iso)
+            if t_api is not None:
+                resultado["temperature_2m_max"] = float(t_api)
+                resultado["precipitation_sum"] = float(p_api) if p_api is not None else 0.0
+                resultado["clima_fonte"] = fonte
+        except Exception:
+            pass
 
     # Se a nutricionista tiver gravado planejamento semanal nessa data, sobrepõe
     df_nutri = carregar_planejamento_nutricionista()

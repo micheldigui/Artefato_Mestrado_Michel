@@ -629,21 +629,32 @@
 02/09/2026;2026-09-02;222.0;observado;;consumo_setembro_2026.csv
 03/09/2026;2026-09-03;204.0;observado;;consumo_setembro_2026.csv
 04/09/2026;2026-09-04;189.0;observado;;consumo_setembro_2026.csv
-09/09/2026;2026-09-09;84.0;observado;;consumo_setembro_2026.csv
-10/09/2026;2026-09-10;103.0;observado;;consumo_setembro_2026.csv
-11/09/2026;2026-09-11;138.0;observado;;consumo_setembro_2026.csv
+09/09/2026;2026-09-09;84.0;atipico;;consumo_setembro_2026.csv
+10/09/2026;2026-09-10;103.0;atipico;;consumo_setembro_2026.csv
+11/09/2026;2026-09-11;138.0;atipico;;consumo_setembro_2026.csv
 14/09/2026;2026-09-14;220.0;observado;;consumo_setembro_2026.csv
-15/09/2026;2026-09-15;14.0;observado;Consumo reduzido em contexto de chuvas e enchentes, conforme relato do pesquisador em 09/10/2026.;consumo_setembro_2026.csv
+15/09/2026;2026-09-15;14.0;atipico;Consumo reduzido em contexto de chuvas e enchentes, conforme relato do pesquisador em 09/10/2026.;consumo_setembro_2026.csv
 17/09/2026;2026-09-17;208.0;observado;;consumo_setembro_2026.csv
 18/09/2026;2026-09-18;170.0;observado;;consumo_setembro_2026.csv
 21/09/2026;2026-09-21;237.0;observado;;consumo_setembro_2026.csv
 22/09/2026;2026-09-22;201.0;observado;;consumo_setembro_2026.csv
-23/09/2026;2026-09-23;23.0;observado;Consumo reduzido em contexto de chuvas e enchentes, conforme relato do pesquisador em 09/10/2026.;consumo_setembro_2026.csv
+23/09/2026;2026-09-23;23.0;atipico;Consumo reduzido em contexto de chuvas e enchentes, conforme relato do pesquisador em 09/10/2026.;consumo_setembro_2026.csv
 25/09/2026;2026-09-25;201.0;observado;;consumo_setembro_2026.csv
 30/09/2026;2026-09-30;215.0;observado;;consumo_setembro_2026.csv
 01/10/2026;2026-10-01;210.0;observado;;consumo_outubro_novembro_2026.csv
+02/10/2026;2026-10-02;194.0;observado;;consumo_outubro_novembro_2026.csv
 05/10/2026;2026-10-05;201.0;observado;;consumo_outubro_novembro_2026.csv
 06/10/2026;2026-10-06;199.0;observado;;consumo_outubro_novembro_2026.csv
 07/10/2026;2026-10-07;193.0;observado;;consumo_outubro_novembro_2026.csv
-08/10/2026;2026-10-08;181.0;observado;;consumo_outubro_novembro_2026.csv
-09/10/2026;2026-10-09;201.0;observado;;consumo_outubro_novembro_2026.csv
+08/10/2026;2026-10-08;202.0;observado;;consumo_outubro_novembro_2026.csv
+09/10/2026;2026-10-09;181.0;observado;;consumo_outubro_novembro_2026.csv
+19/10/2026;2026-10-19;224.0;observado;;consumo_outubro_novembro_2026.csv
+20/10/2026;2026-10-20;185.0;observado;;consumo_outubro_novembro_2026.csv
+21/10/2026;2026-10-21;202.0;observado;;consumo_outubro_novembro_2026.csv
+22/10/2026;2026-10-22;193.0;observado;;consumo_outubro_novembro_2026.csv
+23/10/2026;2026-10-23;149.0;observado;;consumo_outubro_novembro_2026.csv
+26/10/2026;2026-10-26;199.0;observado;;consumo_outubro_novembro_2026.csv
+27/10/2026;2026-10-27;192.0;observado;;consumo_outubro_novembro_2026.csv
+28/10/2026;2026-10-28;232.0;observado;;consumo_outubro_novembro_2026.csv
+29/10/2026;2026-10-29;172.0;observado;;consumo_outubro_novembro_2026.csv
+30/10/2026;2026-10-30;203.0;observado;;consumo_outubro_novembro_2026.csv

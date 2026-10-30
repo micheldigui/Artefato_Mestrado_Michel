@@ -526,20 +526,29 @@ div[data-baseweb="tag"] span {{
     font-weight: 600 !important;
 }}
 
-/* 7. Botões Operacionais */
+/* 7. Botões Operacionais e de Formulários */
 button[kind="primary"],
 button[data-testid="baseButton-primary"],
-div.stButton > button {{
+div.stButton > button,
+div[data-testid="stFormSubmitButton"] > button {{
     background-color: var(--primary-color) !important;
     color: #ffffff !important;
     border-radius: var(--radius-sm) !important;
     border: none !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     transition: all 0.15s ease !important;
+}}
+button[kind="primary"] *,
+button[data-testid="baseButton-primary"] *,
+div.stButton > button *,
+div[data-testid="stFormSubmitButton"] > button * {{
+    color: #ffffff !important;
+    font-weight: 700 !important;
 }}
 button[kind="primary"]:hover,
 button[data-testid="baseButton-primary"]:hover,
-div.stButton > button:hover {{
+div.stButton > button:hover,
+div[data-testid="stFormSubmitButton"] > button:hover {{
     background-color: var(--primary-hover) !important;
     box-shadow: var(--shadow-sm) !important;
 }}
@@ -2278,23 +2287,84 @@ elif pagina_ativa == "📝 Cadastrar Dados":
             if dados_dia["encontrado_base"]:
                 st.info(f"📌 **{data_fmt} ({dados_dia['dia_semana']}) localizada no histórico.**")
             else:
-                st.caption(f"ℹ️ {data_fmt} ainda não possui registros consolidados.")
+                st.caption(f"ℹ️ {data_fmt} ainda não possui registros consolidados na base.")
                 
+        # Painel de Diagnóstico Visual (Somente Leitura)
         c_v1, c_v2, c_v3, c_v4 = st.columns(4)
         with c_v1:
-            val_c = f"{int(dados_dia['consumo'])} ref" if dados_dia['consumo'] is not None else "Não apurado"
-            st.metric("Consumo Real Apurado", val_c)
+            if dados_dia['consumo'] is not None:
+                st.markdown(f"""
+                <div style="background-color: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #1b5e20; text-transform: uppercase;">Consumo Real</div>
+                    <div style="font-size: 18px; font-weight: 800; color: #1b5e20; margin-top: 4px;">{int(dados_dia['consumo'])} ref</div>
+                    <div style="font-size: 10px; color: #2e7d32; margin-top: 2px;">✅ Apurado</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div style="background-color: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #f57f17; text-transform: uppercase;">Consumo Real</div>
+                    <div style="font-size: 15px; font-weight: 700; color: #e65100; margin-top: 4px;">Pendente</div>
+                    <div style="font-size: 10px; color: #f57f17; margin-top: 2px;">⏳ Pós-almoço</div>
+                </div>
+                """, unsafe_allow_html=True)
+                
         with c_v2:
-            val_p = f"{int(dados_dia['planejado_nutri'])} ref" if dados_dia['planejado_nutri'] is not None else "Não informado"
-            st.metric("Estimativa Nutrição", val_p)
+            if dados_dia['planejado_nutri'] is not None:
+                st.markdown(f"""
+                <div style="background-color: #e3f2fd; border: 1px solid #90caf9; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #0d47a1; text-transform: uppercase;">Estimativa Nutrição</div>
+                    <div style="font-size: 18px; font-weight: 800; color: #0d47a1; margin-top: 4px;">{int(dados_dia['planejado_nutri'])} ref</div>
+                    <div style="font-size: 10px; color: #1565c0; margin-top: 2px;">✅ Informada</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div style="background-color: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #f57f17; text-transform: uppercase;">Estimativa Nutrição</div>
+                    <div style="font-size: 15px; font-weight: 700; color: #e65100; margin-top: 4px;">Não informada</div>
+                    <div style="font-size: 10px; color: #f57f17; margin-top: 2px;">⏳ Pendente</div>
+                </div>
+                """, unsafe_allow_html=True)
+                
         with c_v3:
-            st.metric("Prato Registrado", dados_dia["prato_principal"] or "Não informado")
+            prato_txt = dados_dia["prato_principal"] or ""
+            if prato_txt:
+                st.markdown(f"""
+                <div style="background-color: #f1f8e9; border: 1px solid #c5e1a5; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #33691e; text-transform: uppercase;">Cardápio Oficial</div>
+                    <div style="font-size: 13px; font-weight: 700; color: #33691e; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{prato_txt.title()}">{prato_txt.title()}</div>
+                    <div style="font-size: 10px; color: #558b2f; margin-top: 2px;">{dados_dia['proteina_tipo'].title()}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div style="background-color: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #f57f17; text-transform: uppercase;">Cardápio Oficial</div>
+                    <div style="font-size: 14px; font-weight: 700; color: #e65100; margin-top: 4px;">Não cadastrado</div>
+                    <div style="font-size: 10px; color: #f57f17; margin-top: 2px;">⚠️ Sem cardápio</div>
+                </div>
+                """, unsafe_allow_html=True)
+                
         with c_v4:
-            st.metric("Clima Registrado", f"{dados_dia['temperature_2m_max']:.1f}°C", delta=f"{dados_dia['precipitation_sum']:.1f} mm chuva")
+            st.markdown(f"""
+            <div style="background-color: #e0f7fa; border: 1px solid #80deea; border-radius: 8px; padding: 12px; text-align: center;">
+                <div style="font-size: 11px; font-weight: 700; color: #006064; text-transform: uppercase;">Meteorologia</div>
+                <div style="font-size: 16px; font-weight: 800; color: #006064; margin-top: 4px;">{dados_dia['temperature_2m_max']:.1f}°C</div>
+                <div style="font-size: 10px; color: #00838f; margin-top: 2px;">Chuva: {dados_dia['precipitation_sum']:.1f} mm</div>
+            </div>
+            """, unsafe_allow_html=True)
 
     else:
         st.success(f"✅ **Acesso de Operador Habilitado:** Conectado como **{st.session_state['usuario_nome']}**.")
-        st.write("Preencha os campos abaixo para salvar ou atualizar as informações operacionais:")
+        
+        with st.expander("ℹ️ De onde vêm os dados exibidos nesta tela? (Clique para saber mais)", expanded=False):
+            st.markdown("""
+            **Hierarquia de Dados e Rastreabilidade Operacional:**
+            1. **Base Histórica Consolidada (Silver):** Os dados de datas anteriores são lidos diretamente da tabela fato integrada (`silver_fato_diaria.parquet`), unindo calendário letivo, consumo real apurado, estimativas e clima histórico.
+            2. **Camada de Produção Dinâmica:** Qualquer edição ou novo dado inserido por você nesta tela é armazenado em `dados/producao/edicoes_operacionais.parquet` e sobreposto em tempo real. Isso garante que a base bruta de pesquisa permaneça intacta enquanto suas rotinas operacionais funcionam dinamicamente.
+            3. **Meteorologia via Satélite:** Se a data selecionada ainda não constar no arquivo histórico, o sistema consulta a previsão em tempo real diretamente da API oficial do Open-Meteo.
+            """)
         
         col_d1, col_d2 = st.columns([1, 2])
         with col_d1:
@@ -2306,68 +2376,195 @@ elif pagina_ativa == "📝 Cadastrar Dados":
         
         with col_d2:
             if dados_dia["encontrado_base"]:
-                st.info(f"📌 **{data_fmt} ({dados_dia['dia_semana']}) já cadastrada.** Você pode editar os dados abaixo.")
+                st.info(f"📌 **{data_fmt} ({dados_dia['dia_semana']}) já cadastrada na base.** Você pode revisar e alterar os dados abaixo.")
             else:
-                st.success(f"✨ **Nova Data ({data_fmt} / {dados_dia['dia_semana']}).** Preencha os campos para salvar.")
+                st.success(f"✨ **Nova Data ({data_fmt} / {dados_dia['dia_semana']}).** Não há registros anteriores; preencha os campos para salvar.")
                 
-        with st.form("form_edicao_simples"):
+        # Painel de Diagnóstico em Tempo Real da Data Selecionada
+        st.markdown("##### 📊 Diagnóstico do Registro Desta Data")
+        c_diag1, c_diag2, c_diag3, c_diag4 = st.columns(4)
+        with c_diag1:
+            if dados_dia['consumo'] is not None:
+                st.markdown(f"""
+                <div style="background-color: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #1b5e20; text-transform: uppercase;">Consumo Real</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #1b5e20; margin-top: 4px;">{int(dados_dia['consumo'])} ref</div>
+                    <div style="font-size: 11px; color: #2e7d32; margin-top: 2px;">✅ Apurado no Almoço</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div style="background-color: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #f57f17; text-transform: uppercase;">Consumo Real</div>
+                    <div style="font-size: 16px; font-weight: 700; color: #e65100; margin-top: 4px;">Pendente</div>
+                    <div style="font-size: 11px; color: #f57f17; margin-top: 2px;">⚠️ Digitar após as 14h</div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+        with c_diag2:
+            if dados_dia['planejado_nutri'] is not None:
+                st.markdown(f"""
+                <div style="background-color: #e3f2fd; border: 1px solid #90caf9; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #0d47a1; text-transform: uppercase;">Estimativa Nutrição</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #0d47a1; margin-top: 4px;">{int(dados_dia['planejado_nutri'])} ref</div>
+                    <div style="font-size: 11px; color: #1565c0; margin-top: 2px;">✅ Previsão Inicial Salva</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div style="background-color: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #f57f17; text-transform: uppercase;">Estimativa Nutrição</div>
+                    <div style="font-size: 16px; font-weight: 700; color: #e65100; margin-top: 4px;">Não Informada</div>
+                    <div style="font-size: 11px; color: #f57f17; margin-top: 2px;">⚠️ Planejamento em branco</div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+        with c_diag3:
+            prato_txt = dados_dia["prato_principal"] or ""
+            if prato_txt:
+                st.markdown(f"""
+                <div style="background-color: #f1f8e9; border: 1px solid #c5e1a5; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #33691e; text-transform: uppercase;">Cardápio Oficial</div>
+                    <div style="font-size: 14px; font-weight: 700; color: #33691e; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{prato_txt.title()}">{prato_txt.title()}</div>
+                    <div style="font-size: 11px; color: #558b2f; margin-top: 2px;">Proteína: {dados_dia['proteina_tipo'].title()}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div style="background-color: #ffebee; border: 1px solid #ffcdd2; border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; color: #c62828; text-transform: uppercase;">Cardápio Oficial</div>
+                    <div style="font-size: 15px; font-weight: 700; color: #b71c1c; margin-top: 4px;">Não Cadastrado</div>
+                    <div style="font-size: 11px; color: #c62828; margin-top: 2px;">⚠️ Cardápio em branco</div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+        with c_diag4:
+            st.markdown(f"""
+            <div style="background-color: #e0f7fa; border: 1px solid #80deea; border-radius: 8px; padding: 12px; text-align: center;">
+                <div style="font-size: 11px; font-weight: 700; color: #006064; text-transform: uppercase;">Meteorologia</div>
+                <div style="font-size: 18px; font-weight: 800; color: #006064; margin-top: 4px;">{dados_dia['temperature_2m_max']:.1f}°C</div>
+                <div style="font-size: 11px; color: #00838f; margin-top: 2px;">Chuva: {dados_dia['precipitation_sum']:.1f} mm ({dados_dia.get('clima_fonte', 'Satélite')})</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+        # Alertas operacionais sobre a data
+        if dados_dia["consumo"] is None and not dados_dia["prato_principal"]:
+            st.warning(f"⚠️ **Atenção:** A data **{data_fmt}** ainda não possui nem cardápio nem consumo apurado. Preencha os campos abaixo para alimentar o sistema.")
+        elif dados_dia["consumo"] is None:
+            st.info(f"ℹ️ **Cardápio cadastrado para {data_fmt}.** O consumo real está pendente e deverá ser registrado após as 14h do dia.")
+        else:
+            st.success(f"✅ **Registro completo para {data_fmt}.** Os dados existentes foram carregados abaixo nos campos do formulário para edição.")
+            
+        st.markdown("---")
+        st.markdown("##### ✏️ Formulário de Edição Operacional")
+        
+        # Formulário com key dinâmica vinculada à data selecionada (data_iso)
+        with st.form(f"form_edicao_{data_iso}"):
             c_f1, c_f2 = st.columns(2)
             with c_f1:
-                st.markdown("##### 👥 Refeições e Contagem")
+                st.markdown("###### 👥 Refeições e Contagem")
+                val_cons_init = int(dados_dia['consumo']) if dados_dia['consumo'] is not None else 0
                 novo_consumo = st.number_input(
                     "Consumo Real Verificado (Refeições Servidas)",
                     min_value=0, max_value=500,
-                    value=int(dados_dia['consumo']) if dados_dia['consumo'] is not None else 0,
+                    value=val_cons_init,
                     step=1,
-                    help="Quantidade real de refeições servidas no dia aos estudantes."
+                    key=f"ed_consumo_{data_iso}",
+                    help="Quantidade real de refeições servidas no dia aos estudantes (deixe 0 se ainda for apurar)."
                 )
+                
+                val_nutri_init = int(dados_dia['planejado_nutri']) if dados_dia['planejado_nutri'] is not None else 180
                 novo_planejado_nutri = st.number_input(
                     "Quantitativo Estimado Inicial pela Nutrição",
                     min_value=0, max_value=500,
-                    value=int(dados_dia['planejado_nutri']) if dados_dia['planejado_nutri'] is not None else 180,
+                    value=val_nutri_init,
                     step=1,
+                    key=f"ed_nutri_{data_iso}",
                     help="Estimativa inicial da nutricionista responsável."
                 )
-                is_letivo = st.checkbox("Dia Letivo Regular com Aulas", value=dados_dia["is_dia_letivo"])
+                
+                is_letivo = st.checkbox(
+                    "Dia Letivo Regular com Aulas",
+                    value=dados_dia["is_dia_letivo"],
+                    key=f"ed_letivo_{data_iso}"
+                )
                 
             with c_f2:
-                st.markdown("##### 🍲 Cardápio do Dia")
-                prato_nome = st.text_input("Nome do Prato Principal", value=dados_dia["prato_principal"] or "Iscas de Frango Grelhado")
+                st.markdown("###### 🍲 Cardápio do Dia")
+                val_prato_init = dados_dia["prato_principal"] or ""
+                prato_nome = st.text_input(
+                    "Nome do Prato Principal",
+                    value=val_prato_init,
+                    placeholder="Ex: Iscas de Frango Grelhado",
+                    key=f"ed_prato_{data_iso}"
+                )
+                
                 opcoes_proteina = ["Bovina", "Frango", "Suína", "Peixe", "Ovo / Vegetariana"]
                 idx_prot = 1
                 for i, p in enumerate(opcoes_proteina):
                     if p.lower() in dados_dia["proteina_tipo"].lower():
                         idx_prot = i
                         break
-                proteina_sel = st.selectbox("Tipo de Proteína Principal", opcoes_proteina, index=idx_prot)
+                proteina_sel = st.selectbox(
+                    "Tipo de Proteína Principal",
+                    opcoes_proteina,
+                    index=idx_prot,
+                    key=f"ed_prot_{data_iso}"
+                )
                 
-                st.markdown("##### 🌦️ Meteorologia (Previsão Local)")
+                st.markdown("###### 🌦️ Meteorologia (Previsão Local)")
                 col_w1, col_w2 = st.columns(2)
                 with col_w1:
-                    chuva_val = st.number_input("Chuva Prevista (mm)", min_value=0.0, max_value=150.0, value=float(dados_dia["precipitation_sum"]), step=0.5)
+                    chuva_val = st.number_input(
+                        "Chuva Prevista (mm)",
+                        min_value=0.0, max_value=150.0,
+                        value=float(dados_dia["precipitation_sum"]),
+                        step=0.5,
+                        key=f"ed_chuva_{data_iso}"
+                    )
                 with col_w2:
-                    temp_val = st.number_input("Temperatura Máx (°C)", min_value=0.0, max_value=45.0, value=float(dados_dia["temperature_2m_max"]), step=0.5)
+                    temp_val = st.number_input(
+                        "Temperatura Máx (°C)",
+                        min_value=0.0, max_value=45.0,
+                        value=float(dados_dia["temperature_2m_max"]),
+                        step=0.5,
+                        key=f"ed_temp_{data_iso}"
+                    )
                     
+            st.markdown("---")
+            st.markdown("###### 🛡️ Confirmação Obrigatória de Gravação")
+            tipo_acao_txt = "atualizar os dados já existentes" if dados_dia["encontrado_base"] else "cadastrar este novo registro"
+            confirma_salvar = st.checkbox(
+                f"Confirmo que revisei os dados acima e desejo **{tipo_acao_txt}** para o dia **{data_fmt} ({dados_dia['dia_semana']})**.",
+                key=f"ed_confirma_{data_iso}"
+            )
+            
             btn_salvar = st.form_submit_button("💾 Salvar Informações Desta Data", type="primary", use_container_width=True)
             
         if btn_salvar:
-            prato_nome_limpo = (prato_nome or "").strip() or "Refeição Tradicional do Dia"
-            dict_salvar = {
-                "consumo": novo_consumo if novo_consumo > 0 else None,
-                "reservas": int(dados_dia['reservas']) if dados_dia['reservas'] is not None else None,
-                "planejado_nutri": novo_planejado_nutri,
-                "is_dia_letivo": is_letivo,
-                "evento_tipo": "Letivo Regular" if is_letivo else "Sem Aula",
-                "prato_principal": prato_nome_limpo,
-                "proteina_tipo": proteina_sel,
-                "preparo_tipo": dados_dia["preparo_tipo"] or "Grelhado",
-                "precipitation_sum": chuva_val,
-                "temperature_2m_max": temp_val,
-                "observacao": f"Registro operacional salvo por {st.session_state['usuario_nome']}"
-            }
-            salvar_edicao_operacional_completa(data_iso, dict_salvar)
-            st.success(f"✅ Informações do dia **{data_fmt}** atualizadas com sucesso!")
-            st.rerun()
+            if not confirma_salvar:
+                st.warning(f"⚠️ **Confirmação Obrigatória:** Por favor, marque a caixa de seleção acima confirmando que deseja {tipo_acao_txt} para o dia **{data_fmt}**.")
+            else:
+                prato_nome_limpo = (prato_nome or "").strip()
+                if not prato_nome_limpo:
+                    prato_nome_limpo = "Refeição Tradicional do Dia" if is_letivo else "Sem Cardápio"
+                    
+                dict_salvar = {
+                    "consumo": novo_consumo if novo_consumo > 0 else None,
+                    "reservas": int(dados_dia['reservas']) if dados_dia['reservas'] is not None else None,
+                    "planejado_nutri": novo_planejado_nutri,
+                    "is_dia_letivo": is_letivo,
+                    "evento_tipo": "Letivo Regular" if is_letivo else "Sem Aula",
+                    "prato_principal": prato_nome_limpo,
+                    "proteina_tipo": proteina_sel,
+                    "preparo_tipo": dados_dia["preparo_tipo"] or "Assado / Grelhado",
+                    "precipitation_sum": chuva_val,
+                    "temperature_2m_max": temp_val,
+                    "observacao": f"Registro operacional salvo por {st.session_state['usuario_nome']} em {datetime.now().strftime('%d/%m/%Y %H:%M')}"
+                }
+                salvar_edicao_operacional_completa(data_iso, dict_salvar)
+                st.success(f"✅ **Sucesso!** As informações do dia **{data_fmt}** foram gravadas com sucesso na base operacional.")
+                st.rerun()
 
 # ==============================================================================
 # PÁGINA 6: AUDITORIA CIENTÍFICA (DSR E GALERIA DAS 33 FIGURAS EM 300 DPI)

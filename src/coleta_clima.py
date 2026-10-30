@@ -9,6 +9,8 @@ import requests
 import pandas as pd
 import numpy as np
 
+from datetime import datetime, date
+
 # Configurações de Localização da Instituição Pública de Ensino (Anonimizado - LGPD)
 CAMPUS_CONFIG = {
     "nome": "Instituição Pública de Ensino Federal",
@@ -17,10 +19,13 @@ CAMPUS_CONFIG = {
     "timezone": "America/Sao_Paulo"
 }
 
-def coletar_clima_historico(start_date="2023-01-01", end_date="2026-10-10"):
+def coletar_clima_historico(start_date="2023-01-01", end_date=None):
     """
     Coleta dados meteorológicos históricos diários via Open-Meteo Archive API.
     """
+    if end_date is None:
+        end_date = datetime.now().strftime("%Y-%m-%d")
+        
     print(f"[*] Coletando clima histórico para {CAMPUS_CONFIG['nome']} de {start_date} até {end_date}...")
     
     url = "https://archive-api.open-meteo.com/v1/archive"
@@ -124,7 +129,7 @@ def salvar_dados():
     os.makedirs("dados/bronze/clima", exist_ok=True)
     
     # 1. Histórico
-    df_hist = coletar_clima_historico(start_date="2023-01-01", end_date="2026-10-10")
+    df_hist = coletar_clima_historico(start_date="2023-01-01")
     caminho_hist = "dados/bronze/clima/clima_historico_itaquaquecetuba.csv"
     df_hist.to_csv(caminho_hist, sep=";", index=False, encoding="utf-8-sig")
     print(f"[OK] Arquivo salvo: {caminho_hist}")
