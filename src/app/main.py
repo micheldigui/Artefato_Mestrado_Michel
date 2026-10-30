@@ -5,7 +5,7 @@ Autor / Mestrando: Michel Silva de Souza
 Orientador: Prof. Dr. Carlos Hideo Arima
 Coorientador: Prof. Dr. Rafael Nobre Orsi
 Programa: Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)
-Campo de Aplicação Empírica: Restaurante Estudantil de Instituição Pública de Ensino Federal (Anonimizado — LGPD)
+Campo de Aplicação Empírica: Restaurante Estudantil de Instituição Pública de Ensino
 Metodologia: Design Science Research (DSR)
 """
 
@@ -201,7 +201,7 @@ with st.sidebar:
         * **Orientador:** Prof. Dr. Carlos Hideo Arima
         * **Coorientador:** Prof. Dr. Rafael Nobre Orsi
         * **Programa:** Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)
-        * **Campo de Aplicação:** Restaurante Estudantil de Instituição Pública de Ensino Federal (Anonimizado — LGPD)
+        * **Campo de Aplicação:** Restaurante Estudantil de Instituição Pública de Ensino
         * **Metodologia:** Design Science Research (DSR)
         * **Ciclo:** 2026
         """)
@@ -2691,7 +2691,7 @@ elif pagina_ativa == "Auditoria Científica":
     with col_hist1:
         with st.container(border=True):
             st.markdown("#### 1. O Problema Real: Assimetria e Descompasso")
-            st.markdown("""No Restaurante Estudantil de uma instituição pública de ensino federal, o almoço é gratuito. Historicamente, dois regimes operaram com limitações:
+            st.markdown("""No Restaurante Estudantil de uma instituição pública de ensino, o almoço é gratuito. Historicamente, dois regimes operaram com limitações:
 
 * **Reservas Feitas pelos Discentes (2023–2025):** O preenchimento voluntário de reservas discentes entrou em descontinuidade. Em **63,8% dos dias** faltavam reservas (déficit potencial de 9.494 refeições; MAE de 27,10 ref/dia).
 * **Censo Institucional da Nutrição (2026):** Para evitar desabastecimento, adotou-se quantitativo fixo com folga preventiva, gerando sobreoferta de +1.898 refeições em 123 datas (MAE de 26,21 ref/dia).""")

@@ -11,9 +11,9 @@ import numpy as np
 
 from datetime import datetime, date
 
-# Configurações de Localização da Instituição Pública de Ensino (Anonimizado - LGPD)
+# Configurações de Localização da Instituição Pública de Ensino
 CAMPUS_CONFIG = {
-    "nome": "Instituição Pública de Ensino Federal",
+    "nome": "Instituição Pública de Ensino",
     "latitude": -23.4861,
     "longitude": -46.3483,
     "timezone": "America/Sao_Paulo"
