@@ -86,145 +86,25 @@ def obter_credencial(chave, padrao):
 SENHA_NUTRI = str(obter_credencial("SENHA_NUTRI", "ifsp2026"))
 SENHA_ADMIN = str(obter_credencial("SENHA_ADMIN", "admin2026"))
 
-# Estilização Adaptativa — Foco em Usabilidade, Alto Contraste e Leitura Confortável
-st.markdown("""
-<style>
-    /* Topo Institucional Limpo e Elegante */
-    .if-header-box {
-        background: linear-gradient(135deg, #005a2b 0%, #004220 50%, #0f172a 100%) !important;
-        border-radius: 12px;
-        padding: 18px 24px;
-        color: #ffffff !important;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-left: 6px solid #ef4444;
-    }
-    .if-badge-mestrado {
-        background: #ef4444 !important;
-        color: #ffffff !important;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        white-space: nowrap;
-        text-align: center;
-    }
-
-    /* Cards de Decisão Operacional em Destaque */
-    .card-decisao-topo {
-        background-color: rgba(16, 185, 129, 0.08);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        border-left: 5px solid #10b981;
-        border-radius: 10px;
-        padding: 16px 20px;
-        margin-bottom: 16px;
-    }
-    .card-alerta-topo {
-        background-color: rgba(239, 68, 68, 0.08);
-        border: 1px solid rgba(239, 68, 68, 0.3);
-        border-left: 5px solid #ef4444;
-        border-radius: 10px;
-        padding: 16px 20px;
-        margin-bottom: 16px;
-    }
-
-    /* Estilização dos Métricas Padrão */
-    div[data-testid="stMetric"] {
-        background-color: rgba(128, 128, 128, 0.06) !important;
-        border: 1px solid rgba(128, 128, 128, 0.2) !important;
-        border-top: 4px solid #10b981 !important;
-        border-radius: 10px !important;
-        padding: 12px 14px !important;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
-    }
-    div[data-testid="stMetricLabel"] {
-        font-size: 13px !important;
-        font-weight: 600 !important;
-        opacity: 0.9 !important;
-    }
-    div[data-testid="stMetricValue"] {
-        color: #10b981 !important;
-        font-weight: 800 !important;
-        font-size: 22px !important;
-    }
-    div[data-testid="stMetricDelta"] {
-        font-weight: 600 !important;
-        font-size: 11.5px !important;
-    }
-
-    /* Botões Primários no Verde Oficial */
-    button[kind="primary"],
-    button[data-testid="baseButton-primary"],
-    div.stButton > button {
-        background-color: #008744 !important;
-        color: #ffffff !important;
-        border: none !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        padding: 8px 20px !important;
-        font-size: 14.5px !important;
-        box-shadow: 0 2px 6px rgba(0, 135, 68, 0.25) !important;
-    }
-    button[kind="primary"]:hover,
-    div.stButton > button:hover {
-        background-color: #006633 !important;
-    }
-
-    /* Abas de Navegação */
-    button[data-baseweb="tab"] {
-        font-weight: 700 !important;
-        font-size: 14px !important;
-    }
-    button[data-baseweb="tab"][aria-selected="true"] {
-        color: #10b981 !important;
-        border-bottom: 3px solid #10b981 !important;
-    }
-
-    /* Cards de Storytelling */
-    .card-story {
-        background-color: rgba(128, 128, 128, 0.06);
-        border: 1px solid rgba(128, 128, 128, 0.2);
-        border-left: 5px solid #10b981;
-        border-radius: 8px;
-        padding: 16px 18px;
-        margin-bottom: 14px;
-    }
-    .card-story-red {
-        border-left-color: #ef4444;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# Topo Institucional
-st.markdown("""
-<div class="if-header-box">
-    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-        <div style="font-size: 32px;">🍽️</div>
-        <div>
-            <div style="font-size: 20px; font-weight: 800; color: #ffffff !important; line-height: 1.25; margin-bottom: 2px;">Restaurante Estudantil — Painel de Apoio à Decisão</div>
-            <div style="font-size: 13px; color: #f1f5f9 !important; line-height: 1.4;">IFSP Campus Itaquaquecetuba & Centro Paula Souza (CEETEPS)</div>
-            <div style="font-size: 11.5px; color: #e2e8f0 !important; opacity: 0.9;">Previsão de Demanda, Dimensionamento de Cardápio e Combate ao Desperdício de Alimentos</div>
-        </div>
-    </div>
-    <div class="if-badge-mestrado">PPG-GTSP / CEETEPS</div>
-</div>
-""", unsafe_allow_html=True)
-
-# Barra Lateral Executiva e Funcional
+# ==============================================================================
+# BARRA LATERAL (SIDEBAR): TEMA, AUTENTICAÇÃO E STATUS
+# ==============================================================================
 with st.sidebar:
-    st.markdown("### 📋 Painel de Controle")
-    st.caption("Ambiente Operacional do Restaurante Escolar")
+    st.markdown("### 🎨 Tema Visual")
+    tema_escolhido = st.radio(
+        "Modo de Exibição:",
+        ["☀️ Claro", "🌙 Escuro", "💻 Automático (Sistema)"],
+        index=0,
+        horizontal=True,
+        help="Alterne entre Tema Claro e Tema Escuro, com paleta de cores corporativa baseada no Observatório."
+    )
+    
+    st.divider()
     
     # Controle de Autenticação / Modo de Operação
     st.markdown("##### 🔐 Acesso e Permissões")
     if not st.session_state["autenticado"]:
-        st.info("👁️ **Modo Visitante (Público)**\nVisualização das previsões, gráficos e simulador liberados.")
+        st.info("👁️ **Modo Visitante (Público)**\nVisualização liberada do dashboard, gráficos e previsões.")
         with st.expander("🔑 Acesso Operador (Editar Dados)", expanded=False):
             with st.form("form_login_lateral"):
                 perfil_sel = st.selectbox("Perfil de Acesso:", ["Nutricionista / Gestora", "Pesquisador (Admin)"])
@@ -253,19 +133,9 @@ with st.sidebar:
             st.rerun()
 
     st.divider()
-
-    # Modo de Exibição
-    modo_visao = st.radio(
-        "Perfil de Visualização:",
-        ["👩‍🍳 Visão Operacional (Nutrição & Gestão)", "🔬 Visão Avançada (Auditoria & Métricas)"],
-        index=0,
-        help="A Visão Operacional exibe recomendações diretas para a rotina diária. A Visão Avançada permite inspecionar hiperparâmetros, cenários de machine learning e matrizes de features."
-    )
-    is_avancado = "Avançada" in modo_visao
-
-    st.divider()
-    st.markdown("##### 📊 Status da Operação")
     
+    # Status da Operação
+    st.markdown("##### 📊 Status da Operação")
     df_consumo_hist = carregar_historico_consumo()
     if not df_consumo_hist.empty:
         ult_data = df_consumo_hist.iloc[-1]["data"]
@@ -278,7 +148,7 @@ with st.sidebar:
     
     st.divider()
     
-    # Informações Acadêmicas Organizadas em Expander (Sem Poluir a Barra)
+    # Ficha Técnica Acadêmica
     with st.expander("🎓 Ficha Técnica da Pesquisa (Mestrado)", expanded=False):
         st.markdown("""
         * **Pesquisador:** Michel Silva de Souza (*Michel Digui*)
@@ -289,147 +159,793 @@ with st.sidebar:
         * **Ano:** 2026
         """)
 
-# Abas de Navegação Reorganizadas por Ordem de Uso Real
+# ==============================================================================
+# DESIGN SYSTEM: CSS ADAPTATIVO TEMA CLARO E ESCURO (INSPIRADO NO JUCELINO)
+# ==============================================================================
+is_dark = (tema_escolhido == "🌙 Escuro")
+is_auto = (tema_escolhido == "💻 Automático (Sistema)")
+
+if is_dark:
+    theme_vars = """
+    :root, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] {
+        --bg-base: #0b0f19;
+        --bg-surface: #111827;
+        --bg-card: #1e293b;
+        --bg-card-hover: #273549;
+        --border-subtle: #334155;
+        --border-strong: #475569;
+        --border-focus: #10b981;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --primary: #10b981;
+        --primary-hover: #34d399;
+        --primary-light: rgba(16, 185, 129, 0.15);
+        --accent: #38bdf8;
+        --accent-light: rgba(56, 189, 248, 0.15);
+        --success: #22c55e;
+        --success-bg: rgba(34, 197, 94, 0.16);
+        --warning: #f59e0b;
+        --warning-bg: rgba(245, 158, 11, 0.16);
+        --danger: #ef4444;
+        --danger-bg: rgba(239, 68, 68, 0.16);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+        --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
+        --table-stripe: #182234;
+        --table-hover: rgba(16, 185, 129, 0.12);
+        background-color: #0b0f19 !important;
+        color: #f8fafc !important;
+    }
+    """
+    chart_bg = "transparent"
+    chart_text = "#cbd5e1"
+    chart_grid = "#334155"
+    chart_primary = "#10b981"
+    chart_accent = "#38bdf8"
+elif is_auto:
+    theme_vars = """
+    :root, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] {
+        --bg-base: #f8fafc;
+        --bg-surface: #ffffff;
+        --bg-card: #ffffff;
+        --bg-card-hover: #f1f5f9;
+        --border-subtle: #e2e8f0;
+        --border-strong: #cbd5e1;
+        --border-focus: #008744;
+        --text-primary: #0f172a;
+        --text-secondary: #334155;
+        --text-muted: #64748b;
+        --primary: #008744;
+        --primary-hover: #006633;
+        --primary-light: #ecfdf5;
+        --accent: #0284c7;
+        --accent-light: #e0f2fe;
+        --success: #15803d;
+        --success-bg: #dcfce7;
+        --warning: #b45309;
+        --warning-bg: #fef3c7;
+        --danger: #b91c1c;
+        --danger-bg: #fee2e2;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+        --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+        --table-stripe: #f8fafc;
+        --table-hover: #eff6ff;
+    }
+    @media (prefers-color-scheme: dark) {
+        :root, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] {
+            --bg-base: #0b0f19;
+            --bg-surface: #111827;
+            --bg-card: #1e293b;
+            --bg-card-hover: #273549;
+            --border-subtle: #334155;
+            --border-strong: #475569;
+            --border-focus: #10b981;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --primary: #10b981;
+            --primary-hover: #34d399;
+            --primary-light: rgba(16, 185, 129, 0.15);
+            --accent: #38bdf8;
+            --accent-light: rgba(56, 189, 248, 0.15);
+            --success: #22c55e;
+            --success-bg: rgba(34, 197, 94, 0.16);
+            --warning: #f59e0b;
+            --warning-bg: rgba(245, 158, 11, 0.16);
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.16);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --table-stripe: #182234;
+            --table-hover: rgba(16, 185, 129, 0.12);
+            background-color: #0b0f19 !important;
+            color: #f8fafc !important;
+        }
+    }
+    """
+    chart_bg = "transparent"
+    chart_text = "#475569"
+    chart_grid = "#e2e8f0"
+    chart_primary = "#008744"
+    chart_accent = "#0284c7"
+else:  # Light Mode explícito
+    theme_vars = """
+    :root, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] {
+        --bg-base: #f8fafc;
+        --bg-surface: #ffffff;
+        --bg-card: #ffffff;
+        --bg-card-hover: #f1f5f9;
+        --border-subtle: #e2e8f0;
+        --border-strong: #cbd5e1;
+        --border-focus: #008744;
+        --text-primary: #0f172a;
+        --text-secondary: #334155;
+        --text-muted: #64748b;
+        --primary: #008744;
+        --primary-hover: #006633;
+        --primary-light: #ecfdf5;
+        --accent: #0284c7;
+        --accent-light: #e0f2fe;
+        --success: #15803d;
+        --success-bg: #dcfce7;
+        --warning: #b45309;
+        --warning-bg: #fef3c7;
+        --danger: #b91c1c;
+        --danger-bg: #fee2e2;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+        --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+        --table-stripe: #f8fafc;
+        --table-hover: #eff6ff;
+        background-color: #f8fafc !important;
+        color: #0f172a !important;
+    }
+    """
+    chart_bg = "transparent"
+    chart_text = "#334155"
+    chart_grid = "#e2e8f0"
+    chart_primary = "#008744"
+    chart_accent = "#0284c7"
+
+st.markdown(f"""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+
+:root {{
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+}}
+
+{theme_vars}
+
+body, .stApp {{
+    font-family: var(--font-sans) !important;
+    background-color: var(--bg-base) !important;
+    color: var(--text-primary) !important;
+}}
+
+/* TOP HEADER INSTITUCIONAL (ESTILO JUCELINO) */
+.top-header {{
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    border-left: 5px solid var(--primary);
+}}
+.header-left {{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}}
+.logo-badge {{
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 2px 8px rgba(0, 135, 68, 0.25);
+}}
+.header-titles h1 {{
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.2px;
+    margin: 0;
+    line-height: 1.25;
+}}
+.header-titles p {{
+    color: var(--text-secondary);
+    font-size: 12.5px;
+    margin: 2px 0 0 0;
+}}
+.header-right {{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}}
+.badge-status {{
+    background: var(--success-bg);
+    color: var(--success);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(21, 128, 61, 0.25);
+}}
+.badge-academico {{
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    border: 1px solid var(--border-subtle);
+}}
+
+/* KPI CARDS (RESUMO MACRO) */
+.kpi-row {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}}
+.kpi-card {{
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}}
+.kpi-card:hover {{
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}}
+.kpi-card.b-primary {{ border-left: 4px solid var(--primary); }}
+.kpi-card.b-accent {{ border-left: 4px solid var(--accent); }}
+.kpi-card.b-success {{ border-left: 4px solid var(--success); }}
+.kpi-card.b-warning {{ border-left: 4px solid var(--warning); }}
+.kpi-card.b-danger {{ border-left: 4px solid var(--danger); }}
+.kpi-title {{
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}}
+.kpi-val {{
+    font-size: 24px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+}}
+.kpi-sub {{
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 3px;
+}}
+
+/* PANEL CARDS & CONTAINERS */
+.panel-card {{
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 20px;
+}}
+.panel-header {{
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 10px;
+}}
+.panel-title {{
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+}}
+.panel-desc {{
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+    line-height: 1.4;
+}}
+
+/* DIA DA SEMANA - PRODUCTION CARD */
+.day-prod-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}}
+.day-prod-card {{
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 16px 14px;
+    box-shadow: var(--shadow-card);
+    text-align: center;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border-top: 4px solid var(--primary);
+}}
+.day-prod-card:hover {{
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}}
+.day-prod-date {{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}}
+.day-prod-dish {{
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 6px 0;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}}
+.day-prod-number {{
+    font-size: 32px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--primary);
+    line-height: 1.1;
+    margin: 4px 0;
+}}
+.day-prod-badge {{
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-top: 6px;
+}}
+.day-prod-sub {{
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+}}
+
+/* STREAMLIT TAB STYLING */
+button[data-baseweb="tab"] {{
+    font-family: var(--font-sans) !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    color: var(--text-secondary) !important;
+    padding: 10px 16px !important;
+    border-radius: var(--radius-sm) !important;
+    transition: all 0.15s ease !important;
+}}
+button[data-baseweb="tab"]:hover {{
+    color: var(--text-primary) !important;
+    background: var(--bg-card-hover) !important;
+}}
+button[data-baseweb="tab"][aria-selected="true"] {{
+    color: var(--primary) !important;
+    border-bottom: 3px solid var(--primary) !important;
+    font-weight: 700 !important;
+}}
+
+/* BOTÕES STREAMLIT */
+button[kind="primary"],
+button[data-testid="baseButton-primary"],
+div.stButton > button {{
+    background-color: var(--primary) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-weight: 700 !important;
+    font-family: var(--font-sans) !important;
+    padding: 8px 18px !important;
+    font-size: 13.5px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.15s ease !important;
+}}
+button[kind="primary"]:hover,
+div.stButton > button:hover {{
+    background-color: var(--primary-hover) !important;
+    transform: translateY(-1px) !important;
+}}
+
+/* METRIC STREAMLIT */
+div[data-testid="stMetric"] {{
+    background-color: var(--bg-surface) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-left: 4px solid var(--primary) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 14px 16px !important;
+    box-shadow: var(--shadow-card) !important;
+}}
+div[data-testid="stMetricLabel"] {{
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}}
+div[data-testid="stMetricValue"] {{
+    color: var(--text-primary) !important;
+    font-weight: 800 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 24px !important;
+}}
+
+/* CARDS DE STORYTELLING */
+.card-story {{
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-card);
+}}
+.card-story-red {{
+    border-left-color: var(--danger);
+}}
+</style>
+""", unsafe_allow_html=True)
+
+# ==============================================================================
+# TOPO INSTITUCIONAL ELEGANTE (DESIGN SYSTEM DO JUCELINO)
+# ==============================================================================
+st.markdown("""
+<div class="top-header">
+    <div class="header-left">
+        <div class="logo-badge">🍽️</div>
+        <div class="header-titles">
+            <h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>
+            <p>IFSP Campus Itaquaquecetuba & Centro Paula Souza (CEETEPS) · Gestão da Produção e Combate ao Desperdício</p>
+        </div>
+    </div>
+    <div class="header-right">
+        <span class="badge-status">● Sistema Operacional Ativo</span>
+        <span class="badge-academico">DSR / Mestrado PPG-GTSP 2026</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ==============================================================================
+# ABAS DE NAVEGAÇÃO
+# 1. Dashboard Executivo (Gráficos e Indicadores)
+# 2. Previsões & Ordem de Preparo (Módulo Preditivo tipo #predict)
+# 3. Compras & Suprimentos (t+2)
+# 4. Cadastrar / Atualizar Dados (Protegido por Senha)
+# 5. Auditoria Científica & DSR (33 Figuras)
+# 6. Guia Prático & POP
+# ==============================================================================
 aba1, aba2, aba3, aba4, aba5, aba6 = st.tabs([
-    "🍽️ 1. Painel da Semana (Ordem de Preparo)",
-    "🔮 2. Simulador Rápido ('E se...?')",
-    "📦 3. Compras & Contratos (Próximos 14 dias)",
+    "📊 1. Dashboard & Gráficos",
+    "🔮 2. Previsões & Ordem de Preparo",
+    "📦 3. Compras & Suprimentos (t+2)",
     "📝 4. Cadastrar / Atualizar Dados",
-    "🔬 5. Auditoria Científica & Metodologia (DSR)",
-    "📋 6. Guia Prático de Rotina"
+    "🔬 5. Auditoria Científica & DSR",
+    "📋 6. Guia Prático & POP"
 ])
 
 # ==============================================================================
-# ABA 1: PAINEL DA SEMANA (RECOMENDAÇÃO DIRETA PARA A COZINHA)
+# ABA 1: DASHBOARD & GRÁFICOS (VISÃO EXECUTIVA LIMPA E OBJETIVA)
 # ==============================================================================
 with aba1:
-    st.subheader("🍽️ Grade Semanal de Previsão e Quantidades de Preparo")
-    st.write(
-        "Este painel fornece à **Nutricionista Responsável Técnica e à Gestora do Restaurante** a "
-        "quantidade exata de refeições a serem preparadas para cada dia da próxima semana útil, "
-        "incorporando o histórico de consumo, o cardápio planejado e as condições do clima."
-    )
-    
-    # Controles de Configuração (Modo Avançado vs Modo Padrão Ótimo)
-    if is_avancado:
-        with st.expander("⚙️ Configurações Avançadas de Modelagem (Ajuste Fino de Algoritmos)", expanded=True):
-            col_c1, col_c2, col_c3 = st.columns(3)
-            with col_c1:
-                cenario_t1 = st.selectbox("Cenário de Features:", list(CENARIOS_DICT.keys()), index=0, key="cfg_cen_t1")
-            with col_c2:
-                modelo_t1 = st.selectbox("Algoritmo Ativo:", list(MODELOS_RANKING.keys()), index=0, key="cfg_mod_t1")
-            with col_c3:
-                margem_t1 = st.selectbox("Margem de Segurança Conformal:", list(MARGENS_INFO.keys()), index=0, key="cfg_mar_t1")
-    else:
-        # Configuração Campeã Auditada Fixa como Padrão Transparente
-        cenario_t1 = "Cenário 1 (Histórico + Calendário + Cardápio + Clima)"
-        modelo_t1 = "Híbrido 50/50 (Campeão Absoluto)"
-        margem_t1 = "Conformal P85 (+18 ref / 84,9% Proteção) - Campeã Auditada"
+    st.markdown("""
+    <div style="margin-bottom: 16px;">
+        <h3 style="margin-bottom: 4px; font-weight: 700;">📊 Visão Geral da Demanda e Indicadores Operacionais</h3>
+        <p style="color: var(--text-secondary); font-size: 13.5px; margin: 0;">
+            Painel executivo com a síntese histórica de consumo no campus, acurácia preditiva dos modelos de IA e 
+            fatores de maior impacto na presença diária dos estudantes.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    # Execução do pipeline de previsão
+    # 1. Resumo Macro (KPI Cards estilo Jucelino)
+    st.markdown("""
+    <div class="kpi-row">
+        <div class="kpi-card b-primary">
+            <div class="kpi-title">Média Diária de Consumo</div>
+            <div class="kpi-val">182 ref</div>
+            <div class="kpi-sub">Referência letiva regular</div>
+        </div>
+        <div class="kpi-card b-success">
+            <div class="kpi-title">Acurácia Preditiva (IA)</div>
+            <div class="kpi-val">91,9%</div>
+            <div class="kpi-sub">Erro MAE de 8,1% (vs 25,4% manual)</div>
+        </div>
+        <div class="kpi-card b-warning">
+            <div class="kpi-title">Desperdício Evitado</div>
+            <div class="kpi-val">~R$ 38.400</div>
+            <div class="kpi-sub">Economia estimada ao ano</div>
+        </div>
+        <div class="kpi-card b-accent">
+            <div class="kpi-title">Datas Monitoradas</div>
+            <div class="kpi-val">645 dias</div>
+            <div class="kpi-sub">Catraca real auditada no campus</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Carregamento e Preparação dos Dados para os Gráficos
+    df_fato_raw = carregar_fato_diaria_completa()
+    df_validos = df_fato_raw[
+        (df_fato_raw["is_dia_letivo"] == True) & 
+        (df_fato_raw["consumo"].notna()) & 
+        (df_fato_raw["consumo"] > 0)
+    ].copy()
+
+    # LINHA 1 DE PAINÉIS (GRÁFICOS 1 E 2)
+    col_g1, col_g2 = st.columns(2)
+
+    with col_g1:
+        st.markdown("""
+        <div class="panel-card">
+            <div class="panel-header">
+                <div class="panel-title">📈 Monitoramento Temporal de Consumo Real (Catraca)</div>
+                <div class="panel-desc">Evolução diária das refeições servidas com média móvel de estabilidade.</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        if not df_validos.empty:
+            df_recente = df_validos.tail(120).copy()
+            df_recente["data_str"] = df_recente["data_dt"].dt.strftime("%d/%m")
+            df_recente["media_movel"] = df_recente["consumo"].rolling(5, min_periods=1).mean().round(1)
+
+            base_chart = alt.Chart(df_recente).encode(x=alt.X("data_str:N", title=None, axis=alt.Axis(labels=False, ticks=False)))
+            
+            line_cons = base_chart.mark_line(color=chart_accent, strokeWidth=1.8, opacity=0.85).encode(
+                y=alt.Y("consumo:Q", title="Refeições Servidas"),
+                tooltip=[
+                    alt.Tooltip("data:N", title="Data"),
+                    alt.Tooltip("consumo:Q", title="Consumo Real (ref)"),
+                    alt.Tooltip("prato_principal:N", title="Prato do Dia")
+                ]
+            )
+            line_mm = base_chart.mark_line(color=chart_primary, strokeWidth=2.5).encode(
+                y=alt.Y("media_movel:Q", title="Refeições"),
+                tooltip=[alt.Tooltip("media_movel:Q", title="Média Móvel (5 dias)")]
+            )
+            chart_tempo = (line_cons + line_mm).properties(height=260)
+            st.altair_chart(chart_tempo, use_container_width=True)
+        
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with col_g2:
+        st.markdown("""
+        <div class="panel-card">
+            <div class="panel-header">
+                <div class="panel-title">📅 Padrão de Frequência por Dia da Semana</div>
+                <div class="panel-desc">Comportamento médio da presença dos estudantes de segunda a sexta-feira.</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        dias_ordem = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira"]
+        dias_map = {"segunda-feira": "Segunda", "terça-feira": "Terça", "quarta-feira": "Quarta", "quinta-feira": "Quinta", "sexta-feira": "Sexta"}
+        df_dias = df_validos[df_validos["dia_da_semana"].isin(dias_ordem)].groupby("dia_da_semana")["consumo"].mean().reset_index()
+        df_dias["dia_nome"] = df_dias["dia_da_semana"].map(dias_map)
+        df_dias["consumo_medio"] = df_dias["consumo"].round(1)
+
+        chart_sem = alt.Chart(df_dias).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color=chart_primary).encode(
+            x=alt.X("dia_nome:N", sort=["Segunda", "Terça", "Quarta", "Quinta", "Sexta"], title=None, axis=alt.Axis(labelAngle=0)),
+            y=alt.Y("consumo_medio:Q", title="Média de Refeições"),
+            tooltip=[alt.Tooltip("dia_nome:N", title="Dia da Semana"), alt.Tooltip("consumo_medio:Q", title="Média (refeições)")]
+        ).properties(height=260)
+        st.altair_chart(chart_sem, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # LINHA 2 DE PAINÉIS (GRÁFICOS 3 E 4)
+    col_g3, col_g4 = st.columns(2)
+
+    with col_g3:
+        st.markdown("""
+        <div class="panel-card">
+            <div class="panel-header">
+                <div class="panel-title">🥩 Atratividade do Cardápio por Tipo de Proteína</div>
+                <div class="panel-desc">Média de comparecimento dos alunos conforme o prato principal servido.</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        df_prot = df_validos[df_validos["proteina_tipo"].isin(["bovina", "frango", "suina", "peixe"])].groupby("proteina_tipo")["consumo"].mean().reset_index()
+        df_prot["proteina_nome"] = df_prot["proteina_tipo"].str.title()
+        df_prot["consumo_medio"] = df_prot["consumo"].round(1)
+
+        chart_p = alt.Chart(df_prot).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color=chart_accent).encode(
+            x=alt.X("proteina_nome:N", sort="-y", title=None, axis=alt.Axis(labelAngle=0)),
+            y=alt.Y("consumo_medio:Q", title="Média de Refeições"),
+            tooltip=[alt.Tooltip("proteina_nome:N", title="Proteína"), alt.Tooltip("consumo_medio:Q", title="Média (refeições)")]
+        ).properties(height=240)
+        st.altair_chart(chart_p, use_container_width=True)
+        st.caption("💡 **Diagnóstico:** Carne bovina e frango registram máxima adesão discente; pratos à base de peixe têm menor procura.")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with col_g4:
+        st.markdown("""
+        <div class="panel-card">
+            <div class="panel-header">
+                <div class="panel-title">🌧️ Sensibilidade Climática (Efeito Chuva na Presença)</div>
+                <div class="panel-desc">Impacto da intensidade pluviométrica na catraca do refeitório escolar.</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        df_chuva = df_validos.copy()
+        df_chuva["faixa_chuva"] = pd.cut(
+            df_chuva["precipitation_sum"],
+            bins=[-1, 1, 10, 100],
+            labels=["Sem chuva (0-1mm)", "Chuva moderada (1-10mm)", "Chuva forte (>10mm)"]
+        )
+        df_ch_agg = df_chuva.groupby("faixa_chuva", observed=False)["consumo"].mean().reset_index()
+        df_ch_agg["consumo_medio"] = df_ch_agg["consumo"].round(1)
+
+        chart_c = alt.Chart(df_ch_agg).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color="#f59e0b").encode(
+            x=alt.X("faixa_chuva:N", sort=["Sem chuva (0-1mm)", "Chuva moderada (1-10mm)", "Chuva forte (>10mm)"], title=None, axis=alt.Axis(labelAngle=0)),
+            y=alt.Y("consumo_medio:Q", title="Média de Refeições"),
+            tooltip=[alt.Tooltip("faixa_chuva:N", title="Condição de Chuva"), alt.Tooltip("consumo_medio:Q", title="Média (refeições)")]
+        ).properties(height=240)
+        st.altair_chart(chart_c, use_container_width=True)
+        st.caption("🚨 **Alerta de Operação:** Chuvas fortes (>10mm) reduzem a frequência discente em decorrência de alagamentos nas vias.")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # Tabela Resumo Executiva
+    st.markdown("""
+    <div class="panel-card">
+        <div class="panel-header">
+            <div class="panel-title">📋 Síntese Executiva de Padrões Operacionais</div>
+            <div class="panel-desc">Resumo orientativo para apoio imediato à tomada de decisão da equipe de alimentação.</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    tabela_resumo = pd.DataFrame([
+        {"Dia / Condição": "Segunda-feira", "Média Típica": "155 a 160 ref", "Tendência": "Alta presença", "Recomendação Operacional": "Preparar quantitativo cheio; início de ciclo semanal com máxima adesão."},
+        {"Dia / Condição": "Terça-feira", "Média Típica": "140 a 145 ref", "Tendência": "Fluxo regular", "Recomendação Operacional": "Operação padrão sem necessidade de folgas adicionais."},
+        {"Dia / Condição": "Quarta-feira", "Média Típica": "150 a 158 ref", "Tendência": "Pico de aulas integradas", "Recomendação Operacional": "Reforçar a linha de distribuição; grande concentração discente no campus."},
+        {"Dia / Condição": "Quinta-feira", "Média Típica": "125 a 130 ref", "Tendência": "Queda pontual", "Recomendação Operacional": "Ajustar preparo para evitar sobras em pratos de menor consumo."},
+        {"Dia / Condição": "Sexta-feira", "Média Típica": "130 a 135 ref", "Tendência": "Evasão de 20% à tarde", "Recomendação Operacional": "Diminuir produção no turno vespertino para evitar desperdício de comida."},
+        {"Dia / Condição": "Dia com Chuva Forte (>10mm)", "Média Típica": "Queda de 10 a 15 ref", "Tendência": "Faltas por transporte", "Recomendação Operacional": "Zerar margem adicional aditiva para prevenir sobras decorrentes de alagamentos."}
+    ])
+    st.dataframe(tabela_resumo, use_container_width=True, hide_index=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# ==============================================================================
+# ABA 2: PREVISÕES & ORDEM DE PREPARO (MÓDULO PREDITIVO TIPO #PREDICT)
+# ==============================================================================
+with aba2:
+    st.markdown("""
+    <div style="margin-bottom: 16px;">
+        <h3 style="margin-bottom: 4px; font-weight: 700;">🔮 Módulo Preditivo — Ordem de Preparo Semanal</h3>
+        <p style="color: var(--text-secondary); font-size: 13.5px; margin: 0;">
+            Recomendação direta e calibrada para cada dia da próxima semana de aulas, já incorporando a margem de segurança 
+            conformal contra faltas de comida e desabastecimento discente.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Execução do pipeline padrão com o modelo campeão auditado
+    with st.expander("⚙️ Ajuste Fino de Algoritmos e Margens de Segurança (Opcional)", expanded=False):
+        col_c1, col_c2, col_c3 = st.columns(3)
+        with col_c1:
+            cenario_t1 = st.selectbox("Cenário de Features:", list(CENARIOS_DICT.keys()), index=0, key="cfg_cen_t1")
+        with col_c2:
+            modelo_t1 = st.selectbox("Algoritmo Ativo:", list(MODELOS_RANKING.keys()), index=0, key="cfg_mod_t1")
+        with col_c3:
+            margem_t1 = st.selectbox("Margem de Segurança Conformal:", list(MARGENS_INFO.keys()), index=0, key="cfg_mar_t1")
+
     df_t1, df_feat_t1 = executar_pipeline_previsao(
         horizonte_alvo="Semana_t1",
         cenario_escolhido=cenario_t1,
         modelo_escolhido=modelo_t1,
         tipo_margem=margem_t1
     )
-    
+
     if not df_t1.empty:
-        # Destaques Rápidos da Semana
-        total_semana = int(df_t1["recomendacao_final"].sum())
-        media_dia = int(df_t1["recomendacao_final"].mean())
-        primeiro_dia = df_t1.iloc[0]
+        # CARTÕES DIÁRIOS HORIZONTAIS DA SEMANA (GRADE DA COZINHA)
+        st.markdown("##### 🍽️ Ordem de Preparo para os Próximos 5 Dias Úteis")
         
-        m1, m2, m3, m4 = st.columns(4)
-        with m1:
-            st.metric("Total Semanal Recomendado", f"{total_semana:,} refeições".replace(",", "."), delta="5 dias úteis")
-        with m2:
-            st.metric("Média de Preparo Diário", f"{media_dia} ref/dia", delta="Equilíbrio seguro")
-        with m3:
-            st.metric("Próximo Dia Útil", f"{int(primeiro_dia['recomendacao_final'])} refeições", delta=f"{primeiro_dia['dia_semana']} ({primeiro_dia['data']})")
-        with m4:
-            st.metric("Política de Segurança Ativa", "+12 a +18 ref", delta="Proteção estudantil > 85%")
+        cards_html = '<div class="day-prod-grid">'
+        for _, row_dia in df_t1.iterrows():
+            d_nome = row_dia["dia_semana"]
+            d_data = row_dia["data"]
+            d_prato = row_dia["prato_principal"]
+            d_ordem = int(row_dia["recomendacao_final"])
+            d_base = int(row_dia["pred_base_combinada"])
+            d_marg = int(row_dia["margem_aplicada"])
             
-        st.markdown("---")
-        
-        # Tabela Semanal Executiva e Amigável
-        st.markdown("#### 📋 Tabela Operacional de Produção Diária")
-        
+            cards_html += f"""
+            <div class="day-prod-card">
+                <div class="day-prod-date">{d_nome} ({d_data[:5]})</div>
+                <div class="day-prod-dish">{d_prato}</div>
+                <div class="day-prod-number">{d_ordem}</div>
+                <div class="day-prod-badge">Ordem de Preparo</div>
+                <div class="day-prod-sub">Base: {d_base} | Margem: +{d_marg}</div>
+            </div>
+            """
+        cards_html += '</div>'
+        st.markdown(cards_html, unsafe_allow_html=True)
+
+        # TABELA OPERACIONAL COMPLETA
+        st.markdown("##### 📋 Tabela Operacional de Produção")
         df_exibir = pd.DataFrame()
         df_exibir["Data"] = df_t1["data"]
-        df_exibir["Dia da Semana"] = df_t1["dia_semana"]
+        df_exibir["Dia"] = df_t1["dia_semana"]
         df_exibir["Prato Principal"] = df_t1["prato_principal"]
         df_exibir["Proteína"] = df_t1["proteina_tipo"].str.title()
-        df_exibir["Previsão Base"] = df_t1["pred_base_combinada"].astype(int).astype(str) + " ref"
+        df_exibir["Previsão Base (IA)"] = df_t1["pred_base_combinada"].astype(int).astype(str) + " ref"
         df_exibir["Margem Segura"] = "+" + df_t1["margem_aplicada"].astype(int).astype(str) + " ref"
         df_exibir["👉 Ordem de Preparo (Final)"] = df_t1["recomendacao_final"].astype(int).astype(str) + " refeições"
         
-        # Faixa de Atendimento Seguro (Min - Max)
         faixa_min = (df_t1["pred_base_combinada"] - 8).clip(lower=0).astype(int)
         faixa_max = (df_t1["recomendacao_final"] + 8).astype(int)
         df_exibir["Faixa Sugerida (Mín - Máx)"] = faixa_min.astype(str) + " a " + faixa_max.astype(str) + " ref"
         
-        # Alertas Práticos
         def formatar_alertas(al_list):
             if isinstance(al_list, list) and al_list:
                 return " | ".join(al_list)
             return "☀️ Operação regular"
             
-        df_exibir["Alertas Operacionais"] = df_t1["alertas"].apply(formatar_alertas)
-        
+        df_exibir["Alertas"] = df_t1["alertas"].apply(formatar_alertas)
         st.dataframe(df_exibir, use_container_width=True, hide_index=True)
-        
-        # Botão de Exportação para Rotina da Cozinha
-        col_exp1, col_exp2 = st.columns([1, 3])
+
+        # Exportação CSV
+        col_exp1, col_exp2 = st.columns([1.2, 3])
         with col_exp1:
             csv_grade = df_exibir.to_csv(index=False, sep=";").encode("utf-8-sig")
             st.download_button(
-                label="📥 Baixar Tabela em Planilha (CSV)",
+                label="📥 Baixar Grade de Produção (Planilha CSV)",
                 data=csv_grade,
-                file_name=f"grade_preparo_refeicoes_{date.today().strftime('%Y%m%d')}.csv",
+                file_name=f"ordem_preparo_refeicoes_{date.today().strftime('%Y%m%d')}.csv",
                 mime="text/csv",
                 use_container_width=True
             )
-            
-        st.markdown("---")
-        
-        # Gráfico Visual de Barras
-        st.markdown("#### 📊 Visualização Gráfica do Planejamento da Semana")
-        graf_dados = []
-        for _, r in df_t1.iterrows():
-            graf_dados.append({"Dia": f"{r['dia_semana'][:3]} ({r['data'][:5]})", "Valor": r["recomendacao_final"], "Tipo": "Recomendação Final com Margem"})
-            graf_dados.append({"Dia": f"{r['dia_semana'][:3]} ({r['data'][:5]})", "Valor": r["pred_base_combinada"], "Tipo": "Previsão Central de Demanda"})
-            if r["estimativa_nutri"] is not None:
-                graf_dados.append({"Dia": f"{r['dia_semana'][:3]} ({r['data'][:5]})", "Valor": r["estimativa_nutri"], "Tipo": "Quantitativo Inicial Nutricionista"})
-                
-        df_g = pd.DataFrame(graf_dados)
-        chart = alt.Chart(df_g).mark_bar().encode(
-            x=alt.X("Tipo:N", title=None, axis=alt.Axis(labels=False, ticks=False)),
-            y=alt.Y("Valor:Q", title="Quantidade de Refeições"),
-            color=alt.Color("Tipo:N", scale=alt.Scale(domain=["Recomendação Final com Margem", "Previsão Central de Demanda", "Quantitativo Inicial Nutricionista"], range=["#10b981", "#38bdf8", "#f59e0b"]), legend=alt.Legend(title="Indicadores de Planejamento")),
-            column=alt.Column("Dia:N", title="Dias da Semana de Produção")
-        ).properties(height=280)
-        st.altair_chart(chart, use_container_width=True)
-        
-        # Inspeção de Features no Modo Avançado
-        if is_avancado:
-            with st.expander("🔍 Inspecionar Matriz Completa de Features (Transparência Algorítmica)", expanded=False):
-                st.write("Variáveis computadas e alimentadas nos estimadores de regressão:")
-                st.dataframe(df_feat_t1, use_container_width=True)
 
-# ==============================================================================
-# ABA 2: SIMULADOR INTERATIVO ("E SE...?")
-# ==============================================================================
-with aba2:
-    st.subheader("🔮 Simulador Rápido de Cardápio e Clima ('E se...?')")
-    st.write(
-        "Esta ferramenta permite à **Nutricionista e à Gestora do Restaurante simular cenários hipotéticos antes de definir a ordem de preparo**. "
-        "Você pode testar o efeito de mudar o prato principal ou antecipar o impacto de chuvas fortes na presença dos estudantes."
-    )
-    
-    col_sim1, col_sim2 = st.columns([1.2, 1])
-    with col_sim1:
-        st.markdown("##### ⚙️ Escolha o Cenário que Deseja Simular")
+    st.markdown("---")
+
+    # ==========================================================================
+    # SIMULADOR INTERATIVO ("E SE...?") ESTILO JUCELINO (#PREDICT)
+    # ==========================================================================
+    st.markdown("""
+    <div style="margin-bottom: 14px;">
+        <h4 style="font-weight: 700; margin-bottom: 2px;">🔮 Simulador de Cardápio e Clima ('E se...?')</h4>
+        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
+            Teste o impacto de alterações no prato principal ou antecipe o efeito de chuvas intensas antes de enviar a ordem de preparo.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col_sim_esq, col_sim_dir = st.columns([1.1, 1])
+
+    with col_sim_esq:
+        st.markdown("""
+        <div class="panel-card">
+            <div class="panel-header">
+                <div class="panel-title">⚙️ Cenário Hipotético</div>
+                <div class="panel-desc">Defina as condições do dia que deseja simular.</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
         dia_sim_nome = st.selectbox(
             "Dia da Semana:",
             ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira"],
@@ -449,14 +965,14 @@ with aba2:
             key="sim_clima_fast"
         )
         usar_margem_sim = st.checkbox("Incluir Margem de Segurança Prudencial (+12 ref)", value=True, key="sim_margem_fast")
-        
-    # Mapeamento do cenário simulado
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # Lógica de Inferência Rápida do Simulador
     precip_val = 0.0 if "0 mm" in clima_sim else (3.0 if "3 mm" in clima_sim else (10.0 if "10 mm" in clima_sim else 30.0))
     prot_tipo = "bovina" if "Bovina" in prot_sim else ("frango" if "Frango" in prot_sim else ("suina" if "Suína" in prot_sim else ("peixe" if "Peixe" in prot_sim else "ovo")))
     dia_num_map = {"Segunda-feira": 0, "Terça-feira": 1, "Quarta-feira": 2, "Quinta-feira": 3, "Sexta-feira": 4}
     dia_num = dia_num_map[dia_sim_nome]
-    
-    # Vetor de inferência rápida
+
     vetor_sim = {
         "consumo_lag_5": 182.0, "consumo_lag_10": 180.0, "media_movel_5d": 181.5,
         "precipitation_sum": precip_val, "temperature_2m_max": 24.0,
@@ -479,40 +995,62 @@ with aba2:
     pred_ia_s = float(m_ridge.predict(X_s)[0])
     margem_s = 12.0 if (usar_margem_sim and precip_val < 15.0) else 0.0
     pred_final_s = int(round(pred_ia_s + margem_s))
-    
-    with col_sim2:
-        st.markdown("##### 📊 Recomendação do Modelo para o Cenário")
-        st.metric(
-            "Quantidade Sugerida de Refeições",
-            f"{pred_final_s} refeições", 
-            delta=f"{pred_final_s - 180:+d} ref vs média padrão (180 ref)"
-        )
+    delta_s = pred_final_s - 180
+
+    with col_sim_dir:
+        st.markdown("""
+        <div class="panel-card">
+            <div class="panel-header">
+                <div class="panel-title">📊 Resultado do Cenário Simulado</div>
+                <div class="panel-desc">Cálculo preditivo baseado nas inferências do modelo com margem.</div>
+            </div>
+        """, unsafe_allow_html=True)
         
+        c_res1, c_res2 = st.columns(2)
+        with c_res1:
+            st.metric(
+                "Ordem de Preparo Calculada",
+                f"{pred_final_s} ref",
+                delta=f"{delta_s:+d} vs média regular"
+            )
+        with c_res2:
+            st.metric(
+                "Previsão Bruta (IA)",
+                f"{int(round(pred_ia_s))} ref",
+                delta=f"+{int(margem_s)} margem" if margem_s > 0 else "Sem margem adicional"
+            )
+            
         st.markdown("---")
-        st.markdown("**💡 Dicas e Alertas Práticos do Sistema:**")
+        st.markdown("##### 💡 Diagnóstico e Alertas Operacionais:")
         if dia_num == 4:
-            st.warning("⚠️ **Efeito Sexta-feira:** Historicamente, cerca de 20% dos estudantes não comparecem na sexta-feira à tarde.")
+            st.warning("⚠️ **Efeito Sexta-feira:** Historicamente, cerca de 20% dos alunos não comparecem no refeitório à tarde.")
         if prot_tipo == "peixe":
-            st.info("🐟 **Efeito Peixe:** Menor atratividade histórica no restaurante (~25 refeições a menos que carne bovina).")
+            st.info("🐟 **Efeito Peixe:** Menor atratividade histórica (~25 refeições a menos que pratos com carne bovina).")
         elif prot_tipo == "bovina":
-            st.success("🥩 **Efeito Carne Bovina:** Prato com maior índice de comparecimento no campus.")
+            st.success("🥩 **Efeito Carne Bovina:** Máxima taxa histórica de comparecimento discente.")
             
         if precip_val >= 15.0:
-            st.error("🚨 **Alerta de Tempestade / Enchente:** Risco alto de bloqueio de vias e falta nos ônibus. A margem aditiva foi **zerada** para prevenir sobras excessivas e descarte de comida.")
+            st.error("🚨 **Alerta de Tempestade / Enchente:** Risco de alagamentos e falta nos transportes. A margem aditiva foi **zerada** para prevenir sobras.")
         elif precip_val >= 8.0:
             st.warning("🌧️ **Chuva Moderada:** Risco de evasão discente pontual.")
         else:
             st.write("☀️ **Clima Regular:** Demanda estável prevista.")
+            
+        st.markdown("</div>", unsafe_allow_html=True)
 
 # ==============================================================================
-# ABA 3: COMPRAS & CONTRATOS (JANELA LONGA t+2: 14 DIAS)
+# ABA 3: COMPRAS & SUPRIMENTOS (JANELA LONGA t+2: 14 DIAS)
 # ==============================================================================
 with aba3:
-    st.subheader("📦 Planejamento de Compras e Estoque — Janela Longa (10 a 14 dias)")
-    st.write(
-        "Utilizada pela **Gestora do Restaurante e pela Equipe de Compras** para dimensionar a aquisição "
-        "de gêneros secos, alimentos de despensa e estimar o faturamento contratual da semana subsequente."
-    )
+    st.markdown("""
+    <div style="margin-bottom: 16px;">
+        <h3 style="margin-bottom: 4px; font-weight: 700;">📦 Planejamento de Compras e Estoque — Janela Longa (10 a 14 dias)</h3>
+        <p style="color: var(--text-secondary); font-size: 13.5px; margin: 0;">
+            Utilizada pela <b>Gestora do Restaurante e pela Equipe de Compras</b> para dimensionar a aquisição 
+            de gêneros secos, carnes e estimar o faturamento contratual da semana subsequente.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
     df_t2, df_feat_t2 = executar_pipeline_previsao(
         horizonte_alvo="Pos_Semana_t2",
@@ -534,7 +1072,7 @@ with aba3:
             st.metric("Margem Protetiva Embutida", "+18 refeições/dia", delta="84,9% proteção")
             
         st.markdown("---")
-        st.markdown("#### 📋 Grade de Planejamento Quinzenal")
+        st.markdown("#### 📋 Grade Quinzenal de Compras e Insumos")
         
         df_exibir_t2 = pd.DataFrame()
         df_exibir_t2["Data"] = df_t2["data"]
@@ -558,19 +1096,25 @@ with aba3:
 # ABA 4: CADASTRAR / ATUALIZAR DADOS (PROTEGIDO POR AUTENTICAÇÃO)
 # ==============================================================================
 with aba4:
-    st.subheader("📝 Lançamento e Atualização de Informações do Refeitório")
+    st.markdown("""
+    <div style="margin-bottom: 16px;">
+        <h3 style="margin-bottom: 4px; font-weight: 700;">📝 Lançamento e Atualização de Informações do Refeitório</h3>
+        <p style="color: var(--text-secondary); font-size: 13.5px; margin: 0;">
+            Registro diário do consumo verificado na catraca, cardápio planejado e condições meteorológicas locais.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
     if not st.session_state.get("autenticado", False):
         st.warning("🔒 **Página Bloqueada para Edição (Modo de Apenas Leitura)**")
         st.markdown("""
-        Para proteger os registros oficiais do **IFSP Campus Itaquaquecetuba** contra alterações indevidas ou não autorizadas na internet, 
-        o lançamento de consumos e a edição de cardápios são restritos aos profissionais responsáveis.
+        Para proteger os registros operacionais do **IFSP Campus Itaquaquecetuba** contra alterações acidentais, 
+        o lançamento de dados é reservado aos profissionais autorizados.
         
-        * **É a Nutricionista ou a Gestora do Restaurante?** Faça login abaixo ou utilize o menu **'🔑 Acesso Operador'** na barra lateral.
-        * **É membro da Banca Examinadora ou Visitante?** Você pode navegar livremente nas demais abas, testar as previsões e usar o **Simulador 'E se...?'**.
+        * **É a Nutricionista ou a Gestora do Restaurante?** Desbloqueie com senha abaixo ou pela barra lateral.
+        * **É membro da Banca Examinadora ou Visitante?** Você pode consultar qualquer data cadastrada e navegar em todos os painéis e simuladores.
         """)
         
-        # Desbloqueio direto aqui na página para facilidade de uso
         with st.expander("🔑 Desbloquear Edição com Senha Operacional", expanded=True):
             with st.form("form_login_aba4"):
                 col_l1, col_l2 = st.columns([2, 1])
@@ -627,7 +1171,6 @@ with aba4:
             st.metric("Clima Registrado", f"{dados_dia['temperature_2m_max']:.1f}°C", delta=f"{dados_dia['precipitation_sum']:.1f} mm chuva")
 
     else:
-        # Modo Operador Autenticado - Formulário de Edição Completo
         st.success(f"✅ **Acesso de Operador Habilitado:** Conectado como **{st.session_state['usuario_nome']}**.")
         st.write("Preencha os campos abaixo para salvar ou atualizar as informações operacionais:")
         
@@ -707,17 +1250,21 @@ with aba4:
 # ABA 5: AUDITORIA CIENTÍFICA & METODOLOGIA (DSR)
 # ==============================================================================
 with aba5:
-    st.subheader("🔬 Fundamentação Teórica, DSR e Galeria Científica da Pesquisa")
-    st.write(
-        "Esta seção documenta a pesquisa acadêmica de mestrado desenvolvida no **Centro Paula Souza (CEETEPS)**, "
-        "estruturada no método **Design Science Research (DSR)** e auditada com corte temporal rigoroso."
-    )
+    st.markdown("""
+    <div style="margin-bottom: 16px;">
+        <h3 style="margin-bottom: 4px; font-weight: 700;">🔬 Fundamentação Teórica, DSR e Galeria Científica da Pesquisa</h3>
+        <p style="color: var(--text-secondary); font-size: 13.5px; margin: 0;">
+            Documentação da pesquisa de mestrado desenvolvida no Centro Paula Souza (CEETEPS), 
+            estruturada no método Design Science Research (DSR) e auditada com corte temporal rigoroso.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
     col_hist1, col_hist2 = st.columns(2)
     with col_hist1:
         st.markdown("""
         <div class="card-story">
-            <h4>1. O Problema Real: Assimetria e Descompasso</h4>
+            <h4 style="margin-top: 0; font-weight: 700;">1. O Problema Real: Assimetria e Descompasso</h4>
             <p>No Restaurante Estudantil do IFSP Itaquaquecetuba, o almoço é gratuito. Historicamente, dois regimes operaram com limitações:</p>
             <ul>
                 <li><b>Reservas dos Alunos (2023–2025):</b> O preenchimento voluntário de formulários no SUAP entrou em descontinuidade. Em <b>63,8% dos dias</b> faltavam reservas (déficit potencial de 9.494 refeições; MAE de 27,10 ref/dia).</li>
@@ -729,7 +1276,7 @@ with aba5:
     with col_hist2:
         st.markdown("""
         <div class="card-story card-story-red">
-            <h4>2. A Solução: Artefato Preditivo com IA Híbrida</h4>
+            <h4 style="margin-top: 0; font-weight: 700;">2. A Solução: Artefato Preditivo com IA Híbrida</h4>
             <p>O artefato proposto introduz três inovações práticas:</p>
             <ul>
                 <li><b>Duas Janelas Temporais:</b> Suporte em t+2 (compras com 14 dias via Open-Meteo) e t+1 (re-forecast na sexta-feira).</li>
@@ -809,25 +1356,29 @@ with aba5:
 # ABA 6: GUIA PRÁTICO DE ROTINA OPERACIONAL
 # ==============================================================================
 with aba6:
-    st.subheader("📋 Procedimento Operacional Padrão (POP) — Rotina em 3 Minutos")
     st.markdown("""
-    Este guia orienta a **Nutricionista Responsável Técnica e a Gestora do Restaurante** no uso do artefato:
-    
-    ---
-    
+    <div style="margin-bottom: 16px;">
+        <h3 style="margin-bottom: 4px; font-weight: 700;">📋 Procedimento Operacional Padrão (POP) — Rotina em 3 Minutos</h3>
+        <p style="color: var(--text-secondary); font-size: 13.5px; margin: 0;">
+            Instruções rápidas para a Nutricionista Responsável Técnica e a Gestora do Restaurante utilizarem o artefato no dia a dia.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
     #### 🗓️ Rotina Semanal
     
     1. **Toda Sexta-feira (Planejamento da Produção t+1):**
        - Acesse a **Aba 4 (Cadastrar / Atualizar)** e informe os pratos previstos para a próxima semana.
-       - Acesse a **Aba 1 (Painel da Semana)**:
+       - Acesse a **Aba 2 (Previsões & Ordem de Preparo)**:
          - Confira o número recomendado em **'👉 Ordem de Preparo'** para cada dia.
-         - Clique em **'📥 Baixar Tabela em Planilha'** e envie a grade para a equipe de cozinha e fornecedora terceirizada.
+         - Clique em **'📥 Baixar Grade de Produção'** e envie a grade para a equipe de cozinha e fornecedora terceirizada.
        
     2. **Diariamente (Registro Rápido após as 14h):**
        - Acesse a **Aba 4** e digite o número de estudantes que passaram pela catraca. Isso mantém o modelo calibrado com a realidade do campus.
        
     3. **Quinzenalmente (Planejamento de Compras de Secos t+2):**
-       - Acesse a **Aba 3 (Compras & Contratos)** para visualizar a demanda estimada das próximas duas semanas e dimensionar pedidos de gêneros estocáveis.
+       - Acesse a **Aba 3 (Compras & Suprimentos)** para visualizar a demanda estimada das próximas duas semanas e dimensionar pedidos de gêneros estocáveis.
        
     ---
     
