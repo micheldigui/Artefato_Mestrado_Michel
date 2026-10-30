@@ -1951,6 +1951,12 @@ elif pagina_ativa == "Simulador de Cenários":
             dia_sem_rotulo = DIAS_SEMANA_PT.get(dia_sem_num, "Dia")
             st.caption(f"Verificação de integridade para **{data_sim.strftime('%d/%m/%Y')}** ({dia_sem_rotulo}).")
             
+            dt_alvo_ts = pd.to_datetime(data_sim)
+            data_iso_str = dt_alvo_ts.strftime("%Y-%m-%d")
+            
+            row_fato = df_fato_completo[df_fato_completo["data_dt"] == dt_alvo_ts]
+            row_plan = df_planejamento_base[df_planejamento_base["data_iso"] == data_iso_str]
+            
             is_letivo_sim = True
             evento_sim = "Letivo Regular"
             if not row_fato.empty:
@@ -1959,12 +1965,6 @@ elif pagina_ativa == "Simulador de Cenários":
             
             if not is_letivo_sim:
                 st.info(f"**Data Não Letiva no Calendário Acadêmico:** {data_sim.strftime('%d/%m/%Y')} está classificada como **{evento_sim.replace('_', ' ').title()}**. O restaurante não opera refeições regulares nesta data (sugestão = 0 refeições).")
-            
-            dt_alvo_ts = pd.to_datetime(data_sim)
-            data_iso_str = dt_alvo_ts.strftime("%Y-%m-%d")
-            
-            row_fato = df_fato_completo[df_fato_completo["data_dt"] == dt_alvo_ts]
-            row_plan = df_planejamento_base[df_planejamento_base["data_iso"] == data_iso_str]
             
             cen_cfg = CENARIOS_DICT[cenario_sel]
             usar_cardapio = cen_cfg["usar_cardapio"]
