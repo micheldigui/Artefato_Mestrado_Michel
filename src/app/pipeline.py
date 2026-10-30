@@ -299,6 +299,7 @@ def executar_pipeline_previsao(
 
     df_consumo_hist = carregar_historico_consumo()
     df_planejamento = carregar_planejamento_nutricionista()
+    df_fato = carregar_fato_diaria_completa()
     df_clima_futuro = obter_previsao_clima_futura(dias_frente=16) if usar_clima else pd.DataFrame()
     df_treino = construir_dataset_treino()
     
@@ -331,6 +332,14 @@ def executar_pipeline_previsao(
         if horizonte_alvo != "todos" and horizonte != horizonte_alvo:
             continue
         
+        # Identificação de Dia Letivo no Calendário Acadêmico
+        row_fato = df_fato[df_fato["data_iso"] == data_iso]
+        is_letivo = True
+        evento_nome = "Letivo Regular"
+        if not row_fato.empty:
+            is_letivo = bool(row_fato.iloc[0].get("is_dia_letivo", True))
+            evento_nome = str(row_fato.iloc[0].get("evento_tipo", "Letivo Regular"))
+
         # Clima previsto para o dia
         if usar_clima and not df_clima_futuro.empty:
             clima_row = df_clima_futuro[df_clima_futuro["data_iso"] == data_iso]
@@ -346,20 +355,35 @@ def executar_pipeline_previsao(
             
         # Planejamento da nutricionista e cardápio
         plan_row = df_planejamento[df_planejamento["data_iso"] == data_iso]
-        if not plan_row.empty and usar_cardapio:
-            prato = plan_row.iloc[0].get("prato_principal", "Cardápio Escolar Regular")
+        if not plan_row.empty and usar_cardapio and pd.notna(plan_row.iloc[0].get("prato_principal")) and str(plan_row.iloc[0].get("prato_principal")).strip() != "":
+            prato = str(plan_row.iloc[0].get("prato_principal"))
             prot = str(plan_row.iloc[0].get("proteina_tipo", "frango")).lower()
             preparo = str(plan_row.iloc[0].get("preparo_tipo", "assado"))
+        elif not row_fato.empty and usar_cardapio and pd.notna(row_fato.iloc[0].get("prato_principal")) and str(row_fato.iloc[0].get("prato_principal")).strip() != "":
+            prato = str(row_fato.iloc[0].get("prato_principal"))
+            prot = str(row_fato.iloc[0].get("proteina_tipo", "frango")).lower()
+            preparo = str(row_fato.iloc[0].get("preparo_tipo", "assado"))
         else:
-            prato = "Padrão Escolar Regular"
+            prato = "Padrão Escolar Regular" if is_letivo else f"Feriado / Sem Atendimento ({evento_nome.replace('_', ' ').title()})"
             prot = "frango"
             preparo = "assado"
             
-        if usar_nutri:
+        # Quantitativo Institucional / Nutricionista
+        val_nutri = None
+        origem_nutri = "Não informado"
+        if usar_nutri and is_letivo:
             if not plan_row.empty and pd.notna(plan_row.iloc[0].get("planejado_nutri")) and float(plan_row.iloc[0].get("planejado_nutri", 0)) > 0:
                 val_nutri = float(plan_row.iloc[0].get("planejado_nutri"))
+                origem_nutri = "Planejamento Nutrição (Produção)"
+            elif not row_fato.empty and pd.notna(row_fato.iloc[0].get("planejado_nutri")) and float(row_fato.iloc[0].get("planejado_nutri", 0)) > 0:
+                val_nutri = float(row_fato.iloc[0].get("planejado_nutri"))
+                origem_nutri = "Quantitativo Institucional (Reservas)"
+            elif not row_fato.empty and pd.notna(row_fato.iloc[0].get("reservas")) and float(row_fato.iloc[0].get("reservas", 0)) > 0:
+                val_nutri = float(row_fato.iloc[0].get("reservas"))
+                origem_nutri = "Quantitativo Institucional (Reservas)"
             else:
                 val_nutri = 182.7 # Média institucional da nutricionista apurada na qualificação
+                origem_nutri = "Média Histórica (Fallback)"
         else:
             val_nutri = None
             
@@ -441,19 +465,25 @@ def executar_pipeline_previsao(
 
         pred_final = max(0, pred_base + margem_valor)
         
-        # Alertas operacionais inteligentes
+        # Alertas operacionais inteligentes (sem emojis)
         alertas = []
-        if dia_sem_num == 4:
-            alertas.append("Sexta-feira: retração sistemática de comparecimento (~20% menor)")
-        if usar_clima and precip >= 15.0:
-            alertas.append(f"🚨 ALERTA TEMPESTADE ({precip:.1f} mm): Modo Contenção ativado (margem zerada para evitar desperdício)")
-        elif usar_clima and precip >= 8.0:
-            alertas.append(f"⚠️ Chuva prevista ({precip:.1f} mm): risco moderado de evasão")
-        if usar_cardapio:
-            if "bovina" in prot or "feijoada" in prato.lower():
-                alertas.append("Cardápio com proteína bovina: alta atratividade histórica")
-            elif "peixe" in prot or "ovo" in prot:
-                alertas.append("Proteína com menor atratividade histórica")
+        if not is_letivo:
+            pred_base = 0.0
+            margem_valor = 0.0
+            pred_final = 0.0
+            alertas.append(f"Feriado / Sem Atendimento ({evento_nome.replace('_', ' ').title()})")
+        else:
+            if dia_sem_num == 4:
+                alertas.append("Sexta-feira: retração sistemática de comparecimento (~20% menor)")
+            if usar_clima and precip >= 15.0:
+                alertas.append(f"Alerta tempestade ({precip:.1f} mm): modo contenção ativado (margem zerada para evitar desperdício)")
+            elif usar_clima and precip >= 8.0:
+                alertas.append(f"Chuva prevista ({precip:.1f} mm): risco moderado de evasão")
+            if usar_cardapio:
+                if "bovina" in prot or "feijoada" in prato.lower():
+                    alertas.append("Cardápio com proteína bovina: alta atratividade histórica")
+                elif "peixe" in prot or "ovo" in prot:
+                    alertas.append("Proteína com menor atratividade histórica")
             
         linhas_pred.append({
             "data_dt": dt,
@@ -467,7 +497,7 @@ def executar_pipeline_previsao(
             "chuva_mm": round(precip, 1) if usar_clima else 0.0,
             "temp_max_c": round(temp_max, 1) if usar_clima else round(mediana_temp, 1),
             "estimativa_nutri": round(val_nutri) if val_nutri is not None else None,
-            "ia_pura": round(pred_ia_base),
+            "ia_pura": round(pred_ia_base) if is_letivo else 0,
             "pred_base_combinada": round(pred_base),
             "margem_aplicada": round(margem_valor),
             "recomendacao_final": round(pred_final),
@@ -681,22 +711,22 @@ def simular_previsao_data(
 
     alertas = []
     if is_fim_semana:
-        alertas.append("⚠️ Fim de semana (sábado/domingo): refeitório fechado ou com cardápio excepcional.")
+        alertas.append("Fim de semana (sábado/domingo): refeitório fechado ou com cardápio excepcional.")
     elif dia_sem == 4:
-        alertas.append("📅 Sexta-feira: retração histórica de ~20% no comparecimento à tarde.")
+        alertas.append("Sexta-feira: retração histórica de ~20% no comparecimento à tarde.")
     elif dia_sem == 2:
-        alertas.append("📅 Quarta-feira: dia de maior comparecimento discente (pico semanal com aulas técnicas).")
+        alertas.append("Quarta-feira: dia de maior comparecimento discente (pico semanal com aulas técnicas).")
 
     if usar_clima and chuva_utilizada >= 15.0:
-        alertas.append(f"⛈️ Alerta Tempestade ({chuva_utilizada:.1f} mm): Margem aditiva zerada para evitar desperdício de insumos.")
+        alertas.append(f"Alerta Tempestade ({chuva_utilizada:.1f} mm): Margem aditiva zerada para evitar desperdício de insumos.")
     elif usar_clima and chuva_utilizada >= 5.0:
-        alertas.append(f"🌧️ Chuva prevista ({chuva_utilizada:.1f} mm): Queda esperada na adesão de alunos.")
+        alertas.append(f"Chuva prevista ({chuva_utilizada:.1f} mm): Queda esperada na adesão de alunos.")
 
     if usar_cardapio:
         if "bovina" in prot_utilizada:
-            alertas.append("🥩 Carne Bovina: Prato com maior adesão histórica de alunos.")
+            alertas.append("Carne Bovina: Prato com maior adesão histórica de alunos.")
         elif "peixe" in prot_utilizada:
-            alertas.append("🐟 Peixe / Pescados: Menor adesão discente (recomenda-se cautela no volume).")
+            alertas.append("Peixe / Pescados: Menor adesão discente (recomenda-se cautela no volume).")
 
     erro_abs = abs(pred_final - consumo_real) if consumo_real is not None else None
 
