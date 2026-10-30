@@ -69,6 +69,23 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Gerenciamento de Sessão e Credenciais de Operação
+if "autenticado" not in st.session_state:
+    st.session_state["autenticado"] = False
+if "usuario_nome" not in st.session_state:
+    st.session_state["usuario_nome"] = "Visitante (Acesso Público)"
+if "usuario_perfil" not in st.session_state:
+    st.session_state["usuario_perfil"] = "visitante"
+
+def obter_credencial(chave, padrao):
+    try:
+        return st.secrets.get(chave, padrao)
+    except Exception:
+        return padrao
+
+SENHA_NUTRI = str(obter_credencial("SENHA_NUTRI", "ifsp2026"))
+SENHA_ADMIN = str(obter_credencial("SENHA_ADMIN", "admin2026"))
+
 # Estilização Adaptativa — Foco em Usabilidade, Alto Contraste e Leitura Confortável
 st.markdown("""
 <style>
@@ -204,6 +221,39 @@ with st.sidebar:
     st.markdown("### 📋 Painel de Controle")
     st.caption("Ambiente Operacional do Restaurante Escolar")
     
+    # Controle de Autenticação / Modo de Operação
+    st.markdown("##### 🔐 Acesso e Permissões")
+    if not st.session_state["autenticado"]:
+        st.info("👁️ **Modo Visitante (Público)**\nVisualização das previsões, gráficos e simulador liberados.")
+        with st.expander("🔑 Acesso Operador (Editar Dados)", expanded=False):
+            with st.form("form_login_lateral"):
+                perfil_sel = st.selectbox("Perfil de Acesso:", ["Nutricionista / Gestora", "Pesquisador (Admin)"])
+                senha_input = st.text_input("Senha de Acesso:", type="password")
+                btn_login = st.form_submit_button("Entrar", use_container_width=True)
+                
+                if btn_login:
+                    if perfil_sel == "Nutricionista / Gestora" and senha_input == SENHA_NUTRI:
+                        st.session_state["autenticado"] = True
+                        st.session_state["usuario_nome"] = "Nutricionista Responsável / Gestora"
+                        st.session_state["usuario_perfil"] = "operador"
+                        st.rerun()
+                    elif perfil_sel == "Pesquisador (Admin)" and senha_input == SENHA_ADMIN:
+                        st.session_state["autenticado"] = True
+                        st.session_state["usuario_nome"] = "Michel Silva de Souza (Admin)"
+                        st.session_state["usuario_perfil"] = "admin"
+                        st.rerun()
+                    else:
+                        st.error("Senha incorreta. Tente novamente.")
+    else:
+        st.success(f"🟢 **Operador Conectado:**\n{st.session_state['usuario_nome']}")
+        if st.button("🚪 Sair (Encerrar Sessão)", use_container_width=True):
+            st.session_state["autenticado"] = False
+            st.session_state["usuario_nome"] = "Visitante (Acesso Público)"
+            st.session_state["usuario_perfil"] = "visitante"
+            st.rerun()
+
+    st.divider()
+
     # Modo de Exibição
     modo_visao = st.radio(
         "Perfil de Visualização:",
@@ -505,86 +555,153 @@ with aba3:
         )
 
 # ==============================================================================
-# ABA 4: CADASTRAR / ATUALIZAR DADOS (SIMPLES E DIRETO)
+# ABA 4: CADASTRAR / ATUALIZAR DADOS (PROTEGIDO POR AUTENTICAÇÃO)
 # ==============================================================================
 with aba4:
     st.subheader("📝 Lançamento e Atualização de Informações do Refeitório")
-    st.write(
-        "Utilize este formulário simples para registrar o cardápio da próxima semana ou "
-        "atualizar a contagem da catraca do dia anterior. As alterações são sincronizadas com segurança."
-    )
     
-    col_d1, col_d2 = st.columns([1, 2])
-    with col_d1:
-        data_sel = st.date_input("Selecione a Data:", value=date.today(), key="data_picker_aba4")
+    if not st.session_state.get("autenticado", False):
+        st.warning("🔒 **Página Bloqueada para Edição (Modo de Apenas Leitura)**")
+        st.markdown("""
+        Para proteger os registros oficiais do **IFSP Campus Itaquaquecetuba** contra alterações indevidas ou não autorizadas na internet, 
+        o lançamento de consumos e a edição de cardápios são restritos aos profissionais responsáveis.
         
-    data_iso = data_sel.strftime("%Y-%m-%d")
-    data_fmt = data_sel.strftime("%d/%m/%Y")
-    dados_dia = consultar_dados_completos_data(data_iso)
-    
-    with col_d2:
-        if dados_dia["encontrado_base"]:
-            st.info(f"📌 **{data_fmt} ({dados_dia['dia_semana']}) já cadastrada.** Você pode editar os dados abaixo.")
-        else:
-            st.success(f"✨ **Nova Data ({data_fmt} / {dados_dia['dia_semana']}).** Preencha os campos para salvar.")
-            
-    with st.form("form_edicao_simples"):
-        c_f1, c_f2 = st.columns(2)
-        with c_f1:
-            st.markdown("##### 👥 Refeições e Contagem")
-            novo_consumo = st.number_input(
-                "Consumo Real Verificado (Catraca)",
-                min_value=0, max_value=500,
-                value=int(dados_dia['consumo']) if dados_dia['consumo'] is not None else 0,
-                step=1,
-                help="Quantidade real de alunos que passaram na catraca."
-            )
-            novo_planejado_nutri = st.number_input(
-                "Quantitativo Estimado Inicial pela Nutrição",
-                min_value=0, max_value=500,
-                value=int(dados_dia['planejado_nutri']) if dados_dia['planejado_nutri'] is not None else 180,
-                step=1,
-                help="Estimativa inicial da nutricionista responsável."
-            )
-            is_letivo = st.checkbox("Dia Letivo Regular com Aulas", value=dados_dia["is_dia_letivo"])
-            
-        with c_f2:
-            st.markdown("##### 🍲 Cardápio do Dia")
-            prato_nome = st.text_input("Nome do Prato Principal", value=dados_dia["prato_principal"] or "Iscas de Frango Grelhado")
-            opcoes_proteina = ["Bovina", "Frango", "Suína", "Peixe", "Ovo / Vegetariana"]
-            idx_prot = 1
-            for i, p in enumerate(opcoes_proteina):
-                if p.lower() in dados_dia["proteina_tipo"].lower():
-                    idx_prot = i
-                    break
-            proteina_sel = st.selectbox("Tipo de Proteína Principal", opcoes_proteina, index=idx_prot)
-            
-            st.markdown("##### 🌦️ Meteorologia (Previsão Local)")
-            col_w1, col_w2 = st.columns(2)
-            with col_w1:
-                chuva_val = st.number_input("Chuva Prevista (mm)", min_value=0.0, max_value=150.0, value=float(dados_dia["precipitation_sum"]), step=0.5)
-            with col_w2:
-                temp_val = st.number_input("Temperatura Máx (°C)", min_value=0.0, max_value=45.0, value=float(dados_dia["temperature_2m_max"]), step=0.5)
+        * **É a Nutricionista ou a Gestora do Restaurante?** Faça login abaixo ou utilize o menu **'🔑 Acesso Operador'** na barra lateral.
+        * **É membro da Banca Examinadora ou Visitante?** Você pode navegar livremente nas demais abas, testar as previsões e usar o **Simulador 'E se...?'**.
+        """)
+        
+        # Desbloqueio direto aqui na página para facilidade de uso
+        with st.expander("🔑 Desbloquear Edição com Senha Operacional", expanded=True):
+            with st.form("form_login_aba4"):
+                col_l1, col_l2 = st.columns([2, 1])
+                with col_l1:
+                    perfil_rapido = st.selectbox("Selecione seu perfil:", ["Nutricionista / Gestora", "Pesquisador (Admin)"], key="perfil_aba4")
+                    senha_rapida = st.text_input("Digite a senha de acesso:", type="password", key="senha_aba4")
+                with col_l2:
+                    st.write("")
+                    st.write("")
+                    st.write("")
+                    btn_desbloquear = st.form_submit_button("Desbloquear Edição", use_container_width=True)
+                    
+                if btn_desbloquear:
+                    if perfil_rapido == "Nutricionista / Gestora" and senha_rapida == SENHA_NUTRI:
+                        st.session_state["autenticado"] = True
+                        st.session_state["usuario_nome"] = "Nutricionista Responsável / Gestora"
+                        st.session_state["usuario_perfil"] = "operador"
+                        st.success("Acesso liberado com sucesso!")
+                        st.rerun()
+                    elif perfil_rapido == "Pesquisador (Admin)" and senha_rapida == SENHA_ADMIN:
+                        st.session_state["autenticado"] = True
+                        st.session_state["usuario_nome"] = "Michel Silva de Souza (Admin)"
+                        st.session_state["usuario_perfil"] = "admin"
+                        st.success("Acesso de administrador liberado!")
+                        st.rerun()
+                    else:
+                        st.error("Senha incorreta. Tente novamente.")
+                        
+        st.markdown("---")
+        st.markdown("##### 🔍 Consulta de Dados Cadastrados (Somente Leitura)")
+        col_d1, col_d2 = st.columns([1, 2])
+        with col_d1:
+            data_sel = st.date_input("Consultar Data:", value=date.today(), key="data_picker_view")
+        data_iso = data_sel.strftime("%Y-%m-%d")
+        data_fmt = data_sel.strftime("%d/%m/%Y")
+        dados_dia = consultar_dados_completos_data(data_iso)
+        
+        with col_d2:
+            if dados_dia["encontrado_base"]:
+                st.info(f"📌 **{data_fmt} ({dados_dia['dia_semana']}) localizada no histórico.**")
+            else:
+                st.caption(f"ℹ️ {data_fmt} ainda não possui registros consolidados.")
                 
-        btn_salvar = st.form_submit_button("💾 Salvar Informações Desta Data", type="primary", use_container_width=True)
+        c_v1, c_v2, c_v3, c_v4 = st.columns(4)
+        with c_v1:
+            val_c = f"{int(dados_dia['consumo'])} ref" if dados_dia['consumo'] is not None else "Não apurado"
+            st.metric("Consumo Real (Catraca)", val_c)
+        with c_v2:
+            val_p = f"{int(dados_dia['planejado_nutri'])} ref" if dados_dia['planejado_nutri'] is not None else "Não informado"
+            st.metric("Estimativa Nutrição", val_p)
+        with c_v3:
+            st.metric("Prato Registrado", dados_dia["prato_principal"] or "Não informado")
+        with c_v4:
+            st.metric("Clima Registrado", f"{dados_dia['temperature_2m_max']:.1f}°C", delta=f"{dados_dia['precipitation_sum']:.1f} mm chuva")
+
+    else:
+        # Modo Operador Autenticado - Formulário de Edição Completo
+        st.success(f"✅ **Acesso de Operador Habilitado:** Conectado como **{st.session_state['usuario_nome']}**.")
+        st.write("Preencha os campos abaixo para salvar ou atualizar as informações operacionais:")
         
-    if btn_salvar:
-        dict_salvar = {
-            "consumo": novo_consumo if novo_consumo > 0 else None,
-            "reservas": int(dados_dia['reservas']) if dados_dia['reservas'] is not None else None,
-            "planejado_nutri": novo_planejado_nutri,
-            "is_dia_letivo": is_letivo,
-            "evento_tipo": "Letivo Regular" if is_letivo else "Sem Aula",
-            "prato_principal": prato_nome,
-            "proteina_tipo": proteina_sel,
-            "preparo_tipo": dados_dia["preparo_tipo"] or "Grelhado",
-            "precipitation_sum": chuva_val,
-            "temperature_2m_max": temp_val,
-            "observacao": "Registro operacional via interface web"
-        }
-        salvar_edicao_operacional_completa(data_iso, dict_salvar)
-        st.success(f"✅ Informações do dia **{data_fmt}** atualizadas com sucesso!")
-        st.rerun()
+        col_d1, col_d2 = st.columns([1, 2])
+        with col_d1:
+            data_sel = st.date_input("Selecione a Data para Edição:", value=date.today(), key="data_picker_aba4")
+            
+        data_iso = data_sel.strftime("%Y-%m-%d")
+        data_fmt = data_sel.strftime("%d/%m/%Y")
+        dados_dia = consultar_dados_completos_data(data_iso)
+        
+        with col_d2:
+            if dados_dia["encontrado_base"]:
+                st.info(f"📌 **{data_fmt} ({dados_dia['dia_semana']}) já cadastrada.** Você pode editar os dados abaixo.")
+            else:
+                st.success(f"✨ **Nova Data ({data_fmt} / {dados_dia['dia_semana']}).** Preencha os campos para salvar.")
+                
+        with st.form("form_edicao_simples"):
+            c_f1, c_f2 = st.columns(2)
+            with c_f1:
+                st.markdown("##### 👥 Refeições e Contagem")
+                novo_consumo = st.number_input(
+                    "Consumo Real Verificado (Catraca)",
+                    min_value=0, max_value=500,
+                    value=int(dados_dia['consumo']) if dados_dia['consumo'] is not None else 0,
+                    step=1,
+                    help="Quantidade real de alunos que passaram na catraca."
+                )
+                novo_planejado_nutri = st.number_input(
+                    "Quantitativo Estimado Inicial pela Nutrição",
+                    min_value=0, max_value=500,
+                    value=int(dados_dia['planejado_nutri']) if dados_dia['planejado_nutri'] is not None else 180,
+                    step=1,
+                    help="Estimativa inicial da nutricionista responsável."
+                )
+                is_letivo = st.checkbox("Dia Letivo Regular com Aulas", value=dados_dia["is_dia_letivo"])
+                
+            with c_f2:
+                st.markdown("##### 🍲 Cardápio do Dia")
+                prato_nome = st.text_input("Nome do Prato Principal", value=dados_dia["prato_principal"] or "Iscas de Frango Grelhado")
+                opcoes_proteina = ["Bovina", "Frango", "Suína", "Peixe", "Ovo / Vegetariana"]
+                idx_prot = 1
+                for i, p in enumerate(opcoes_proteina):
+                    if p.lower() in dados_dia["proteina_tipo"].lower():
+                        idx_prot = i
+                        break
+                proteina_sel = st.selectbox("Tipo de Proteína Principal", opcoes_proteina, index=idx_prot)
+                
+                st.markdown("##### 🌦️ Meteorologia (Previsão Local)")
+                col_w1, col_w2 = st.columns(2)
+                with col_w1:
+                    chuva_val = st.number_input("Chuva Prevista (mm)", min_value=0.0, max_value=150.0, value=float(dados_dia["precipitation_sum"]), step=0.5)
+                with col_w2:
+                    temp_val = st.number_input("Temperatura Máx (°C)", min_value=0.0, max_value=45.0, value=float(dados_dia["temperature_2m_max"]), step=0.5)
+                    
+            btn_salvar = st.form_submit_button("💾 Salvar Informações Desta Data", type="primary", use_container_width=True)
+            
+        if btn_salvar:
+            dict_salvar = {
+                "consumo": novo_consumo if novo_consumo > 0 else None,
+                "reservas": int(dados_dia['reservas']) if dados_dia['reservas'] is not None else None,
+                "planejado_nutri": novo_planejado_nutri,
+                "is_dia_letivo": is_letivo,
+                "evento_tipo": "Letivo Regular" if is_letivo else "Sem Aula",
+                "prato_principal": prato_nome,
+                "proteina_tipo": proteina_sel,
+                "preparo_tipo": dados_dia["preparo_tipo"] or "Grelhado",
+                "precipitation_sum": chuva_val,
+                "temperature_2m_max": temp_val,
+                "observacao": f"Registro operacional salvo por {st.session_state['usuario_nome']}"
+            }
+            salvar_edicao_operacional_completa(data_iso, dict_salvar)
+            st.success(f"✅ Informações do dia **{data_fmt}** atualizadas com sucesso!")
+            st.rerun()
 
 # ==============================================================================
 # ABA 5: AUDITORIA CIENTÍFICA & METODOLOGIA (DSR)
