@@ -274,12 +274,13 @@ with st.sidebar:
     st.caption("🔒 **Garantia de Imutabilidade**: Os cadernos e bases da qualificação permanecem 100% seguros e inalterados.")
 
 # Abas de Navegação
-aba1, aba2, aba3, aba4, aba5 = st.tabs([
-    "📅 1. Cockpit Diário & Gestão por Data (Ver / Editar)",
+aba1, aba2, aba3, aba4, aba5, aba6 = st.tabs([
+    "📅 1. Cockpit Diário & Gestão por Data",
     "⏱️ 2. Previsão Janela Curta (t+1: Preparo)",
     "📦 3. Previsão Janela Longa (t+2: Compras)",
-    "📖 4. Storytelling Metodológico & Galeria (DSR)",
-    "📋 5. Guia de Uso & Procedimentos"
+    "🔮 4. Simulador de Cenários ('E se...?')",
+    "📖 5. Storytelling & Galeria da Defesa",
+    "📋 6. Guia de Uso & Procedimentos"
 ])
 
 # ==============================================================================
@@ -593,13 +594,100 @@ with aba3:
         st.dataframe(df_feat_t2, use_container_width=True)
 
 # ==============================================================================
-# ABA 4: STORYTELLING METODOLÓGICO & GALERIA CIENTÍFICA (DSR)
+# ABA 4: SIMULADOR INTERATIVO DE CENÁRIOS ("E SE...?")
 # ==============================================================================
 with aba4:
+    st.subheader("🔮 Simulador de Decisão Nutricional e Climática ('What-If Analysis')")
+    st.write(
+        "Esta ferramenta interativa permite à **Nutricionista e à Gestora simular antecipadamente o impacto "
+        "de alterações de cardápio e condições meteorológicas adversas** na demanda de refeições, "
+        "testando hipóteses antes de bater o martelo na ordem de produção."
+    )
+    
+    col_sim1, col_sim2 = st.columns([1.2, 1])
+    with col_sim1:
+        st.markdown("##### ⚙️ Parâmetros do Cenário Simulado")
+        dia_sim_nome = st.selectbox(
+            "Dia da Semana do Evento",
+            ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira"],
+            index=2,
+            key="sim_dia"
+        )
+        prot_sim = st.selectbox(
+            "Tipo de Proteína Principal",
+            ["Bovina (Alta Atratividade)", "Frango (Média/Alta)", "Suína (Média)", "Peixe (Baixa Atratividade)", "Ovo / Vegetariano"],
+            index=0,
+            key="sim_prot"
+        )
+        clima_sim = st.select_slider(
+            "Condição Meteorológica Prevista",
+            options=["Ensolarado / Seco (0 mm)", "Nublado / Garoa (3 mm)", "Chuva Moderada (10 mm)", "Tempestade com Alagamento (30 mm)"],
+            value="Ensolarado / Seco (0 mm)",
+            key="sim_clima"
+        )
+        usar_margem_sim = st.checkbox("Aplicar Margem Prudencial (+12 ref)", value=True, key="sim_margem")
+        
+    # Mapeamento do cenário simulado
+    precip_val = 0.0 if "0 mm" in clima_sim else (3.0 if "3 mm" in clima_sim else (10.0 if "10 mm" in clima_sim else 30.0))
+    prot_tipo = "bovina" if "Bovina" in prot_sim else ("frango" if "Frango" in prot_sim else ("suina" if "Suína" in prot_sim else ("peixe" if "Peixe" in prot_sim else "ovo")))
+    dia_num_map = {"Segunda-feira": 0, "Terça-feira": 1, "Quarta-feira": 2, "Quinta-feira": 3, "Sexta-feira": 4}
+    dia_num = dia_num_map[dia_sim_nome]
+    
+    # Vetor de inferência
+    vetor_sim = {
+        "consumo_lag_5": 182.0, "consumo_lag_10": 180.0, "media_movel_5d": 181.5,
+        "precipitation_sum": precip_val, "temperature_2m_max": 24.0,
+        "is_dia_sem_0": 1 if dia_num == 0 else 0,
+        "is_dia_sem_1": 1 if dia_num == 1 else 0,
+        "is_dia_sem_2": 1 if dia_num == 2 else 0,
+        "is_dia_sem_3": 1 if dia_num == 3 else 0,
+        "is_dia_sem_4": 1 if dia_num == 4 else 0,
+        "is_prot_bovina": 1 if prot_tipo == "bovina" else 0,
+        "is_prot_frango": 1 if prot_tipo == "frango" else 0,
+        "is_prot_suina": 1 if prot_tipo == "suina" else 0,
+        "is_prot_peixe": 1 if prot_tipo == "peixe" else 0,
+        "is_prot_ovo": 1 if prot_tipo == "ovo" else 0
+    }
+    
+    # Inferência rápida
+    df_tr = pipeline.construir_dataset_treino()
+    m_ridge, _, _, _, m_cat, c_feat = pipeline.treinar_modelos(df_tr)
+    X_s = np.array([[vetor_sim[c] for c in c_feat]])
+    
+    pred_ia_s = float(m_ridge.predict(X_s)[0])
+    margem_s = 12.0 if (usar_margem_sim and precip_val < 15.0) else 0.0
+    pred_final_s = int(round(pred_ia_s + margem_s))
+    
+    with col_sim2:
+        st.markdown("##### 📊 Projeção Gerada pelo Artefato")
+        st.metric("Demanda Prevista para o Cenário", f"{pred_final_s} refeições", 
+                  delta=f"{pred_final_s - 180:+d} ref vs média padrão (180 ref)")
+        
+        st.markdown("---")
+        st.markdown("**Diagnóstico do Modelo para a Decisão:**")
+        if dia_num == 4:
+            st.warning("⚠️ **Efeito Sexta-feira:** Retração sistemática esperada de ~20% no comparecimento discente.")
+        if prot_tipo == "peixe":
+            st.info("🐟 **Efeito Peixe:** Prato com menor atratividade estudantil histórica (~25 ref abaixo de carne bovina).")
+        elif prot_tipo == "bovina":
+            st.success("🥩 **Efeito Bovina:** Prato de altíssima adesão histórica no campus.")
+            
+        if precip_val >= 15.0:
+            st.error("🚨 **Alerta de Chuva Severa / Enchente:** Risco elevado de alagamentos e falta nos transportes públicos. A margem aditiva foi automaticamente **zerada** para prevenir o desperdício excessivo de comida.")
+        elif precip_val >= 8.0:
+            st.warning("🌧️ **Chuva Moderada:** Risco de evasão discente pontual.")
+        else:
+            st.write("☀️ **Clima Favorável:** Operação regular sem perturbação climática.")
+
+# ==============================================================================
+# ABA 5: STORYTELLING METODOLÓGICO & GALERIA DA DEFESA (DSR)
+# ==============================================================================
+with aba5:
     st.subheader("📖 Storytelling Metodológico e Galeria Científica da Pesquisa")
     st.write(
         "Esta seção narra a trajetória científica completa do desenvolvimento do artefato, fundamentada na metodologia "
-        "**Design Science Research (DSR)** (Peffers et al., 2007), apresentando o problema real, os dados auditados e a galeria visual em 300 DPI."
+        "**Design Science Research (DSR)** (Peffers et al., 2007; Venable et al., 2016), apresentando o problema real, "
+        "os dados auditados e a galeria visual em 300 DPI (incluindo as Figuras 29 a 33 da Defesa)."
     )
     
     col_hist1, col_hist2 = st.columns(2)
@@ -674,6 +762,13 @@ with aba4:
             ("figura_26_simulacao_faixas_risco_monte_carlo.png", "Figura 26 — Simulação de faixas de incerteza estocástica de Monte Carlo (P10 a P95)"),
             ("figura_27_tradeoff_custo_atendimento.png", "Figura 27 — Trade-off entre custo financeiro de desperdício e taxa de atendimento"),
             ("figura_28_comparacao_historica_consolidada.png", "Figura 28 — Confronto histórico consolidado dos regimes operacionais com o artefato")
+        ],
+        "Etapa 7: Validação Prospectiva da Defesa (Setembro e Outubro/2026)": [
+            ("figura_29_serie_temporal_setembro_chuva_vs_consumo.png", "Figura 29 — Série temporal diária de setembro/2026 com eventos extremos de chuva"),
+            ("figura_30_confronto_diario_setembro_ia_vs_nutricionista.png", "Figura 30 — Confronto diário em setembro/2026: Catraca real vs IA vs Nutricionista"),
+            ("figura_31_balanco_sobras_faltas_politicas_setembro.png", "Figura 31 — Balanço de sobras e faltas acumuladas em setembro sob 3 políticas"),
+            ("figura_32_validacao_semana_retorno_outubro_catraca_vs_ia_nutri.png", "Figura 32 — Validação cega na semana de retorno de outubro (19 a 23/10/2026)"),
+            ("figura_33_distribuicao_residuos_recalculo_margens_seguranca.png", "Figura 33 — Recálculo empírico das margens de segurança na validação prospectiva")
         ]
     }
     
@@ -701,13 +796,13 @@ with aba4:
     * **Campo de Aplicação Empírica:** Restaurante Estudantil do IFSP Campus Itaquaquecetuba
     * **Abordagem Metodológica:** Design Science Research (DSR)
     * **Repositório Oficial:** [github.com/micheldigui/Artefato_Mestrado_Michel](https://github.com/micheldigui/Artefato_Mestrado_Michel)
-    * **Ano de Qualificação:** 2026
+    * **Ano de Qualificação e Defesa:** 2026
     """)
 
 # ==============================================================================
-# ABA 5: GUIA OPERACIONAL & PROCEDIMENTOS
+# ABA 6: GUIA OPERACIONAL & PROCEDIMENTOS
 # ==============================================================================
-with aba5:
+with aba6:
     st.subheader("📋 Guia de Uso e Procedimentos Operacionais")
     st.markdown("""
     #### Rotina Operacional Recomendada para a Gestão do Refeitório
