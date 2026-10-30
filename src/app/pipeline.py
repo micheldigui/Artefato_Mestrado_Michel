@@ -49,21 +49,21 @@ DIAS_SEMANA_PT = {
 
 # Metadados Auditados dos Cenários Experimentais (Caderno 05 da Qualificação)
 CENARIOS_DICT = {
-    "Cenário 4 (Consumo + Aulas + Prato + Clima)": {
+    "Cenário 4 (Consumo + Calendário + Clima + Cardápio)": {
         "usar_clima": True,
         "usar_cardapio": True,
         "mae_t1": 20.70,
         "mae_t2": 27.79,
         "descricao": "Conjunto integral de dados: histórico de consumo, calendário escolar, meteorologia Open-Meteo e carnes do cardápio"
     },
-    "Cenário 2 (Consumo + Aulas + Clima t+2)": {
+    "Cenário 2 (Consumo + Calendário + Clima)": {
         "usar_clima": True,
         "usar_cardapio": False,
         "mae_t1": 21.05,
         "mae_t2": 27.79,
         "descricao": "Histórico de consumo, calendário escolar e meteorologia via satélite (ideal para compras de despensa t+2 antes de fechar o cardápio)"
     },
-    "Cenário 3 (Consumo + Aulas + Cardápio)": {
+    "Cenário 3 (Consumo + Calendário + Cardápio)": {
         "usar_clima": False,
         "usar_cardapio": True,
         "mae_t1": 21.42,
@@ -273,7 +273,7 @@ def obter_modelos_treinados():
 
 def executar_pipeline_previsao(
     horizonte_alvo="todos",
-    cenario_escolhido="Cenário 4 (Consumo + Aulas + Prato + Clima)",
+    cenario_escolhido="Cenário 4 (Consumo + Calendário + Clima + Cardápio)",
     usar_clima=True,
     usar_cardapio=True,
     usar_nutri=True,
