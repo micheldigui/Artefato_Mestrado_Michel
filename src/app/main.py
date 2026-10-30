@@ -922,21 +922,22 @@ div[data-testid="stMetricValue"] {{
 # ==============================================================================
 # TOPO INSTITUCIONAL ELEGANTE (DESIGN SYSTEM DO OBSERVATÓRIO)
 # ==============================================================================
-st.markdown("""
-<div class="top-header">
-    <div class="header-left">
-        <div class="logo-badge">🍽️</div>
-        <div class="header-titles">
-            <h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>
-            <p>Instituição Pública de Ensino & Centro Paula Souza (CEETEPS) · Gestão da Produção e Combate ao Desperdício</p>
-        </div>
-    </div>
-    <div class="header-right">
-        <span class="badge-status">● Sistema Operacional Ativo</span>
-        <span class="badge-academico">DSR / Mestrado PPG-GTSP 2026</span>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    '<div class="top-header">'
+    '<div class="header-left">'
+    '<div class="logo-badge">🍽️</div>'
+    '<div class="header-titles">'
+    '<h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>'
+    '<p>Instituição Pública de Ensino & Centro Paula Souza (CEETEPS) · Gestão da Produção e Combate ao Desperdício</p>'
+    '</div>'
+    '</div>'
+    '<div class="header-right">'
+    '<span class="badge-status">● Sistema Operacional Ativo</span>'
+    '<span class="badge-academico">DSR / Mestrado PPG-GTSP 2026</span>'
+    '</div>'
+    '</div>',
+    unsafe_allow_html=True
+)
 
 # ==============================================================================
 # ABAS DE NAVEGAÇÃO
@@ -976,30 +977,15 @@ with aba1:
     media_consumo_diario = int(round(df_validos["consumo"].mean())) if total_dias_auditados > 0 else 180
 
     # 1. Resumo Macro (KPI Cards estilo Jucelino com Dados Reais)
-    st.markdown(f"""
-    <div class="kpi-row">
-        <div class="kpi-card b-primary">
-            <div class="kpi-title">Média Diária de Consumo</div>
-            <div class="kpi-val">{media_consumo_diario} ref</div>
-            <div class="kpi-sub">Referência letiva regular</div>
-        </div>
-        <div class="kpi-card b-success">
-            <div class="kpi-title">Acurácia Preditiva (IA)</div>
-            <div class="kpi-val">91,9%</div>
-            <div class="kpi-sub">Erro MAE de 8,1% (vs 25,4% manual)</div>
-        </div>
-        <div class="kpi-card b-warning">
-            <div class="kpi-title">Desperdício Evitado</div>
-            <div class="kpi-val">~R$ 38.400</div>
-            <div class="kpi-sub">Economia estimada ao ano</div>
-        </div>
-        <div class="kpi-card b-accent">
-            <div class="kpi-title">Datas Monitoradas</div>
-            <div class="kpi-val">{total_dias_auditados} dias</div>
-            <div class="kpi-sub">Consumo real auditado no campus</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    kpi_html = (
+        f'<div class="kpi-row">'
+        f'<div class="kpi-card b-primary"><div class="kpi-title">Média Diária de Consumo</div><div class="kpi-val">{media_consumo_diario} ref</div><div class="kpi-sub">Referência letiva regular</div></div>'
+        f'<div class="kpi-card b-success"><div class="kpi-title">Acurácia Preditiva (IA)</div><div class="kpi-val">91,9%</div><div class="kpi-sub">Erro MAE de 8,1% (vs 25,4% manual)</div></div>'
+        f'<div class="kpi-card b-warning"><div class="kpi-title">Desperdício Evitado</div><div class="kpi-val">~R$ 38.400</div><div class="kpi-sub">Economia estimada ao ano</div></div>'
+        f'<div class="kpi-card b-accent"><div class="kpi-title">Datas Monitoradas</div><div class="kpi-val">{total_dias_auditados} dias</div><div class="kpi-sub">Consumo real auditado no campus</div></div>'
+        f'</div>'
+    )
+    st.markdown(kpi_html, unsafe_allow_html=True)
 
     # LINHA 1 DE PAINÉIS (GRÁFICOS 1 E 2 COM CONTAINERS NATIVOS)
     col_g1, col_g2 = st.columns(2)
@@ -1143,26 +1129,28 @@ with aba2:
         # CARTÕES DIÁRIOS HORIZONTAIS DA SEMANA (GRADE DA COZINHA)
         st.markdown("##### 🍽️ Ordem de Preparo para os Próximos 5 Dias Úteis")
         
-        cards_html = '<div class="day-prod-grid">'
+        cards_items = []
         for _, row_dia in df_t1.iterrows():
-            d_nome = html.escape(str(row_dia["dia_semana"]))
+            d_nome = html.escape(str(row_dia["dia_semana"]).upper())
             d_data = html.escape(str(row_dia["data"]))
             d_prato = html.escape(str(row_dia["prato_principal"]))
             d_ordem = int(row_dia["recomendacao_final"])
             d_base = int(row_dia["pred_base_combinada"])
             d_marg = int(row_dia["margem_aplicada"])
             
-            cards_html += f"""
-            <div class="day-prod-card">
-                <div class="day-prod-date">{d_nome} ({d_data[:5]})</div>
-                <div class="day-prod-dish">{d_prato}</div>
-                <div class="day-prod-number">{d_ordem}</div>
-                <div class="day-prod-badge">Ordem de Preparo</div>
-                <div class="day-prod-sub">Base: {d_base} | Margem: +{d_marg}</div>
-            </div>
-            """
-        cards_html += '</div>'
-        st.markdown(cards_html, unsafe_allow_html=True)
+            card_html = (
+                f'<div class="day-prod-card">'
+                f'<div class="day-prod-date">{d_nome} ({d_data[:5]})</div>'
+                f'<div class="day-prod-dish">{d_prato}</div>'
+                f'<div class="day-prod-number">{d_ordem}</div>'
+                f'<div class="day-prod-badge">Ordem de Preparo</div>'
+                f'<div class="day-prod-sub">Base: {d_base} | Margem: +{d_marg}</div>'
+                f'</div>'
+            )
+            cards_items.append(card_html)
+            
+        full_grid_html = f'<div class="day-prod-grid">{"".join(cards_items)}</div>'
+        st.markdown(full_grid_html, unsafe_allow_html=True)
 
         # TABELA OPERACIONAL COMPLETA
         st.markdown("##### 📋 Tabela Operacional de Produção")
@@ -1505,29 +1493,21 @@ with aba5:
     
     col_hist1, col_hist2 = st.columns(2)
     with col_hist1:
-        st.markdown("""
-        <div class="card-story">
-            <h4 style="margin-top: 0; font-weight: 700;">1. O Problema Real: Assimetria e Descompasso</h4>
-            <p>No Restaurante Estudantil de uma instituição pública de ensino federal, o almoço é gratuito. Historicamente, dois regimes operaram com limitações:</p>
-            <ul>
-                <li><b>Reservas dos Alunos (2023–2025):</b> O preenchimento voluntário de formulários no SUAP entrou em descontinuidade. Em <b>63,8% dos dias</b> faltavam reservas (déficit potencial de 9.494 refeições; MAE de 27,10 ref/dia).</li>
-                <li><b>Censo Institucional da Nutrição (2026):</b> Para evitar desabastecimento, adotou-se quantitativo fixo com folga preventiva, gerando sobreoferta de +1.898 refeições em 123 datas (MAE de 26,21 ref/dia).</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown("#### 1. O Problema Real: Assimetria e Descompasso")
+            st.markdown("""No Restaurante Estudantil de uma instituição pública de ensino federal, o almoço é gratuito. Historicamente, dois regimes operaram com limitações:
+
+* **Reservas dos Alunos (2023–2025):** O preenchimento voluntário de formulários no SUAP entrou em descontinuidade. Em **63,8% dos dias** faltavam reservas (déficit potencial de 9.494 refeições; MAE de 27,10 ref/dia).
+* **Censo Institucional da Nutrição (2026):** Para evitar desabastecimento, adotou-se quantitativo fixo com folga preventiva, gerando sobreoferta de +1.898 refeições em 123 datas (MAE de 26,21 ref/dia).""")
         
     with col_hist2:
-        st.markdown("""
-        <div class="card-story card-story-red">
-            <h4 style="margin-top: 0; font-weight: 700;">2. A Solução: Artefato Preditivo com IA Híbrida</h4>
-            <p>O artefato proposto introduz três inovações práticas:</p>
-            <ul>
-                <li><b>Duas Janelas Temporais:</b> Suporte em t+2 (compras com 14 dias via Open-Meteo) e t+1 (re-forecast na sexta-feira).</li>
-                <li><b>Modelo Híbrido 50/50:</b> Combinação linear ponderada que alcança o menor erro global (<b>MAE 20,20 ref/dia</b>).</li>
-                <li><b>Margens Conformal:</b> Calibração não-paramétrica (P85 com +18 ref) garantindo <b>84,9% de proteção estudantil</b> contra falta de comida.</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.container(border=True):
+            st.markdown("#### 2. A Solução: Artefato Preditivo com IA Híbrida")
+            st.markdown("""O artefato proposto introduz três inovações práticas:
+
+* **Duas Janelas Temporais:** Suporte em t+2 (compras com 14 dias via Open-Meteo) e t+1 (re-forecast na sexta-feira).
+* **Modelo Híbrido 50/50:** Combinação linear ponderada que alcança o menor erro global (**MAE 20,20 ref/dia**).
+* **Margens Conformal:** Calibração não-paramétrica (P85 com +18 ref) garantindo **84,9% de proteção estudantil** contra falta de comida.""")
 
     # Galeria Completa das 33 Figuras Oficiais
     st.markdown("---")
