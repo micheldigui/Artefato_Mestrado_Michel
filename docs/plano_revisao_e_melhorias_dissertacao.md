@@ -75,7 +75,7 @@ A revisão adversarial consiste em antecipar as arguições metodológicas e con
   2. **Tarifas Contratuais Reais Auditadas:**  
      Para estimar o impacto financeiro hipotético decorrente dos desvios de planejamento, substituíram-se valores paramétricos arbitrários pelas tarifas reais auditadas da prestação de serviços terceirizados na UAN:
      * **Período 2023 a 2025 (Fornecedora Tryx):** Os valores unitários faturados por refeição compreenderam R$ 15,97 (jan/2023 a ago/2024), R$ 16,61 (set/2024 a out/2024) e R$ 17,36 (a partir de nov/2024). Adota-se como teto de referência do período histórico a tarifa mais onerosa de **R$ 17,36 por refeição**.
-     * **Período 2026 (Fornecedora Jessica):** O contrato de prestação de serviços vigente estipula a tarifa contratual fixa de **R$ 14,00 por refeição produzida/servida**.
+     * **Período 2026 (Empresa Contratada Vigente):** O contrato de prestação de serviços vigente estipula a tarifa contratual fixa de **R$ 14,00 por refeição produzida/servida**.
   3. **Quantificação Financeira Hipotética dos Regimes:**
      * **Regime de Reservas Discentes (2023 a 2025):** Déficit potencial acumulado de 9.494 refeições $\times$ R$ 17,36 = **R$ 164.815,84** em demanda estudantil não atendida via sistema. Sobras potenciais de reservas não consumidas de 2.916 refeições $\times$ R$ 17,36 = **R$ 50.621,76** em capacidade contratual ociosa.
      * **Regime Centralizado da Nutricionista (140 dias de 2026):** Sobras potenciais de 3.354 refeições $\times$ R$ 14,00 = **R$ 46.956,00** decorrentes do dimensionamento preventivo da profissional.
