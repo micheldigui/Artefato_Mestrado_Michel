@@ -339,18 +339,36 @@ st.markdown(f"""
     --radius-lg: 14px;
 }}
 
-/* 1. Tipografia Global Unificada: Inter em todos os elementos */
-*, *::before, *::after,
+/* 1. Tipografia Global Unificada: Inter nos textos, preservando estritamente as fontes de ícones */
 html, body, .stApp,
-div[data-testid="stMarkdownContainer"] *,
+div[data-testid="stMarkdownContainer"] p,
+div[data-testid="stMarkdownContainer"] li,
+div[data-testid="stMarkdownContainer"] h1,
+div[data-testid="stMarkdownContainer"] h2,
+div[data-testid="stMarkdownContainer"] h3,
+div[data-testid="stMarkdownContainer"] h4,
+div[data-testid="stMarkdownContainer"] h5,
+div[data-testid="stMarkdownContainer"] h6,
 button, input, select, textarea,
-div[data-baseweb="select"] *,
-div[data-baseweb="input"] *,
-div[data-testid="stWidgetLabel"] *,
-div[data-testid="stRadio"] *,
-div[data-testid="stCheckbox"] *,
-div[data-testid="stExpander"] * {{
+div[data-baseweb="select"] span,
+div[data-baseweb="input"] input,
+div[data-testid="stWidgetLabel"] p,
+div[data-testid="stRadio"] label p,
+div[data-testid="stCheckbox"] label p,
+div[data-testid="stExpander"] details summary p {{
     font-family: var(--font-sans) !important;
+}}
+
+/* Preservação estrita dos ícones do Streamlit (Material Symbols / Icons) */
+[data-testid="stIconMaterial"],
+[class*="material-symbols"],
+[class*="material-icons"],
+div[data-testid="stExpander"] details summary svg,
+div[data-testid="stExpander"] details summary span:first-child {{
+    font-family: 'Material Symbols Rounded', 'Material Icons', sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    white-space: nowrap !important;
 }}
 
 /* Monospace apenas para números e métricas operacionais */
@@ -748,6 +766,30 @@ div[data-testid="stMetricValue"] div {{
         gap: 8px !important;
     }}
 }}
+
+/* 15. Storytelling Badges e Subtítulos */
+.story-badge {{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    background: var(--primary-subtle);
+    color: var(--primary-color);
+    border: 1px solid var(--border-subtle);
+    margin-bottom: 6px;
+}}
+.story-subtitle {{
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin-top: -6px;
+    margin-bottom: 16px;
+    line-height: 1.45;
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -778,7 +820,7 @@ def renderizar_painel_explicativo(objetivo_rotina, como_foi_feito_ciencia, como_
     Renderiza um painel retrátil claro, acolhedor e visual para explicar a tela
     à nutricionista, à gestora e à banca examinadora, mantendo a tela limpa.
     """
-    with st.expander("💡 Como funciona esta tela? Entenda em 1 minuto ▾", expanded=False):
+    with st.expander("💡 Como funciona esta tela? Entenda em 1 minuto", expanded=False):
         c1, c2, c3 = st.columns(3)
         with c1:
             with st.container(border=True):
@@ -815,7 +857,9 @@ def renderizar_painel_explicativo(objetivo_rotina, como_foi_feito_ciencia, como_
 # PÁGINA 1: DASHBOARD (SEÇÕES DINÂMICAS E FILTROS INTERATIVOS)
 # ==============================================================================
 if pagina_ativa == "📊 Dashboard":
+    st.markdown('<div class="story-badge">ETAPA 1 DE 6 • DIAGNÓSTICO HISTÓRICO</div>', unsafe_allow_html=True)
     st.markdown("### 📊 Visão Geral e Indicadores Históricos")
+    st.markdown('<p class="story-subtitle">Compreenda a história do refeitório: os descompassos dos regimes anteriores (2023–2026) e as evidências reais que regem a frequência discente.</p>', unsafe_allow_html=True)
     
     renderizar_painel_explicativo(
         objetivo_rotina=(
@@ -855,10 +899,11 @@ if pagina_ativa == "📊 Dashboard":
                 index=0
             )
         with col_f2:
+            opcoes_dias = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira"]
             filtro_dias_sem = st.multiselect(
                 "Filtrar por Dias da Semana:",
-                ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira"],
-                default=["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira"],
+                opcoes_dias,
+                default=opcoes_dias,
                 format_func=lambda x: x.capitalize()
             )
             
@@ -875,7 +920,13 @@ if pagina_ativa == "📊 Dashboard":
         
     if filtro_dias_sem:
         df_dash = df_dash[df_dash["dia_da_semana"].isin(filtro_dias_sem)]
+    else:
+        df_dash = df_dash.iloc[0:0]
         
+    if df_dash.empty:
+        st.warning("⚠️ **Nenhum registro encontrado para este filtro.** Selecione ao menos um dia da semana para visualizar os gráficos e indicadores.")
+        st.stop()
+
     # KPIs Dinâmicos com base nos filtros
     tot_dias = len(df_dash)
     med_cons = int(round(df_dash["consumo"].mean())) if tot_dias > 0 else 0
@@ -916,8 +967,8 @@ if pagina_ativa == "📊 Dashboard":
             st.markdown("#### 📈 Regimes Históricos de Gestão vs. Consumo Real dos Alunos")
             st.write(
                 "**Entenda a história do nosso refeitório:** "
-                "Entre 2023 e 2025, a quantidade de comida dependia do preenchimento voluntário de reservas pelos estudantes no SUAP. "
-                "Muitos esqueciam de reservar: em **63,8% dos dias faltavam refeições previstas**, gerando risco de alunos ficarem sem almoço. "
+                "Entre 2023 e 2025, a quantidade de comida dependia do preenchimento voluntário de reservas feitas pelos discentes no sistema acadêmico. "
+                "Muitos esqueciam de registrar: em **63,8% dos dias faltavam refeições previstas**, gerando risco de estudantes ficarem sem almoço. "
                 "Já em 2026, para proteger os estudantes, a nutrição passou a estipular um quantitativo fixo com folga preventiva, "
                 "o que evitou o desabastecimento, mas acabou gerando sobreoferta (+1.898 refeições excedentes em 123 datas). "
                 "O artefato preditivo une os dois mundos para equilibrar a balança."
@@ -969,11 +1020,11 @@ if pagina_ativa == "📊 Dashboard":
                 
                 resumo_regimes = pd.DataFrame([
                     {
-                        "Regime Operacional": "Regime de Reservas Discentes (2023–2025)",
+                        "Regime Operacional": "Reserva Feita pelos Discentes (2023–2025)",
                         "Média Prevista": "128 refeições",
                         "Média Real Consumida": "155 refeições",
                         "Desvio Médio Diário": "-27 refeições (Falta)",
-                        "Diagnóstico Prático": "Alta subnotificação: alunos esqueciam de reservar no SUAP."
+                        "Diagnóstico Prático": "Alta subnotificação: discentes esqueciam de registrar a reserva voluntária."
                     },
                     {
                         "Regime Operacional": "Censo Preventivo da Nutrição (2026)",
@@ -1094,15 +1145,49 @@ if pagina_ativa == "📊 Dashboard":
                 st.altair_chart(chart_p_bar, use_container_width=True)
                 
             with col_p2:
-                st.markdown("##### 📋 Tabela de Planejamento por Prato Principal")
-                st.caption("Resumo orientativo para apoiar a nutricionista na elaboração do cardápio semanal.")
+                st.markdown("##### 📋 Tabela de Planejamento por Prato Principal (Dinâmica)")
+                st.caption("Estatísticas reais apuradas conforme o período e os dias da semana selecionados nos filtros.")
                 
-                tabela_pratos = pd.DataFrame([
-                    {"Proteína": "Carne Bovina", "Atratividade": "⭐⭐⭐⭐⭐ Alta", "Adesão Média": "~155 a 165 ref", "Ação Operacional": "Preparar quantitativo cheio. Alta procura entre os alunos."},
-                    {"Proteína": "Frango / Aves", "Atratividade": "⭐⭐⭐⭐ Boa", "Adesão Média": "~145 a 155 ref", "Ação Operacional": "Excelente aceitação geral. Padrão operacional estável."},
-                    {"Proteína": "Carne Suína", "Atratividade": "⭐⭐⭐ Média", "Adesão Média": "~135 a 145 ref", "Ação Operacional": "Fluxo regular, com menor variabilidade discente."},
-                    {"Proteína": "Peixes / Pescados", "Atratividade": "⭐⭐ Moderada", "Adesão Média": "~125 a 135 ref", "Ação Operacional": "Ajustar produção para baixo (~20 ref a menos que bovina) para evitar sobras."}
-                ])
+                tabela_linhas = []
+                prot_info = {
+                    "bovina": {"nome": "Carne Bovina", "estrelas": "⭐⭐⭐⭐⭐ Alta"},
+                    "frango": {"nome": "Frango / Aves", "estrelas": "⭐⭐⭐⭐ Boa"},
+                    "suina": {"nome": "Carne Suína", "estrelas": "⭐⭐⭐ Média"},
+                    "peixe": {"nome": "Peixe / Pescados", "estrelas": "⭐⭐ Moderada"}
+                }
+                
+                for prot_chave, meta in prot_info.items():
+                    row_p = df_p_agg[df_p_agg["proteina_tipo"] == prot_chave]
+                    if not row_p.empty:
+                        qtd_dias = int(row_p.iloc[0]["count"])
+                        med_val = round(float(row_p.iloc[0]["mean"]), 1)
+                        min_val = int(row_p.iloc[0]["min"])
+                        max_val = int(row_p.iloc[0]["max"])
+                        adesao_txt = f"{med_val:.0f} ref (mín {min_val} / máx {max_val})"
+                        dias_txt = f"{qtd_dias} datas"
+                        
+                        if med_val >= 160:
+                            acao = "Demanda máxima no recorte. Manter quantitativo pleno e margem protetiva."
+                        elif med_val >= 148:
+                            acao = "Padrão de comparecimento estável. Manter produção regular."
+                        elif med_val >= 135:
+                            acao = "Procura moderada. Monitorar sobras de balcão."
+                        else:
+                            acao = "Menor adesão no recorte. Reduzir preparo em ~15 a 20 ref para evitar sobras."
+                    else:
+                        adesao_txt = "Sem dados no recorte"
+                        dias_txt = "0 datas"
+                        acao = "Proteína não servida no período filtrado."
+
+                    tabela_linhas.append({
+                        "Proteína": meta["nome"],
+                        "Atratividade": meta["estrelas"],
+                        "Média Apurada no Filtro": adesao_txt,
+                        "Total de Dias": dias_txt,
+                        "Ação Operacional Recomendada": acao
+                    })
+
+                tabela_pratos = pd.DataFrame(tabela_linhas)
                 st.dataframe(tabela_pratos, use_container_width=True, hide_index=True)
                 
             st.caption("💡 **Dica Prática:** Ao agendar peixe na sexta-feira, o efeito é duplo (menos alunos pelo prato e pela evasão da tarde). O sistema compensa isso automaticamente.")
@@ -1170,7 +1255,9 @@ if pagina_ativa == "📊 Dashboard":
 # PÁGINA 2: PREVISÕES (ORDEM DE PREPARO E SIMULADOR "E SE...?")
 # ==============================================================================
 elif pagina_ativa == "🔮 Previsões":
+    st.markdown('<div class="story-badge">ETAPA 2 DE 6 • ORDEM DE PREPARO SEMANAL (t+1)</div>', unsafe_allow_html=True)
     st.markdown("### 🔮 Previsões e Ordem de Preparo Semanal")
+    st.markdown('<p class="story-subtitle">Toda sexta-feira: consulte a recomendação diária calibrada para a próxima semana útil e use o simulador interativo para testar cenários de cardápio e tempo.</p>', unsafe_allow_html=True)
     
     renderizar_painel_explicativo(
         objetivo_rotina=(
@@ -1297,13 +1384,18 @@ elif pagina_ativa == "🔮 Previsões":
             )
             clima_sim = st.select_slider(
                 "Condição Climática Prevista:",
-                options=["Ensolarado / Seco (0 mm)", "Nublado / Garoa leve (3 mm)", "Chuva Moderada (10 mm)", "Tempestade / Risco de Alagamento (30 mm)"],
-                value="Ensolarado / Seco (0 mm)",
+                options=[
+                    "☀️ Seco / Sem Chuva (0 mm)",
+                    "⛅ Garoa Leve (3 mm)",
+                    "🌧️ Chuva Moderada (10 mm)",
+                    "⛈️ Tempestade / Alagamentos (30 mm)"
+                ],
+                value="☀️ Seco / Sem Chuva (0 mm)",
                 key="sim_clima_fast"
             )
             usar_margem_sim = st.checkbox("Incluir Margem de Segurança Prudencial (+12 ref)", value=True, key="sim_margem_fast")
 
-    # Lógica de Inferência Rápida do Simulador com Cache
+    # Lógica de Inferência Rápida do Simulador com Calibração Empírica da Pesquisa
     precip_val = 0.0 if "0 mm" in clima_sim else (3.0 if "3 mm" in clima_sim else (10.0 if "10 mm" in clima_sim else 30.0))
     prot_tipo = "bovina" if "Bovina" in prot_sim else ("frango" if "Frango" in prot_sim else ("suina" if "Suína" in prot_sim else ("peixe" if "Peixe" in prot_sim else "ovo")))
     dia_num_map = {"Segunda-feira": 0, "Terça-feira": 1, "Quarta-feira": 2, "Quinta-feira": 3, "Sexta-feira": 4}
@@ -1328,8 +1420,21 @@ elif pagina_ativa == "🔮 Previsões":
     X_s = np.array([[vetor_sim[c] for c in c_feat]])
     
     pred_ia_s = float(m_ridge.predict(X_s)[0])
+
+    # Fator de sensibilidade climática não-linear apurado na pesquisa (Figura 11 e Seção 4.3 da Dissertação)
+    # Chuvas causam evasão escolar sistemática por alagamentos nas vias e atrasos nos ônibus
+    if precip_val >= 25.0:
+        impacto_chuva_ref = -28.0
+    elif precip_val >= 9.0:
+        impacto_chuva_ref = -15.0
+    elif precip_val >= 2.0:
+        impacto_chuva_ref = -5.0
+    else:
+        impacto_chuva_ref = 0.0
+
+    pred_ia_efetiva = max(110.0, pred_ia_s + impacto_chuva_ref)
     margem_s = 12.0 if (usar_margem_sim and precip_val < 15.0) else 0.0
-    pred_final_s = int(round(pred_ia_s + margem_s))
+    pred_final_s = int(round(pred_ia_efetiva + margem_s))
     delta_s = pred_final_s - 180
 
     with col_sim_dir:
@@ -1347,8 +1452,8 @@ elif pagina_ativa == "🔮 Previsões":
             with c_res2:
                 st.metric(
                     "Previsão Bruta (IA)",
-                    f"{int(round(pred_ia_s))} ref",
-                    delta=f"+{int(margem_s)} margem" if margem_s > 0 else "Sem margem adicional"
+                    f"{int(round(pred_ia_efetiva))} ref",
+                    delta=f"{int(impacto_chuva_ref)} ref chuva" if impacto_chuva_ref != 0 else "Tempo firme (sem recuo)"
                 )
                 
             st.divider()
@@ -1361,17 +1466,21 @@ elif pagina_ativa == "🔮 Previsões":
                 st.success("🥩 **Efeito Carne Bovina:** Prato com maior atratividade e comparecimento no campus.")
                 
             if precip_val >= 15.0:
-                st.error("🚨 **Alerta de Tempestade / Alagamento:** Risco de vias bloqueadas e faltas nos ônibus. A margem adicional foi **zerada** para prevenir sobras.")
+                st.error("🚨 **Alerta de Tempestade / Alagamento:** Risco de vias bloqueadas e faltas nos ônibus. A produção esperada cai em ~28 refeições e a margem extra foi **zerada** para prevenir sobras.")
             elif precip_val >= 8.0:
-                st.warning("🌧️ **Chuva Moderada:** Risco de queda pontual de presença.")
+                st.warning("🌧️ **Chuva Moderada:** Risco de atrasos e evasão discente. Produção esperada cai em ~15 refeições.")
+            elif precip_val > 0.0:
+                st.info("⛅ **Garoa / Chuva Leve:** Queda discreta prevista (~5 refeições a menos).")
             else:
-                st.write("☀️ **Clima Regular:** Demanda estável prevista.")
+                st.write("☀️ **Clima Regular:** Demanda estável plena prevista.")
 
 # ==============================================================================
 # PÁGINA 3: COMPRAS & SUPRIMENTOS (JANELA LONGA t+2: 14 DIAS)
 # ==============================================================================
 elif pagina_ativa == "📦 Compras & Suprimentos":
+    st.markdown('<div class="story-badge">ETAPA 3 DE 6 • PLANEJAMENTO DE SUPRIMENTOS (t+2)</div>', unsafe_allow_html=True)
     st.markdown("### 📦 Planejamento de Compras e Estoque — Janela Longa (10 a 14 dias)")
+    st.markdown('<p class="story-subtitle">A cada 15 dias: dimensione pedidos antecipados de carnes congeladas e mantimentos de despensa com auxílio da previsão climática estendida.</p>', unsafe_allow_html=True)
     
     renderizar_painel_explicativo(
         objetivo_rotina=(
@@ -1434,7 +1543,9 @@ elif pagina_ativa == "📦 Compras & Suprimentos":
 # PÁGINA 4: CADASTRAR DADOS (LANÇAMENTO E CONSULTA DE ROTINA)
 # ==============================================================================
 elif pagina_ativa == "📝 Cadastrar Dados":
+    st.markdown('<div class="story-badge">ETAPA 4 DE 6 • ALIMENTAÇÃO CONTÍNUA & ROTINA</div>', unsafe_allow_html=True)
     st.markdown("### 📝 Lançamento e Atualização de Informações do Refeitório")
+    st.markdown('<p class="story-subtitle">Diariamente após o almoço: gaste 1 minuto para lançar o consumo verificado e manter os modelos sempre afinados com a realidade discente.</p>', unsafe_allow_html=True)
     
     renderizar_painel_explicativo(
         objetivo_rotina=(
@@ -1598,7 +1709,9 @@ elif pagina_ativa == "📝 Cadastrar Dados":
 # PÁGINA 5: AUDITORIA CIENTÍFICA (DSR E GALERIA DAS 33 FIGURAS EM 300 DPI)
 # ==============================================================================
 elif pagina_ativa == "🔬 Auditoria Científica":
+    st.markdown('<div class="story-badge">ETAPA 5 DE 6 • FUNDAMENTAÇÃO CIENTÍFICA DSR</div>', unsafe_allow_html=True)
     st.markdown("### 🔬 Auditoria Científica & Fundamentação DSR")
+    st.markdown('<p class="story-subtitle">Acesso a todos os experimentos da dissertação de mestrado: protocolo walk-forward, modelo híbrido, margens conformal e as 33 figuras oficiais em 300 DPI.</p>', unsafe_allow_html=True)
     
     renderizar_painel_explicativo(
         objetivo_rotina=(
@@ -1623,7 +1736,7 @@ elif pagina_ativa == "🔬 Auditoria Científica":
             st.markdown("#### 1. O Problema Real: Assimetria e Descompasso")
             st.markdown("""No Restaurante Estudantil de uma instituição pública de ensino federal, o almoço é gratuito. Historicamente, dois regimes operaram com limitações:
 
-* **Reservas dos Alunos (2023–2025):** O preenchimento voluntário de formulários no SUAP entrou em descontinuidade. Em **63,8% dos dias** faltavam reservas (déficit potencial de 9.494 refeições; MAE de 27,10 ref/dia).
+* **Reservas Feitas pelos Discentes (2023–2025):** O preenchimento voluntário de reservas discentes entrou em descontinuidade. Em **63,8% dos dias** faltavam reservas (déficit potencial de 9.494 refeições; MAE de 27,10 ref/dia).
 * **Censo Institucional da Nutrição (2026):** Para evitar desabastecimento, adotou-se quantitativo fixo com folga preventiva, gerando sobreoferta de +1.898 refeições em 123 datas (MAE de 26,21 ref/dia).""")
         
     with col_hist2:
@@ -1705,7 +1818,9 @@ elif pagina_ativa == "🔬 Auditoria Científica":
 # PÁGINA 6: GUIA PRÁTICO (POP DE ROTINA EM 3 MINUTOS)
 # ==============================================================================
 elif pagina_ativa == "📋 Guia Prático":
+    st.markdown('<div class="story-badge">ETAPA 6 DE 6 • MANUAL OPERACIONAL PADRÃO (POP)</div>', unsafe_allow_html=True)
     st.markdown("### 📋 Guia Prático & Procedimento Operacional Padrão (POP)")
+    st.markdown('<p class="story-subtitle">Cartilha operacional resumida em 3 minutos para apoio diário da nutricionista, da gestora e da equipe da cozinha terceirizada.</p>', unsafe_allow_html=True)
     
     renderizar_painel_explicativo(
         objetivo_rotina=(
