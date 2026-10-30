@@ -50,7 +50,8 @@ try:
         CENARIOS_DICT,
         MODELOS_RANKING,
         MARGENS_INFO,
-        obter_modelos_treinados
+        obter_modelos_treinados,
+        simular_previsao_data
     )
 except ImportError:
     from . import storage, pipeline
@@ -75,7 +76,8 @@ except ImportError:
         CENARIOS_DICT,
         MODELOS_RANKING,
         MARGENS_INFO,
-        obter_modelos_treinados
+        obter_modelos_treinados,
+        simular_previsao_data
     )
 
 # Configuração da página
@@ -123,6 +125,7 @@ with st.sidebar:
         [
             "📊 Dashboard",
             "🔮 Previsões",
+            "🧪 Simulador de Cenários",
             "📦 Compras & Suprimentos",
             "📝 Cadastrar Dados",
             "🔬 Auditoria Científica",
@@ -934,7 +937,7 @@ def renderizar_painel_explicativo(objetivo_rotina, como_foi_feito_ciencia, como_
 # PÁGINA 1: DASHBOARD (SEÇÕES DINÂMICAS E FILTROS INTERATIVOS)
 # ==============================================================================
 if pagina_ativa == "📊 Dashboard":
-    st.markdown('<div class="story-badge">ETAPA 1 DE 6 • DIAGNÓSTICO HISTÓRICO</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 1 DE 7 • DIAGNÓSTICO HISTÓRICO</div>', unsafe_allow_html=True)
     st.markdown("### 📊 Visão Geral e Indicadores Históricos")
     st.markdown('<p class="story-subtitle">Compreenda a história do refeitório: os descompassos dos regimes anteriores (2023–2026) e as evidências reais que regem a frequência discente.</p>', unsafe_allow_html=True)
     
@@ -1650,9 +1653,9 @@ if pagina_ativa == "📊 Dashboard":
 # PÁGINA 2: PREVISÕES (ORDEM DE PREPARO E SIMULADOR "E SE...?")
 # ==============================================================================
 elif pagina_ativa == "🔮 Previsões":
-    st.markdown('<div class="story-badge">ETAPA 2 DE 6 • ORDEM DE PREPARO SEMANAL (t+1)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 2 DE 7 • ORDEM DE PREPARO SEMANAL (t+1)</div>', unsafe_allow_html=True)
     st.markdown("### 🔮 Previsões e Ordem de Preparo Semanal")
-    st.markdown('<p class="story-subtitle">Toda sexta-feira: consulte a recomendação diária calibrada para a próxima semana útil e use o simulador interativo para testar cenários de cardápio e tempo.</p>', unsafe_allow_html=True)
+    st.markdown('<p class="story-subtitle">Toda sexta-feira: consulte a recomendação diária calibrada para a próxima semana útil, embasada no modelo híbrido campeão com calibração conformal.</p>', unsafe_allow_html=True)
     
     renderizar_painel_explicativo(
         objetivo_rotina=(
@@ -1755,132 +1758,355 @@ elif pagina_ativa == "🔮 Previsões":
 
     st.markdown("---")
 
-    # SIMULADOR INTERATIVO ("E SE...?")
-    st.markdown("#### 🔮 Simulador Rápido de Cardápio e Clima ('E se...?')")
-    st.caption("Faça simulações antes de definir o cardápio oficial para prever o impacto de cada decisão.")
-
-    col_sim_esq, col_sim_dir = st.columns([1.1, 1])
-
-    with col_sim_esq:
-        with st.container(border=True):
-            st.markdown("##### ⚙️ Escolha o Cenário que Deseja Simular")
-            st.caption("Mude o dia, o prato ou a chuva para ver a recomendação mudar na hora.")
-            
-            dia_sim_nome = st.selectbox(
-                "Dia da Semana:",
-                ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira"],
-                index=2,
-                key="sim_dia_fast"
-            )
-            prot_sim = st.selectbox(
-                "Prato Principal / Proteína:",
-                ["Bovina (Alta Atratividade)", "Frango (Média/Alta)", "Suína (Média)", "Peixe (Baixa Atratividade)", "Ovo / Opção Vegetariana"],
-                index=0,
-                key="sim_prot_fast"
-            )
-            clima_sim = st.select_slider(
-                "Condição Climática Prevista:",
-                options=[
-                    "☀️ Seco / Sem Chuva (0 mm)",
-                    "⛅ Garoa Leve (3 mm)",
-                    "🌧️ Chuva Moderada (10 mm)",
-                    "⛈️ Tempestade / Alagamentos (30 mm)"
-                ],
-                value="☀️ Seco / Sem Chuva (0 mm)",
-                key="sim_clima_fast"
-            )
-            usar_margem_sim = st.checkbox("Incluir Margem de Segurança Prudencial (+12 ref)", value=True, key="sim_margem_fast")
-
-    # Lógica de Inferência Rápida do Simulador com Calibração Empírica da Pesquisa
-    clima_precip_map = {
-        "☀️ Seco / Sem Chuva (0 mm)": 0.0,
-        "⛅ Garoa Leve (3 mm)": 3.0,
-        "🌧️ Chuva Moderada (10 mm)": 10.0,
-        "⛈️ Tempestade / Alagamentos (30 mm)": 30.0
-    }
-    precip_val = clima_precip_map.get(clima_sim, 0.0)
-    prot_tipo = "bovina" if "Bovina" in prot_sim else ("frango" if "Frango" in prot_sim else ("suina" if "Suína" in prot_sim else ("peixe" if "Peixe" in prot_sim else "ovo")))
-    dia_num_map = {"Segunda-feira": 0, "Terça-feira": 1, "Quarta-feira": 2, "Quinta-feira": 3, "Sexta-feira": 4}
-    dia_num = dia_num_map[dia_sim_nome]
-
-    vetor_sim = {
-        "consumo_lag_5": 182.0, "consumo_lag_10": 180.0, "media_movel_5d": 181.5,
-        "precipitation_sum": precip_val, "temperature_2m_max": 24.0,
-        "is_dia_sem_0": 1 if dia_num == 0 else 0,
-        "is_dia_sem_1": 1 if dia_num == 1 else 0,
-        "is_dia_sem_2": 1 if dia_num == 2 else 0,
-        "is_dia_sem_3": 1 if dia_num == 3 else 0,
-        "is_dia_sem_4": 1 if dia_num == 4 else 0,
-        "is_prot_bovina": 1 if prot_tipo == "bovina" else 0,
-        "is_prot_frango": 1 if prot_tipo == "frango" else 0,
-        "is_prot_suina": 1 if prot_tipo == "suina" else 0,
-        "is_prot_peixe": 1 if prot_tipo == "peixe" else 0,
-        "is_prot_ovo": 1 if prot_tipo == "ovo" else 0
-    }
-    
-    m_ridge, _, _, _, m_cat, c_feat = obter_modelos_treinados()
-    X_s = np.array([[vetor_sim[c] for c in c_feat]])
-    
-    pred_ia_s = float(m_ridge.predict(X_s)[0])
-
-    # Fator de sensibilidade climática não-linear apurado na pesquisa (Figura 11 e Seção 4.3 da Dissertação)
-    # Chuvas causam evasão escolar sistemática por alagamentos nas vias e atrasos nos ônibus
-    if precip_val >= 25.0:
-        impacto_chuva_ref = -28.0
-    elif precip_val >= 9.0:
-        impacto_chuva_ref = -15.0
-    elif precip_val >= 2.0:
-        impacto_chuva_ref = -5.0
-    else:
-        impacto_chuva_ref = 0.0
-
-    pred_ia_efetiva = max(110.0, pred_ia_s + impacto_chuva_ref)
-    margem_s = 12.0 if (usar_margem_sim and precip_val < 15.0) else 0.0
-    pred_final_s = int(round(pred_ia_efetiva + margem_s))
-    delta_s = pred_final_s - 180
-
-    with col_sim_dir:
-        with st.container(border=True):
-            st.markdown("##### 📊 Recomendação do Modelo para o Cenário")
-            st.caption("Cálculo instantâneo baseado nas inferências calibradas do modelo.")
-            
-            c_res1, c_res2 = st.columns(2)
-            with c_res1:
-                st.metric(
-                    "Ordem de Preparo Calculada",
-                    f"{pred_final_s} ref",
-                    delta=f"{delta_s:+d} vs média regular"
-                )
-            with c_res2:
-                st.metric(
-                    "Previsão Bruta (IA)",
-                    f"{int(round(pred_ia_efetiva))} ref",
-                    delta=f"{int(impacto_chuva_ref)} ref chuva" if impacto_chuva_ref != 0 else "Tempo firme (sem recuo)"
-                )
-                
-            st.divider()
-            st.markdown("##### 💡 Diagnóstico e Alertas Operacionais:")
-            if dia_num == 4:
-                st.warning("⚠️ **Efeito Sexta-feira:** Historicamente, cerca de 20% dos alunos não comparecem no refeitório à tarde.")
-            if prot_tipo == "peixe":
-                st.info("🐟 **Efeito Peixe:** Menor procura histórica (~20 a 25 refeições a menos que carne bovina).")
-            elif prot_tipo == "bovina":
-                st.success("🥩 **Efeito Carne Bovina:** Prato com maior atratividade e comparecimento no campus.")
-                
-            if precip_val >= 15.0:
-                st.error("🚨 **Alerta de Tempestade / Alagamento:** Risco de vias bloqueadas e faltas nos ônibus. A produção esperada cai em ~28 refeições e a margem extra foi **zerada** para prevenir sobras.")
-            elif precip_val >= 8.0:
-                st.warning("🌧️ **Chuva Moderada:** Risco de atrasos e evasão discente. Produção esperada cai em ~15 refeições.")
-            elif precip_val > 0.0:
-                st.info("⛅ **Garoa / Chuva Leve:** Queda discreta prevista (~5 refeições a menos).")
-            else:
-                st.write("☀️ **Clima Regular:** Demanda estável plena prevista.")
+    st.markdown("---")
+    with st.container(border=True):
+        st.markdown("""
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; padding: 6px;">
+            <div>
+                <div style="font-weight: 700; font-size: 15.5px; color: var(--text-primary); margin-bottom: 4px;">
+                    🧪 Quer simular datas específicas, modelos ou cenários alternativos?
+                </div>
+                <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+                    O <b>Simulador de Cenários</b> agora possui uma página dedicada exclusiva! Nele você pode escolher qualquer data (passada ou futura), testar os algoritmos da dissertação (Híbrido, CatBoost, Ridge, Random Forest), ajustar margens de segurança conformal e verificar a presença de cardápio e clima com rigor temporal estrito (walk-forward).
+                </div>
+            </div>
+            <div>
+                <span class="badge-status" style="cursor: default; font-size: 13px; padding: 6px 14px;">👉 Acesse no Menu Lateral: <b>🧪 Simulador de Cenários</b></span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # ==============================================================================
-# PÁGINA 3: COMPRAS & SUPRIMENTOS (JANELA LONGA t+2: 14 DIAS)
+# PÁGINA 3: SIMULADOR DE CENÁRIOS ("E SE...?")
+# ==============================================================================
+elif pagina_ativa == "🧪 Simulador de Cenários":
+    st.markdown('<div class="story-badge">ETAPA 3 DE 7 • LABORATÓRIO DE SIMULAÇÕES ("E SE...?")</div>', unsafe_allow_html=True)
+    st.markdown("### 🧪 Simulador de Cenários e Decisão Operacional")
+    st.markdown('<p class="story-subtitle">Simule qualquer data do calendário com integridade temporal estrita (walk-forward). Teste os algoritmos treinados da pesquisa, cenários de dados e margens de proteção alimentar.</p>', unsafe_allow_html=True)
+    
+    renderizar_painel_explicativo(
+        objetivo_rotina=(
+            "**Realizar simulações controladas para qualquer data do calendário letivo.** "
+            "Permite à nutricionista e à gestão testar o impacto de substituições de proteínas no cardápio, "
+            "cenários de tempestade e diferentes margens de segurança antes de autorizar a ordem de preparo."
+        ),
+        como_foi_feito_ciencia=(
+            "**Metodologia Walk-Forward com isolamento temporal estrito (Zero Data Leakage).** "
+            "Ao simular uma data no passado ou futuro, o artefato é alimentado exclusivamente por dados observados "
+            "antes daquele dia (médias móveis e defasagens reais). Aplica os modelos da dissertação (Ridge, CatBoost, "
+            "Random Forest, Lasso, OLS e Híbrido 50/50 com margem conformal calibrada)."
+        ),
+        como_usar_passos=(
+            "1. **Escolha a data no calendário** e defina o objetivo (Consumo diário t+1 ou Compras quinzenais t+2).\n"
+            "2. **Selecione o Cenário e o Modelo** da pesquisa que deseja avaliar.\n"
+            "3. **Confira a validação de dados da base**: caso falte cardápio, clima ou quantitativo institucional para a data, o sistema emite alerta e permite informar valores hipotéticos.\n"
+            "4. **Analise a recomendação gerada**, alertas operacionais contextuais e a auditoria retroativa (backtest) caso a data já tenha ocorrido."
+        )
+    )
+
+    df_fato_completo = carregar_fato_diaria_completa()
+    df_planejamento_base = carregar_planejamento_nutricionista()
+
+    col_ctrl, col_valid = st.columns([1.15, 1.25])
+
+    with col_ctrl:
+        with st.container(border=True):
+            st.markdown("##### ⚙️ 1. Parâmetros da Simulação")
+            st.caption("Defina a data-alvo, objetivo operacional e os modelos treinados da pesquisa.")
+            
+            # Data padrão: próximo dia útil
+            proximos_uteis = obter_proximos_dias_uteis(dias_frente=5)
+            data_padrao = proximos_uteis[0] if proximos_uteis else date.today() + timedelta(days=1)
+            
+            data_sim = st.date_input(
+                "📅 Selecione a Data para Simular:",
+                value=data_padrao,
+                min_value=date(2023, 1, 1),
+                max_value=date(2026, 12, 31),
+                key="sim_data_input"
+            )
+            
+            objetivo_opcoes = [
+                "🍽️ Consumo Diário / Ordem de Preparo (t+1)",
+                "📦 Compras & Suprimentos (t+2 Quinzenal)"
+            ]
+            objetivo_sel = st.radio(
+                "🎯 Objetivo da Previsão:",
+                objetivo_opcoes,
+                index=0,
+                key="sim_obj_radio"
+            )
+            obj_chave = "consumo" if "Consumo" in objetivo_sel else "compras"
+            
+            cenario_sel = st.selectbox(
+                "🌐 Cenário de Dados (Ablation Study):",
+                list(CENARIOS_DICT.keys()),
+                index=0 if obj_chave == "consumo" else 1,
+                key="sim_cenario_select"
+            )
+            st.caption(f"ℹ️ {CENARIOS_DICT[cenario_sel]['descricao']}")
+            
+            modelo_sel = st.selectbox(
+                "🤖 Modelo / Algoritmo da Pesquisa:",
+                list(MODELOS_RANKING.keys()),
+                index=0 if obj_chave == "consumo" else 2,
+                key="sim_modelo_select"
+            )
+            st.caption(f"📊 {MODELOS_RANKING[modelo_sel]['posicao']} • {MODELOS_RANKING[modelo_sel]['detalhe']}")
+            
+            margens_opcoes = list(MARGENS_INFO.keys()) + ["Margem Personalizada (Manual)"]
+            margem_sel = st.selectbox(
+                "🛡️ Política de Margem de Segurança:",
+                margens_opcoes,
+                index=0,
+                key="sim_margem_select"
+            )
+            if margem_sel == "Margem Personalizada (Manual)":
+                margem_custom_val = st.number_input(
+                    "Refeições Extras de Margem (+ref):",
+                    min_value=0,
+                    max_value=60,
+                    value=12,
+                    step=1,
+                    key="sim_margem_custom_num"
+                )
+            else:
+                margem_custom_val = 0.0
+                st.caption(f"🛡️ {MARGENS_INFO[margem_sel]['descricao']} (Cobertura: {MARGENS_INFO[margem_sel]['cobertura']})")
+
+    with col_valid:
+        with st.container(border=True):
+            st.markdown("##### 🔍 2. Validação dos Dados na Base para a Data")
+            dia_sem_num = data_sim.weekday()
+            dia_sem_rotulo = DIAS_SEMANA_PT.get(dia_sem_num, "Dia")
+            st.caption(f"Verificação de integridade para **{data_sim.strftime('%d/%m/%Y')}** ({dia_sem_rotulo}).")
+            
+            dt_alvo_ts = pd.to_datetime(data_sim)
+            data_iso_str = dt_alvo_ts.strftime("%Y-%m-%d")
+            
+            row_fato = df_fato_completo[df_fato_completo["data_dt"] == dt_alvo_ts]
+            row_plan = df_planejamento_base[df_planejamento_base["data_iso"] == data_iso_str]
+            
+            cen_cfg = CENARIOS_DICT[cenario_sel]
+            usar_cardapio = cen_cfg["usar_cardapio"]
+            usar_clima = cen_cfg["usar_clima"]
+            usar_nutri = cen_cfg.get("usar_nutri", True) and (obj_chave == "consumo")
+            
+            # --- Validação A: Cardápio ---
+            st.markdown("###### 🍛 Cardápio (Prato Principal)")
+            tem_cardapio = False
+            prato_existente = ""
+            prot_existente = "frango"
+            prep_existente = "assado"
+            
+            if not row_plan.empty and pd.notna(row_plan.iloc[0].get("prato_principal")) and str(row_plan.iloc[0].get("prato_principal")).strip() != "":
+                tem_cardapio = True
+                prato_existente = str(row_plan.iloc[0].get("prato_principal"))
+                prot_existente = str(row_plan.iloc[0].get("proteina_tipo", "frango")).lower()
+                prep_existente = str(row_plan.iloc[0].get("preparo_tipo", "assado"))
+            elif not row_fato.empty and pd.notna(row_fato.iloc[0].get("prato_principal")) and str(row_fato.iloc[0].get("prato_principal")).strip() != "":
+                tem_cardapio = True
+                prato_existente = str(row_fato.iloc[0].get("prato_principal"))
+                prot_existente = str(row_fato.iloc[0].get("proteina_tipo", "frango")).lower()
+                prep_existente = str(row_fato.iloc[0].get("preparo_tipo", "assado"))
+                
+            prato_custom_override = None
+            prot_custom_override = None
+            prep_custom_override = None
+            
+            if usar_cardapio:
+                if tem_cardapio:
+                    st.success(f"✅ **Cadastrado:** {prato_existente} ({prot_existente.title()} / {prep_existente})")
+                    simular_outro_prato = st.checkbox("Substituir por prato hipotético para teste?", value=False, key="sim_chk_prato")
+                    if simular_outro_prato:
+                        prot_custom_override = st.selectbox(
+                            "Proteína Hipotética:",
+                            ["bovina", "frango", "suina", "peixe", "ovo"],
+                            format_func=lambda x: {"bovina": "🥩 Carne Bovina (Alta Procura)", "frango": "🍗 Frango / Aves (Boa Procura)", "suina": "🍖 Carne Suína (Média Procura)", "peixe": "🐟 Peixe / Pescados (Menor Procura)", "ovo": "🍳 Ovo / Opção Vegetariana"}.get(x, x),
+                            key="sim_prot_sub"
+                        )
+                        prato_custom_override = st.text_input("Nome do Prato Hipotético:", value=f"Especial ({prot_custom_override.title()})", key="sim_nome_prato_sub")
+                else:
+                    st.warning("⚠️ **Cardápio não cadastrado na base para esta data.**")
+                    st.caption("Cadastre oficialmente em **📝 Cadastrar Dados** ou selecione a proteína hipotética abaixo para testar o efeito no modelo:")
+                    prot_custom_override = st.selectbox(
+                        "Proteína Hipotética para a Simulação:",
+                        ["bovina", "frango", "suina", "peixe", "ovo"],
+                        index=0,
+                        format_func=lambda x: {"bovina": "🥩 Carne Bovina (Alta Procura)", "frango": "🍗 Frango / Aves (Boa Procura)", "suina": "🍖 Carne Suína (Média Procura)", "peixe": "🐟 Peixe / Pescados (Menor Procura)", "ovo": "🍳 Ovo / Opção Vegetariana"}.get(x, x),
+                        key="sim_prot_empty"
+                    )
+                    prato_custom_override = f"Prato Simulado ({prot_custom_override.title()})"
+            else:
+                st.info("ℹ️ O cenário escolhido não utiliza cardápio.")
+                
+            # --- Validação B: Clima ---
+            st.markdown("###### 🌦️ Condições Climáticas")
+            tem_clima = False
+            chuva_existente = 0.0
+            temp_existente = 25.0
+            
+            if not row_fato.empty and pd.notna(row_fato.iloc[0].get("precipitation_sum")):
+                tem_clima = True
+                chuva_existente = float(row_fato.iloc[0]["precipitation_sum"])
+                temp_existente = float(row_fato.iloc[0].get("temperature_2m_max", 25.0))
+                
+            chuva_custom_override = None
+            temp_custom_override = None
+            
+            if usar_clima:
+                if tem_clima:
+                    st.success(f"✅ **Clima Registrado:** {chuva_existente:.1f} mm chuva | {temp_existente:.1f}°C máx")
+                    simular_outro_clima = st.checkbox("Simular condição de chuva diferente?", value=False, key="sim_chk_clima")
+                    if simular_outro_clima:
+                        chuva_custom_override = st.slider("Chuva Hipotética (mm):", min_value=0.0, max_value=40.0, value=chuva_existente, step=1.0, key="sim_chuva_slider_sub")
+                        temp_custom_override = st.slider("Temperatura Máx (°C):", min_value=12.0, max_value=38.0, value=temp_existente, step=0.5, key="sim_temp_slider_sub")
+                else:
+                    st.warning("⚠️ **Clima não consolidado na base para esta data.**")
+                    st.caption("Ajuste a meteorologia estimada para que os algoritmos calculem a sensibilidade climática:")
+                    chuva_custom_override = st.slider("Precipitação Prevista (mm):", min_value=0.0, max_value=40.0, value=0.0, step=1.0, key="sim_chuva_slider_empty")
+                    temp_custom_override = st.slider("Temperatura Máxima (°C):", min_value=12.0, max_value=38.0, value=25.0, step=0.5, key="sim_temp_slider_empty")
+            else:
+                st.info("ℹ️ O cenário escolhido não utiliza variáveis meteorológicas.")
+                
+            # --- Validação C: Nutrição ---
+            nutri_custom_override = None
+            if usar_nutri:
+                st.markdown("###### 🥗 Quantitativo Institucional da Nutrição")
+                tem_nutri = False
+                nutri_existente = 182.7
+                if not row_plan.empty and pd.notna(row_plan.iloc[0].get("planejado_nutri")) and float(row_plan.iloc[0].get("planejado_nutri", 0)) > 0:
+                    tem_nutri = True
+                    nutri_existente = float(row_plan.iloc[0]["planejado_nutri"])
+                elif not row_fato.empty and pd.notna(row_fato.iloc[0].get("planejado_nutri")) and float(row_fato.iloc[0].get("planejado_nutri", 0)) > 0:
+                    tem_nutri = True
+                    nutri_existente = float(row_fato.iloc[0]["planejado_nutri"])
+                    
+                if tem_nutri:
+                    st.success(f"✅ **Meta na Base:** {int(round(nutri_existente))} refeições")
+                    simular_outro_nutri = st.checkbox("Simular outro quantitativo institucional?", value=False, key="sim_chk_nutri")
+                    if simular_outro_nutri:
+                        nutri_custom_override = st.number_input("Novo Quantitativo:", min_value=50, max_value=300, value=int(round(nutri_existente)), step=1, key="sim_nutri_num_sub")
+                else:
+                    st.warning("⚠️ **Meta da Nutrição não cadastrada para esta data.**")
+                    st.caption("A pesquisa identificou média institucional de 182,7 ref/dia. Informe o valor para compor o modelo híbrido:")
+                    nutri_custom_override = st.number_input("Quantitativo Institucional da Simulação:", min_value=50, max_value=300, value=183, step=1, key="sim_nutri_num_empty")
+
+    # Executar Simulação Preditiva com Rigor Científico Walk-Forward
+    resultado_sim = simular_previsao_data(
+        data_alvo=data_sim,
+        objetivo=obj_chave,
+        cenario_escolhido=cenario_sel,
+        modelo_escolhido=modelo_sel,
+        tipo_margem=margem_sel,
+        margem_customizada=margem_custom_val,
+        proteina_custom=prot_custom_override,
+        prato_custom=prato_custom_override,
+        preparo_custom=prep_custom_override,
+        chuva_custom=chuva_custom_override,
+        temp_custom=temp_custom_override,
+        nutri_custom=nutri_custom_override
+    )
+
+    st.markdown("---")
+    st.markdown("#### 📊 Resultado da Simulação")
+    st.caption("Inferência calculada estritamente com histórico de dados anterior à data selecionada (Walk-Forward).")
+
+    # Indicadores Principais
+    c_kpi1, c_kpi2, c_kpi3, c_kpi4 = st.columns(4)
+    with c_kpi1:
+        delta_ref = resultado_sim["pred_final"] - 180
+        rotulo_prod = "Ordem de Preparo (t+1)" if obj_chave == "consumo" else "Volume para Compras (t+2)"
+        st.metric(
+            rotulo_prod,
+            f"{resultado_sim['pred_final']} refeições",
+            delta=f"{delta_ref:+d} vs média regular (180)"
+        )
+    with c_kpi2:
+        st.metric(
+            "Previsão Bruta (IA)",
+            f"{resultado_sim['pred_ia']} ref",
+            delta="Sem margem extra"
+        )
+    with c_kpi3:
+        st.metric(
+            "Margem de Segurança",
+            f"+{int(round(resultado_sim['margem_val']))} ref",
+            delta=f"Política: {margem_sel.split('(')[0].strip()}"
+        )
+    with c_kpi4:
+        st.metric(
+            "Histórico Walk-Forward",
+            f"{resultado_sim['dias_historico_utilizados']} dias",
+            delta=f"MM 5d: {resultado_sim['mm5']} ref"
+        )
+
+    # Backtest / Confronto se a data já ocorreu
+    if resultado_sim["consumo_real"] is not None:
+        real_val = int(round(resultado_sim["consumo_real"]))
+        pred_val = resultado_sim["pred_final"]
+        erro_abs = abs(pred_val - real_val)
+        saldo_dia = pred_val - real_val
+        
+        with st.container(border=True):
+            st.markdown("##### 🎯 Auditoria Retroativa (Backtest da Data Real)")
+            st.caption(f"Esta data já ocorreu no histórico e possui consumo real auditado: **{real_val} refeições servidas**.")
+            
+            c_bt1, c_bt2, c_bt3 = st.columns(3)
+            with c_bt1:
+                st.metric("Consumo Real dos Alunos", f"{real_val} ref")
+            with c_bt2:
+                st.metric("Recomendação do Modelo", f"{pred_val} ref", delta=f"Erro absoluto: {erro_abs} ref")
+            with c_bt3:
+                if saldo_dia >= 0:
+                    st.metric("Balanço Protetivo", f"+{saldo_dia} ref", delta="Sobra controlada / Desabastecimento evitado")
+                else:
+                    st.metric("Balanço Protetivo", f"{saldo_dia} ref", delta="Déficit potencial")
+                    
+            if saldo_dia >= 0:
+                st.success(f"🛡️ **Proteção Alimentar Assegurada:** A recomendação com margem ({pred_val} ref) atendeu plenamente aos estudantes ({real_val} ref), gerando folga segura de {saldo_dia} refeições sem risco de desabastecimento.")
+            else:
+                st.warning(f"⚠️ **Atenção:** A estimativa calculada ficou {abs(saldo_dia)} refeições abaixo da demanda real verificada. Recomenda-se utilizar a margem Conformal P85 (+12 a +18 ref) em datas com esta volatilidade.")
+
+    # Alertas Operacionais Contextuais
+    if resultado_sim["alertas"]:
+        st.markdown("##### 💡 Diagnóstico e Alertas Operacionais:")
+        for alerta in resultado_sim["alertas"]:
+            if "⛈️" in alerta or "Alerta" in alerta:
+                st.error(alerta)
+            elif "⚠️" in alerta or "🌧️" in alerta or "Sexta-feira" in alerta or "Peixe" in alerta:
+                st.warning(alerta)
+            elif "🥩" in alerta:
+                st.success(alerta)
+            else:
+                st.info(alerta)
+
+    # Detalhes Científicos e Vetor de Features
+    with st.expander("🔬 Detalhes Científicos e Vetor de Features (Walk-Forward Isolation)"):
+        st.markdown("""
+        **Garantia de Não-Vazamento Temporal (Zero Data Leakage):**
+        Todas as variáveis preditivas (médias móveis e defasagens de consumo) foram geradas utilizando estritamente dados anteriores a esta data (`data_dt < data_alvo`).
+        """)
+        col_f1, col_f2 = st.columns(2)
+        with col_f1:
+            st.markdown("**Defasagens Temporais Apuradas no Histórico:**")
+            st.write(f"- Média Móvel de 5 dias úteis (`mm5`): **{resultado_sim['mm5']} ref**")
+            st.write(f"- Consumo do mesmo dia na semana anterior (`lag5`): **{resultado_sim['lag5']} ref**")
+            st.write(f"- Consumo de duas semanas antes (`lag10`): **{resultado_sim['lag10']} ref**")
+            st.write(f"- Total de dias letivos anteriores auditados: **{resultado_sim['dias_historico_utilizados']} dias**")
+        with col_f2:
+            st.markdown("**Entradas Consolidadas para os Modelos:**")
+            st.write(f"- Proteína considerada: **{resultado_sim['prot_utilizada'].title()}** (Prato: {resultado_sim['prato_utilizado']})")
+            st.write(f"- Precipitação pluviométrica: **{resultado_sim['chuva_utilizada']:.1f} mm**")
+            st.write(f"- Temperatura máxima: **{resultado_sim['temp_utilizada']:.1f}°C**")
+            if resultado_sim.get("nutri_utilizado") is not None and usar_nutri:
+                st.write(f"- Quantitativo institucional (Nutri): **{resultado_sim['nutri_utilizado']:.1f} ref**")
+
+# ==============================================================================
+# PÁGINA 4: COMPRAS & SUPRIMENTOS (JANELA LONGA t+2: 14 DIAS)
 # ==============================================================================
 elif pagina_ativa == "📦 Compras & Suprimentos":
-    st.markdown('<div class="story-badge">ETAPA 3 DE 6 • PLANEJAMENTO DE SUPRIMENTOS (t+2)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 4 DE 7 • PLANEJAMENTO DE SUPRIMENTOS (t+2)</div>', unsafe_allow_html=True)
     st.markdown("### 📦 Planejamento de Compras e Estoque — Janela Longa (10 a 14 dias)")
     st.markdown('<p class="story-subtitle">A cada 15 dias: dimensione pedidos antecipados de carnes congeladas e mantimentos de despensa com auxílio da previsão climática estendida.</p>', unsafe_allow_html=True)
     
@@ -1942,10 +2168,10 @@ elif pagina_ativa == "📦 Compras & Suprimentos":
         )
 
 # ==============================================================================
-# PÁGINA 4: CADASTRAR DADOS (LANÇAMENTO E CONSULTA DE ROTINA)
+# PÁGINA 5: CADASTRAR DADOS (LANÇAMENTO E CONSULTA DE ROTINA)
 # ==============================================================================
 elif pagina_ativa == "📝 Cadastrar Dados":
-    st.markdown('<div class="story-badge">ETAPA 4 DE 6 • ALIMENTAÇÃO CONTÍNUA & ROTINA</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 5 DE 7 • ALIMENTAÇÃO CONTÍNUA & ROTINA</div>', unsafe_allow_html=True)
     st.markdown("### 📝 Lançamento e Atualização de Informações do Refeitório")
     st.markdown('<p class="story-subtitle">Diariamente após o almoço: gaste 1 minuto para lançar o consumo verificado e manter os modelos sempre afinados com a realidade discente.</p>', unsafe_allow_html=True)
     
@@ -2108,10 +2334,10 @@ elif pagina_ativa == "📝 Cadastrar Dados":
             st.rerun()
 
 # ==============================================================================
-# PÁGINA 5: AUDITORIA CIENTÍFICA (DSR E GALERIA DAS 33 FIGURAS EM 300 DPI)
+# PÁGINA 6: AUDITORIA CIENTÍFICA (DSR E GALERIA DAS 33 FIGURAS EM 300 DPI)
 # ==============================================================================
 elif pagina_ativa == "🔬 Auditoria Científica":
-    st.markdown('<div class="story-badge">ETAPA 5 DE 6 • FUNDAMENTAÇÃO CIENTÍFICA DSR</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 6 DE 7 • FUNDAMENTAÇÃO CIENTÍFICA DSR</div>', unsafe_allow_html=True)
     st.markdown("### 🔬 Auditoria Científica & Fundamentação DSR")
     st.markdown('<p class="story-subtitle">Acesso a todos os experimentos da dissertação de mestrado: protocolo walk-forward, modelo híbrido, margens conformal e as 33 figuras oficiais em 300 DPI.</p>', unsafe_allow_html=True)
     
@@ -2217,10 +2443,10 @@ elif pagina_ativa == "🔬 Auditoria Científica":
             st.warning(f"Arquivo não localizado na pasta: {arq}")
 
 # ==============================================================================
-# PÁGINA 6: GUIA PRÁTICO (POP DE ROTINA EM 3 MINUTOS)
+# PÁGINA 7: GUIA PRÁTICO (POP DE ROTINA EM 3 MINUTOS)
 # ==============================================================================
 elif pagina_ativa == "📋 Guia Prático":
-    st.markdown('<div class="story-badge">ETAPA 6 DE 6 • MANUAL OPERACIONAL PADRÃO (POP)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="story-badge">ETAPA 7 DE 7 • MANUAL OPERACIONAL PADRÃO (POP)</div>', unsafe_allow_html=True)
     st.markdown("### 📋 Guia Prático & Procedimento Operacional Padrão (POP)")
     st.markdown('<p class="story-subtitle">Cartilha operacional resumida em 3 minutos para apoio diário da nutricionista, da gestora e da equipe da cozinha terceirizada.</p>', unsafe_allow_html=True)
     

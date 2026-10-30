@@ -489,3 +489,233 @@ def executar_pipeline_previsao(
     df_features = pd.DataFrame(linhas_features)
     salvar_predicoes_geradas(df_resultado)
     return df_resultado, df_features
+
+def simular_previsao_data(
+    data_alvo,
+    objetivo="consumo",
+    cenario_escolhido="Cenário 3 (Cenário 2 + Quantitativo Institucional)",
+    modelo_escolhido="Híbrido 50/50 (Campeão Absoluto)",
+    tipo_margem="Conformal P85 (+18 ref / Padrão Pesquisa)",
+    margem_customizada=0.0,
+    proteina_custom=None,
+    prato_custom=None,
+    preparo_custom=None,
+    chuva_custom=None,
+    temp_custom=None,
+    nutri_custom=None
+):
+    """
+    Simula a previsão para uma data específica com garantia de integridade temporal
+    (método Walk-Forward: utiliza estritamente dados anteriores a data_alvo, sem vazamento).
+    Valida a presença ou ausência de cardápio, dados meteorológicos e quantitativo da nutrição.
+    """
+    dt_alvo = pd.to_datetime(data_alvo)
+    data_iso = dt_alvo.strftime("%Y-%m-%d")
+    data_formatada = dt_alvo.strftime("%d/%m/%Y")
+    dia_sem = dt_alvo.dayofweek
+    dia_sem_nome = DIAS_SEMANA_PT.get(dia_sem, "Dia Útil")
+    is_fim_semana = (dia_sem >= 5)
+
+    df_fato = carregar_fato_diaria_completa()
+    df_planejamento = carregar_planejamento_nutricionista()
+
+    # 1. Dados históricos estritamente ANTERIORES à data selecionada (Walk-Forward / Zero Leakage)
+    df_hist = df_fato[(df_fato["data_dt"] < dt_alvo) & (df_fato["consumo"].notna()) & (df_fato["consumo"] > 0)].sort_values("data_dt")
+
+    if len(df_hist) >= 5:
+        serie_hist = df_hist["consumo"].values
+        mm5 = float(np.mean(serie_hist[-5:]))
+        mm10 = float(np.mean(serie_hist[-10:])) if len(serie_hist) >= 10 else mm5
+    else:
+        mm5 = 160.0
+        mm10 = 160.0
+
+    df_mesmo = df_hist[df_hist["dia_da_semana_num"] == dia_sem] if "dia_da_semana_num" in df_hist.columns else pd.DataFrame()
+    lag5 = float(df_mesmo.iloc[-1]["consumo"]) if len(df_mesmo) >= 1 else mm5
+    lag10 = float(df_mesmo.iloc[-2]["consumo"]) if len(df_mesmo) >= 2 else mm5
+
+    # 2. Checagem de dados na base para a data alvo
+    row_fato = df_fato[df_fato["data_dt"] == dt_alvo]
+    row_plan = df_planejamento[df_planejamento["data_iso"] == data_iso]
+
+    # Cardápio
+    tem_cardapio_base = False
+    prato_base = None
+    prot_base = None
+    prep_base = None
+    if not row_plan.empty and pd.notna(row_plan.iloc[0].get("prato_principal")) and str(row_plan.iloc[0].get("prato_principal")).strip() != "":
+        tem_cardapio_base = True
+        prato_base = str(row_plan.iloc[0].get("prato_principal"))
+        prot_base = str(row_plan.iloc[0].get("proteina_tipo", "frango")).lower()
+        prep_base = str(row_plan.iloc[0].get("preparo_tipo", "assado"))
+    elif not row_fato.empty and pd.notna(row_fato.iloc[0].get("prato_principal")) and str(row_fato.iloc[0].get("prato_principal")).strip() != "":
+        tem_cardapio_base = True
+        prato_base = str(row_fato.iloc[0].get("prato_principal"))
+        prot_base = str(row_fato.iloc[0].get("proteina_tipo", "frango")).lower()
+        prep_base = str(row_fato.iloc[0].get("preparo_tipo", "assado"))
+
+    prato_utilizado = prato_custom if prato_custom is not None else (prato_base if tem_cardapio_base else "Padrão Regular")
+    prot_utilizada = str(proteina_custom if proteina_custom is not None else (prot_base if tem_cardapio_base else "frango")).lower()
+    prep_utilizado = preparo_custom if preparo_custom is not None else (prep_base if tem_cardapio_base else "assado")
+
+    # Clima
+    tem_clima_base = False
+    chuva_base = None
+    temp_base = None
+    if not row_fato.empty and pd.notna(row_fato.iloc[0].get("precipitation_sum")):
+        tem_clima_base = True
+        chuva_base = float(row_fato.iloc[0]["precipitation_sum"])
+        temp_base = float(row_fato.iloc[0].get("temperature_2m_max", 25.0))
+
+    chuva_utilizada = float(chuva_custom if chuva_custom is not None else (chuva_base if tem_clima_base else 0.0))
+    temp_utilizada = float(temp_custom if temp_custom is not None else (temp_base if tem_clima_base else 25.0))
+
+    # Nutri
+    tem_nutri_base = False
+    nutri_base = None
+    if not row_plan.empty and pd.notna(row_plan.iloc[0].get("planejado_nutri")) and float(row_plan.iloc[0].get("planejado_nutri", 0)) > 0:
+        tem_nutri_base = True
+        nutri_base = float(row_plan.iloc[0]["planejado_nutri"])
+    elif not row_fato.empty and pd.notna(row_fato.iloc[0].get("planejado_nutri")) and float(row_fato.iloc[0].get("planejado_nutri", 0)) > 0:
+        tem_nutri_base = True
+        nutri_base = float(row_fato.iloc[0]["planejado_nutri"])
+
+    nutri_utilizado = float(nutri_custom if nutri_custom is not None else (nutri_base if tem_nutri_base else 182.7))
+
+    # Consumo Real se conhecido no histórico
+    consumo_real = float(row_fato.iloc[0]["consumo"]) if not row_fato.empty and pd.notna(row_fato.iloc[0].get("consumo")) and float(row_fato.iloc[0]["consumo"]) > 0 else None
+
+    # 3. Configuração do Cenário
+    cen_cfg = CENARIOS_DICT.get(cenario_escolhido, CENARIOS_DICT["Cenário 3 (Cenário 2 + Quantitativo Institucional)"])
+    usar_clima = cen_cfg["usar_clima"]
+    usar_cardapio = cen_cfg["usar_cardapio"]
+    usar_nutri = cen_cfg.get("usar_nutri", True) and (objetivo == "consumo")
+
+    # 4. Vetor de Features
+    vetor_X = {
+        "consumo_lag_5": lag5,
+        "consumo_lag_10": lag10,
+        "media_movel_5d": mm5,
+        "precipitation_sum": chuva_utilizada if usar_clima else 0.0,
+        "temperature_2m_max": temp_utilizada if usar_clima else 25.0,
+        "is_dia_sem_0": 1 if dia_sem == 0 else 0,
+        "is_dia_sem_1": 1 if dia_sem == 1 else 0,
+        "is_dia_sem_2": 1 if dia_sem == 2 else 0,
+        "is_dia_sem_3": 1 if dia_sem == 3 else 0,
+        "is_dia_sem_4": 1 if dia_sem == 4 else 0,
+        "is_prot_bovina": 1 if ("bovina" in prot_utilizada and usar_cardapio) else 0,
+        "is_prot_frango": 1 if ("frango" in prot_utilizada and usar_cardapio) else 0,
+        "is_prot_suina": 1 if ("suina" in prot_utilizada and usar_cardapio) else 0,
+        "is_prot_peixe": 1 if ("peixe" in prot_utilizada and usar_cardapio) else 0,
+        "is_prot_ovo": 1 if ("ovo" in prot_utilizada and usar_cardapio) else 0
+    }
+
+    modelo_ridge, modelo_lasso, modelo_linear, modelo_rf, modelo_cat, cols_features = obter_modelos_treinados()
+    X_inst = np.array([[vetor_X[c] for c in cols_features]])
+
+    pred_ridge = float(modelo_ridge.predict(X_inst)[0])
+    pred_cat = float(modelo_cat.predict(X_inst)[0])
+    pred_rf = float(modelo_rf.predict(X_inst)[0])
+    pred_lasso = float(modelo_lasso.predict(X_inst)[0])
+    pred_linear = float(modelo_linear.predict(X_inst)[0])
+
+    if "CatBoost" in modelo_escolhido:
+        pred_ia = pred_cat
+    elif "Ridge" in modelo_escolhido:
+        pred_ia = pred_ridge
+    elif "Forest" in modelo_escolhido:
+        pred_ia = pred_rf
+    elif "Lasso" in modelo_escolhido:
+        pred_ia = pred_lasso
+    elif "Linear" in modelo_escolhido:
+        pred_ia = pred_linear
+    else:
+        pred_ia = pred_ridge
+
+    if usar_nutri and ("Híbrido" in modelo_escolhido or "Nutricionista" in modelo_escolhido):
+        if "Nutricionista" in modelo_escolhido and "Híbrido" not in modelo_escolhido:
+            pred_base = nutri_utilizado
+            margem_padrao = 0.0
+        else:
+            pred_base = 0.5 * pred_ia + 0.5 * nutri_utilizado
+            margem_padrao = 12.0
+    else:
+        pred_base = pred_ia
+        margem_padrao = 18.0
+
+    if "P85" in tipo_margem:
+        margem_val = margem_padrao
+    elif "P75" in tipo_margem:
+        margem_val = 7.0 if (usar_nutri and "Híbrido" in modelo_escolhido) else 10.0
+    elif "P90" in tipo_margem:
+        margem_val = 20.0 if (usar_nutri and "Híbrido" in modelo_escolhido) else 29.0
+    elif "Pura" in tipo_margem:
+        margem_val = 0.0
+    elif "Personalizada" in tipo_margem:
+        margem_val = float(margem_customizada)
+    else:
+        margem_val = margem_padrao
+
+    if usar_clima and chuva_utilizada >= 15.0:
+        margem_val = 0.0
+
+    pred_final = max(0, pred_base + margem_val)
+
+    alertas = []
+    if is_fim_semana:
+        alertas.append("⚠️ Fim de semana (sábado/domingo): refeitório fechado ou com cardápio excepcional.")
+    elif dia_sem == 4:
+        alertas.append("📅 Sexta-feira: retração histórica de ~20% no comparecimento à tarde.")
+    elif dia_sem == 2:
+        alertas.append("📅 Quarta-feira: dia de maior comparecimento discente (pico semanal com aulas técnicas).")
+
+    if usar_clima and chuva_utilizada >= 15.0:
+        alertas.append(f"⛈️ Alerta Tempestade ({chuva_utilizada:.1f} mm): Margem aditiva zerada para evitar desperdício de insumos.")
+    elif usar_clima and chuva_utilizada >= 5.0:
+        alertas.append(f"🌧️ Chuva prevista ({chuva_utilizada:.1f} mm): Queda esperada na adesão de alunos.")
+
+    if usar_cardapio:
+        if "bovina" in prot_utilizada:
+            alertas.append("🥩 Carne Bovina: Prato com maior adesão histórica de alunos.")
+        elif "peixe" in prot_utilizada:
+            alertas.append("🐟 Peixe / Pescados: Menor adesão discente (recomenda-se cautela no volume).")
+
+    erro_abs = abs(pred_final - consumo_real) if consumo_real is not None else None
+
+    return {
+        "dt_alvo": dt_alvo,
+        "data_str": data_formatada,
+        "dia_semana_nome": dia_sem_nome,
+        "is_fim_semana": is_fim_semana,
+        "objetivo": objetivo,
+        "cenario_escolhido": cenario_escolhido,
+        "modelo_escolhido": modelo_escolhido,
+        "tipo_margem": tipo_margem,
+        "dias_historico_utilizados": len(df_hist),
+        "tem_cardapio_base": tem_cardapio_base,
+        "prato_base": prato_base,
+        "prot_base": prot_base,
+        "prep_base": prep_base,
+        "tem_clima_base": tem_clima_base,
+        "chuva_base": chuva_base,
+        "temp_base": temp_base,
+        "tem_nutri_base": tem_nutri_base,
+        "nutri_base": nutri_base,
+        "prato_utilizado": prato_utilizado,
+        "prot_utilizada": prot_utilizada,
+        "prep_utilizado": prep_utilizado,
+        "chuva_utilizada": chuva_utilizada,
+        "temp_utilizada": temp_utilizada,
+        "nutri_utilizado": nutri_utilizado,
+        "consumo_real": consumo_real,
+        "erro_absoluto": erro_abs,
+        "pred_ia": round(pred_ia, 1),
+        "pred_base": round(pred_base, 1),
+        "margem_val": round(margem_val, 1),
+        "pred_final": int(round(pred_final)),
+        "mm5": round(mm5, 1),
+        "lag5": round(lag5, 1),
+        "lag10": round(lag10, 1),
+        "alertas": alertas,
+        "vetor_features": vetor_X
+    }
