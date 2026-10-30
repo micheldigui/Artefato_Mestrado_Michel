@@ -111,8 +111,8 @@ with st.sidebar:
     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
         <div style="font-size: 28px;">🍽️</div>
         <div>
-            <div style="font-size: 15px; font-weight: 800; line-height: 1.2;">Restaurante Universitário</div>
-            <div style="font-size: 11.5px; opacity: 0.8;">Painel de Apoio à Decisão</div>
+            <div style="font-size: 15px; font-weight: 800; line-height: 1.2; color: var(--text-primary);">Restaurante Universitário</div>
+            <div style="font-size: 11.5px; opacity: 0.85; color: var(--text-muted);">Painel de Apoio à Decisão</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -150,7 +150,7 @@ with st.sidebar:
     df_consumo_hist = carregar_historico_consumo()
     total_dias_base = len(df_consumo_hist) if not df_consumo_hist.empty else 645
     st.markdown(f"""
-    <div style="font-size: 11.5px; margin: 8px 0; opacity: 0.85;">
+    <div style="font-size: 11.5px; margin: 8px 0; color: var(--text-secondary);">
         🟢 <b>{total_dias_base} dias</b> monitorados na base<br>
         🌤️ <b>Open-Meteo</b> conectado em tempo real
     </div>
@@ -203,245 +203,133 @@ is_dark = (tema_escolhido == "🌙 Escuro")
 is_auto = (tema_escolhido == "💻 Auto")
 
 if is_dark:
-    theme_css = """
-    :root, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] {
-        background-color: #0b0f19 !important;
-        color: #f8fafc !important;
-    }
-    [data-testid="stSidebar"] {
-        background-color: #0f172a !important;
-        border-right: 1px solid #334155 !important;
-    }
-    h1, h2, h3, h4, h5, h6,
-    div[data-testid="stMarkdownContainer"] h1,
-    div[data-testid="stMarkdownContainer"] h2,
-    div[data-testid="stMarkdownContainer"] h3,
-    div[data-testid="stMarkdownContainer"] h4,
-    div[data-testid="stMarkdownContainer"] h5,
-    div[data-testid="stMarkdownContainer"] h6 {
-        color: #f8fafc !important;
-        font-weight: 700 !important;
-    }
-    p, span, li,
-    div[data-testid="stMarkdownContainer"] p,
-    div[data-testid="stMarkdownContainer"] span,
-    div[data-testid="stMarkdownContainer"] li {
-        color: #cbd5e1 !important;
-    }
-    strong, b,
-    div[data-testid="stMarkdownContainer"] strong,
-    div[data-testid="stMarkdownContainer"] b {
-        color: #f8fafc !important;
-        font-weight: 700 !important;
-    }
-    label,
-    label[data-testid="stWidgetLabel"],
-    label[data-testid="stWidgetLabel"] p,
-    div[data-testid="stWidgetLabel"],
-    div[data-testid="stWidgetLabel"] p,
-    div[data-testid="stRadio"] label,
-    div[data-testid="stRadio"] label p,
-    div[data-testid="stRadio"] label span,
-    div[data-testid="stCheckbox"] label,
-    div[data-testid="stCheckbox"] label p,
-    div[data-testid="stCheckbox"] label span {
-        color: #f8fafc !important;
-        font-weight: 600 !important;
-    }
-    div[data-baseweb="select"] > div,
-    div[data-baseweb="input"] > div,
-    input, select, textarea {
-        background-color: #1e293b !important;
-        color: #f8fafc !important;
-        border: 1px solid #334155 !important;
-    }
-    div[data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #111827 !important;
-        border: 1px solid #334155 !important;
-        border-radius: 10px !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-    }
-    .top-header {
-        background: #111827 !important;
-        border: 1px solid #334155 !important;
-        border-left: 5px solid #10b981 !important;
-    }
-    .header-titles h1 { color: #f8fafc !important; }
-    .header-titles p { color: #94a3b8 !important; }
-    .badge-status {
-        background: rgba(34, 197, 94, 0.16) !important;
-        color: #22c55e !important;
-        border: 1px solid rgba(34, 197, 94, 0.3) !important;
-    }
-    .badge-academico {
-        background: rgba(16, 185, 129, 0.15) !important;
-        color: #34d399 !important;
-        border: 1px solid #334155 !important;
-    }
-    .kpi-card {
-        background: #1e293b !important;
-        border: 1px solid #334155 !important;
-    }
-    .kpi-card.b-primary { border-left: 4px solid #10b981 !important; }
-    .kpi-card.b-accent { border-left: 4px solid #38bdf8 !important; }
-    .kpi-card.b-success { border-left: 4px solid #22c55e !important; }
-    .kpi-card.b-warning { border-left: 4px solid #f59e0b !important; }
-    .kpi-title { color: #94a3b8 !important; }
-    .kpi-val { color: #f8fafc !important; }
-    .kpi-sub { color: #cbd5e1 !important; }
-    .day-prod-card {
-        background: #1e293b !important;
-        border: 1px solid #334155 !important;
-        border-top: 4px solid #10b981 !important;
-    }
-    .day-prod-date { color: #94a3b8 !important; }
-    .day-prod-dish { color: #f1f5f9 !important; }
-    .day-prod-number { color: #10b981 !important; }
-    .day-prod-badge {
-        background: rgba(16, 185, 129, 0.2) !important;
-        color: #34d399 !important;
-    }
-    .day-prod-sub { color: #94a3b8 !important; }
-    div[data-testid="stMetric"] {
-        background-color: #1e293b !important;
-        border: 1px solid #334155 !important;
-        border-left: 4px solid #10b981 !important;
-    }
-    div[data-testid="stMetricLabel"] p,
-    div[data-testid="stMetricLabel"] { color: #94a3b8 !important; }
-    div[data-testid="stMetricValue"],
-    div[data-testid="stMetricValue"] div { color: #f8fafc !important; }
-    button[kind="primary"],
-    button[data-testid="baseButton-primary"],
-    div.stButton > button {
-        background-color: #10b981 !important;
-        color: #ffffff !important;
-    }
-    div[data-testid="stExpander"] {
-        background-color: #111827 !important;
-        border: 1px solid #334155 !important;
-    }
-    div[data-testid="stExpander"] details summary,
-    div[data-testid="stExpander"] details summary p,
-    div[data-testid="stExpander"] details summary span { color: #f8fafc !important; }
-    .stCaption, div[data-testid="stCaptionContainer"] p { color: #94a3b8 !important; }
-    """
     chart_text = "#cbd5e1"
     chart_grid = "#334155"
     chart_primary = "#10b981"
     chart_accent = "#38bdf8"
 else:
-    theme_css = """
-    :root, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] {
-        background-color: #f8fafc !important;
-        color: #0f172a !important;
-    }
-    [data-testid="stSidebar"] {
-        background-color: #ffffff !important;
-        border-right: 1px solid #e2e8f0 !important;
-    }
-    h1, h2, h3, h4, h5, h6,
-    div[data-testid="stMarkdownContainer"] h1,
-    div[data-testid="stMarkdownContainer"] h2,
-    div[data-testid="stMarkdownContainer"] h3,
-    div[data-testid="stMarkdownContainer"] h4,
-    div[data-testid="stMarkdownContainer"] h5,
-    div[data-testid="stMarkdownContainer"] h6 {
-        color: #0f172a !important;
-        font-weight: 700 !important;
-    }
-    p, span, li,
-    div[data-testid="stMarkdownContainer"] p,
-    div[data-testid="stMarkdownContainer"] span,
-    div[data-testid="stMarkdownContainer"] li {
-        color: #334155 !important;
-    }
-    label,
-    label[data-testid="stWidgetLabel"],
-    label[data-testid="stWidgetLabel"] p,
-    div[data-testid="stWidgetLabel"],
-    div[data-testid="stWidgetLabel"] p {
-        color: #0f172a !important;
-        font-weight: 600 !important;
-    }
-    div[data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 10px !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-    }
-    .top-header {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        border-left: 5px solid #008744 !important;
-    }
-    .header-titles h1 { color: #0f172a !important; }
-    .header-titles p { color: #475569 !important; }
-    .badge-status {
-        background: #dcfce7 !important;
-        color: #15803d !important;
-        border: 1px solid rgba(21, 128, 61, 0.25) !important;
-    }
-    .badge-academico {
-        background: #ecfdf5 !important;
-        color: #008744 !important;
-        border: 1px solid #e2e8f0 !important;
-    }
-    .kpi-card {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-    }
-    .kpi-card.b-primary { border-left: 4px solid #008744 !important; }
-    .kpi-card.b-accent { border-left: 4px solid #0284c7 !important; }
-    .kpi-card.b-success { border-left: 4px solid #15803d !important; }
-    .kpi-card.b-warning { border-left: 4px solid #b45309 !important; }
-    .kpi-title { color: #64748b !important; }
-    .kpi-val { color: #0f172a !important; }
-    .kpi-sub { color: #475569 !important; }
-    .day-prod-card {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        border-top: 4px solid #008744 !important;
-    }
-    .day-prod-date { color: #64748b !important; }
-    .day-prod-dish { color: #1e293b !important; }
-    .day-prod-number { color: #008744 !important; }
-    .day-prod-badge {
-        background: #ecfdf5 !important;
-        color: #008744 !important;
-    }
-    .day-prod-sub { color: #64748b !important; }
-    div[data-testid="stMetric"] {
-        background-color: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        border-left: 4px solid #008744 !important;
-    }
-    div[data-testid="stMetricLabel"] p,
-    div[data-testid="stMetricLabel"] { color: #64748b !important; }
-    div[data-testid="stMetricValue"],
-    div[data-testid="stMetricValue"] div { color: #0f172a !important; }
-    button[kind="primary"],
-    button[data-testid="baseButton-primary"],
-    div.stButton > button {
-        background-color: #008744 !important;
-        color: #ffffff !important;
-    }
-    div[data-testid="stExpander"] {
-        background-color: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-    }
-    div[data-testid="stExpander"] details summary,
-    div[data-testid="stExpander"] details summary p { color: #0f172a !important; }
-    .stCaption, div[data-testid="stCaptionContainer"] p { color: #64748b !important; }
-    """
     chart_text = "#334155"
     chart_grid = "#e2e8f0"
     chart_primary = "#008744"
     chart_accent = "#0284c7"
 
+if is_dark:
+    root_vars = """
+    :root {
+        --bg-app: #0b0f19;
+        --bg-sidebar: #0f172a;
+        --bg-card: #1e293b;
+        --bg-card-hover: #273549;
+        --border-subtle: #334155;
+        --border-strong: #475569;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --primary-color: #10b981;
+        --primary-hover: #059669;
+        --primary-subtle: rgba(16, 185, 129, 0.15);
+        --accent-color: #38bdf8;
+        --accent-hover: #0ea5e9;
+        --accent-subtle: rgba(56, 189, 248, 0.15);
+        --success-color: #22c55e;
+        --success-subtle: rgba(34, 197, 94, 0.15);
+        --warning-color: #f59e0b;
+        --warning-subtle: rgba(245, 158, 11, 0.15);
+        --danger-color: #ef4444;
+        --danger-subtle: rgba(239, 68, 68, 0.15);
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+    """
+elif is_auto:
+    root_vars = """
+    :root {
+        --bg-app: #f8fafc;
+        --bg-sidebar: #ffffff;
+        --bg-card: #ffffff;
+        --bg-card-hover: #f1f5f9;
+        --border-subtle: #e2e8f0;
+        --border-strong: #cbd5e1;
+        --text-primary: #0f172a;
+        --text-secondary: #334155;
+        --text-muted: #64748b;
+        --primary-color: #008744;
+        --primary-hover: #007038;
+        --primary-subtle: rgba(0, 135, 68, 0.08);
+        --accent-color: #0284c7;
+        --accent-hover: #0369a1;
+        --accent-subtle: rgba(2, 132, 199, 0.08);
+        --success-color: #15803d;
+        --success-subtle: #dcfce7;
+        --warning-color: #b45309;
+        --warning-subtle: #fef3c7;
+        --danger-color: #dc2626;
+        --danger-subtle: #fee2e2;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+    }
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg-app: #0b0f19;
+            --bg-sidebar: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #273549;
+            --border-subtle: #334155;
+            --border-strong: #475569;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --primary-color: #10b981;
+            --primary-hover: #059669;
+            --primary-subtle: rgba(16, 185, 129, 0.15);
+            --accent-color: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --accent-subtle: rgba(56, 189, 248, 0.15);
+            --success-color: #22c55e;
+            --success-subtle: rgba(34, 197, 94, 0.15);
+            --warning-color: #f59e0b;
+            --warning-subtle: rgba(245, 158, 11, 0.15);
+            --danger-color: #ef4444;
+            --danger-subtle: rgba(239, 68, 68, 0.15);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+    }
+    """
+else:
+    root_vars = """
+    :root {
+        --bg-app: #f8fafc;
+        --bg-sidebar: #ffffff;
+        --bg-card: #ffffff;
+        --bg-card-hover: #f1f5f9;
+        --border-subtle: #e2e8f0;
+        --border-strong: #cbd5e1;
+        --text-primary: #0f172a;
+        --text-secondary: #334155;
+        --text-muted: #64748b;
+        --primary-color: #008744;
+        --primary-hover: #007038;
+        --primary-subtle: rgba(0, 135, 68, 0.08);
+        --accent-color: #0284c7;
+        --accent-hover: #0369a1;
+        --accent-subtle: rgba(2, 132, 199, 0.08);
+        --success-color: #15803d;
+        --success-subtle: #dcfce7;
+        --warning-color: #b45309;
+        --warning-subtle: #fef3c7;
+        --danger-color: #dc2626;
+        --danger-subtle: #fee2e2;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+    }
+    """
+
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+
+{root_vars}
 
 :root {{
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -451,14 +339,188 @@ st.markdown(f"""
     --radius-lg: 14px;
 }}
 
-{theme_css}
-
-body, .stApp {{
+/* 1. Tipografia Global Unificada: Inter em todos os elementos */
+*, *::before, *::after,
+html, body, .stApp,
+div[data-testid="stMarkdownContainer"] *,
+button, input, select, textarea,
+div[data-baseweb="select"] *,
+div[data-baseweb="input"] *,
+div[data-testid="stWidgetLabel"] *,
+div[data-testid="stRadio"] *,
+div[data-testid="stCheckbox"] *,
+div[data-testid="stExpander"] * {{
     font-family: var(--font-sans) !important;
 }}
 
-/* Top Header */
+/* Monospace apenas para números e métricas operacionais */
+.kpi-val, .day-prod-number, [data-testid="stMetricValue"], [data-testid="stMetricValue"] *, code, pre, .font-mono {{
+    font-family: var(--font-mono) !important;
+}}
+
+/* 2. Layout, Fundo e Barra Lateral */
+body, .stApp, [data-testid="stAppViewContainer"] {{
+    background-color: var(--bg-app) !important;
+    color: var(--text-primary) !important;
+}}
+
+[data-testid="stSidebar"] {{
+    background-color: var(--bg-sidebar) !important;
+    border-right: 1px solid var(--border-subtle) !important;
+}}
+
+/* 3. Títulos e Textos */
+h1, h2, h3, h4, h5, h6,
+div[data-testid="stMarkdownContainer"] h1,
+div[data-testid="stMarkdownContainer"] h2,
+div[data-testid="stMarkdownContainer"] h3,
+div[data-testid="stMarkdownContainer"] h4,
+div[data-testid="stMarkdownContainer"] h5,
+div[data-testid="stMarkdownContainer"] h6 {{
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.2px !important;
+}}
+
+div[data-testid="stMarkdownContainer"] > p,
+div[data-testid="stMarkdownContainer"] > ul,
+div[data-testid="stMarkdownContainer"] > ol,
+div[data-testid="stMarkdownContainer"] li {{
+    color: var(--text-secondary) !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}}
+
+strong, b,
+div[data-testid="stMarkdownContainer"] strong,
+div[data-testid="stMarkdownContainer"] b {{
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+}}
+
+.stCaption, div[data-testid="stCaptionContainer"] p {{
+    color: var(--text-muted) !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+}}
+
+/* 4. Rótulos de Formulários */
+label,
+label[data-testid="stWidgetLabel"],
+label[data-testid="stWidgetLabel"] p,
+div[data-testid="stWidgetLabel"],
+div[data-testid="stWidgetLabel"] p,
+div[data-testid="stRadio"] label,
+div[data-testid="stRadio"] label p,
+div[data-testid="stCheckbox"] label,
+div[data-testid="stCheckbox"] label p {{
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+}}
+
+/* 5. Contêineres de Cards */
+div[data-testid="stVerticalBlockBorderWrapper"] {{
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-sm) !important;
+}}
+
+/* 6. Controles de Formulário e Menus Suspensos */
+div[data-baseweb="select"] > div,
+div[data-baseweb="input"] > div,
+input, select, textarea {{
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-sm) !important;
+}}
+
+div[data-baseweb="popover"],
+div[data-baseweb="menu"],
+div[role="listbox"],
+li[role="option"] {{
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}}
+li[role="option"]:hover,
+li[role="option"][aria-selected="true"] {{
+    background-color: var(--bg-card-hover) !important;
+    color: var(--primary-color) !important;
+}}
+
+div[data-baseweb="tag"] {{
+    background-color: var(--primary-subtle) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-sm) !important;
+}}
+div[data-baseweb="tag"] span {{
+    color: var(--primary-color) !important;
+    font-weight: 600 !important;
+}}
+
+/* 7. Botões Operacionais */
+button[kind="primary"],
+button[data-testid="baseButton-primary"],
+div.stButton > button {{
+    background-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    border-radius: var(--radius-sm) !important;
+    border: none !important;
+    font-weight: 600 !important;
+    transition: all 0.15s ease !important;
+}}
+button[kind="primary"]:hover,
+button[data-testid="baseButton-primary"]:hover,
+div.stButton > button:hover {{
+    background-color: var(--primary-hover) !important;
+    box-shadow: var(--shadow-sm) !important;
+}}
+
+/* 8. Sanfonas e Expanders */
+div[data-testid="stExpander"] {{
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-md) !important;
+}}
+div[data-testid="stExpander"] details summary,
+div[data-testid="stExpander"] details summary p,
+div[data-testid="stExpander"] details summary span {{
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+}}
+
+/* 9. Métricas Streamlit */
+div[data-testid="stMetric"] {{
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-left: 4px solid var(--primary-color) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 12px 16px !important;
+    box-shadow: var(--shadow-sm) !important;
+}}
+div[data-testid="stMetricLabel"],
+div[data-testid="stMetricLabel"] p {{
+    color: var(--text-muted) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}}
+div[data-testid="stMetricValue"],
+div[data-testid="stMetricValue"] div {{
+    color: var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+}}
+
+/* 10. Top Header Banner Institucional */
 .top-header {{
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-left: 5px solid var(--primary-color) !important;
     border-radius: var(--radius-md);
     padding: 14px 18px;
     margin-bottom: 20px;
@@ -467,7 +529,7 @@ body, .stApp {{
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
 }}
 .header-left {{
     display: flex;
@@ -475,26 +537,28 @@ body, .stApp {{
     gap: 12px;
 }}
 .logo-badge {{
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #008744, #0284c7);
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    box-shadow: 0 2px 6px rgba(0, 135, 68, 0.25);
+    font-size: 22px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }}
 .header-titles h1 {{
     font-size: 18px;
     font-weight: 700;
-    letter-spacing: -0.2px;
+    letter-spacing: -0.3px;
     margin: 0;
-    line-height: 1.2;
+    line-height: 1.25;
+    color: var(--text-primary) !important;
 }}
 .header-titles p {{
     font-size: 12px;
-    margin: 2px 0 0 0;
+    margin: 3px 0 0 0;
+    color: var(--text-muted) !important;
 }}
 .header-right {{
     display: flex;
@@ -505,87 +569,112 @@ body, .stApp {{
 .badge-status {{
     font-size: 11.5px;
     font-weight: 700;
-    padding: 4px 10px;
+    padding: 5px 11px;
     border-radius: 9999px;
+    background: var(--success-subtle) !important;
+    color: var(--success-color) !important;
+    border: 1px solid var(--border-subtle) !important;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
 }}
 .badge-academico {{
     font-size: 11px;
     font-weight: 700;
-    padding: 4px 10px;
+    padding: 5px 11px;
     border-radius: 9999px;
+    background: var(--primary-subtle) !important;
+    color: var(--primary-color) !important;
+    border: 1px solid var(--border-subtle) !important;
 }}
 
-/* KPI Cards */
+/* 11. KPI Row & Cards */
 .kpi-row {{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 12px;
     margin-bottom: 20px;
 }}
 .kpi-card {{
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
     border-radius: var(--radius-md);
     padding: 14px 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-    transition: transform 0.15s ease;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }}
 .kpi-card:hover {{
     transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }}
+.kpi-card.b-primary {{ border-left: 4px solid var(--primary-color) !important; }}
+.kpi-card.b-accent {{ border-left: 4px solid var(--accent-color) !important; }}
+.kpi-card.b-success {{ border-left: 4px solid var(--success-color) !important; }}
+.kpi-card.b-warning {{ border-left: 4px solid var(--warning-color) !important; }}
 .kpi-title {{
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    color: var(--text-muted) !important;
     margin-bottom: 4px;
 }}
 .kpi-val {{
-    font-size: 23px;
+    font-size: 24px;
     font-weight: 800;
-    font-family: var(--font-mono);
+    font-family: var(--font-mono) !important;
+    color: var(--text-primary) !important;
+    line-height: 1.2;
 }}
 .kpi-sub {{
     font-size: 11.5px;
-    margin-top: 2px;
+    color: var(--text-secondary) !important;
+    margin-top: 3px;
 }}
 
-/* Grade de Cartões Diários de Produção */
+/* 12. Grade de Cartões Diários de Produção */
 .day-prod-grid {{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
     gap: 12px;
     margin-bottom: 20px;
 }}
 .day-prod-card {{
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-top: 4px solid var(--primary-color) !important;
     border-radius: var(--radius-md);
     padding: 14px 12px;
     text-align: center;
-    transition: transform 0.15s ease;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }}
 .day-prod-card:hover {{
     transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }}
 .day-prod-date {{
     font-size: 11.5px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    color: var(--text-muted) !important;
 }}
 .day-prod-dish {{
     font-size: 12.5px;
     font-weight: 600;
-    margin: 5px 0;
+    color: var(--text-primary) !important;
+    margin: 6px 0;
     min-height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
 }}
 .day-prod-number {{
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 800;
-    font-family: var(--font-mono);
+    font-family: var(--font-mono) !important;
+    color: var(--primary-color) !important;
     line-height: 1.1;
     margin: 4px 0;
 }}
@@ -593,16 +682,51 @@ body, .stApp {{
     display: inline-block;
     font-size: 10.5px;
     font-weight: 700;
-    padding: 3px 8px;
+    padding: 3px 9px;
     border-radius: 999px;
+    background: var(--primary-subtle) !important;
+    color: var(--primary-color) !important;
+    border: 1px solid var(--border-subtle) !important;
     margin-top: 5px;
 }}
 .day-prod-sub {{
-    font-size: 10.5px;
+    font-size: 11px;
+    color: var(--text-muted) !important;
     margin-top: 5px;
 }}
 
-/* Responsividade Mobile */
+/* 13. Cabeçalhos dos Cards Explicativos (Como Funciona) */
+.expl-card-header {{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border-subtle);
+}}
+.expl-border-primary {{
+    border-left: 3px solid var(--primary-color);
+    padding-left: 8px;
+}}
+.expl-border-accent {{
+    border-left: 3px solid var(--accent-color);
+    padding-left: 8px;
+}}
+.expl-border-warning {{
+    border-left: 3px solid var(--warning-color);
+    padding-left: 8px;
+}}
+.expl-icon {{
+    font-size: 16px;
+}}
+.expl-title {{
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-primary) !important;
+    letter-spacing: -0.1px;
+}}
+
+/* 14. Responsividade Mobile */
 @media (max-width: 640px) {{
     .kpi-row {{
         grid-template-columns: 1fr 1fr !important;
@@ -612,7 +736,7 @@ body, .stApp {{
         padding: 10px 8px !important;
     }}
     .kpi-val {{
-        font-size: 18px !important;
+        font-size: 19px !important;
     }}
     .day-prod-grid {{
         grid-template-columns: 1fr !important;
@@ -657,14 +781,35 @@ def renderizar_painel_explicativo(objetivo_rotina, como_foi_feito_ciencia, como_
     with st.expander("💡 Como funciona esta tela? Entenda em 1 minuto ▾", expanded=False):
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.markdown("##### 🎯 Para que serve na sua rotina?")
-            st.info(objetivo_rotina)
+            with st.container(border=True):
+                st.markdown(
+                    '<div class="expl-card-header expl-border-primary">'
+                    '<span class="expl-icon">🎯</span>'
+                    '<span class="expl-title">Para que serve na sua rotina?</span>'
+                    '</div>',
+                    unsafe_allow_html=True
+                )
+                st.markdown(objetivo_rotina)
         with c2:
-            st.markdown("##### ⚙️ Como a inteligência foi construída?")
-            st.success(como_foi_feito_ciencia)
+            with st.container(border=True):
+                st.markdown(
+                    '<div class="expl-card-header expl-border-accent">'
+                    '<span class="expl-icon">⚙️</span>'
+                    '<span class="expl-title">Como foi construído?</span>'
+                    '</div>',
+                    unsafe_allow_html=True
+                )
+                st.markdown(como_foi_feito_ciencia)
         with c3:
-            st.markdown("##### 🚀 Como usar no dia a dia?")
-            st.warning(como_usar_passos)
+            with st.container(border=True):
+                st.markdown(
+                    '<div class="expl-card-header expl-border-warning">'
+                    '<span class="expl-icon">🚀</span>'
+                    '<span class="expl-title">Como usar no dia a dia?</span>'
+                    '</div>',
+                    unsafe_allow_html=True
+                )
+                st.markdown(como_usar_passos)
 
 # ==============================================================================
 # PÁGINA 1: DASHBOARD (SEÇÕES DINÂMICAS E FILTROS INTERATIVOS)
@@ -779,7 +924,9 @@ if pagina_ativa == "📊 Dashboard":
             )
             
             df_reg = df_dash.copy()
-            df_reg["referencia_planejada"] = df_reg["planejado_nutri"].combine_first(df_reg["reservas"])
+            col_nutri = df_reg["planejado_nutri"] if "planejado_nutri" in df_reg.columns else pd.Series(index=df_reg.index, dtype=float)
+            col_res = df_reg["reservas"] if "reservas" in df_reg.columns else pd.Series(index=df_reg.index, dtype=float)
+            df_reg["referencia_planejada"] = col_nutri.combine_first(col_res)
             df_reg = df_reg.dropna(subset=["referencia_planejada"]).copy()
             df_reg["desvio"] = df_reg["referencia_planejada"] - df_reg["consumo"]
             df_reg["tipo_desvio"] = df_reg["desvio"].apply(
@@ -792,15 +939,15 @@ if pagina_ativa == "📊 Dashboard":
                 st.caption("Barras acima de zero indicam sobras; barras abaixo indicam déficit em relação à presença real.")
                 
                 chart_desv = alt.Chart(df_reg.tail(100)).mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3).encode(
-                    x=alt.X("data_dt:T", title=None, axis=alt.Axis(format="%d/%m")),
+                    x=alt.X("data_dt:T", title=None, axis=alt.Axis(format="%d/%m", labelAngle=-45)),
                     y=alt.Y("desvio:Q", title="Diferença (Planejado - Consumo Real)"),
                     color=alt.Color(
                         "tipo_desvio:N",
                         scale=alt.Scale(
                             domain=["Sobra / Excedente (+)", "Falta Potencial (-)"],
-                            range=["#eab308", "#ef4444"]
+                            range=["#f59e0b", "#ef4444"]
                         ),
-                        legend=alt.Legend(title="Balanço Diário")
+                        legend=alt.Legend(title="Balanço Diário", labelFont="Inter", titleFont="Inter")
                     ),
                     tooltip=[
                         alt.Tooltip("data:N", title="Data"),
@@ -809,7 +956,10 @@ if pagina_ativa == "📊 Dashboard":
                         alt.Tooltip("desvio:Q", title="Diferença (ref)")
                     ]
                 ).properties(height=280).configure_axis(
-                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
+                ).configure_legend(
+                    labelColor=chart_text, titleColor=chart_text
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_desv, use_container_width=True)
                 
@@ -869,7 +1019,7 @@ if pagina_ativa == "📊 Dashboard":
                 st.markdown("##### 🌧️ Consumo Médio por Intensidade de Chuva")
                 st.caption("Note a queda acentuada de alunos nos dias de chuva forte.")
                 
-                chart_ch_bar = alt.Chart(df_ch_agg).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color="#0284c7").encode(
+                chart_ch_bar = alt.Chart(df_ch_agg).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color=chart_accent).encode(
                     x=alt.X("faixa_chuva:N", title=None, axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("consumo_medio:Q", title="Média de Refeições Servidas"),
                     tooltip=[
@@ -878,7 +1028,8 @@ if pagina_ativa == "📊 Dashboard":
                         alt.Tooltip("count:Q", title="Total de Dias no Histórico")
                     ]
                 ).properties(height=260).configure_axis(
-                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_ch_bar, use_container_width=True)
                 
@@ -886,7 +1037,7 @@ if pagina_ativa == "📊 Dashboard":
                 st.markdown("##### 🌡️ Relação Chuva (mm) vs. Refeições Servidas")
                 st.caption("Cada ponto representa um dia letivo real; a linha mostra a tendência de queda.")
                 
-                chart_ch_scatter = alt.Chart(df_ch).mark_circle(size=45, opacity=0.6, color="#38bdf8").encode(
+                chart_ch_scatter = alt.Chart(df_ch).mark_circle(size=45, opacity=0.6, color=chart_accent).encode(
                     x=alt.X("precipitation_sum:Q", title="Volume de Chuva (mm)"),
                     y=alt.Y("consumo:Q", title="Refeições Servidas"),
                     tooltip=[
@@ -899,7 +1050,8 @@ if pagina_ativa == "📊 Dashboard":
                 line_trend = chart_ch_scatter.transform_regression("precipitation_sum", "consumo").mark_line(color="#ef4444", strokeWidth=2.5)
                 
                 chart_ch_final = (chart_ch_scatter + line_trend).properties(height=260).configure_axis(
-                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_ch_final, use_container_width=True)
                 
@@ -936,7 +1088,8 @@ if pagina_ativa == "📊 Dashboard":
                         alt.Tooltip("count:Q", title="Ocorrências")
                     ]
                 ).properties(height=260).configure_axis(
-                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_p_bar, use_container_width=True)
                 
@@ -986,7 +1139,8 @@ if pagina_ativa == "📊 Dashboard":
                         alt.Tooltip("count:Q", title="Total de Dias")
                     ]
                 ).properties(height=260).configure_axis(
-                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_d_bar, use_container_width=True)
                 
@@ -999,7 +1153,7 @@ if pagina_ativa == "📊 Dashboard":
                 df_m = df_dash.groupby(["mes", "mes_nome"])["consumo"].mean().reset_index().sort_values("mes")
                 df_m["consumo_medio"] = df_m["consumo"].round(1)
                 
-                chart_m_bar = alt.Chart(df_m).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color="#f59e0b").encode(
+                chart_m_bar = alt.Chart(df_m).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color=chart_accent).encode(
                     x=alt.X("mes_nome:N", sort=list(meses_map.values()), title=None, axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("consumo_medio:Q", title="Média de Refeições"),
                     tooltip=[
@@ -1007,7 +1161,8 @@ if pagina_ativa == "📊 Dashboard":
                         alt.Tooltip("consumo_medio:Q", title="Média (ref)")
                     ]
                 ).properties(height=260).configure_axis(
-                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_m_bar, use_container_width=True)
 
@@ -1288,7 +1443,7 @@ elif pagina_ativa == "📝 Cadastrar Dados":
         ),
         como_foi_feito_ciencia=(
             "**Alimentação Contínua da Base Histórica (Camada Medallion):** "
-            "Cada novo dado lançado é integrado com segurança à base analítica, atualizando as médias móveis de 5 e 10 dias e o histórico da catraca."
+            "Cada novo dado lançado é integrado com segurança à base analítica, atualizando as médias móveis de 5 e 10 dias e o histórico de refeições servidas."
         ),
         como_usar_passos=(
             "1. **Diariamente após as 14h:** Digite o número de refeições servidas naquele dia.\n"

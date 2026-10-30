@@ -37,6 +37,30 @@ def carregar_fato_diaria_completa():
     else:
         df_fato = pd.DataFrame()
 
+    # Garantir que a coluna 'planejado_nutri' sempre exista na base fato
+    if "planejado_nutri" not in df_fato.columns:
+        df_fato["planejado_nutri"] = np.nan
+
+    # No regime_reserva == 'nutricionista_estimativa' ou 'nutricionista',
+    # a quantidade estipulada pela nutricionista consta no registro de reservas.
+    if "regime_reserva" in df_fato.columns and "reservas" in df_fato.columns:
+        mask_nutri = df_fato["regime_reserva"].isin(["nutricionista_estimativa", "nutricionista"])
+        df_fato.loc[mask_nutri & df_fato["planejado_nutri"].isna(), "planejado_nutri"] = df_fato.loc[mask_nutri, "reservas"]
+
+    # Sobrepor planejamento inserido pela nutricionista em producao
+    if os.path.exists(PLANEJAMENTO_NUTRI):
+        df_nutri = pd.read_parquet(PLANEJAMENTO_NUTRI)
+        if not df_nutri.empty and "data_iso" in df_nutri.columns:
+            for _, row_n in df_nutri.iterrows():
+                idx_n = df_fato[df_fato["data_iso"] == row_n["data_iso"]].index
+                if len(idx_n) > 0:
+                    if "planejado_nutri" in row_n and pd.notna(row_n["planejado_nutri"]):
+                        df_fato.loc[idx_n, "planejado_nutri"] = row_n["planejado_nutri"]
+                    if "prato_principal" in row_n and pd.notna(row_n["prato_principal"]) and row_n["prato_principal"]:
+                        df_fato.loc[idx_n, "prato_principal"] = row_n["prato_principal"]
+                    if "proteina_tipo" in row_n and pd.notna(row_n["proteina_tipo"]) and row_n["proteina_tipo"]:
+                        df_fato.loc[idx_n, "proteina_tipo"] = row_n["proteina_tipo"]
+
     # Sobrepor novos consumos avulsos se houver
     if os.path.exists(NOVOS_CONSUMOS):
         df_novos_c = pd.read_parquet(NOVOS_CONSUMOS)
@@ -116,7 +140,9 @@ def consultar_dados_completos_data(data_str):
         resultado["evento_tipo"] = str(r.get("evento_tipo", "Letivo Regular")) if pd.notna(r.get("evento_tipo")) else "Letivo Regular"
         resultado["consumo"] = float(r["consumo"]) if pd.notna(r.get("consumo")) else None
         resultado["reservas"] = float(r["reservas"]) if pd.notna(r.get("reservas")) else None
-        resultado["planejado_nutri"] = float(r["reservas"]) if (pd.notna(r.get("reservas")) and r.get("regime_reserva") == "nutricionista") else None
+        resultado["planejado_nutri"] = float(r["planejado_nutri"]) if pd.notna(r.get("planejado_nutri")) else (
+            float(r["reservas"]) if (pd.notna(r.get("reservas")) and r.get("regime_reserva") in ["nutricionista", "nutricionista_estimativa"]) else None
+        )
         resultado["prato_principal"] = str(r.get("prato_principal", "")) if pd.notna(r.get("prato_principal")) else ""
         resultado["proteina_tipo"] = str(r.get("proteina_tipo", "Frango")) if pd.notna(r.get("proteina_tipo")) else "Frango"
         resultado["preparo_tipo"] = str(r.get("preparo_tipo", "Assado / Grelhado")) if pd.notna(r.get("preparo_tipo")) else "Assado / Grelhado"
