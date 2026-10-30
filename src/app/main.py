@@ -790,6 +790,38 @@ div[data-testid="stMetricValue"] div {{
     margin-bottom: 16px;
     line-height: 1.45;
 }}
+
+/* 16. Ranking Badges do Cardápio */
+.rank-badge {{
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+}}
+.rank-1 {{
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}}
+.rank-2 {{
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+}}
+.rank-3 {{
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}}
+.rank-other {{
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -1120,15 +1152,24 @@ if pagina_ativa == "📊 Dashboard":
                 "Pratos à base de carne bovina e frango registram alta adesão, enquanto pratos com peixe historicamente têm menor procura."
             )
             
-            df_p = df_dash[df_dash["proteina_tipo"].isin(["bovina", "frango", "suina", "peixe"])].copy()
-            df_p_agg = df_p.groupby("proteina_tipo")["consumo"].agg(["count", "mean", "min", "max"]).reset_index()
-            df_p_agg["proteina_nome"] = df_p_agg["proteina_tipo"].str.title()
-            df_p_agg["consumo_medio"] = df_p_agg["mean"].round(1)
+            nomes_proteina = {
+                "bovina": "Carne Bovina",
+                "frango": "Frango / Aves",
+                "suina": "Carne Suína",
+                "peixe": "Peixe / Pescados"
+            }
             
-            col_p1, col_p2 = st.columns(2)
+            df_p = df_dash[df_dash["proteina_tipo"].isin(nomes_proteina.keys())].copy()
+            df_p_agg = df_p.groupby("proteina_tipo")["consumo"].agg(["count", "mean", "min", "max"]).reset_index()
+            df_p_agg["proteina_nome"] = df_p_agg["proteina_tipo"].map(nomes_proteina)
+            df_p_agg["consumo_medio"] = df_p_agg["mean"].round(1)
+            # Ordenação decrescente: o prato com maior média fica sempre no topo (1º lugar)
+            df_p_agg = df_p_agg.sort_values(by="consumo_medio", ascending=False).reset_index(drop=True)
+            
+            col_p1, col_p2 = st.columns([1, 1.3])
             with col_p1:
                 st.markdown("##### 🥩 Média de Alunos por Tipo de Carne")
-                st.caption("Comparativo da atratividade média de cada proteína servida.")
+                st.caption(f"Comparativo visual de consumo médio no período: **{filtro_ano}**.")
                 
                 chart_p_bar = alt.Chart(df_p_agg).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color=chart_primary).encode(
                     x=alt.X("proteina_nome:N", sort="-y", title=None, axis=alt.Axis(labelAngle=0)),
@@ -1136,59 +1177,73 @@ if pagina_ativa == "📊 Dashboard":
                     tooltip=[
                         alt.Tooltip("proteina_nome:N", title="Proteína"),
                         alt.Tooltip("consumo_medio:Q", title="Média (refeições)"),
-                        alt.Tooltip("count:Q", title="Ocorrências")
+                        alt.Tooltip("count:Q", title="Dias Servidos")
                     ]
-                ).properties(height=260).configure_axis(
+                ).properties(height=280).configure_axis(
                     labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
                     labelFont="Inter", titleFont="Inter"
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_p_bar, use_container_width=True)
                 
             with col_p2:
-                st.markdown("##### 📋 Tabela de Planejamento por Prato Principal (Dinâmica)")
-                st.caption("Estatísticas reais apuradas conforme o período e os dias da semana selecionados nos filtros.")
+                st.markdown(f"##### 📋 Ranking e Planejamento por Prato — {filtro_ano}")
+                st.caption(f"Estatísticas dinâmicas calculadas em tempo real sobre {len(df_p)} datas analisadas no filtro.")
                 
-                tabela_linhas = []
-                prot_info = {
-                    "bovina": {"nome": "Carne Bovina", "estrelas": "⭐⭐⭐⭐⭐ Alta"},
-                    "frango": {"nome": "Frango / Aves", "estrelas": "⭐⭐⭐⭐ Boa"},
-                    "suina": {"nome": "Carne Suína", "estrelas": "⭐⭐⭐ Média"},
-                    "peixe": {"nome": "Peixe / Pescados", "estrelas": "⭐⭐ Moderada"}
-                }
+                html_rows = []
+                rank_meta = [
+                    ("🥇 1º Lugar", "rank-1", "⭐⭐⭐⭐⭐ Maior Procura"),
+                    ("🥈 2º Lugar", "rank-2", "⭐⭐⭐⭐ Alta Procura"),
+                    ("🥉 3º Lugar", "rank-3", "⭐⭐⭐ Procura Média"),
+                    ("4º Lugar", "rank-other", "⭐⭐ Procura Moderada")
+                ]
                 
-                for prot_chave, meta in prot_info.items():
-                    row_p = df_p_agg[df_p_agg["proteina_tipo"] == prot_chave]
-                    if not row_p.empty:
-                        qtd_dias = int(row_p.iloc[0]["count"])
-                        med_val = round(float(row_p.iloc[0]["mean"]), 1)
-                        min_val = int(row_p.iloc[0]["min"])
-                        max_val = int(row_p.iloc[0]["max"])
-                        adesao_txt = f"{med_val:.0f} ref (mín {min_val} / máx {max_val})"
-                        dias_txt = f"{qtd_dias} datas"
-                        
-                        if med_val >= 160:
-                            acao = "Demanda máxima no recorte. Manter quantitativo pleno e margem protetiva."
-                        elif med_val >= 148:
-                            acao = "Padrão de comparecimento estável. Manter produção regular."
-                        elif med_val >= 135:
-                            acao = "Procura moderada. Monitorar sobras de balcão."
-                        else:
-                            acao = "Menor adesão no recorte. Reduzir preparo em ~15 a 20 ref para evitar sobras."
+                for idx, r_p in df_p_agg.iterrows():
+                    p_nome = r_p["proteina_nome"]
+                    cnt = int(r_p["count"])
+                    med = float(r_p["mean"])
+                    v_min = int(r_p["min"])
+                    v_max = int(r_p["max"])
+                    
+                    b_txt, b_cls, b_stars = rank_meta[idx] if idx < len(rank_meta) else (f"{idx+1}º Lugar", "rank-other", "⭐ Regular")
+                    
+                    if idx == 0:
+                        acao = "Maior demanda apurada no recorte. Manter quantitativo pleno e margem protetiva total."
+                    elif idx == 1:
+                        acao = "Padrão de comparecimento consolidado. Manter produção regular estável."
+                    elif idx == 2:
+                        acao = "Procura intermediária. Acompanhar sobras de balcão e dispensar reforço."
                     else:
-                        adesao_txt = "Sem dados no recorte"
-                        dias_txt = "0 datas"
-                        acao = "Proteína não servida no período filtrado."
-
-                    tabela_linhas.append({
-                        "Proteína": meta["nome"],
-                        "Atratividade": meta["estrelas"],
-                        "Média Apurada no Filtro": adesao_txt,
-                        "Total de Dias": dias_txt,
-                        "Ação Operacional Recomendada": acao
-                    })
-
-                tabela_pratos = pd.DataFrame(tabela_linhas)
-                st.dataframe(tabela_pratos, use_container_width=True, hide_index=True)
+                        acao = "Menor adesão no recorte. Reduzir preparo em ~15 a 20 ref para evitar sobras."
+                        
+                    html_rows.append(f"""
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 9px 10px; font-weight: 700; white-space: nowrap;"><span class="rank-badge {b_cls}">{b_txt}</span></td>
+                        <td style="padding: 9px 10px; font-weight: 600; color: var(--text-main);">{html.escape(p_nome)}<br><small style="color: var(--text-muted); font-size: 11px;">{b_stars}</small></td>
+                        <td style="padding: 9px 10px; font-weight: 800; font-family: var(--font-mono); white-space: nowrap; color: var(--text-main);">{med:.0f} ref<br><small style="color: var(--text-muted); font-family: var(--font-sans); font-size: 11px; font-weight: normal;">mín {v_min} / máx {v_max}</small></td>
+                        <td style="padding: 9px 10px; text-align: center; font-family: var(--font-mono); font-size: 12px; white-space: nowrap; color: var(--text-muted);">{cnt} datas</td>
+                        <td style="padding: 9px 10px; font-size: 12px; line-height: 1.35; color: var(--text-main);">{acao}</td>
+                    </tr>
+                    """)
+                    
+                table_html = f"""
+                <div style="overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-card); margin-bottom: 8px;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12.5px;">
+                        <thead>
+                            <tr style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-subtle);">
+                                <th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Posição</th>
+                                <th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Proteína</th>
+                                <th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Média no Filtro</th>
+                                <th style="padding: 9px 10px; text-align: center; color: var(--text-main); font-weight: 700;">Datas</th>
+                                <th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Recomendação para a Cozinha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {"".join(html_rows)}
+                        </tbody>
+                    </table>
+                </div>
+                """
+                st.markdown(table_html, unsafe_allow_html=True)
                 
             st.caption("💡 **Dica Prática:** Ao agendar peixe na sexta-feira, o efeito é duplo (menos alunos pelo prato e pela evasão da tarde). O sistema compensa isso automaticamente.")
 

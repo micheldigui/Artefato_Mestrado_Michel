@@ -273,13 +273,16 @@ def salvar_planejamento_semanal(df_semana):
 
 def salvar_predicoes_geradas(df_predicoes):
     """Armazena o histórico das previsões emitidas."""
-    df_predicoes["timestamp_execucao"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    if os.path.exists(PREDICOES_HISTORICO):
-        df_hist = pd.read_parquet(PREDICOES_HISTORICO)
-        df_final = pd.concat([df_hist, df_predicoes], ignore_index=True)
-    else:
-        df_final = df_predicoes
-    df_final.to_parquet(PREDICOES_HISTORICO, index=False)
+    try:
+        df_predicoes["timestamp_execucao"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if os.path.exists(PREDICOES_HISTORICO):
+            df_hist = pd.read_parquet(PREDICOES_HISTORICO)
+            df_final = pd.concat([df_hist, df_predicoes], ignore_index=True)
+        else:
+            df_final = df_predicoes
+        df_final.to_parquet(PREDICOES_HISTORICO, index=False)
+    except Exception:
+        pass
     return True
 
 def listar_ultimas_edicoes(limite=10):
