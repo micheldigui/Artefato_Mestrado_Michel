@@ -8,10 +8,18 @@ import requests
 import pandas as pd
 import numpy as np
 
+try:
+    import streamlit as st
+    cache_clima = st.cache_data(ttl=3600)
+except Exception:
+    def cache_clima(fn):
+        return fn
+
 # Coordenadas geográficas da instituição pública de ensino
 LATITUDE = -23.4862
 LONGITUDE = -46.3483
 
+@cache_clima
 def obter_previsao_clima_futura(dias_frente=14):
     """
     Obtém previsões de chuva acumulada (mm) e temperatura máxima (°C) para os próximos N dias.

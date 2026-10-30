@@ -22,6 +22,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import altair as alt
+import html
 from datetime import datetime, date, timedelta
 import importlib
 
@@ -42,7 +43,7 @@ try:
     )
     import pipeline
     importlib.reload(pipeline)
-    from pipeline import executar_pipeline_previsao, DIAS_SEMANA_PT, obter_proximos_dias_uteis, CENARIOS_DICT, MODELOS_RANKING, MARGENS_INFO
+    from pipeline import executar_pipeline_previsao, DIAS_SEMANA_PT, obter_proximos_dias_uteis, CENARIOS_DICT, MODELOS_RANKING, MARGENS_INFO, obter_modelos_treinados
 except ImportError:
     from . import storage, pipeline
     importlib.reload(storage)
@@ -59,7 +60,7 @@ except ImportError:
         carregar_fato_diaria_completa,
         CSV_CONSUMO_ATUALIZADO
     )
-    from .pipeline import executar_pipeline_previsao, DIAS_SEMANA_PT, obter_proximos_dias_uteis, CENARIOS_DICT, MODELOS_RANKING, MARGENS_INFO
+    from .pipeline import executar_pipeline_previsao, DIAS_SEMANA_PT, obter_proximos_dias_uteis, CENARIOS_DICT, MODELOS_RANKING, MARGENS_INFO, obter_modelos_treinados
 
 # Configuração da página
 st.set_page_config(
@@ -892,6 +893,29 @@ div[data-testid="stMetricValue"] {{
     padding: 18px 20px;
     margin-bottom: 16px;
 }}
+
+/* Responsividade Mobile Refinada */
+@media (max-width: 640px) {{
+    .kpi-row {{
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }}
+    .kpi-card {{
+        padding: 12px 10px !important;
+    }}
+    .kpi-val {{
+        font-size: 19px !important;
+    }}
+    .day-prod-grid {{
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }}
+    .top-header {{
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -939,12 +963,24 @@ with aba1:
     st.markdown("### 📊 Visão Geral da Demanda e Indicadores Operacionais")
     st.caption("Painel executivo com a síntese histórica de consumo no campus, acurácia preditiva dos modelos de IA e fatores de maior impacto na presença diária dos estudantes.")
 
-    # 1. Resumo Macro (KPI Cards estilo Jucelino)
-    st.markdown("""
+    # Carregamento e Preparação Dinâmica dos Dados
+    df_fato_raw = carregar_fato_diaria_completa()
+    df_validos = df_fato_raw[
+        (df_fato_raw["is_dia_letivo"] == True) & 
+        (df_fato_raw["consumo"].notna()) & 
+        (df_fato_raw["consumo"] > 0)
+    ].copy()
+    df_validos = df_validos.sort_values("data_dt")
+
+    total_dias_auditados = len(df_validos)
+    media_consumo_diario = int(round(df_validos["consumo"].mean())) if total_dias_auditados > 0 else 180
+
+    # 1. Resumo Macro (KPI Cards estilo Jucelino com Dados Reais)
+    st.markdown(f"""
     <div class="kpi-row">
         <div class="kpi-card b-primary">
             <div class="kpi-title">Média Diária de Consumo</div>
-            <div class="kpi-val">182 ref</div>
+            <div class="kpi-val">{media_consumo_diario} ref</div>
             <div class="kpi-sub">Referência letiva regular</div>
         </div>
         <div class="kpi-card b-success">
@@ -959,20 +995,11 @@ with aba1:
         </div>
         <div class="kpi-card b-accent">
             <div class="kpi-title">Datas Monitoradas</div>
-            <div class="kpi-val">645 dias</div>
+            <div class="kpi-val">{total_dias_auditados} dias</div>
             <div class="kpi-sub">Consumo real auditado no campus</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-
-    # Carregamento e Preparação dos Dados para os Gráficos
-    df_fato_raw = carregar_fato_diaria_completa()
-    df_validos = df_fato_raw[
-        (df_fato_raw["is_dia_letivo"] == True) & 
-        (df_fato_raw["consumo"].notna()) & 
-        (df_fato_raw["consumo"] > 0)
-    ].copy()
-    df_validos = df_validos.sort_values("data_dt")
 
     # LINHA 1 DE PAINÉIS (GRÁFICOS 1 E 2 COM CONTAINERS NATIVOS)
     col_g1, col_g2 = st.columns(2)
@@ -984,10 +1011,11 @@ with aba1:
             
             if not df_validos.empty:
                 df_recente = df_validos.tail(120).copy()
-                df_recente["data_str"] = df_recente["data_dt"].dt.strftime("%d/%m")
                 df_recente["media_movel"] = df_recente["consumo"].rolling(5, min_periods=1).mean().round(1)
 
-                base_chart = alt.Chart(df_recente).encode(x=alt.X("data_str:N", title=None, axis=alt.Axis(labels=False, ticks=False)))
+                base_chart = alt.Chart(df_recente).encode(
+                    x=alt.X("data_dt:T", title=None, axis=alt.Axis(format="%d/%m", labelAngle=0))
+                )
                 
                 line_cons = base_chart.mark_line(color=chart_accent, strokeWidth=1.8, opacity=0.85).encode(
                     y=alt.Y("consumo:Q", title="Refeições Servidas"),
@@ -1117,9 +1145,9 @@ with aba2:
         
         cards_html = '<div class="day-prod-grid">'
         for _, row_dia in df_t1.iterrows():
-            d_nome = row_dia["dia_semana"]
-            d_data = row_dia["data"]
-            d_prato = row_dia["prato_principal"]
+            d_nome = html.escape(str(row_dia["dia_semana"]))
+            d_data = html.escape(str(row_dia["data"]))
+            d_prato = html.escape(str(row_dia["prato_principal"]))
             d_ordem = int(row_dia["recomendacao_final"])
             d_base = int(row_dia["pred_base_combinada"])
             d_marg = int(row_dia["margem_aplicada"])
@@ -1170,6 +1198,8 @@ with aba2:
                 mime="text/csv",
                 use_container_width=True
             )
+    else:
+        st.warning("⚠️ Não foram identificadas datas letivas para o horizonte selecionado. Verifique o calendário operacional do campus.")
 
     st.markdown("---")
 
@@ -1227,8 +1257,7 @@ with aba2:
         "is_prot_ovo": 1 if prot_tipo == "ovo" else 0
     }
     
-    df_tr = pipeline.construir_dataset_treino()
-    m_ridge, _, _, _, m_cat, c_feat = pipeline.treinar_modelos(df_tr)
+    m_ridge, _, _, _, m_cat, c_feat = obter_modelos_treinados()
     X_s = np.array([[vetor_sim[c] for c in c_feat]])
     
     pred_ia_s = float(m_ridge.predict(X_s)[0])
@@ -1449,13 +1478,14 @@ with aba4:
             btn_salvar = st.form_submit_button("💾 Salvar Informações Desta Data", type="primary", use_container_width=True)
             
         if btn_salvar:
+            prato_nome_limpo = (prato_nome or "").strip() or "Refeição Tradicional do Dia"
             dict_salvar = {
                 "consumo": novo_consumo if novo_consumo > 0 else None,
                 "reservas": int(dados_dia['reservas']) if dados_dia['reservas'] is not None else None,
                 "planejado_nutri": novo_planejado_nutri,
                 "is_dia_letivo": is_letivo,
                 "evento_tipo": "Letivo Regular" if is_letivo else "Sem Aula",
-                "prato_principal": prato_nome,
+                "prato_principal": prato_nome_limpo,
                 "proteina_tipo": proteina_sel,
                 "preparo_tipo": dados_dia["preparo_tipo"] or "Grelhado",
                 "precipitation_sum": chuva_val,

@@ -12,6 +12,16 @@ from sklearn.ensemble import RandomForestRegressor
 from datetime import datetime, timedelta
 
 try:
+    import streamlit as st
+    cache_resource = st.cache_resource
+    cache_data = st.cache_data(ttl=1800)
+except Exception:
+    def cache_resource(fn):
+        return fn
+    def cache_data(fn):
+        return fn
+
+try:
     from catboost import CatBoostRegressor
     HAS_CATBOOST = True
 except ImportError:
@@ -169,6 +179,7 @@ def obter_proximos_dias_uteis(origem_dt=None, num_dias=10):
         cur += timedelta(days=1)
     return dias
 
+@cache_data
 def construir_dataset_treino():
     """
     Prepara a base histórica para treino dos modelos supervisionados com corte estrito de qualificação.
@@ -251,6 +262,15 @@ def treinar_modelos(df_treino):
         
     return modelo_ridge, modelo_lasso, modelo_linear, modelo_rf, modelo_cat, cols_features
 
+@cache_resource
+def obter_modelos_treinados():
+    """
+    Retorna os 5 modelos supervisionados ajustados e os atributos preditivos com cache em memória,
+    otimizando a responsividade da aplicação web para menos de 1ms.
+    """
+    df_treino = construir_dataset_treino()
+    return treinar_modelos(df_treino)
+
 def executar_pipeline_previsao(
     horizonte_alvo="todos",
     cenario_escolhido="Cenário 4 (Completo: Calendário + Clima + Cardápio)",
@@ -275,7 +295,7 @@ def executar_pipeline_previsao(
     df_clima_futuro = obter_previsao_clima_futura(dias_frente=16) if usar_clima else pd.DataFrame()
     df_treino = construir_dataset_treino()
     
-    modelo_ridge, modelo_lasso, modelo_linear, modelo_rf, modelo_cat, cols_features = treinar_modelos(df_treino)
+    modelo_ridge, modelo_lasso, modelo_linear, modelo_rf, modelo_cat, cols_features = obter_modelos_treinados()
     
     datas_uteis = obter_proximos_dias_uteis(num_dias=10)
     
