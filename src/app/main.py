@@ -1130,36 +1130,63 @@ if pagina_ativa == "📊 Dashboard":
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_timeline, use_container_width=True)
 
-            # Linha 2 de Análises: Efeito Compensatório Acumulado e Tabela Sintética dos Regimes
+            # Linha 2 de Análises: Balanço Anual de Falta vs Sobra (Dissertação Fig. 05) e Confronto dos Regimes
             col_r3, col_r4 = st.columns(2)
             with col_r3:
-                st.markdown("##### ⚖️ O Efeito Compensatório da Gestão (Saldo Acumulado)")
-                st.caption("Evolução do saldo cumulativo de refeições ao longo do tempo (Capítulo 4 da dissertação).")
+                st.markdown("##### ⚖️ Potencial de Falta (Déficit) vs. Sobra por Ano")
+                st.caption("Comparativo anual consolidado de refeições faltantes vs. excedentes acumuladas (Dissertação Fig. 05).")
                 
-                chart_cum = alt.Chart(df_reg).mark_area(
-                    line={"color": "#0284c7", "strokeWidth": 2},
-                    color=alt.Gradient(
-                        gradient="linear",
-                        stops=[
-                            alt.GradientStop(color="#0284c7", offset=0),
-                            alt.GradientStop(color="rgba(2, 132, 199, 0.08)", offset=1)
-                        ],
-                        x1=1, x2=1, y1=1, y2=0
-                    )
-                ).encode(
-                    x=alt.X("data_dt:T", title=None, axis=alt.Axis(format="%b/%y", labelAngle=-45)),
-                    y=alt.Y("desvio_acum:Q", title="Saldo Acumulado de Refeições"),
+                df_bal_base = df_validos_geral.copy()
+                c_nut = df_bal_base["planejado_nutri"] if "planejado_nutri" in df_bal_base.columns else pd.Series(index=df_bal_base.index, dtype=float)
+                c_res = df_bal_base["reservas"] if "reservas" in df_bal_base.columns else pd.Series(index=df_bal_base.index, dtype=float)
+                df_bal_base["referencia_bal"] = c_nut.combine_first(c_res)
+                df_bal_base = df_bal_base.dropna(subset=["referencia_bal"]).copy()
+                
+                df_bal_base["falta_ref"] = (df_bal_base["consumo"] - df_bal_base["referencia_bal"]).clip(lower=0)
+                df_bal_base["sobra_ref"] = (df_bal_base["referencia_bal"] - df_bal_base["consumo"]).clip(lower=0)
+                
+                resumo_bal = df_bal_base.groupby("ano").agg(
+                    total_falta=("falta_ref", "sum"),
+                    total_sobra=("sobra_ref", "sum")
+                ).reset_index()
+                
+                df_melt_bal = resumo_bal.melt(
+                    id_vars=["ano"],
+                    value_vars=["total_falta", "total_sobra"],
+                    var_name="tipo",
+                    value_name="total_refeicoes"
+                )
+                df_melt_bal["ano_str"] = df_melt_bal["ano"].astype(str)
+                df_melt_bal["tipo_nome"] = df_melt_bal["tipo"].map({
+                    "total_falta": "Potencial de Falta (Déficit)",
+                    "total_sobra": "Potencial de Sobra (Excedente)"
+                })
+                
+                chart_bal_ano = alt.Chart(df_melt_bal).mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4).encode(
+                    x=alt.X("ano_str:N", title="Ano Letivo", axis=alt.Axis(labelAngle=0)),
+                    xOffset="tipo_nome:N",
+                    y=alt.Y("total_refeicoes:Q", title="Total de Refeições no Ano"),
+                    color=alt.Color(
+                        "tipo_nome:N",
+                        scale=alt.Scale(
+                            domain=["Potencial de Falta (Déficit)", "Potencial de Sobra (Excedente)"],
+                            range=["#ef4444", "#f59e0b"]
+                        ),
+                        legend=alt.Legend(title=None, orient="top", labelFont="Inter")
+                    ),
                     tooltip=[
-                        alt.Tooltip("data:N", title="Data"),
-                        alt.Tooltip("desvio_acum:Q", title="Saldo Acumulado (ref)"),
-                        alt.Tooltip("desvio:Q", title="Desvio do Dia")
+                        alt.Tooltip("ano_str:N", title="Ano Letivo"),
+                        alt.Tooltip("tipo_nome:N", title="Tipo"),
+                        alt.Tooltip("total_refeicoes:Q", title="Total (ref)", format=",.0f")
                     ]
                 ).properties(height=260).configure_axis(
                     labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
                     labelFont="Inter", titleFont="Inter"
+                ).configure_legend(
+                    labelColor=chart_text, titleColor=chart_text
                 ).configure_view(stroke=None, fill="transparent")
-                st.altair_chart(chart_cum, use_container_width=True)
-                st.caption("💡 **Diagnóstico:** Uma sobra na terça-feira não mata a fome de quem ficou sem almoço na quinta. O saldo fiscal global mascara o déficit diário individual.")
+                st.altair_chart(chart_bal_ano, use_container_width=True)
+                st.caption("💡 **Diagnóstico:** Em 2024 e 2025, o sistema voluntário gerou mais de 8.200 refeições em déficit (risco de desabastecimento). Em 2026, a folga preventiva zerou as faltas, mas acumulou +3.354 refeições excedentes.")
 
             with col_r4:
                 st.markdown("##### 📊 Confronto dos 3 Regimes Operacionais da Pesquisa")
@@ -1408,35 +1435,32 @@ if pagina_ativa == "📊 Dashboard":
                     else:
                         acao = "Menor adesão no recorte. Reduzir preparo em ~15 a 20 ref para evitar sobras."
                         
-                    html_rows.append(f"""
-                    <tr style="border-bottom: 1px solid var(--border-subtle);">
-                        <td style="padding: 9px 10px; font-weight: 700; white-space: nowrap;"><span class="rank-badge {b_cls}">{b_txt}</span></td>
-                        <td style="padding: 9px 10px; font-weight: 600; color: var(--text-main);">{html.escape(p_nome)}<br><small style="color: var(--text-muted); font-size: 11px;">{b_stars}</small></td>
-                        <td style="padding: 9px 10px; font-weight: 800; font-family: var(--font-mono); white-space: nowrap; color: var(--text-main);">{med:.0f} ref<br><small style="color: var(--text-muted); font-family: var(--font-sans); font-size: 11px; font-weight: normal;">mín {v_min} / máx {v_max}</small></td>
-                        <td style="padding: 9px 10px; text-align: center; font-family: var(--font-mono); font-size: 12px; white-space: nowrap; color: var(--text-muted);">{cnt} datas</td>
-                        <td style="padding: 9px 10px; font-size: 12px; line-height: 1.35; color: var(--text-main);">{acao}</td>
-                    </tr>
-                    """)
+                    row_html = (
+                        '<tr style="border-bottom: 1px solid var(--border-subtle);">'
+                        f'<td style="padding: 9px 10px; font-weight: 700; white-space: nowrap;"><span class="rank-badge {b_cls}">{b_txt}</span></td>'
+                        f'<td style="padding: 9px 10px; font-weight: 600; color: var(--text-main);">{html.escape(p_nome)}<br><small style="color: var(--text-muted); font-size: 11px;">{b_stars}</small></td>'
+                        f'<td style="padding: 9px 10px; font-weight: 800; font-family: var(--font-mono); white-space: nowrap; color: var(--text-main);">{med:.0f} ref<br><small style="color: var(--text-muted); font-family: var(--font-sans); font-size: 11px; font-weight: normal;">mín {v_min} / máx {v_max}</small></td>'
+                        f'<td style="padding: 9px 10px; text-align: center; font-family: var(--font-mono); font-size: 12px; white-space: nowrap; color: var(--text-muted);">{cnt} datas</td>'
+                        f'<td style="padding: 9px 10px; font-size: 12px; line-height: 1.35; color: var(--text-main);">{acao}</td>'
+                        '</tr>'
+                    )
+                    html_rows.append(row_html)
                     
-                table_html = f"""
-                <div style="overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-card); margin-bottom: 8px;">
-                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12.5px;">
-                        <thead>
-                            <tr style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-subtle);">
-                                <th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Posição</th>
-                                <th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Proteína</th>
-                                <th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Média no Filtro</th>
-                                <th style="padding: 9px 10px; text-align: center; color: var(--text-main); font-weight: 700;">Datas</th>
-                                <th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Recomendação para a Cozinha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {"".join(html_rows)}
-                        </tbody>
-                    </table>
-                </div>
-                """
-                st.markdown(table_html, unsafe_allow_html=True)
+                table_html = (
+                    '<div style="overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-card); margin-bottom: 8px;">'
+                    '<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12.5px;">'
+                    '<thead><tr style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-subtle);">'
+                    '<th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Posição</th>'
+                    '<th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Proteína</th>'
+                    '<th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Média no Filtro</th>'
+                    '<th style="padding: 9px 10px; text-align: center; color: var(--text-main); font-weight: 700;">Datas</th>'
+                    '<th style="padding: 9px 10px; color: var(--text-main); font-weight: 700;">Recomendação para a Cozinha</th>'
+                    '</tr></thead><tbody>' + "".join(html_rows) + '</tbody></table></div>'
+                )
+                if hasattr(st, "html"):
+                    st.html(table_html)
+                else:
+                    st.markdown(table_html, unsafe_allow_html=True)
 
             # Linha 2: Técnica Culinária e Tabela de Variabilidade/Risco Operacional
             col_p3, col_p4 = st.columns(2)
