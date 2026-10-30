@@ -902,15 +902,15 @@ div[data-testid="stRadio"] > div[role="radiogroup"] {{
 }}
 
 /* Oculta completamente barra superior, botao do GitHub, menu Streamlit e rodape */
-#MainMenu { visibility: hidden !important; display: none !important; }
-header { visibility: hidden !important; display: none !important; }
-footer { visibility: hidden !important; display: none !important; }
-div[data-testid="stToolbar"] { visibility: hidden !important; display: none !important; }
-div[data-testid="stDecoration"] { visibility: hidden !important; display: none !important; }
-div[data-testid="stStatusWidget"] { visibility: hidden !important; display: none !important; }
-.stDeployButton { display: none !important; }
-[data-testid="manage-app-button"] { display: none !important; }
-a[href*="github.com"] { display: none !important; }
+#MainMenu {{ visibility: hidden !important; display: none !important; }}
+header {{ visibility: hidden !important; display: none !important; }}
+footer {{ visibility: hidden !important; display: none !important; }}
+div[data-testid="stToolbar"] {{ visibility: hidden !important; display: none !important; }}
+div[data-testid="stDecoration"] {{ visibility: hidden !important; display: none !important; }}
+div[data-testid="stStatusWidget"] {{ visibility: hidden !important; display: none !important; }}
+.stDeployButton {{ display: none !important; }}
+[data-testid="manage-app-button"] {{ display: none !important; }}
+a[href*="github.com"] {{ display: none !important; }}
 
 </style>
 """, unsafe_allow_html=True)
