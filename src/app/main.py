@@ -455,6 +455,23 @@ input, select, textarea {{
     border-radius: var(--radius-sm) !important;
 }}
 
+/* Redução sutil da fonte nos seletores e menus suspensos para evitar cortes de texto */
+div[data-baseweb="select"],
+div[data-baseweb="select"] span,
+div[data-baseweb="select"] div,
+ul[data-testid="stSelectboxVirtualDropdown"] li,
+ul[role="listbox"] li,
+div[data-baseweb="popover"],
+div[data-baseweb="popover"] * {{
+    font-size: 12px !important;
+}}
+
+/* Garante que o menu popover suspenso abra com largura suficiente e sem cortar texto */
+div[data-baseweb="popover"] {{
+    min-width: fit-content !important;
+    max-width: 95vw !important;
+}}
+
 div[data-baseweb="popover"],
 div[data-baseweb="menu"],
 div[role="listbox"],
@@ -1336,6 +1353,7 @@ elif pagina_ativa == "🔮 Previsões":
         col_c1, col_c2, col_c3 = st.columns(3)
         with col_c1:
             cenario_t1 = st.selectbox("Cenário de Features:", list(CENARIOS_DICT.keys()), index=0, key="cfg_cen_t1")
+            st.caption(f"💡 {CENARIOS_DICT[cenario_t1]['descricao']}")
         with col_c2:
             modelo_t1 = st.selectbox("Algoritmo Ativo:", list(MODELOS_RANKING.keys()), index=0, key="cfg_mod_t1")
         with col_c3:
@@ -1562,7 +1580,7 @@ elif pagina_ativa == "📦 Compras & Suprimentos":
     
     df_t2, df_feat_t2 = executar_pipeline_previsao(
         horizonte_alvo="Pos_Semana_t2",
-        cenario_escolhido="Cenário 2 (Consumo + Calendário + Clima Open-Meteo)",
+        cenario_escolhido="Cenário 2 (Consumo + Aulas + Clima t+2)",
         modelo_escolhido="Ridge Regression (Linear L2)",
         tipo_margem="Conformal P85 (+18 ref / 84,9% Proteção) - Campeã Auditada"
     )
