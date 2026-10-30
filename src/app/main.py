@@ -2239,8 +2239,8 @@ elif pagina_ativa == "Compras & Suprimentos":
             modelo_sup = st.selectbox(
                 "Modelo Preditivo para Compras:",
                 [
-                    "Híbrido 50/50 (Combina IA + Quantitativo Nutrição)",
-                    "Ridge Regression (IA Pura / Autônomo)"
+                    "Ridge Regression (IA Pura / Autônomo — Recomendado)",
+                    "Híbrido 50/50 (Combina IA + Média Histórica de Nutrição)"
                 ],
                 index=0,
                 key="cfg_mod_sup"
@@ -2290,16 +2290,6 @@ elif pagina_ativa == "Compras & Suprimentos":
             lambda r: r["prato_principal"] if not r.get("is_dia_letivo", True) else f"{r['prato_principal']} ({r['proteina_tipo']})",
             axis=1
         )
-        
-        def formatar_nutri_t2(row):
-            if not row.get("is_dia_letivo", True):
-                return "Não se aplica (Feriado)"
-            val = row.get("estimativa_nutri")
-            if pd.isna(val) or val is None or val == 0:
-                return "A definir"
-            return f"{int(round(val))} ref"
-            
-        df_exibir_t2["Quantitativo Nutrição (Meta)"] = df_t2.apply(formatar_nutri_t2, axis=1)
         df_exibir_t2["Previsão Base (IA)"] = df_t2["ia_pura"].astype(int).astype(str) + " ref"
         df_exibir_t2["Margem de Segurança"] = "+" + df_t2["margem_aplicada"].astype(int).astype(str) + " ref"
         df_exibir_t2["Sugestão de Preparo (Final)"] = df_t2.apply(

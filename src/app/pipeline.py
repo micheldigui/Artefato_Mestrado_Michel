@@ -375,21 +375,27 @@ def executar_pipeline_previsao(
         # Quantitativo Institucional / Nutricionista
         val_nutri = None
         origem_nutri = "Não informado"
+        val_nutri_informado = None
         if usar_nutri and is_letivo:
             if not plan_row.empty and pd.notna(plan_row.iloc[0].get("planejado_nutri")) and float(plan_row.iloc[0].get("planejado_nutri", 0)) > 0:
                 val_nutri = float(plan_row.iloc[0].get("planejado_nutri"))
+                val_nutri_informado = val_nutri
                 origem_nutri = "Planejamento Nutrição (Produção)"
             elif not row_fato.empty and pd.notna(row_fato.iloc[0].get("planejado_nutri")) and float(row_fato.iloc[0].get("planejado_nutri", 0)) > 0:
                 val_nutri = float(row_fato.iloc[0].get("planejado_nutri"))
+                val_nutri_informado = val_nutri
                 origem_nutri = "Quantitativo Institucional (Reservas)"
             elif not row_fato.empty and pd.notna(row_fato.iloc[0].get("reservas")) and float(row_fato.iloc[0].get("reservas", 0)) > 0:
                 val_nutri = float(row_fato.iloc[0].get("reservas"))
+                val_nutri_informado = val_nutri
                 origem_nutri = "Quantitativo Institucional (Reservas)"
             else:
-                val_nutri = 182.7 # Média institucional da nutricionista apurada na qualificação
+                val_nutri = 182.7 # Média histórica para o cálculo matemático se híbrido for forçado
                 origem_nutri = "Média Histórica (Fallback)"
+                val_nutri_informado = None
         else:
             val_nutri = None
+            val_nutri_informado = None
             
         lag_5 = pegar_ultimo_consumo_dia_semana(dia_sem_num, defasagem_semanas=1)
         lag_10 = pegar_ultimo_consumo_dia_semana(dia_sem_num, defasagem_semanas=2)
@@ -502,7 +508,7 @@ def executar_pipeline_previsao(
             "preparo_tipo": preparo.capitalize() if is_letivo else "—",
             "chuva_mm": round(precip, 1) if usar_clima else 0.0,
             "temp_max_c": round(temp_max, 1) if usar_clima else round(mediana_temp, 1),
-            "estimativa_nutri": round(val_nutri) if (val_nutri is not None and is_letivo) else None,
+            "estimativa_nutri": round(val_nutri_informado) if (val_nutri_informado is not None and is_letivo) else None,
             "ia_pura": round(pred_ia_base) if is_letivo else 0,
             "pred_base_combinada": round(pred_base) if is_letivo else 0,
             "margem_aplicada": round(margem_valor) if is_letivo else 0,
@@ -521,7 +527,7 @@ def executar_pipeline_previsao(
             "Chuva (mm)": round(precip, 1),
             "Temp Máx (°C)": round(temp_max, 1),
             "Proteína": prot.capitalize(),
-            "Nutri Planejado": round(val_nutri, 1) if val_nutri is not None else "N/A"
+            "Nutri Planejado": round(val_nutri_informado, 1) if val_nutri_informado is not None else "Não informado"
         })
         
     df_resultado = pd.DataFrame(linhas_pred)
