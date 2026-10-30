@@ -1,7 +1,7 @@
 """
 Módulo de Extração de Dados Meteorológicos (Histórico e Previsão) via API Open-Meteo
-Projeto: Artefato de Previsão de Demanda de Refeições - IFSP Campus Itaquaquecetuba
-Mestrado Profissional
+Projeto: Artefato de Previsão de Demanda de Refeições
+Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)
 """
 
 import os
@@ -9,10 +9,9 @@ import requests
 import pandas as pd
 import numpy as np
 
-# Configurações do Campus IFSP Itaquaquecetuba
+# Configurações de Localização da Instituição Pública de Ensino (Anonimizado - LGPD)
 CAMPUS_CONFIG = {
-    "nome": "IFSP Campus Itaquaquecetuba",
-    "endereco": "Rua Primeiro de Maio, 500 - Estação, Itaquaquecetuba - SP",
+    "nome": "Instituição Pública de Ensino Federal",
     "latitude": -23.4861,
     "longitude": -46.3483,
     "timezone": "America/Sao_Paulo"

@@ -2,26 +2,27 @@
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![DSR](https://img.shields.io/badge/Metodologia-Design_Science_Research_(DSR)-orange.svg)](docs/trajetoria_do_artefato.md)
-[![PPG-GTSP](https://img.shields.io/badge/Programa-PPG--GTSP%20%7C%20CEETEPS-green.svg)](https://posgraduacao.cps.sp.gov.br/)
+[![PPG-GTSP](https://img.shields.io/badge/Programa-PPG--GTSP-green.svg)](https://posgraduacao.cps.sp.gov.br/)
 [![Corte Qualificação](https://img.shields.io/badge/Qualificação-31%2F08%2F2026%20(N%3D73)-purple.svg)](dissertacao/AUDITORIA_QUALIFICACAO_RECALCULO_N73.md)
 [![Licença](https://img.shields.io/badge/Licença-MIT-lightgrey.svg)](LICENSE)
 
 > **Pesquisa de Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)**  
 > **Área de Concentração:** Sistemas Produtivos  
 > **Linha de Pesquisa:** Linha 2 — Sistemas de Informação e Tecnologias Digitais  
-> **Instituição Mantenedora:** Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)  
-> **Campo de Aplicação Empírica:** Restaurante Estudantil do IFSP Campus Itaquaquecetuba  
-> **Autor / Desenvolvedor:** Michel Silva de Souza (*Michel Digui*)  
+> **Autor / Mestrando:** Michel Silva de Souza  
+> **Orientador:** Prof. Dr. Carlos Hideo Arima  
+> **Coorientador:** Prof. Dr. Rafael Nobre Orsi  
+> **Campo de Aplicação Empírica:** Restaurante Estudantil de Instituição Pública de Ensino Federal (Anonimizado — LGPD)  
 > **Abordagem Metodológica:** Design Science Research (DSR)  
 
 ---
 
 ## 📌 Visão Geral do Projeto
 
-Este repositório contém o código-fonte, dados tratados, cadernos de experimentação, visualizações em alta resolução e o artefato computacional preditivo desenvolvido para apoiar o planejamento de compras e preparo de refeições no **IFSP Campus Itaquaquecetuba**.
+Este repositório contém o código-fonte, dados tratados, cadernos de experimentação, visualizações em alta resolução e o artefato computacional preditivo desenvolvido para apoiar o planejamento de compras e preparo de refeições no restaurante estudantil de uma **Instituição Pública de Ensino Federal**.
 
 O projeto resolve o problema da **assimetria informacional e descompasso entre demanda e oferta** no restaurante estudantil gratuito:
-1. **Regime Histórico de Reservas Discentes (2023 a 2025):** Formulários voluntários no SUAP apresentaram descontinuidade funcional, gerando alto índice de déficit potencial (63,8% dos dias com falta de reservas e MAE de 27,10 ref/dia).
+1. **Regime Histórico de Reservas Discentes (2023 a 2025):** Formulários voluntários preenchidos pelos estudantes apresentaram descontinuidade funcional, gerando alto índice de déficit potencial (63,8% dos dias com falta de reservas e MAE de 27,10 ref/dia).
 2. **Regime Institucional da Nutricionista (2026):** Estimativa empírica fixa baseada em experiência clínica, resultando em sobreoferta preventiva para evitar desabastecimento (saldo de +1.898 refeições em 123 datas e MAE de 26,21 ref/dia).
 3. **Solução Desenvolvida (Artefato com IA Híbrida e Margens Conformal):** Combina modelos supervisionados multivariados em duas janelas temporais ($t+1$ e $t+2$), calibração de incerteza não-paramétrica (*Conformal Prediction*) e modelo híbrido decisório (50% IA + 50% Nutricionista), alcançando o menor erro absoluto médio do projeto (**MAE de 20,20 ref/dia**) com mínima taxa de descarte.
 
@@ -173,10 +174,11 @@ Acesse a aplicação no navegador em `http://localhost:8501`.
 
 ---
 
-## 👤 Autor e Contato
+## 👤 Equipe da Pesquisa e Contato
  
-* **Pesquisador:** Michel Silva de Souza (*Michel Digui*)  
+* **Mestrando / Autor:** Michel Silva de Souza  
+* **Orientador:** Prof. Dr. Carlos Hideo Arima  
+* **Coorientador:** Prof. Dr. Rafael Nobre Orsi  
 * **Programa:** Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)  
-* **Instituição Mantenedora:** Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)  
 * **GitHub:** [@micheldigui](https://github.com/micheldigui)  
 * **Repositório Oficial:** [Artefato_Mestrado_Michel](https://github.com/micheldigui/Artefato_Mestrado_Michel)

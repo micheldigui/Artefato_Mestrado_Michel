@@ -1,5 +1,5 @@
 @echo off
-title Artefato de Previsao de Refeicoes - IFSP / CEETEPS
+title Artefato de Previsao de Refeicoes - Mestrado PPG-GTSP
 echo ======================================================================
 echo    ARTEFATO DE APOIO A DECISAO: PREVISAO DE REFEICOES ESCOLARES
 echo    Mestrado Profissional em Gestao e Tecnologia em Sistemas Produtivos

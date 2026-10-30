@@ -9,7 +9,7 @@ import subprocess
 
 def main():
     print("=" * 70)
-    print("🍽️  ARTEFATO DE PREVISÃO DE REFEIÇÕES ESCOLARES (IFSP / CEETEPS)")
+    print("🍽️  ARTEFATO DE PREVISÃO DE REFEIÇÕES ESCOLARES (DSR / CEETEPS)")
     print("    Iniciando interface web operacional em localhost...")
     print("=" * 70)
     

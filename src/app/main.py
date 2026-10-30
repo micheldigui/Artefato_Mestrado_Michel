@@ -1,10 +1,11 @@
 """
 Interface Web Operacional do Artefato — Apoio à Decisão e Storytelling da Pesquisa
 Pesquisa: Artefato Analítico-Preditivo para Planejamento da Produção de Refeições e Combate ao Desperdício
-Autor: Michel Silva de Souza (Michel Digui)
-Programa: Programa de Pós-Graduação em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)
-Instituição: Centro Estadual de Educação Tecnológica Paula Souza (CEETEPS)
-Campo de Aplicação Empírica: Restaurante Estudantil de Instituição Pública de Ensino Federal
+Autor / Mestrando: Michel Silva de Souza
+Orientador: Prof. Dr. Carlos Hideo Arima
+Coorientador: Prof. Dr. Rafael Nobre Orsi
+Programa: Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)
+Campo de Aplicação Empírica: Restaurante Estudantil de Instituição Pública de Ensino Federal (Anonimizado — LGPD)
 Metodologia: Design Science Research (DSR)
 """
 
@@ -196,12 +197,13 @@ with st.sidebar:
     # Ficha Técnica Acadêmica Fechada
     with st.expander("🎓 Ficha Técnica da Pesquisa", expanded=False):
         st.markdown("""
-        * **Pesquisador:** Michel Silva de Souza (*Michel Digui*)
-        * **Programa:** Mestrado Profissional PPG-GTSP
-        * **Instituição:** Centro Paula Souza (CEETEPS)
-        * **Campo:** Instituição Pública de Ensino Federal
-        * **Método:** Design Science Research (DSR)
-        * **Ano:** 2026
+        * **Mestrando / Autor:** Michel Silva de Souza
+        * **Orientador:** Prof. Dr. Carlos Hideo Arima
+        * **Coorientador:** Prof. Dr. Rafael Nobre Orsi
+        * **Programa:** Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)
+        * **Campo de Aplicação:** Restaurante Estudantil de Instituição Pública de Ensino Federal (Anonimizado — LGPD)
+        * **Metodologia:** Design Science Research (DSR)
+        * **Ciclo:** 2026
         """)
 
 # ==============================================================================
@@ -900,7 +902,7 @@ st.markdown(
     '<div class="logo-badge">🍽️</div>'
     '<div class="header-titles">'
     '<h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>'
-    '<p>Instituição Pública de Ensino Federal & Centro Paula Souza (CEETEPS)</p>'
+    '<p>Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)</p>'
     '</div>'
     '</div>'
     '<div class="header-right">'
@@ -2382,7 +2384,7 @@ elif pagina_ativa == "🔬 Auditoria Científica":
         ),
         como_foi_feito_ciencia=(
             "**Método Design Science Research (DSR):** "
-            "Pesquisa desenvolvida no Programa de Mestrado em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP/CEETEPS). "
+            "Pesquisa desenvolvida no Programa de Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP). "
             "Os modelos foram testados com validação temporal estrita (walk-forward), provando redução do erro de 25% para menos de 9%."
         ),
         como_usar_passos=(
