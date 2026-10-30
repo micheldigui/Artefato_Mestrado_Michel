@@ -327,7 +327,7 @@ else:
 
 st.markdown(f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
 {root_vars}
 
@@ -363,12 +363,18 @@ div[data-testid="stExpander"] details summary p {{
 [data-testid="stIconMaterial"],
 [class*="material-symbols"],
 [class*="material-icons"],
-div[data-testid="stExpander"] details summary svg,
-div[data-testid="stExpander"] details summary span:first-child {{
+div[data-testid="stExpander"] details summary svg {{
     font-family: 'Material Symbols Rounded', 'Material Icons', sans-serif !important;
     text-transform: none !important;
     letter-spacing: normal !important;
     white-space: nowrap !important;
+}}
+
+/* Alinhamento flexível e espaçamento limpo no cabeçalho do expander */
+div[data-testid="stExpander"] details summary {{
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
 }}
 
 /* Monospace apenas para números e métricas operacionais */
@@ -761,7 +767,29 @@ div[data-testid="stMetricValue"] div {{
     letter-spacing: -0.1px;
 }}
 
-/* 14. Responsividade Mobile */
+/* 14. Responsividade Adaptativa e Fluida */
+/* Telas Médias e Janelas Estreitas (<= 1080px): Empilhamento vertical de colunas */
+@media screen and (max-width: 1080px) {{
+    div[data-testid="stHorizontalBlock"] {{
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        gap: 18px !important;
+    }}
+    div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {{
+        width: 100% !important;
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+        margin-bottom: 12px !important;
+    }}
+}}
+
+/* Quebra fluida de grupos de opções e botões de rádio */
+div[data-testid="stRadio"] > div[role="radiogroup"] {{
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+}}
+
+/* Dispositivos Móveis e Telas Compactas (<= 640px) */
 @media (max-width: 640px) {{
     .kpi-row {{
         grid-template-columns: 1fr 1fr !important;
@@ -1029,16 +1057,19 @@ if pagina_ativa == "📊 Dashboard":
             df_reg["referencia_planejada"] = col_nutri.combine_first(col_res)
             df_reg = df_reg.dropna(subset=["referencia_planejada"]).copy()
             df_reg["desvio"] = df_reg["referencia_planejada"] - df_reg["consumo"]
+            df_reg["desvio_acum"] = df_reg["desvio"].cumsum()
             df_reg["tipo_desvio"] = df_reg["desvio"].apply(
                 lambda x: "Sobra / Excedente (+)" if x > 0 else ("Falta Potencial (-)" if x < 0 else "Equilíbrio Exato")
             )
             
+            # Linha 1 de Gráficos: Balanço Diário e Linha do Tempo Temporal
             col_r1, col_r2 = st.columns(2)
             with col_r1:
                 st.markdown("##### 📉 Desvios Diários (Onde Sobrou e Onde Faltou Comida)")
                 st.caption("Barras acima de zero indicam sobras; barras abaixo indicam déficit em relação à presença real.")
                 
-                chart_desv = alt.Chart(df_reg.tail(100)).mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3).encode(
+                slice_tail = df_reg.tail(120) if len(df_reg) > 120 else df_reg
+                chart_desv = alt.Chart(slice_tail).mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3).encode(
                     x=alt.X("data_dt:T", title=None, axis=alt.Axis(format="%d/%m", labelAngle=-45)),
                     y=alt.Y("desvio:Q", title="Diferença (Planejado - Consumo Real)"),
                     color=alt.Color(
@@ -1064,30 +1095,100 @@ if pagina_ativa == "📊 Dashboard":
                 st.altair_chart(chart_desv, use_container_width=True)
                 
             with col_r2:
-                st.markdown("##### 📊 Confronto das Médias por Regime de Operação")
-                st.caption("Comparação direta entre o consumo efetivo dos estudantes e a quantidade estipulada em cada fase.")
+                st.markdown("##### 📈 Linha do Tempo: Demanda Real vs. Quantitativo Planejado")
+                st.caption("Consumo real (linha verde) comparado ao quantitativo previsto/reservas (linha tracejada âmbar).")
+                
+                chart_real = alt.Chart(slice_tail).mark_line(color="#10b981", strokeWidth=2.2).encode(
+                    x=alt.X("data_dt:T", title=None, axis=alt.Axis(format="%d/%m", labelAngle=-45)),
+                    y=alt.Y("consumo:Q", title="Total de Refeições"),
+                    tooltip=[
+                        alt.Tooltip("data:N", title="Data"),
+                        alt.Tooltip("consumo:Q", title="Consumo Real (alunos)")
+                    ]
+                )
+                chart_plan = alt.Chart(slice_tail).mark_line(color="#f59e0b", strokeDash=[4, 4], strokeWidth=2).encode(
+                    x=alt.X("data_dt:T", title=None),
+                    y=alt.Y("referencia_planejada:Q"),
+                    tooltip=[
+                        alt.Tooltip("data:N", title="Data"),
+                        alt.Tooltip("referencia_planejada:Q", title="Planejado / Reserva")
+                    ]
+                )
+                chart_pts = alt.Chart(slice_tail).mark_circle(size=25, color="#10b981").encode(
+                    x=alt.X("data_dt:T"),
+                    y=alt.Y("consumo:Q"),
+                    tooltip=[
+                        alt.Tooltip("data:N", title="Data"),
+                        alt.Tooltip("consumo:Q", title="Consumo Real"),
+                        alt.Tooltip("referencia_planejada:Q", title="Planejado / Reserva"),
+                        alt.Tooltip("desvio:Q", title="Saldo (ref)")
+                    ]
+                )
+                chart_timeline = (chart_real + chart_plan + chart_pts).properties(height=280).configure_axis(
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
+                ).configure_view(stroke=None, fill="transparent")
+                st.altair_chart(chart_timeline, use_container_width=True)
+
+            # Linha 2 de Análises: Efeito Compensatório Acumulado e Tabela Sintética dos Regimes
+            col_r3, col_r4 = st.columns(2)
+            with col_r3:
+                st.markdown("##### ⚖️ O Efeito Compensatório da Gestão (Saldo Acumulado)")
+                st.caption("Evolução do saldo cumulativo de refeições ao longo do tempo (Capítulo 4 da dissertação).")
+                
+                chart_cum = alt.Chart(df_reg).mark_area(
+                    line={"color": "#0284c7", "strokeWidth": 2},
+                    color=alt.Gradient(
+                        gradient="linear",
+                        stops=[
+                            alt.GradientStop(color="#0284c7", offset=0),
+                            alt.GradientStop(color="rgba(2, 132, 199, 0.08)", offset=1)
+                        ],
+                        x1=1, x2=1, y1=1, y2=0
+                    )
+                ).encode(
+                    x=alt.X("data_dt:T", title=None, axis=alt.Axis(format="%b/%y", labelAngle=-45)),
+                    y=alt.Y("desvio_acum:Q", title="Saldo Acumulado de Refeições"),
+                    tooltip=[
+                        alt.Tooltip("data:N", title="Data"),
+                        alt.Tooltip("desvio_acum:Q", title="Saldo Acumulado (ref)"),
+                        alt.Tooltip("desvio:Q", title="Desvio do Dia")
+                    ]
+                ).properties(height=260).configure_axis(
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
+                ).configure_view(stroke=None, fill="transparent")
+                st.altair_chart(chart_cum, use_container_width=True)
+                st.caption("💡 **Diagnóstico:** Uma sobra na terça-feira não mata a fome de quem ficou sem almoço na quinta. O saldo fiscal global mascara o déficit diário individual.")
+
+            with col_r4:
+                st.markdown("##### 📊 Confronto dos 3 Regimes Operacionais da Pesquisa")
+                st.caption("Comparação direta e auditada das 3 fases metodológicas da instituição.")
                 
                 resumo_regimes = pd.DataFrame([
                     {
                         "Regime Operacional": "Reserva Feita pelos Discentes (2023–2025)",
                         "Média Prevista": "128 refeições",
-                        "Média Real Consumida": "155 refeições",
-                        "Desvio Médio Diário": "-27 refeições (Falta)",
-                        "Diagnóstico Prático": "Alta subnotificação: discentes esqueciam de registrar a reserva voluntária."
+                        "Média Consumida": "155 refeições",
+                        "Saldo Médio": "-27 ref (Falta)",
+                        "Risco de Falta": "63,8% dos dias",
+                        "Diagnóstico Prático": "Alta subnotificação voluntária; risco crítico de desabastecimento."
                     },
                     {
                         "Regime Operacional": "Censo Preventivo da Nutrição (2026)",
                         "Média Prevista": "180 refeições",
-                        "Média Real Consumida": "154 refeições",
-                        "Desvio Médio Diário": "+26 refeições (Sobra)",
-                        "Diagnóstico Prático": "Garantia de atendimento total, mas com sobreoferta de insumos."
+                        "Média Consumida": "154 refeições",
+                        "Saldo Médio": "+26 ref (Sobra)",
+                        "Risco de Falta": "0% dos dias",
+                        "Diagnóstico Prático": "Garantia de segurança alimentar, mas com sobreoferta (+1.898 refeições excedentes em 123 datas)."
                     },
                     {
                         "Regime Operacional": "🎯 Artefato Preditivo Recomendado (IA + Margem)",
                         "Média Prevista": "172 refeições",
-                        "Média Real Consumida": "154 refeições",
-                        "Desvio Médio Diário": "+18 ref (Margem Protetiva)",
-                        "Diagnóstico Prático": "84,9% de proteção contra faltas com menor desperdício financeiro."
+                        "Média Consumida": "154 refeições",
+                        "Saldo Médio": "+18 ref (Protegido)",
+                        "Risco de Falta": "15,1% residual",
+                        "Diagnóstico Prático": "84,9% de proteção real contra desabastecimento com mínimo desperdício financeiro."
                     }
                 ])
                 st.dataframe(resumo_regimes, use_container_width=True, hide_index=True)
@@ -1114,6 +1215,7 @@ if pagina_ativa == "📊 Dashboard":
             df_ch_agg = df_ch.groupby("faixa_chuva", observed=False)["consumo"].agg(["count", "mean"]).reset_index()
             df_ch_agg["consumo_medio"] = df_ch_agg["mean"].round(1)
             
+            # Linha 1: Média por Faixa de Chuva e Dispersão mm vs Consumo
             col_c1, col_c2 = st.columns(2)
             with col_c1:
                 st.markdown("##### 🌧️ Consumo Médio por Intensidade de Chuva")
@@ -1134,7 +1236,7 @@ if pagina_ativa == "📊 Dashboard":
                 st.altair_chart(chart_ch_bar, use_container_width=True)
                 
             with col_c2:
-                st.markdown("##### 🌡️ Relação Chuva (mm) vs. Refeições Servidas")
+                st.markdown("##### 📉 Relação Chuva (mm) vs. Refeições Servidas")
                 st.caption("Cada ponto representa um dia letivo real; a linha mostra a tendência de queda.")
                 
                 chart_ch_scatter = alt.Chart(df_ch).mark_circle(size=45, opacity=0.6, color=chart_accent).encode(
@@ -1154,6 +1256,79 @@ if pagina_ativa == "📊 Dashboard":
                     labelFont="Inter", titleFont="Inter"
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_ch_final, use_container_width=True)
+
+            # Linha 2: Temperatura Máxima e Matriz Operacional Meteorológica
+            col_c3, col_c4 = st.columns(2)
+            with col_c3:
+                st.markdown("##### 🌡️ Frequência Discente por Faixa de Temperatura")
+                st.caption("Adesão de estudantes conforme a temperatura máxima registrada (Dissertação Fig. 22).")
+                
+                df_ch["faixa_temp"] = pd.cut(
+                    df_ch["temperature_2m_max"],
+                    bins=[-10, 20, 25, 30, 50],
+                    labels=["Frio (<20°C)", "Agradável (20 a 25°C)", "Calor Moderado (25 a 30°C)", "Calor Intenso (>30°C)"]
+                )
+                df_t_agg = df_ch.groupby("faixa_temp", observed=False)["consumo"].agg(["count", "mean"]).reset_index()
+                df_t_agg["consumo_medio"] = df_t_agg["mean"].round(1)
+                
+                chart_temp_bar = alt.Chart(df_t_agg).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color="#f59e0b").encode(
+                    x=alt.X("faixa_temp:N", title=None, axis=alt.Axis(labelAngle=0)),
+                    y=alt.Y("consumo_medio:Q", title="Média de Refeições"),
+                    tooltip=[
+                        alt.Tooltip("faixa_temp:N", title="Faixa Térmica"),
+                        alt.Tooltip("consumo_medio:Q", title="Média de Refeições"),
+                        alt.Tooltip("count:Q", title="Total de Dias")
+                    ]
+                ).properties(height=260).configure_axis(
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
+                ).configure_view(stroke=None, fill="transparent")
+                st.altair_chart(chart_temp_bar, use_container_width=True)
+                
+            with col_c4:
+                st.markdown("##### 📋 Matriz de Diagnóstico Meteorológico & Ação")
+                st.caption("Regras de calibração automática aplicadas pelo artefato para proteger a produção.")
+                
+                d_sec = (df_ch["precipitation_sum"] == 0).sum()
+                m_sec = df_ch[df_ch["precipitation_sum"] == 0]["consumo"].mean()
+                d_gar = ((df_ch["precipitation_sum"] > 0) & (df_ch["precipitation_sum"] <= 5)).sum()
+                m_gar = df_ch[(df_ch["precipitation_sum"] > 0) & (df_ch["precipitation_sum"] <= 5)]["consumo"].mean()
+                d_chu = ((df_ch["precipitation_sum"] > 5) & (df_ch["precipitation_sum"] <= 15)).sum()
+                m_chu = df_ch[(df_ch["precipitation_sum"] > 5) & (df_ch["precipitation_sum"] <= 15)]["consumo"].mean()
+                d_tem = (df_ch["precipitation_sum"] > 15).sum()
+                m_tem = df_ch[df_ch["precipitation_sum"] > 15]["consumo"].mean()
+                
+                df_matriz_clima = pd.DataFrame([
+                    {
+                        "Condição Climática": "☀️ Dia Seco (0 mm)",
+                        "Datas no Filtro": f"{d_sec} dias",
+                        "Média Real": f"{m_sec:.0f} ref" if pd.notna(m_sec) else "-",
+                        "Comportamento": "Frequência plena e rotina normal.",
+                        "Regra do Artefato": "Margem protetiva plena (+12 a +18 ref)."
+                    },
+                    {
+                        "Condição Climática": "🌦️ Garoa / Chuva Leve (0.1 a 5 mm)",
+                        "Datas no Filtro": f"{d_gar} dias",
+                        "Média Real": f"{m_gar:.0f} ref" if pd.notna(m_gar) else "-",
+                        "Comportamento": "Atrasos pontuais no transporte.",
+                        "Regra do Artefato": "Pequeno recuo automático (-5 refeições)."
+                    },
+                    {
+                        "Condição Climática": "🌧️ Chuva Forte (5.1 a 15 mm)",
+                        "Datas no Filtro": f"{d_chu} dias",
+                        "Média Real": f"{m_chu:.0f} ref" if pd.notna(m_chu) else "-",
+                        "Comportamento": "Dificuldades de deslocamento.",
+                        "Regra do Artefato": "Recuo preventivo (-12 a -18 refeições)."
+                    },
+                    {
+                        "Condição Climática": "⛈️ Tempestade / Alagamentos (>15 mm)",
+                        "Datas no Filtro": f"{d_tem} dias",
+                        "Média Real": f"{m_tem:.0f} ref" if pd.notna(m_tem) else "-",
+                        "Comportamento": "Evasão de alunos de transporte escolar.",
+                        "Regra do Artefato": "Zera margem extra e aplica corte preventivo."
+                    }
+                ])
+                st.dataframe(df_matriz_clima, use_container_width=True, hide_index=True)
                 
             st.caption("💡 **Regra de Ouro do Artefato:** Em dias com chuva prevista acima de 10 mm, a margem de segurança extra é automaticamente zerada para evitar panelas cheias no lixo.")
 
@@ -1183,6 +1358,7 @@ if pagina_ativa == "📊 Dashboard":
             # Ordenação decrescente: o prato com maior média fica sempre no topo (1º lugar)
             df_p_agg = df_p_agg.sort_values(by="consumo_medio", ascending=False).reset_index(drop=True)
             
+            # Linha 1: Média por Tipo de Carne e Tabela Ranking
             col_p1, col_p2 = st.columns([1, 1.3])
             with col_p1:
                 st.markdown("##### 🥩 Média de Alunos por Tipo de Carne")
@@ -1261,6 +1437,71 @@ if pagina_ativa == "📊 Dashboard":
                 </div>
                 """
                 st.markdown(table_html, unsafe_allow_html=True)
+
+            # Linha 2: Técnica Culinária e Tabela de Variabilidade/Risco Operacional
+            col_p3, col_p4 = st.columns(2)
+            with col_p3:
+                st.markdown("##### 🍳 Adesão por Técnica Culinária / Tipo de Preparo")
+                st.caption("Frequência média discente conforme a técnica de cocção (Dissertação Fig. 17).")
+                
+                preparo_map = {
+                    "ao_molho_ou_refogado": "Ao Molho / Refogado",
+                    "assado": "Assado ao Forno",
+                    "cozido_ou_refogado": "Cozido / Ensopado",
+                    "cremoso_ou_ensopado": "Cremoso / Estrogonofe",
+                    "massa_ou_montado": "Massas / Pratos Montados",
+                    "grelhado": "Grelhado na Chapa",
+                    "empanado_ou_a_milanesa": "Empanado / À Milanesa",
+                    "churrasco_ou_espeto": "Churrasco / Espeto",
+                    "frito": "Frito / Dourado"
+                }
+                df_prep = df_dash[df_dash["preparo_tipo"].isin(preparo_map.keys())].copy()
+                df_prep["preparo_nome"] = df_prep["preparo_tipo"].map(preparo_map)
+                df_prep_agg = df_prep.groupby("preparo_nome")["consumo"].agg(["count", "mean"]).reset_index()
+                df_prep_agg["consumo_medio"] = df_prep_agg["mean"].round(1)
+                df_prep_agg = df_prep_agg.sort_values(by="consumo_medio", ascending=False)
+                
+                chart_prep_bar = alt.Chart(df_prep_agg).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color="#0284c7").encode(
+                    x=alt.X("preparo_nome:N", sort="-y", title=None, axis=alt.Axis(labelAngle=-45)),
+                    y=alt.Y("consumo_medio:Q", title="Média de Refeições"),
+                    tooltip=[
+                        alt.Tooltip("preparo_nome:N", title="Técnica Culinária"),
+                        alt.Tooltip("consumo_medio:Q", title="Média de Refeições"),
+                        alt.Tooltip("count:Q", title="Datas Servidas")
+                    ]
+                ).properties(height=260).configure_axis(
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
+                ).configure_view(stroke=None, fill="transparent")
+                st.altair_chart(chart_prep_bar, use_container_width=True)
+
+            with col_p4:
+                st.markdown("##### 📊 Variabilidade & Risco Operacional por Carne")
+                st.caption("Piso, média, teto e amplitude de variação da demanda por carne no período.")
+                
+                tot_p = len(df_p)
+                resumo_var = []
+                for p_k, p_n in nomes_proteina.items():
+                    sub_p = df_p[df_p["proteina_tipo"] == p_k]
+                    cnt_p = len(sub_p)
+                    if cnt_p > 0:
+                        pct_f = (cnt_p / tot_p) * 100 if tot_p > 0 else 0
+                        v_mi = sub_p["consumo"].min()
+                        v_me = sub_p["consumo"].mean()
+                        v_ma = sub_p["consumo"].max()
+                        amp = v_ma - v_mi
+                        diag = "Baixo Risco (Demanda volumosa e estável)" if p_k in ["bovina", "frango"] else ("Médio Risco (Intermediária)" if p_k == "suina" else "Atenção (Menor média e alta sensibilidade)")
+                        resumo_var.append({
+                            "Proteína": p_n,
+                            "Frequência": f"{pct_f:.1f}% ({cnt_p}d)",
+                            "Mín": f"{int(v_mi)} ref",
+                            "Média": f"{v_me:.0f} ref",
+                            "Máx": f"{int(v_ma)} ref",
+                            "Oscilação": f"±{amp:.0f} ref",
+                            "Classificação Operacional": diag
+                        })
+                df_tab_var = pd.DataFrame(resumo_var)
+                st.dataframe(df_tab_var, use_container_width=True, hide_index=True)
                 
             st.caption("💡 **Dica Prática:** Ao agendar peixe na sexta-feira, o efeito é duplo (menos alunos pelo prato e pela evasão da tarde). O sistema compensa isso automaticamente.")
 
@@ -1278,10 +1519,13 @@ if pagina_ativa == "📊 Dashboard":
             
             dias_ordem = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira"]
             dias_map = {"segunda-feira": "Segunda", "terça-feira": "Terça", "quarta-feira": "Quarta", "quinta-feira": "Quinta", "sexta-feira": "Sexta"}
+            meses_map = {1: "Jan", 2: "Fev", 3: "Mar", 4: "Abr", 5: "Mai", 6: "Jun", 7: "Jul", 8: "Ago", 9: "Set", 10: "Out", 11: "Nov", 12: "Dez"}
+            
             df_d = df_dash[df_dash["dia_da_semana"].isin(dias_ordem)].groupby("dia_da_semana")["consumo"].agg(["count", "mean"]).reset_index()
             df_d["dia_nome"] = df_d["dia_da_semana"].map(dias_map)
             df_d["consumo_medio"] = df_d["mean"].round(1)
             
+            # Linha 1: Média por Dia da Semana e Sazonalidade Mensal
             col_d1, col_d2 = st.columns(2)
             with col_d1:
                 st.markdown("##### 📅 Média de Presença por Dia da Semana")
@@ -1305,9 +1549,9 @@ if pagina_ativa == "📊 Dashboard":
                 st.markdown("##### 🗓️ Sazonalidade ao Longo dos Meses do Ano Letivo")
                 st.caption("Picos no meio dos semestres e quedas típicas em inícios de ano letivo e períodos de recesso.")
                 
-                meses_map = {1: "Jan", 2: "Fev", 3: "Mar", 4: "Abr", 5: "Mai", 6: "Jun", 7: "Jul", 8: "Ago", 9: "Set", 10: "Out", 11: "Nov", 12: "Dez"}
-                df_dash["mes_nome"] = df_dash["mes"].map(meses_map)
-                df_m = df_dash.groupby(["mes", "mes_nome"])["consumo"].mean().reset_index().sort_values("mes")
+                df_dash_mes = df_dash.copy()
+                df_dash_mes["mes_nome"] = df_dash_mes["mes"].map(meses_map)
+                df_m = df_dash_mes.groupby(["mes", "mes_nome"])["consumo"].mean().reset_index().sort_values("mes")
                 df_m["consumo_medio"] = df_m["consumo"].round(1)
                 
                 chart_m_bar = alt.Chart(df_m).mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6, color=chart_accent).encode(
@@ -1322,6 +1566,61 @@ if pagina_ativa == "📊 Dashboard":
                     labelFont="Inter", titleFont="Inter"
                 ).configure_view(stroke=None, fill="transparent")
                 st.altair_chart(chart_m_bar, use_container_width=True)
+
+            # Linha 2: Curva Semanal Comparativa por Ano e Matriz Cruzada Mês x Dia
+            col_d3, col_d4 = st.columns(2)
+            with col_d3:
+                st.markdown("##### 📈 Curva Semanal Comparativa por Ano (2023–2026)")
+                st.caption("Comprova que a queda de sexta-feira é um padrão estrutural repetido ano a ano (Dissertação Fig. 10).")
+                
+                df_sem_ano = df_validos_geral[df_validos_geral["dia_da_semana"].isin(dias_ordem)].groupby(["ano", "dia_da_semana"])["consumo"].mean().reset_index()
+                df_sem_ano["dia_nome"] = df_sem_ano["dia_da_semana"].map(dias_map)
+                df_sem_ano["ano_str"] = df_sem_ano["ano"].astype(str)
+                
+                chart_sem_ano = alt.Chart(df_sem_ano).mark_line(point=True, strokeWidth=2.2).encode(
+                    x=alt.X("dia_nome:N", sort=["Segunda", "Terça", "Quarta", "Quinta", "Sexta"], title=None, axis=alt.Axis(labelAngle=0)),
+                    y=alt.Y("consumo:Q", title="Média de Refeições"),
+                    color=alt.Color("ano_str:N", title="Ano Letivo", scale=alt.Scale(scheme="category10"),
+                                    legend=alt.Legend(orient="top", labelFont="Inter", titleFont="Inter")),
+                    tooltip=[
+                        alt.Tooltip("ano_str:N", title="Ano"),
+                        alt.Tooltip("dia_nome:N", title="Dia"),
+                        alt.Tooltip("consumo:Q", title="Média (ref)", format=".0f")
+                    ]
+                ).properties(height=260).configure_axis(
+                    labelColor=chart_text, titleColor=chart_text, gridColor=chart_grid,
+                    labelFont="Inter", titleFont="Inter"
+                ).configure_legend(
+                    labelColor=chart_text, titleColor=chart_text
+                ).configure_view(stroke=None, fill="transparent")
+                st.altair_chart(chart_sem_ano, use_container_width=True)
+
+            with col_d4:
+                st.markdown("##### 📑 Matriz Cruzada de Presença (Mês × Dia da Semana)")
+                st.caption("Guia de consulta rápida com a média histórica de refeições servidas em cada época do ano.")
+                
+                df_mat = df_dash[df_dash["dia_da_semana"].isin(dias_ordem)].copy()
+                df_mat["dia_nome"] = df_mat["dia_da_semana"].map(dias_map)
+                df_mat["mes_nome"] = df_mat["mes"].map(meses_map)
+                
+                piv = df_mat.pivot_table(index=["mes", "mes_nome"], columns="dia_nome", values="consumo", aggfunc="mean").round(0).reset_index()
+                dias_cols = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"]
+                for c in dias_cols:
+                    if c not in piv.columns:
+                        piv[c] = np.nan
+                piv = piv.sort_values("mes")
+                
+                piv_display = pd.DataFrame()
+                piv_display["Mês"] = piv["mes_nome"]
+                for c in dias_cols:
+                    piv_display[c] = piv[c].apply(lambda x: f"{int(x)} ref" if pd.notna(x) else "-")
+                
+                df_mat_mes_dict = df_dash.groupby("mes")["consumo"].mean().round(0).to_dict()
+                piv_display["Média Mês"] = piv["mes"].map(df_mat_mes_dict).apply(lambda x: f"{int(x)} ref" if pd.notna(x) else "-")
+                
+                st.dataframe(piv_display, use_container_width=True, hide_index=True)
+                
+            st.caption("💡 **Dica Prática:** A presença discente em sextas-feiras tem recuo médio de ~20% em todos os anos. Reduzir as quantidades na sexta-feira previne sobras expressivas no encerramento da semana.")
 
 # ==============================================================================
 # PÁGINA 2: PREVISÕES (ORDEM DE PREPARO E SIMULADOR "E SE...?")
