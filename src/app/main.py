@@ -640,25 +640,136 @@ div[data-testid="stMetricValue"] div {{
 }}
 
 /* 14. Responsividade Adaptativa e Fluida */
-/* Telas Médias e Janelas Estreitas (<= 1080px): Empilhamento vertical de colunas */
-@media screen and (max-width: 1080px) {{
-    div[data-testid="stHorizontalBlock"] {{
+/* Telas Estreitas (<= 768px): Empilhamento de colunas de conteudo (preservando barras horizontais utilitarias) */
+@media screen and (max-width: 768px) {{
+    div[data-testid="stHorizontalBlock"]:not(:has(.header-clean)) {{
         flex-direction: column !important;
         flex-wrap: wrap !important;
-        gap: 18px !important;
+        gap: 14px !important;
     }}
-    div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {{
+    div[data-testid="stHorizontalBlock"]:not(:has(.header-clean)) > div[data-testid="column"] {{
         width: 100% !important;
         min-width: 100% !important;
         flex: 1 1 100% !important;
-        margin-bottom: 12px !important;
+        margin-bottom: 8px !important;
     }}
 }}
 
-/* Quebra fluida de grupos de opções e botões de rádio */
-div[data-testid="stRadio"] > div[role="radiogroup"] {{
-    flex-wrap: wrap !important;
-    gap: 8px !important;
+/* Linha do Cabecalho e Login: SEMPRE em linha unica, sem quebrar */
+div[data-testid="stHorizontalBlock"]:has(.header-clean) {{
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-bottom: 12px !important;
+}}
+div[data-testid="stHorizontalBlock"]:has(.header-clean) > div[data-testid="column"] {{
+    margin-bottom: 0 !important;
+}}
+div[data-testid="stHorizontalBlock"]:has(.header-clean) > div[data-testid="column"]:first-child {{
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+}}
+div[data-testid="stHorizontalBlock"]:has(.header-clean) > div[data-testid="column"]:last-child {{
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 110px !important;
+}}
+div[data-testid="stHorizontalBlock"]:has(.header-clean) div[data-testid="stPopover"] {{
+    width: 100% !important;
+}}
+div[data-testid="stHorizontalBlock"]:has(.header-clean) div[data-testid="stPopover"] > button {{
+    border-radius: var(--radius-md) !important;
+    height: 48px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 6px 14px !important;
+    border: 1px solid var(--border-subtle) !important;
+    background: #ffffff !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--shadow-sm) !important;
+    white-space: nowrap !important;
+}}
+div[data-testid="stHorizontalBlock"]:has(.header-clean) div[data-testid="stPopover"] > button:hover {{
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    background: var(--primary-subtle) !important;
+}}
+
+.header-clean {{
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-left: 5px solid var(--primary-color) !important;
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    gap: 8px;
+    min-height: 48px;
+    box-sizing: border-box;
+}}
+.header-clean .header-left {{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}}
+.header-clean .logo-badge {{
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff !important;
+    flex-shrink: 0;
+}}
+.header-clean .header-titles {{
+    min-width: 0;
+}}
+.header-clean .header-titles h1 {{
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    color: var(--text-primary) !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}}
+.header-clean .header-titles p {{
+    font-size: 11px;
+    margin: 2px 0 0 0;
+    color: var(--text-muted) !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}}
+.header-right-badges {{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}}
+
+@media (max-width: 640px) {{
+    .header-clean {{
+        padding: 6px 10px;
+    }}
+    .header-clean .header-titles h1 {{
+        font-size: 13.5px;
+    }}
+    .header-clean .header-titles p {{
+        font-size: 10px;
+    }}
+    .header-right-badges {{
+        display: none !important;
+    }}
 }}
 
 /* Dispositivos Móveis e Telas Compactas (<= 640px) */
@@ -786,29 +897,57 @@ header[data-testid="stHeader"] {{
     }}
 }}
 
-/* Estilização moderna da barra de navegação superior (Pills) */
-div[data-testid="stPills"], div[data-testid="stSegmentedControl"] {{
-    margin-bottom: 20px !important;
+/* Carrossel de Deslize Horizontal Suave (Swipe) para Navegacao */
+div[data-testid="stPills"], 
+div[data-testid="stSegmentedControl"],
+div[data-testid="stRadio"] > div[role="radiogroup"] {{
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     overflow-x: auto !important;
-    white-space: nowrap !important;
-    padding-bottom: 4px !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-behavior: smooth !important;
+    gap: 8px !important;
+    padding: 2px 2px 8px 2px !important;
+    margin-bottom: 16px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #cbd5e1 transparent !important;
+    width: 100% !important;
 }}
-div[data-testid="stPills"] button {{
-    border-radius: 22px !important;
+
+div[data-testid="stPills"]::-webkit-scrollbar,
+div[data-testid="stSegmentedControl"]::-webkit-scrollbar,
+div[data-testid="stRadio"] > div[role="radiogroup"]::-webkit-scrollbar {{
+    height: 4px !important;
+}}
+div[data-testid="stPills"]::-webkit-scrollbar-thumb,
+div[data-testid="stSegmentedControl"]::-webkit-scrollbar-thumb,
+div[data-testid="stRadio"] > div[role="radiogroup"]::-webkit-scrollbar-thumb {{
+    background-color: #cbd5e1 !important;
+    border-radius: 4px !important;
+}}
+
+div[data-testid="stPills"] button,
+div[data-testid="stSegmentedControl"] button {{
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    border-radius: 20px !important;
     font-size: 13.5px !important;
     font-weight: 600 !important;
-    padding: 7px 16px !important;
+    padding: 8px 16px !important;
     border: 1px solid #cbd5e1 !important;
     background-color: #ffffff !important;
     color: #334155 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
     transition: all 0.15s ease !important;
 }}
+
 div[data-testid="stPills"] button:hover {{
-    background-color: #f1f5f9 !important;
+    background-color: #f0fdf4 !important;
     border-color: #008744 !important;
     color: #008744 !important;
 }}
+
 div[data-testid="stPills"] button[aria-selected="true"] {{
     background-color: #008744 !important;
     color: #ffffff !important;
@@ -829,65 +968,31 @@ html, body, .stApp, [data-testid="stAppViewContainer"] {{
 # ==============================================================================
 # CABEÇALHO INSTITUCIONAL SUPERIOR & NAVEGAÇÃO HORIZONTAL MODERNA
 # ==============================================================================
-st.markdown(
-    '<div class="top-header">'
-    '<div class="header-left">'
-    '<div class="logo-badge" style="font-size: 15px; font-weight: 800; color: #1b4332;">RU</div>'
-    '<div class="header-titles">'
-    '<h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>'
-    '<p>Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)</p>'
-    '</div>'
-    '</div>'
-    '<div class="header-right">'
-    '<span class="badge-status">● Sistema Operacional Ativo</span>'
-    '<span class="badge-academico">DSR / Mestrado PPG-GTSP 2026</span>'
-    '</div>'
-    '</div>',
-    unsafe_allow_html=True
-)
+try:
+    col_head_info, col_head_auth = st.columns([0.82, 0.18], vertical_alignment="center")
+except TypeError:
+    col_head_info, col_head_auth = st.columns([0.82, 0.18])
 
-# Barra Superior com Navegacao Principal (Abas) e Acesso do Operador (Login/Logout)
-col_nav, col_auth = st.columns([0.77, 0.23])
+with col_head_info:
+    st.markdown(
+        '<div class="header-clean">'
+        '<div class="header-left">'
+        '<div class="logo-badge">RU</div>'
+        '<div class="header-titles">'
+        '<h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>'
+        '<p>Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP) • DSR 2026</p>'
+        '</div>'
+        '</div>'
+        '<div class="header-right-badges">'
+        '<span class="badge-status">● Sistema Ativo</span>'
+        '<span class="badge-academico">DSR / Mestrado</span>'
+        '</div>'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
-with col_nav:
-    if hasattr(st, "pills"):
-        sel_top = st.pills(
-            "Navegação:",
-            OPCOES_NAVEGACAO,
-            format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
-            default=st.session_state["pagina_ativa"],
-            key="nav_superior_pills",
-            label_visibility="collapsed"
-        )
-    elif hasattr(st, "segmented_control"):
-        sel_top = st.segmented_control(
-            "Navegação:",
-            OPCOES_NAVEGACAO,
-            format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
-            default=st.session_state["pagina_ativa"],
-            key="nav_superior_pills",
-            label_visibility="collapsed"
-        )
-    else:
-        idx_top = OPCOES_NAVEGACAO.index(st.session_state["pagina_ativa"]) if st.session_state["pagina_ativa"] in OPCOES_NAVEGACAO else 0
-        sel_top = st.radio(
-            "Navegação:",
-            OPCOES_NAVEGACAO,
-            format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
-            index=idx_top,
-            horizontal=True,
-            key="nav_superior_pills",
-            label_visibility="collapsed"
-        )
-
-    if sel_top and sel_top != st.session_state["pagina_ativa"]:
-        st.session_state["pagina_ativa"] = sel_top
-        st.rerun()
-
-    pagina_ativa = st.session_state["pagina_ativa"]
-
-with col_auth:
-    label_auth = "🔒 Acesso Restrito" if not st.session_state["autenticado"] else f"👤 {st.session_state['usuario_nome'][:18]}"
+with col_head_auth:
+    label_auth = "🔒 Operador" if not st.session_state["autenticado"] else f"👤 {st.session_state['usuario_nome'][:10]}"
     with st.popover(label_auth, use_container_width=True):
         if not st.session_state["autenticado"]:
             with st.form("form_login_popover"):
@@ -918,6 +1023,43 @@ with col_auth:
                 st.session_state["usuario_nome"] = "Visitante (Acesso Público)"
                 st.session_state["usuario_perfil"] = "visitante"
                 st.rerun()
+
+# Barra Superior com Navegacao Principal (Abas em Linha Unica com Deslize Lateral / Swipe)
+if hasattr(st, "pills"):
+    sel_top = st.pills(
+        "Navegação:",
+        OPCOES_NAVEGACAO,
+        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+        default=st.session_state["pagina_ativa"],
+        key="nav_superior_pills",
+        label_visibility="collapsed"
+    )
+elif hasattr(st, "segmented_control"):
+    sel_top = st.segmented_control(
+        "Navegação:",
+        OPCOES_NAVEGACAO,
+        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+        default=st.session_state["pagina_ativa"],
+        key="nav_superior_pills",
+        label_visibility="collapsed"
+    )
+else:
+    idx_top = OPCOES_NAVEGACAO.index(st.session_state["pagina_ativa"]) if st.session_state["pagina_ativa"] in OPCOES_NAVEGACAO else 0
+    sel_top = st.radio(
+        "Navegação:",
+        OPCOES_NAVEGACAO,
+        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+        index=idx_top,
+        horizontal=True,
+        key="nav_superior_pills",
+        label_visibility="collapsed"
+    )
+
+if sel_top and sel_top != st.session_state["pagina_ativa"]:
+    st.session_state["pagina_ativa"] = sel_top
+    st.rerun()
+
+pagina_ativa = st.session_state["pagina_ativa"]
 
 def renderizar_painel_explicativo(objetivo_rotina, como_foi_feito_ciencia, como_usar_passos):
     """
