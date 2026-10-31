@@ -655,60 +655,21 @@ div[data-testid="stMetricValue"] div {{
     }}
 }}
 
-/* Linha do Cabecalho e Login: SEMPRE em linha unica, sem quebrar */
-div[data-testid="stHorizontalBlock"]:has(.header-clean) {{
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    gap: 10px !important;
-    margin-bottom: 12px !important;
-}}
-div[data-testid="stHorizontalBlock"]:has(.header-clean) > div[data-testid="column"] {{
-    margin-bottom: 0 !important;
-}}
-div[data-testid="stHorizontalBlock"]:has(.header-clean) > div[data-testid="column"]:first-child {{
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-}}
-div[data-testid="stHorizontalBlock"]:has(.header-clean) > div[data-testid="column"]:last-child {{
-    flex: 0 0 auto !important;
-    width: auto !important;
-    min-width: 110px !important;
-}}
-div[data-testid="stHorizontalBlock"]:has(.header-clean) div[data-testid="stPopover"] {{
-    width: 100% !important;
-}}
-div[data-testid="stHorizontalBlock"]:has(.header-clean) div[data-testid="stPopover"] > button {{
-    border-radius: var(--radius-md) !important;
-    height: 48px !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    padding: 6px 14px !important;
-    border: 1px solid var(--border-subtle) !important;
-    background: #ffffff !important;
-    color: var(--text-primary) !important;
-    box-shadow: var(--shadow-sm) !important;
-    white-space: nowrap !important;
-}}
-div[data-testid="stHorizontalBlock"]:has(.header-clean) div[data-testid="stPopover"] > button:hover {{
-    border-color: var(--primary-color) !important;
-    color: var(--primary-color) !important;
-    background: var(--primary-subtle) !important;
-}}
-
 .header-clean {{
     background: var(--bg-card) !important;
     border: 1px solid var(--border-subtle) !important;
     border-left: 5px solid var(--primary-color) !important;
     border-radius: var(--radius-md);
-    padding: 8px 12px;
+    padding: 10px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--shadow-sm);
-    gap: 8px;
+    gap: 12px;
     min-height: 48px;
+    margin-bottom: 12px !important;
     box-sizing: border-box;
+    width: 100% !important;
 }}
 .header-clean .header-left {{
     display: flex;
@@ -968,61 +929,22 @@ html, body, .stApp, [data-testid="stAppViewContainer"] {{
 # ==============================================================================
 # CABEÇALHO INSTITUCIONAL SUPERIOR & NAVEGAÇÃO HORIZONTAL MODERNA
 # ==============================================================================
-try:
-    col_head_info, col_head_auth = st.columns([0.82, 0.18], vertical_alignment="center")
-except TypeError:
-    col_head_info, col_head_auth = st.columns([0.82, 0.18])
-
-with col_head_info:
-    st.markdown(
-        '<div class="header-clean">'
-        '<div class="header-left">'
-        '<div class="logo-badge">RU</div>'
-        '<div class="header-titles">'
-        '<h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>'
-        '<p>Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP) • DSR 2026</p>'
-        '</div>'
-        '</div>'
-        '<div class="header-right-badges">'
-        '<span class="badge-status">● Sistema Ativo</span>'
-        '<span class="badge-academico">DSR / Mestrado</span>'
-        '</div>'
-        '</div>',
-        unsafe_allow_html=True
-    )
-
-with col_head_auth:
-    label_auth = "🔒 Operador" if not st.session_state["autenticado"] else f"👤 {st.session_state['usuario_nome'][:10]}"
-    with st.popover(label_auth, use_container_width=True):
-        if not st.session_state["autenticado"]:
-            with st.form("form_login_popover"):
-                st.markdown("##### Identificação do Operador")
-                st.caption("Acesso para Nutricionista, Gestora e Pesquisador")
-                perfil_sel = st.selectbox("Perfil:", ["Nutricionista / Gestora", "Pesquisador (Admin)"])
-                senha_input = st.text_input("Senha de Operação:", type="password")
-                btn_login = st.form_submit_button("Entrar", use_container_width=True)
-                
-                if btn_login:
-                    if perfil_sel == "Nutricionista / Gestora" and (senha_input in [SENHA_NUTRI, "nutri2026", "gestao2026"]):
-                        st.session_state["autenticado"] = True
-                        st.session_state["usuario_nome"] = "Nutricionista / Gestora"
-                        st.session_state["usuario_perfil"] = "operador"
-                        st.rerun()
-                    elif perfil_sel == "Pesquisador (Admin)" and (senha_input in [SENHA_ADMIN, "admin2026"]):
-                        st.session_state["autenticado"] = True
-                        st.session_state["usuario_nome"] = "Michel Souza (Admin)"
-                        st.session_state["usuario_perfil"] = "admin"
-                        st.rerun()
-                    else:
-                        st.error("Senha incorreta.")
-        else:
-            st.success(f"Conectado como: **{st.session_state['usuario_nome']}**")
-            st.caption(f"Perfil operacional: `{st.session_state['usuario_perfil']}`")
-            if st.button("Encerrar Sessão", use_container_width=True):
-                st.session_state["autenticado"] = False
-                st.session_state["usuario_nome"] = "Visitante (Acesso Público)"
-                st.session_state["usuario_perfil"] = "visitante"
-                st.rerun()
+st.markdown(
+    '<div class="header-clean">'
+    '<div class="header-left">'
+    '<div class="logo-badge">RU</div>'
+    '<div class="header-titles">'
+    '<h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>'
+    '<p>Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP) • DSR 2026</p>'
+    '</div>'
+    '</div>'
+    '<div class="header-right-badges">'
+    '<span class="badge-status">● Sistema Ativo</span>'
+    '<span class="badge-academico">DSR / Mestrado PPG-GTSP 2026</span>'
+    '</div>'
+    '</div>',
+    unsafe_allow_html=True
+)
 
 # Barra Superior com Navegacao Principal (Abas em Linha Unica com Deslize Lateral / Swipe)
 if hasattr(st, "pills"):
@@ -2483,7 +2405,7 @@ elif pagina_ativa == "Cadastrar Dados":
         Para proteger os registros operacionais da instituição pública de ensino contra alterações acidentais, 
         o lançamento de dados é reservado aos profissionais autorizados.
         
-        * **É a Nutricionista ou a Gestora do Restaurante?** Desbloqueie com a senha no botão **🔒 Operador** no topo ou no formulário abaixo.
+        * **É a Nutricionista ou a Gestora do Restaurante?** Desbloqueie com a senha operacional no formulário abaixo.
         * **É membro da Banca Examinadora ou Visitante?** Você pode consultar qualquer data cadastrada no histórico abaixo.
         """)
         
@@ -2597,7 +2519,15 @@ elif pagina_ativa == "Cadastrar Dados":
             """, unsafe_allow_html=True)
 
     else:
-        st.success(f"**Acesso de Operador Habilitado:** Conectado como **{st.session_state['usuario_nome']}**.")
+        col_auth_msg, col_auth_lock = st.columns([0.76, 0.24])
+        with col_auth_msg:
+            st.success(f"**Acesso de Operador Habilitado:** Conectado como **{st.session_state['usuario_nome']}**.")
+        with col_auth_lock:
+            if st.button("🔒 Bloquear Edição / Sair", use_container_width=True, key="btn_logout_cadastrar"):
+                st.session_state["autenticado"] = False
+                st.session_state["usuario_nome"] = "Visitante (Acesso Público)"
+                st.session_state["usuario_perfil"] = "visitante"
+                st.rerun()
         
         with st.expander("De onde vêm os dados exibidos nesta tela? (Clique para saber mais)", expanded=False):
             st.markdown("""
@@ -2806,6 +2736,25 @@ elif pagina_ativa == "Cadastrar Dados":
                 salvar_edicao_operacional_completa(data_iso, dict_salvar)
                 st.success(f"**Sucesso!** As informações do dia **{data_fmt}** foram gravadas com sucesso na base operacional.")
                 st.rerun()
+
+        # Auditoria e Transparência: Histórico de Alterações Salvas
+        df_ultimas = listar_ultimas_edicoes(10)
+        if not df_ultimas.empty:
+            st.markdown("---")
+            with st.expander("📋 Registros e Alterações Salvas no Sistema (Auditoria)", expanded=False):
+                st.caption("Abaixo estão as últimas alterações gravadas no arquivo operacional (`dados/producao/edicoes_operacionais.parquet`):")
+                cols_uteis = [c for c in ["timestamp_edicao", "data_iso", "consumo", "planejado_nutri", "prato_principal", "proteina_tipo", "observacao"] if c in df_ultimas.columns]
+                st.dataframe(df_ultimas[cols_uteis], use_container_width=True, hide_index=True)
+                
+                if os.path.exists(CSV_CONSUMO_ATUALIZADO):
+                    with open(CSV_CONSUMO_ATUALIZADO, "rb") as f_csv:
+                        st.download_button(
+                            label="📥 Baixar Dados Completos Atualizados (CSV)",
+                            data=f_csv,
+                            file_name=f"consumo_atualizado_{datetime.now().strftime('%Y%m%d')}.csv",
+                            mime="text/csv",
+                            help="Baixar o arquivo consolidado com o histórico completo e as alterações operacionais aplicadas."
+                        )
 
 # ==============================================================================
 # PÁGINA 6: GUIA PRÁTICO (POP DE ROTINA EM 3 MINUTOS)
