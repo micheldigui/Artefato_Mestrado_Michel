@@ -91,7 +91,7 @@ st.set_page_config(
     page_title="Artefato Preditivo de Refeições — Apoio à Decisão",
     page_icon=None,
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Gerenciamento de Sessão e Credenciais de Operação
@@ -135,91 +135,7 @@ ICONES_NAVEGACAO = {
 if "pagina_ativa" not in st.session_state:
     st.session_state["pagina_ativa"] = "Dashboard"
 
-with st.sidebar:
-    st.markdown("""
-    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-        <div style="font-weight: 800; font-size: 18px; color: var(--primary-color); border: 2px solid var(--primary-color); border-radius: 6px; padding: 2px 8px; display: inline-block;">RU</div>
-        <div>
-            <div style="font-size: 15px; font-weight: 800; line-height: 1.2; color: var(--text-primary);">Restaurante Universitário</div>
-            <div style="font-size: 11.5px; opacity: 0.85; color: var(--text-muted);">Painel de Apoio à Decisão</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("##### Navegação")
-    idx_sidebar = OPCOES_NAVEGACAO.index(st.session_state["pagina_ativa"]) if st.session_state["pagina_ativa"] in OPCOES_NAVEGACAO else 0
-    sel_sidebar = st.radio(
-        "Navegação Principal:",
-        OPCOES_NAVEGACAO,
-        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
-        index=idx_sidebar,
-        key="radio_nav_sidebar",
-        label_visibility="collapsed"
-    )
-    if sel_sidebar and sel_sidebar != st.session_state["pagina_ativa"]:
-        st.session_state["pagina_ativa"] = sel_sidebar
-        st.rerun()
-    
-    pagina_ativa = st.session_state["pagina_ativa"]
-    
-    st.divider()
-    
-    # Controles Discretos e Compactos no Rodapé da Barra
-    st.caption("**Configurações & Status**")
-    
-    # Modo Claro Fixo
-    tema_escolhido = "Claro"
-    
-    # Micro Status da Base
-    df_consumo_hist = carregar_historico_consumo()
-    total_dias_base = len(df_consumo_hist) if not df_consumo_hist.empty else 645
-    st.markdown(f"""
-    <div style="font-size: 11.5px; margin: 8px 0; color: var(--text-secondary);">
-         <b>{total_dias_base} dias</b> monitorados na base<br>
-        ️ <b>Open-Meteo</b> conectado em tempo real
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Login Operador em Expander Fechado (Discreto)
-    with st.expander("Acesso Operador (Editar)", expanded=False):
-        if not st.session_state["autenticado"]:
-            with st.form("form_login_lateral"):
-                perfil_sel = st.selectbox("Perfil:", ["Nutricionista / Gestora", "Pesquisador (Admin)"])
-                senha_input = st.text_input("Senha:", type="password")
-                btn_login = st.form_submit_button("Entrar", use_container_width=True)
-                
-                if btn_login:
-                    if perfil_sel == "Nutricionista / Gestora" and (senha_input in [SENHA_NUTRI, "nutri2026", "gestao2026"]):
-                        st.session_state["autenticado"] = True
-                        st.session_state["usuario_nome"] = "Nutricionista Responsável / Gestora"
-                        st.session_state["usuario_perfil"] = "operador"
-                        st.rerun()
-                    elif perfil_sel == "Pesquisador (Admin)" and (senha_input in [SENHA_ADMIN, "admin2026"]):
-                        st.session_state["autenticado"] = True
-                        st.session_state["usuario_nome"] = "Michel Silva de Souza (Admin)"
-                        st.session_state["usuario_perfil"] = "admin"
-                        st.rerun()
-                    else:
-                        st.error("Senha incorreta.")
-        else:
-            st.success(f"Conectado como:\n**{st.session_state['usuario_nome']}**")
-            if st.button("Sair", use_container_width=True):
-                st.session_state["autenticado"] = False
-                st.session_state["usuario_nome"] = "Visitante (Acesso Público)"
-                st.session_state["usuario_perfil"] = "visitante"
-                st.rerun()
-                
-    # Ficha Técnica Acadêmica Fechada
-    with st.expander(" Ficha Técnica da Pesquisa", expanded=False):
-        st.markdown("""
-        * **Mestrando / Autor:** Michel Silva de Souza
-        * **Orientador:** Prof. Dr. Carlos Hideo Arima
-        * **Coorientador:** Prof. Dr. Rafael Nobre Orsi
-        * **Programa:** Mestrado Profissional em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)
-        * **Campo de Aplicação:** Restaurante Estudantil de Instituição Pública de Ensino
-        * **Metodologia:** Design Science Research (DSR)
-        * **Ciclo:** 2026
-        """)
+tema_escolhido = "Claro"
 
 # ==============================================================================
 # DESIGN SYSTEM: TEMA CLARO OPERACIONAL FIXO
@@ -824,7 +740,7 @@ div[data-testid="stRadio"] > div[role="radiogroup"] {{
     border: 1px solid var(--border-subtle);
 }}
 
-/* Oculta APENAS menus administrativos, botoes de deploy, status e links do GitHub */
+/* Oculta 100% qualquer resquício de barra lateral, cabeçalhos ou menus desnecessários */
 #MainMenu {{ visibility: hidden !important; display: none !important; }}
 footer {{ visibility: hidden !important; display: none !important; }}
 div[data-testid="stDecoration"] {{ visibility: hidden !important; display: none !important; }}
@@ -833,195 +749,89 @@ div[data-testid="stStatusWidget"] {{ visibility: hidden !important; display: non
 [data-testid="manage-app-button"] {{ display: none !important; }}
 a[href*="github.com"] {{ display: none !important; }}
 
-/* Garante que cabecalho, barra de ferramentas e botoes de controle da barra lateral sejam 100% visiveis e clicaveis */
-header,
-header[data-testid="stHeader"],
-div[data-testid="stToolbar"] {{
-    background: transparent !important;
-    pointer-events: auto !important;
-    visibility: visible !important;
-}}
-
-/* Controles de expandir e recolher a barra lateral destacados e sempre acessiveis */
-[data-testid="stExpandSidebarButton"],
-[data-testid="collapsedControl"],
-[data-testid="stSidebarCollapsedControl"],
-[data-testid="stSidebarCollapseButton"] {{
-    visibility: visible !important;
-    display: inline-flex !important;
-    opacity: 1 !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
-}}
-
-/* Destaque visual e fixacao permanente no icone nativo de abrir a barra lateral quando oculta */
-button[data-testid="stExpandSidebarButton"],
-[data-testid="stExpandSidebarButton"],
-[data-testid="collapsedControl"],
-[data-testid="stSidebarCollapsedControl"] {{
-    position: fixed !important;
-    top: 12px !important;
-    left: 12px !important;
-    z-index: 99999999 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    background-color: #ffffff !important;
-    border: 1.5px solid #008744 !important;
-    border-radius: 8px !important;
-    padding: 6px 12px !important;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18) !important;
-    color: #008744 !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
-}}
-button[data-testid="stExpandSidebarButton"]:hover,
-[data-testid="stExpandSidebarButton"]:hover,
-[data-testid="collapsedControl"]:hover,
-[data-testid="stSidebarCollapsedControl"]:hover {{
-    background-color: #f1f5f9 !important;
-    border-color: #008744 !important;
-}}
-button[data-testid="stExpandSidebarButton"] svg,
-[data-testid="stExpandSidebarButton"] svg,
-button[data-testid="stExpandSidebarButton"] span,
-[data-testid="stExpandSidebarButton"] span {{
-    color: #008744 !important;
-    fill: #008744 !important;
-    width: 22px !important;
-    height: 22px !important;
-}}
-
-/* Forcar modo claro 100% e bloquear modo escuro forcado por SO/navegador movel */
-:root,
-[data-theme="dark"],
-[data-theme="light"],
-html, body, .stApp,
-[data-testid="stApp"],
-[data-testid="stAppViewContainer"],
+/* Ocultação total e irrestrita da barra lateral nativa do Streamlit */
 section[data-testid="stSidebar"],
-section[data-testid="stSidebar"] > div {{
-    color-scheme: light !important;
-    --background-color: #f8fafc !important;
-    --secondary-background-color: #ffffff !important;
-    --text-color: #0f172a !important;
-    --primary-color: #008744 !important;
-    background-color: #f8fafc !important;
-    color: #0f172a !important;
+div[data-testid="stSidebarCollapsedControl"],
+button[data-testid="stSidebarCollapseButton"],
+button[data-testid="stExpandSidebarButton"],
+[data-testid="collapsedControl"],
+#ru-fixed-menu-container {{
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
 }}
 
-section[data-testid="stSidebar"] {{
-    background-color: #ffffff !important;
-    color: #0f172a !important;
-    border-right: 1px solid #e2e8f0 !important;
+header[data-testid="stHeader"] {{
+    display: none !important;
+    height: 0 !important;
 }}
 
-section[data-testid="stSidebar"] * {{
-    color-scheme: light !important;
+/* Espaçamento superior ideal para navegação 100% no corpo da página */
+.block-container {{
+    padding-top: 1.5rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    padding-bottom: 3.5rem !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
 }}
 
-div[data-baseweb="select"] > div,
-div[data-baseweb="input"] > div,
-input, select, textarea,
-div[data-testid="stRadio"] > div,
-div[data-testid="stRadio"] label,
-div[data-testid="stSelectbox"] div {{
-    background-color: #ffffff !important;
-    color: #0f172a !important;
-}}
-
-@media (prefers-color-scheme: dark) {{
-    :root,
-    [data-theme="dark"],
-    html, body, .stApp,
-    [data-testid="stAppViewContainer"],
-    section[data-testid="stSidebar"],
-    section[data-testid="stSidebar"] > div {{
-        color-scheme: light !important;
-        background-color: #f8fafc !important;
-        color: #0f172a !important;
-        --background-color: #f8fafc !important;
-        --secondary-background-color: #ffffff !important;
-        --text-color: #0f172a !important;
-    }}
-    div[data-testid="stVerticalBlockBorderWrapper"],
-    .kpi-card,
-    .day-prod-card,
-    .section-card {{
-        background-color: #ffffff !important;
-        color: #0f172a !important;
-        border-color: #e2e8f0 !important;
-    }}
-    div[data-testid="stMarkdownContainer"] p,
-    div[data-testid="stMarkdownContainer"] span,
-    div[data-testid="stMarkdownContainer"] label,
-    div[data-testid="stMarkdownContainer"] li {{
-        color: #334155 !important;
-    }}
-}}
-
-/* Responsividade: espaco superior para o botao flutuante do menu em dispositivos moveis */
 @media (max-width: 991px) {{
     .block-container {{
-        padding-top: 3.75rem !important;
+        padding-top: 1rem !important;
         padding-left: 0.85rem !important;
         padding-right: 0.85rem !important;
     }}
-    .top-header {{
-        margin-top: 6px !important;
-    }}
+}}
+
+/* Estilização moderna da barra de navegação superior (Pills) */
+div[data-testid="stPills"], div[data-testid="stSegmentedControl"] {{
+    margin-bottom: 20px !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding-bottom: 4px !important;
+}}
+div[data-testid="stPills"] button {{
+    border-radius: 22px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    padding: 7px 16px !important;
+    border: 1px solid #cbd5e1 !important;
+    background-color: #ffffff !important;
+    color: #334155 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.15s ease !important;
+}}
+div[data-testid="stPills"] button:hover {{
+    background-color: #f1f5f9 !important;
+    border-color: #008744 !important;
+    color: #008744 !important;
+}}
+div[data-testid="stPills"] button[aria-selected="true"] {{
+    background-color: #008744 !important;
+    color: #ffffff !important;
+    border-color: #008744 !important;
+    box-shadow: 0 2px 8px rgba(0, 135, 68, 0.25) !important;
+}}
+
+/* Forçar modo claro 100% */
+html, body, .stApp, [data-testid="stAppViewContainer"] {{
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    color-scheme: light !important;
 }}
 
 </style>
 """, unsafe_allow_html=True)
 
-# Botao Flutuante Permanente e Fixo para Reexibir a Barra Lateral (sempre presente e funcional)
-st.markdown('''
-<div id="ru-fixed-menu-container">
-    <button type="button" class="ru-floating-btn" onclick="(function(){
-        var sb = document.querySelector('section[data-testid=\'stSidebar\']');
-        var exp = document.querySelector('button[data-testid=\'stExpandSidebarButton\']') || 
-                  document.querySelector('[data-testid=\'stSidebarCollapsedControl\']') ||
-                  document.querySelector('[data-testid=\'collapsedControl\']');
-        if (exp) {
-            exp.click();
-            return;
-        }
-        if (!sb) return;
-        var isOpen = sb.getAttribute('aria-expanded') === 'true' || sb.style.transform === 'none';
-        if (isOpen) {
-            var col = document.querySelector('button[data-testid=\'stSidebarCollapseButton\']');
-            if (col) { col.click(); return; }
-            sb.style.setProperty('transform', 'translateX(-100%)', 'important');
-            sb.style.setProperty('min-width', '0px', 'important');
-            sb.style.setProperty('width', '0px', 'important');
-            sb.setAttribute('aria-expanded', 'false');
-        } else {
-            sb.style.setProperty('transform', 'none', 'important');
-            sb.style.setProperty('min-width', '300px', 'important');
-            sb.style.setProperty('width', '300px', 'important');
-            sb.style.setProperty('display', 'block', 'important');
-            sb.setAttribute('aria-expanded', 'true');
-        }
-    })()">
-        <span style="font-size: 16px; line-height: 1; margin-right: 5px;">☰</span> MENU
-    </button>
-</div>
-''', unsafe_allow_html=True)
-
-
-# Topo Institucional Elegante com Botao de Menu
+# ==============================================================================
+# CABEÇALHO INSTITUCIONAL SUPERIOR & NAVEGAÇÃO HORIZONTAL MODERNA
+# ==============================================================================
 st.markdown(
     '<div class="top-header">'
     '<div class="header-left">'
-    '<button type="button" class="btn-menu-header" onclick="(function(){var sb=document.querySelector(\'section[data-testid=\\\"stSidebar\\\"]\');var exp=document.querySelector(\'button[data-testid=\\\"stExpandSidebarButton\\\"]\')||document.querySelector(\'[data-testid=\\\"collapsedControl\\\"]\');if(exp){exp.click();return;}if(!sb)return;var o=sb.getAttribute(\'aria-expanded\')===\'true\'||sb.style.transform===\'none\';if(o){var col=document.querySelector(\'button[data-testid=\\\"stSidebarCollapseButton\\\"]\');if(col){col.click();return;}sb.style.setProperty(\'transform\',\'translateX(-100%)\',\'important\');sb.setAttribute(\'aria-expanded\',\'false\');}else{sb.style.setProperty(\'transform\',\'none\',\'important\');sb.style.setProperty(\'min-width\',\'300px\',\'important\');sb.style.setProperty(\'width\',\'300px\',\'important\');sb.style.setProperty(\'display\',\'block\',\'important\');sb.setAttribute(\'aria-expanded\',\'true\');}})()" title="Alternar Menu Lateral">'
-    '<span style="font-size: 16px; line-height: 1;">☰</span>'
-    '<span style="font-size: 12px; font-weight: 700; margin-left: 5px;">Menu</span>'
-    '</button>'
     '<div class="logo-badge" style="font-size: 15px; font-weight: 800; color: #1b4332;">RU</div>'
     '<div class="header-titles">'
     '<h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>'
@@ -1036,47 +846,79 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Barra de Navegacao Rapida Superior (Visivel e clicavel em qualquer tela ou dispositivo)
-if hasattr(st, "pills"):
-    sel_top = st.pills(
-        "Navegação Rápida:",
-        OPCOES_NAVEGACAO,
-        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
-        default=st.session_state["pagina_ativa"],
-        key="pills_nav_top",
-        label_visibility="collapsed"
-    )
-elif hasattr(st, "segmented_control"):
-    sel_top = st.segmented_control(
-        "Navegação Rápida:",
-        OPCOES_NAVEGACAO,
-        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
-        default=st.session_state["pagina_ativa"],
-        key="pills_nav_top",
-        label_visibility="collapsed"
-    )
-else:
-    idx_top = OPCOES_NAVEGACAO.index(st.session_state["pagina_ativa"]) if st.session_state["pagina_ativa"] in OPCOES_NAVEGACAO else 0
-    sel_top = st.radio(
-        "Navegação Rápida:",
-        OPCOES_NAVEGACAO,
-        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
-        index=idx_top,
-        horizontal=True,
-        key="pills_nav_top",
-        label_visibility="collapsed"
-    )
+# Barra Superior com Navegacao Principal (Abas) e Acesso do Operador (Login/Logout)
+col_nav, col_auth = st.columns([0.77, 0.23])
 
-if sel_top and sel_top != st.session_state["pagina_ativa"]:
-    st.session_state["pagina_ativa"] = sel_top
-    st.rerun()
+with col_nav:
+    if hasattr(st, "pills"):
+        sel_top = st.pills(
+            "Navegação:",
+            OPCOES_NAVEGACAO,
+            format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+            default=st.session_state["pagina_ativa"],
+            key="nav_superior_pills",
+            label_visibility="collapsed"
+        )
+    elif hasattr(st, "segmented_control"):
+        sel_top = st.segmented_control(
+            "Navegação:",
+            OPCOES_NAVEGACAO,
+            format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+            default=st.session_state["pagina_ativa"],
+            key="nav_superior_pills",
+            label_visibility="collapsed"
+        )
+    else:
+        idx_top = OPCOES_NAVEGACAO.index(st.session_state["pagina_ativa"]) if st.session_state["pagina_ativa"] in OPCOES_NAVEGACAO else 0
+        sel_top = st.radio(
+            "Navegação:",
+            OPCOES_NAVEGACAO,
+            format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+            index=idx_top,
+            horizontal=True,
+            key="nav_superior_pills",
+            label_visibility="collapsed"
+        )
 
-pagina_ativa = st.session_state["pagina_ativa"]
+    if sel_top and sel_top != st.session_state["pagina_ativa"]:
+        st.session_state["pagina_ativa"] = sel_top
+        st.rerun()
 
-# ==============================================================================
-# COMPONENTE PADRONIZADO: "COMO FUNCIONA? ENTENDA!"
-# Focado na linguagem da nutricionista e da gestora (sem jargões herméticos)
-# ==============================================================================
+    pagina_ativa = st.session_state["pagina_ativa"]
+
+with col_auth:
+    label_auth = "🔒 Acesso Restrito" if not st.session_state["autenticado"] else f"👤 {st.session_state['usuario_nome'][:18]}"
+    with st.popover(label_auth, use_container_width=True):
+        if not st.session_state["autenticado"]:
+            with st.form("form_login_popover"):
+                st.markdown("##### Identificação do Operador")
+                st.caption("Acesso para Nutricionista, Gestora e Pesquisador")
+                perfil_sel = st.selectbox("Perfil:", ["Nutricionista / Gestora", "Pesquisador (Admin)"])
+                senha_input = st.text_input("Senha de Operação:", type="password")
+                btn_login = st.form_submit_button("Entrar", use_container_width=True)
+                
+                if btn_login:
+                    if perfil_sel == "Nutricionista / Gestora" and (senha_input in [SENHA_NUTRI, "nutri2026", "gestao2026"]):
+                        st.session_state["autenticado"] = True
+                        st.session_state["usuario_nome"] = "Nutricionista / Gestora"
+                        st.session_state["usuario_perfil"] = "operador"
+                        st.rerun()
+                    elif perfil_sel == "Pesquisador (Admin)" and (senha_input in [SENHA_ADMIN, "admin2026"]):
+                        st.session_state["autenticado"] = True
+                        st.session_state["usuario_nome"] = "Michel Souza (Admin)"
+                        st.session_state["usuario_perfil"] = "admin"
+                        st.rerun()
+                    else:
+                        st.error("Senha incorreta.")
+        else:
+            st.success(f"Conectado como: **{st.session_state['usuario_nome']}**")
+            st.caption(f"Perfil operacional: `{st.session_state['usuario_perfil']}`")
+            if st.button("Encerrar Sessão", use_container_width=True):
+                st.session_state["autenticado"] = False
+                st.session_state["usuario_nome"] = "Visitante (Acesso Público)"
+                st.session_state["usuario_perfil"] = "visitante"
+                st.rerun()
+
 def renderizar_painel_explicativo(objetivo_rotina, como_foi_feito_ciencia, como_usar_passos):
     """
     Renderiza um painel retrátil claro, acolhedor e visual para explicar a tela
@@ -2853,3 +2695,17 @@ elif pagina_ativa == "Guia Prático":
     * **Cardápio com Carne Bovina:**
       O modelo ajusta a quantidade para cima para garantir que nenhum estudante fique sem comer no dia de maior procura.
     """)
+
+# ==============================================================================
+# RODAPÉ ACADÊMICO INSTITUCIONAL (DSR / PPG-GTSP)
+# ==============================================================================
+st.markdown("""
+<div style="margin-top: 50px; padding: 24px 16px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #64748b; background-color: #ffffff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+    <div style="font-weight: 700; color: #0f172a; margin-bottom: 4px;">Restaurante Estudantil — Painel de Apoio à Decisão</div>
+    <div>Dissertação de Mestrado Profissional • Metodologia Design Science Research (DSR) • Ciclo 2026</div>
+    <div style="margin-top: 4px;">Programa de Pós-Graduação em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP) • IFSP</div>
+    <div style="margin-top: 6px; font-size: 11px; color: #94a3b8;">
+        Mestrando: <b>Michel Silva de Souza</b> • Orientador: <b>Prof. Dr. Carlos Hideo Arima</b> • Coorientador: <b>Prof. Dr. Rafael Nobre Orsi</b>
+    </div>
+</div>
+""", unsafe_allow_html=True)
