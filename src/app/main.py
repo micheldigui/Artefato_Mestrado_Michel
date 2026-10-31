@@ -802,83 +802,229 @@ div[data-testid="stRadio"] > div[role="radiogroup"] {{
     border: 1px solid var(--border-subtle);
 }}
 
-/* Garante que o cabecalho seja transparente e o botao de abrir/fechar o menu lateral permaneca visivel e funcional */
+/* Garante que o cabecalho seja transparente e nao bloqueie cliques */
 header[data-testid="stHeader"] {{
     background: transparent !important;
-    color: var(--text-primary) !important;
-    height: 3.25rem !important;
+    height: 3.5rem !important;
     z-index: 100000 !important;
 }}
 
-/* Oculta apenas os menus administrativos e de desenvolvimento do Streamlit / GitHub */
+/* Mantem a barra de ferramentas funcional para o botao de abrir o menu */
+div[data-testid="stToolbar"] {{
+    visibility: visible !important;
+    display: flex !important;
+    background: transparent !important;
+}}
+
+/* Oculta APENAS menus administrativos, botoes de deploy, status e links do GitHub */
 #MainMenu {{ visibility: hidden !important; display: none !important; }}
 footer {{ visibility: hidden !important; display: none !important; }}
-div[data-testid="stToolbar"] {{ visibility: hidden !important; display: none !important; }}
 div[data-testid="stDecoration"] {{ visibility: hidden !important; display: none !important; }}
 div[data-testid="stStatusWidget"] {{ visibility: hidden !important; display: none !important; }}
 .stDeployButton {{ display: none !important; }}
 [data-testid="manage-app-button"] {{ display: none !important; }}
 a[href*="github.com"] {{ display: none !important; }}
 
-/* Destaque e fixacao do botao de abrir o menu lateral (visivel no celular e no desktop) */
-[data-testid="collapsedControl"] {{
+/* Oculta os itens da direita da barra de ferramentas (deploy e menu administrativo) */
+div[data-testid="stToolbar"] > div:last-child {{
+    display: none !important;
+    visibility: hidden !important;
+}}
+
+/* Botao flutuante permanente para abrir/expandir o menu lateral (visivel no celular e desktop) */
+button[data-testid="stExpandSidebarButton"],
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapsedControl"],
+div[data-testid="stToolbar"] button {{
     display: inline-flex !important;
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    top: 12px !important;
-    left: 12px !important;
+    top: 10px !important;
+    left: 10px !important;
     z-index: 9999999 !important;
     background-color: #ffffff !important;
     color: var(--primary-color) !important;
-    border: 1.5px solid var(--border-subtle) !important;
+    border: 1.5px solid var(--border-strong) !important;
     border-radius: 8px !important;
-    padding: 6px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+    padding: 6px 10px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16) !important;
     transition: all 0.2s ease !important;
     cursor: pointer !important;
+    min-height: 38px !important;
+    min-width: 38px !important;
+    align-items: center !important;
+    justify-content: center !important;
 }}
-[data-testid="collapsedControl"]:hover {{
+button[data-testid="stExpandSidebarButton"]:hover,
+[data-testid="collapsedControl"]:hover,
+[data-testid="stSidebarCollapsedControl"]:hover,
+div[data-testid="stToolbar"] button:hover {{
     background-color: #f1f5f9 !important;
     border-color: var(--primary-color) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
 }}
-[data-testid="collapsedControl"] svg {{
+button[data-testid="stExpandSidebarButton"] svg,
+[data-testid="collapsedControl"] svg,
+[data-testid="stSidebarCollapsedControl"] svg,
+div[data-testid="stToolbar"] button svg {{
     width: 22px !important;
     height: 22px !important;
     fill: var(--primary-color) !important;
     stroke: var(--primary-color) !important;
-}}
-
-/* Botao de fechar dentro da barra lateral */
-[data-testid="stSidebarCollapseButton"] {{
-    color: var(--text-muted) !important;
-}}
-[data-testid="stSidebarCollapseButton"]:hover {{
     color: var(--primary-color) !important;
 }}
 
-/* Forcar modo claro e evitar que navegadores mobile forcem dark mode */
-html, body, .stApp, [data-testid="stAppViewContainer"] {{
+/* Botao de fechar dentro da barra lateral (quando aberta) */
+button[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarCollapseButton"] {{
+    display: inline-flex !important;
+    visibility: visible !important;
+    color: var(--primary-color) !important;
+    background-color: #f1f5f9 !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+}}
+button[data-testid="stSidebarCollapseButton"]:hover,
+[data-testid="stSidebarCollapseButton"]:hover {{
+    background-color: #e2e8f0 !important;
+    border-color: var(--primary-color) !important;
+}}
+
+/* Forcar modo claro 100% e bloquear modo escuro forcado por SO/navegador movel */
+:root,
+[data-theme="dark"],
+[data-theme="light"],
+html, body, .stApp,
+[data-testid="stApp"],
+[data-testid="stAppViewContainer"],
+section[data-testid="stSidebar"],
+section[data-testid="stSidebar"] > div {{
+    color-scheme: light !important;
+    --background-color: #f8fafc !important;
+    --secondary-background-color: #ffffff !important;
+    --text-color: #0f172a !important;
+    --primary-color: #008744 !important;
     background-color: #f8fafc !important;
     color: #0f172a !important;
+}}
+
+section[data-testid="stSidebar"] {{
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-right: 1px solid #e2e8f0 !important;
+}}
+
+section[data-testid="stSidebar"] * {{
     color-scheme: light !important;
+}}
+
+div[data-baseweb="select"] > div,
+div[data-baseweb="input"] > div,
+input, select, textarea,
+div[data-testid="stRadio"] > div,
+div[data-testid="stRadio"] label,
+div[data-testid="stSelectbox"] div {{
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+}}
+
+@media (prefers-color-scheme: dark) {{
+    :root,
+    [data-theme="dark"],
+    html, body, .stApp,
+    [data-testid="stAppViewContainer"],
+    section[data-testid="stSidebar"],
+    section[data-testid="stSidebar"] > div {{
+        color-scheme: light !important;
+        background-color: #f8fafc !important;
+        color: #0f172a !important;
+        --background-color: #f8fafc !important;
+        --secondary-background-color: #ffffff !important;
+        --text-color: #0f172a !important;
+    }}
+    div[data-testid="stVerticalBlockBorderWrapper"],
+    .kpi-card,
+    .day-prod-card,
+    .section-card {{
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        border-color: #e2e8f0 !important;
+    }}
+    div[data-testid="stMarkdownContainer"] p,
+    div[data-testid="stMarkdownContainer"] span,
+    div[data-testid="stMarkdownContainer"] label,
+    div[data-testid="stMarkdownContainer"] li {{
+        color: #334155 !important;
+    }}
 }}
 
 /* Responsividade: espaco superior para o botao flutuante do menu em dispositivos moveis */
 @media (max-width: 991px) {{
     .block-container {{
-        padding-top: 3.5rem !important;
+        padding-top: 3.75rem !important;
         padding-left: 0.85rem !important;
         padding-right: 0.85rem !important;
     }}
     .top-header {{
-        margin-top: 4px !important;
+        margin-top: 6px !important;
     }}
 }}
 
 </style>
 """, unsafe_allow_html=True)
+
+# Script complementar para UX mobile (fecha o menu lateral ao selecionar opcao e limpa cache de tema escuro)
+try:
+    st.html('''
+    <script>
+    (function() {
+        // 1. Limpeza de tema escuro persistido em navegadores mobile
+        try {
+            for (let i = 0; i < localStorage.length; i++) {
+                let k = localStorage.key(i);
+                if (k && k.indexOf('stActiveTheme') !== -1) {
+                    localStorage.removeItem(k);
+                }
+            }
+        } catch(e) {}
+
+        // 2. Fechamento suave do menu lateral ao clicar em opcao de navegacao no celular
+        function fecharMenuMobileAoClicar() {
+            const sidebar = document.querySelector('section[data-testid="stSidebar"]');
+            if (!sidebar) return;
+            
+            const opcoes = sidebar.querySelectorAll('div[data-testid="stRadio"] label, div[data-testid="stRadio"] [role="radio"]');
+            opcoes.forEach(function(el) {
+                if (el.dataset.mobileCloseAttached) return;
+                el.dataset.mobileCloseAttached = "true";
+                el.addEventListener('click', function() {
+                    if (window.innerWidth <= 991) {
+                        setTimeout(function() {
+                            const btnFechar = document.querySelector('button[data-testid="stSidebarCollapseButton"]') || 
+                                              document.querySelector('[data-testid="stSidebarCollapseButton"]');
+                            if (btnFechar) {
+                                btnFechar.click();
+                            }
+                        }, 150);
+                    }
+                });
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fecharMenuMobileAoClicar);
+        } else {
+            fecharMenuMobileAoClicar();
+        }
+        setInterval(fecharMenuMobileAoClicar, 800);
+    })();
+    </script>
+    ''', unsafe_allow_javascript=True)
+except Exception:
+    pass
+
 
 # Topo Institucional Elegante
 st.markdown(
