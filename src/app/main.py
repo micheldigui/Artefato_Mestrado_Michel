@@ -1821,7 +1821,7 @@ if pagina_ativa == "Dashboard":
 elif pagina_ativa == "Previsões":
     st.markdown('<div class="story-badge">ETAPA 2 DE 6 • ORDEM DE PREPARO SEMANAL (t+1)</div>', unsafe_allow_html=True)
     st.markdown("### Previsões e Ordem de Preparo Semanal")
-    st.markdown('<p class="story-subtitle">Toda sexta-feira: consulte a recomendação diária calibrada para a próxima semana útil, embasada no modelo híbrido campeão com calibração conformal.</p>', unsafe_allow_html=True)
+    st.markdown('<p class="story-subtitle">Toda sexta-feira: consulte a recomendação diária calibrada para a próxima semana útil, embasada no modelo híbrido integrado à experiência da nutricionista e calibração conformal.</p>', unsafe_allow_html=True)
     
     renderizar_painel_explicativo(
         objetivo_rotina=(
@@ -2052,12 +2052,12 @@ elif pagina_ativa == "Simulador de Cenários":
             st.caption(f"ℹ️ {CENARIOS_DICT[cenario_sel]['descricao']}")
             
             modelo_sel = st.selectbox(
-                "Modelo / Algoritmo da Pesquisa:",
+                "Modelo ou Forma de Previsão:",
                 list(MODELOS_RANKING.keys()),
-                index=0 if obj_chave == "consumo" else 2,
+                index=0 if obj_chave == "consumo" else 3,
                 key="sim_modelo_select"
             )
-            st.caption(f"{MODELOS_RANKING[modelo_sel]['posicao']} • {MODELOS_RANKING[modelo_sel]['detalhe']}")
+            st.caption(f"💡 **Como funciona:** {MODELOS_RANKING[modelo_sel]['detalhe']}")
             
             margens_opcoes = list(MARGENS_INFO.keys()) + ["Margem Personalizada (Manual)"]
             margem_sel = st.selectbox(
@@ -2142,7 +2142,7 @@ elif pagina_ativa == "Simulador de Cenários":
                         prato_custom_override = st.text_input("Nome do Prato Hipotético:", value=f"Especial ({prot_custom_override.title()})", key="sim_nome_prato_sub")
                 else:
                     st.warning("**Cardápio não cadastrado na base para esta data.**")
-                    st.caption("Cadastre oficialmente em ** Cadastrar Dados** ou selecione a proteína hipotética abaixo para testar o efeito no modelo:")
+                    st.caption("Cadastre oficialmente em **✍️ Cadastrar Dados** ou selecione a proteína hipotética abaixo para testar o efeito no modelo:")
                     prot_custom_override = st.selectbox(
                         "Proteína Hipotética para a Simulação:",
                         ["bovina", "frango", "suina", "peixe", "ovo"],
@@ -2239,13 +2239,21 @@ elif pagina_ativa == "Simulador de Cenários":
     # Indicadores Principais
     c_kpi1, c_kpi2, c_kpi3, c_kpi4 = st.columns(4)
     with c_kpi1:
-        delta_ref = resultado_sim["pred_final"] - 180
         rotulo_prod = "Ordem de Preparo (t+1)" if obj_chave == "consumo" else "Volume para Compras (t+2)"
-        st.metric(
-            rotulo_prod,
-            f"{resultado_sim['pred_final']} refeições",
-            delta=f"{delta_ref:+d} vs média regular (180)"
-        )
+        if not resultado_sim["is_dia_letivo"]:
+            st.metric(
+                rotulo_prod,
+                "0 refeições",
+                delta="Feriado / Sem Atendimento",
+                delta_color="off"
+            )
+        else:
+            delta_ref = resultado_sim["pred_final"] - 180
+            st.metric(
+                rotulo_prod,
+                f"{resultado_sim['pred_final']} refeições",
+                delta=f"{delta_ref:+d} vs média regular (180)"
+            )
     with c_kpi2:
         st.metric(
             "Previsão Bruta (IA)",
@@ -2363,8 +2371,8 @@ elif pagina_ativa == "Compras & Suprimentos":
             modelo_sup = st.selectbox(
                 "Modelo Preditivo para Compras:",
                 [
-                    "Ridge Regression (IA Pura / Autônomo — Recomendado)",
-                    "Híbrido 50/50 (Combina IA + Média Histórica de Nutrição)"
+                    "Modelo Matemático Estável (Ridge - Autônomo / Recomendado)",
+                    "Modelo Híbrido (Combina IA + Média da Nutrição)"
                 ],
                 index=0,
                 key="cfg_mod_sup"
@@ -2373,7 +2381,7 @@ elif pagina_ativa == "Compras & Suprimentos":
             margem_sup = st.selectbox(
                 "Margem Conformal Protetiva:",
                 [
-                    "Conformal P85 (+18 ref / 84,9% Proteção) - Campeã Auditada",
+                    "Conformal P85 (+18 ref / 84,9% Proteção) - Padrão da Pesquisa",
                     "Conformal P90 (+29 ref / 89,8% Proteção)",
                     "Conformal P75 (+10 ref / 74,6% Proteção)",
                     "IA Pura (Sem Margem Aditiva)"
@@ -2383,7 +2391,7 @@ elif pagina_ativa == "Compras & Suprimentos":
             )
 
     cenario_sup = "Cenário 3 (Cenário 2 + Quantitativo Institucional)" if "Híbrido" in modelo_sup else "Cenário 2 (Cenário 1 + Clima Open-Meteo)"
-    modelo_nome_exec = "Híbrido 50/50 (Campeão Absoluto)" if "Híbrido" in modelo_sup else "Ridge Regression (Linear L2)"
+    modelo_nome_exec = "Modelo Híbrido (IA + Nutricionista)" if "Híbrido" in modelo_sup else "Modelo Matemático Estável (Ridge)"
 
     df_t2, df_feat_t2 = executar_pipeline_previsao(
         horizonte_alvo="Pos_Semana_t2",
@@ -2463,7 +2471,7 @@ elif pagina_ativa == "Cadastrar Dados":
         Para proteger os registros operacionais da instituição pública de ensino contra alterações acidentais, 
         o lançamento de dados é reservado aos profissionais autorizados.
         
-        * **É a Nutricionista ou a Gestora do Restaurante?** Desbloqueie com a senha abaixo ou na barra lateral.
+        * **É a Nutricionista ou a Gestora do Restaurante?** Desbloqueie com a senha no botão **🔒 Operador** no topo ou no formulário abaixo.
         * **É membro da Banca Examinadora ou Visitante?** Você pode consultar qualquer data cadastrada no histórico abaixo.
         """)
         
@@ -2845,7 +2853,7 @@ st.markdown("""
 <div style="margin-top: 50px; padding: 24px 16px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #64748b; background-color: #ffffff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
     <div style="font-weight: 700; color: #0f172a; margin-bottom: 4px;">Restaurante Estudantil — Painel de Apoio à Decisão</div>
     <div>Dissertação de Mestrado Profissional • Metodologia Design Science Research (DSR) • Ciclo 2026</div>
-    <div style="margin-top: 4px;">Programa de Pós-Graduação em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP) • IFSP</div>
+    <div style="margin-top: 4px;">Programa de Pós-Graduação em Gestão e Tecnologia em Sistemas Produtivos (PPG-GTSP)</div>
     <div style="margin-top: 6px; font-size: 11px; color: #94a3b8;">
         Mestrando: <b>Michel Silva de Souza</b> • Orientador: <b>Prof. Dr. Carlos Hideo Arima</b> • Coorientador: <b>Prof. Dr. Rafael Nobre Orsi</b>
     </div>

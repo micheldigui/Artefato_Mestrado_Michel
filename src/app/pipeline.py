@@ -55,7 +55,7 @@ CENARIOS_DICT = {
         "usar_nutri": True,
         "mae_t1": 19.88,
         "mae_t2": 26.91,
-        "descricao": "Cenário 2 + Quantitativo Institucional da Nutrição (Modelo Híbrido Campeão da Pesquisa, MAE 19,88 ref)"
+        "descricao": "Cenário 2 + Quantitativo Institucional da Nutrição (Combinação com a experiência prática da nutricionista, MAE 19,88 ref)"
     },
     "Cenário 2 (Cenário 1 + Clima Open-Meteo)": {
         "usar_clima": True,
@@ -77,54 +77,47 @@ CENARIOS_DICT = {
 
 # Ranking Oficial de Modelos Auditados (Coorte Pareada N=73 e Validação Outubro)
 MODELOS_RANKING = {
-    "Híbrido 50/50 (Campeão Absoluto)": {
+    "Modelo Híbrido (IA + Nutricionista)": {
         "mae_t1": 20.20,
         "mae_t2": 27.79,
-        "posicao": "1º Lugar (Campeão Geral)",
         "tipo": "Human-in-the-Loop",
-        "detalhe": "Combinação linear ótima: 50% IA + 50% Nutricionista institucional"
+        "detalhe": "Combina a análise de dados da inteligência artificial com a experiência prática da nutricionista"
     },
-    "CatBoost (Campeão Pós-Recesso Outubro)": {
+    "Inteligência Artificial por Padrões (CatBoost)": {
         "mae_t1": 10.74,
         "mae_t2": 26.50,
-        "posicao": "Destaque Outubro (MAE 10.74)",
-        "tipo": "Gradient Boosting Categórico",
-        "detalhe": "Algoritmo de ponta com excelente resposta a mudanças bruscas de regime e clima"
+        "tipo": "Árvores Categóricas",
+        "detalhe": "Cruza o histórico para identificar padrões detalhados entre o tipo de prato, dia da semana e clima"
     },
-    "Ridge Regression (Linear L2)": {
-        "mae_t1": 20.70,
-        "mae_t2": 27.79,
-        "posicao": "Melhor Modelo Linear",
-        "tipo": "Linear Regularizado",
-        "detalhe": "Excelente estabilidade frente à colinearidade com penalização quadrática L2"
-    },
-    "Regressão Linear (OLS)": {
-        "mae_t1": 20.75,
-        "mae_t2": 27.85,
-        "posicao": "Linear Clássico",
-        "tipo": "Linear",
-        "detalhe": "Mínimos quadrados ordinários sem regularização"
-    },
-    "Lasso Regression (Linear L1)": {
-        "mae_t1": 20.83,
-        "mae_t2": 28.10,
-        "posicao": "Linear Esparso",
-        "tipo": "Linear Esparso",
-        "detalhe": "Penalização L1 com seleção automática de coeficientes"
-    },
-    "Random Forest (Ensemble)": {
+    "Inteligência Artificial por Árvores de Decisão (Random Forest)": {
         "mae_t1": 21.34,
         "mae_t2": 28.45,
-        "posicao": "Árvores de Decisão",
-        "tipo": "Ensemble Não-Linear",
-        "detalhe": "Florestas aleatórias de decisão capturando não-linearidades do cardápio"
+        "tipo": "Consenso de Regras Lógicas",
+        "detalhe": "Consulta dezenas de regras lógicas do histórico e calcula uma estimativa equilibrada"
     },
-    "Nutricionista Institucional (Benchmark Humano)": {
+    "Modelo Matemático Estável (Ridge)": {
+        "mae_t1": 20.70,
+        "mae_t2": 27.79,
+        "tipo": "Tendência Linear Suavizada",
+        "detalhe": "Cálculo estatístico de tendência direta que suaviza oscilações bruscas e evita previsões exageradas"
+    },
+    "Modelo Matemático Tradicional (Regressão Simples)": {
+        "mae_t1": 20.75,
+        "mae_t2": 27.85,
+        "tipo": "Linha de Tendência Clássica",
+        "detalhe": "Fórmula matemática tradicional de linha de tendência baseada na média histórica"
+    },
+    "Modelo Matemático Seletivo (Lasso)": {
+        "mae_t1": 20.83,
+        "mae_t2": 28.10,
+        "tipo": "Seleção de Fatores Relevantes",
+        "detalhe": "Foca apenas nas variáveis mais determinantes (como dia da semana) e ignora variações secundárias"
+    },
+    "Planejamento Manual da Gestão (Sem IA)": {
         "mae_t1": 26.21,
         "mae_t2": 26.21,
-        "posicao": "Benchmark Humano",
-        "tipo": "Estimativa Humana Fixa",
-        "detalhe": "Planejamento empírico tradicional da gestão com média de 182,7 ref/dia"
+        "tipo": "Estimativa Humana da Gestão",
+        "detalhe": "Estimativa informada pela nutricionista com base na rotina e no censo do refeitório"
     }
 }
 
@@ -236,7 +229,7 @@ def treinar_modelos(df_treino):
     X = df_treino[cols_features].values
     y = df_treino["consumo"].values
     
-    # 1. Ridge Regression (Modelo Campeão Linear da Pesquisa com L2)
+    # 1. Ridge Regression (Modelo Linear com Regularização L2)
     modelo_ridge = Ridge(alpha=10.0, random_state=42)
     modelo_ridge.fit(X, y)
     
@@ -276,7 +269,7 @@ def executar_pipeline_previsao(
     usar_clima=True,
     usar_cardapio=True,
     usar_nutri=True,
-    modelo_escolhido="Híbrido 50/50 (Campeão Absoluto)",
+    modelo_escolhido="Modelo Híbrido (IA + Nutricionista)",
     peso_ia=0.5,
     tipo_margem="Conformal P85 (+18 ref / Padrão Pesquisa)",
     margem_adicional=0
@@ -433,17 +426,17 @@ def executar_pipeline_previsao(
             pred_ia_base = pred_ridge
         elif "Lasso" in modelo_escolhido:
             pred_ia_base = pred_lasso
-        elif "Linear" in modelo_escolhido:
+        elif "Linear" in modelo_escolhido or "Regressão" in modelo_escolhido:
             pred_ia_base = pred_linear
-        elif "Forest" in modelo_escolhido:
+        elif "Forest" in modelo_escolhido or "Árvores" in modelo_escolhido:
             pred_ia_base = pred_rf
         else:
             # Híbrido usa Ridge como base de IA
             pred_ia_base = pred_ridge
 
         # Combinação Híbrida se nutricionista estiver presente
-        if val_nutri is not None and usar_nutri and ("Híbrido" in modelo_escolhido or "Nutricionista" in modelo_escolhido):
-            if "Nutricionista" in modelo_escolhido and "Híbrido" not in modelo_escolhido:
+        if val_nutri is not None and usar_nutri and ("Híbrido" in modelo_escolhido or "Nutricionista" in modelo_escolhido or "Manual" in modelo_escolhido):
+            if ("Nutricionista" in modelo_escolhido or "Manual" in modelo_escolhido) and "Híbrido" not in modelo_escolhido:
                 pred_base = val_nutri
                 margem_padrao_auditada = 0.0
             else:
@@ -539,7 +532,7 @@ def simular_previsao_data(
     data_alvo,
     objetivo="consumo",
     cenario_escolhido="Cenário 3 (Cenário 2 + Quantitativo Institucional)",
-    modelo_escolhido="Híbrido 50/50 (Campeão Absoluto)",
+    modelo_escolhido="Modelo Híbrido (IA + Nutricionista)",
     tipo_margem="Conformal P85 (+18 ref / Padrão Pesquisa)",
     margem_customizada=0.0,
     proteina_custom=None,
@@ -683,17 +676,17 @@ def simular_previsao_data(
         pred_ia = pred_cat
     elif "Ridge" in modelo_escolhido:
         pred_ia = pred_ridge
-    elif "Forest" in modelo_escolhido:
+    elif "Forest" in modelo_escolhido or "Árvores" in modelo_escolhido:
         pred_ia = pred_rf
     elif "Lasso" in modelo_escolhido:
         pred_ia = pred_lasso
-    elif "Linear" in modelo_escolhido:
+    elif "Linear" in modelo_escolhido or "Regressão" in modelo_escolhido:
         pred_ia = pred_linear
     else:
         pred_ia = pred_ridge
 
-    if usar_nutri and ("Híbrido" in modelo_escolhido or "Nutricionista" in modelo_escolhido):
-        if "Nutricionista" in modelo_escolhido and "Híbrido" not in modelo_escolhido:
+    if usar_nutri and ("Híbrido" in modelo_escolhido or "Nutricionista" in modelo_escolhido or "Manual" in modelo_escolhido):
+        if ("Nutricionista" in modelo_escolhido or "Manual" in modelo_escolhido) and "Híbrido" not in modelo_escolhido:
             pred_base = nutri_utilizado
             margem_padrao = 0.0
         else:
