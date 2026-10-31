@@ -114,6 +114,27 @@ SENHA_ADMIN = str(obter_credencial("SENHA_ADMIN", "admin2026"))
 # ==============================================================================
 # BARRA LATERAL FIXA (SIDEBAR): NAVEGAÇÃO PRINCIPAL E CONTROLES DISCRETOS
 # ==============================================================================
+OPCOES_NAVEGACAO = [
+    "Dashboard",
+    "Previsões",
+    "Simulador de Cenários",
+    "Compras & Suprimentos",
+    "Cadastrar Dados",
+    "Guia Prático"
+]
+
+ICONES_NAVEGACAO = {
+    "Dashboard": "📊",
+    "Previsões": "🔮",
+    "Simulador de Cenários": "🧪",
+    "Compras & Suprimentos": "📦",
+    "Cadastrar Dados": "✍️",
+    "Guia Prático": "📖"
+}
+
+if "pagina_ativa" not in st.session_state:
+    st.session_state["pagina_ativa"] = "Dashboard"
+
 with st.sidebar:
     st.markdown("""
     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
@@ -126,19 +147,20 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     
     st.markdown("##### Navegação")
-    pagina_ativa = st.radio(
+    idx_sidebar = OPCOES_NAVEGACAO.index(st.session_state["pagina_ativa"]) if st.session_state["pagina_ativa"] in OPCOES_NAVEGACAO else 0
+    sel_sidebar = st.radio(
         "Navegação Principal:",
-        [
-            "Dashboard",
-            "Previsões",
-            "Simulador de Cenários",
-            "Compras & Suprimentos",
-            "Cadastrar Dados",
-            "Guia Prático"
-        ],
-        index=0,
+        OPCOES_NAVEGACAO,
+        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+        index=idx_sidebar,
+        key="radio_nav_sidebar",
         label_visibility="collapsed"
     )
+    if sel_sidebar and sel_sidebar != st.session_state["pagina_ativa"]:
+        st.session_state["pagina_ativa"] = sel_sidebar
+        st.rerun()
+    
+    pagina_ativa = st.session_state["pagina_ativa"]
     
     st.divider()
     
@@ -931,62 +953,114 @@ div[data-testid="stSelectbox"] div {{
 </style>
 """, unsafe_allow_html=True)
 
-# Script complementar para UX: garante que a barra lateral possa ser aberta e limpa travas residuais
-try:
-    st.html('''
-    <script>
-    (function() {
-        // 1. Limpeza de travas residuais no localStorage (tema escuro e estado forçado de fechamento)
-        try {
-            for (let i = localStorage.length - 1; i >= 0; i--) {
-                let k = localStorage.key(i);
-                if (k && (k.indexOf('stActiveTheme') !== -1 || k.indexOf('stSidebarCollapsed') !== -1)) {
-                    localStorage.removeItem(k);
-                }
+# Injecao confiavel de funcoes de navegacao e controle da barra lateral
+st.markdown('''
+<img src="data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'/>" style="display:none;" onload="
+(function() {
+    try {
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+            let k = localStorage.key(i);
+            if (k && (k.indexOf('stActiveTheme') !== -1 || k.indexOf('stSidebarCollapsed') !== -1)) {
+                localStorage.removeItem(k);
             }
-        } catch(e) {}
-
-        // 2. Fechamento suave do menu lateral ao clicar em opcao de navegacao no celular
-        function fecharMenuMobileAoClicar() {
-            const sidebar = document.querySelector('section[data-testid="stSidebar"]');
-            if (!sidebar) return;
-            
-            const opcoes = sidebar.querySelectorAll('div[data-testid="stRadio"] label, div[data-testid="stRadio"] [role="radio"]');
-            opcoes.forEach(function(el) {
-                if (el.dataset.mobileCloseAttached) return;
-                el.dataset.mobileCloseAttached = "true";
-                el.addEventListener('click', function() {
-                    if (window.innerWidth <= 991) {
-                        setTimeout(function() {
-                            const btnFechar = document.querySelector('button[data-testid="stSidebarCollapseButton"]') || 
-                                              document.querySelector('[data-testid="stSidebarCollapseButton"]') ||
-                                              sidebar.querySelector('button');
-                            if (btnFechar) {
-                                btnFechar.click();
-                            }
-                        }, 150);
-                    }
-                });
-            });
         }
+    } catch(e) {}
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', fecharMenuMobileAoClicar);
+    window.toggleSidebarMenu = function() {
+        const sidebar = document.querySelector('section[data-testid=\'stSidebar\']');
+        const collapseBtn = document.querySelector('button[data-testid=\'stSidebarCollapseButton\']') || 
+                            document.querySelector('[data-testid=\'stSidebarCollapseButton\']');
+        const expandBtn = document.querySelector('button[data-testid=\'stExpandSidebarButton\']') || 
+                          document.querySelector('[data-testid=\'stSidebarCollapsedControl\']') ||
+                          document.querySelector('[data-testid=\'collapsedControl\']');
+        
+        const isExpanded = sidebar && sidebar.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+            if (collapseBtn) {
+                collapseBtn.click();
+            } else if (sidebar) {
+                sidebar.setAttribute('aria-expanded', 'false');
+                sidebar.style.transform = 'translateX(-100%)';
+            }
         } else {
-            fecharMenuMobileAoClicar();
+            if (expandBtn) {
+                expandBtn.click();
+            } else if (sidebar) {
+                sidebar.setAttribute('aria-expanded', 'true');
+                sidebar.style.transform = 'none';
+                sidebar.style.display = 'block';
+                sidebar.style.minWidth = '300px';
+                sidebar.style.width = '300px';
+            }
         }
-        setInterval(fecharMenuMobileAoClicar, 600);
-    })();
-    </script>
-    ''', unsafe_allow_javascript=True)
-except Exception:
-    pass
+    };
+
+    function syncFloatingButton() {
+        let btn = document.getElementById('ru-floating-menu-btn');
+        const sidebar = document.querySelector('section[data-testid=\'stSidebar\']');
+        const isExpanded = sidebar && sidebar.getAttribute('aria-expanded') === 'true';
+
+        if (!btn) {
+            btn = document.createElement('button');
+            btn.id = 'ru-floating-menu-btn';
+            btn.innerHTML = '<span style=\'font-size: 15px; font-weight: 800;\'>&#9776;</span><span style=\'margin-left: 5px; font-weight: 700; font-size: 11px;\'>MENU</span>';
+            btn.style.cssText = 'position: fixed !important; top: 10px !important; left: 10px !important; z-index: 9999999 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; background-color: #ffffff !important; color: #008744 !important; border: 1.5px solid #008744 !important; border-radius: 8px !important; padding: 5px 12px !important; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16) !important; cursor: pointer !important; font-family: system-ui, sans-serif !important; pointer-events: auto !important;';
+            btn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.toggleSidebarMenu();
+            };
+            document.body.appendChild(btn);
+        }
+
+        if (window.innerWidth > 991 && isExpanded) {
+            btn.style.display = 'none';
+        } else {
+            btn.style.display = 'inline-flex';
+        }
+    }
+
+    function attachMobileAutoClose() {
+        const sidebar = document.querySelector('section[data-testid=\'stSidebar\']');
+        if (!sidebar) return;
+        const radios = sidebar.querySelectorAll('div[data-testid=\'stRadio\'] label, div[data-testid=\'stRadio\'] [role=\'radio\']');
+        radios.forEach(function(el) {
+            if (el.dataset.mobileCloseAttached) return;
+            el.dataset.mobileCloseAttached = 'true';
+            el.addEventListener('click', function() {
+                if (window.innerWidth <= 991) {
+                    setTimeout(function() {
+                        const collapseBtn = document.querySelector('button[data-testid=\'stSidebarCollapseButton\']') ||
+                                            document.querySelector('[data-testid=\'stSidebarCollapseButton\']');
+                        if (collapseBtn) collapseBtn.click();
+                    }, 180);
+                }
+            });
+        });
+    }
+
+    syncFloatingButton();
+    attachMobileAutoClose();
+    if (!window.ruNavSyncInterval) {
+        window.ruNavSyncInterval = setInterval(function() {
+            syncFloatingButton();
+            attachMobileAutoClose();
+        }, 500);
+    }
+})();
+">
+''', unsafe_allow_html=True)
 
 
-# Topo Institucional Elegante
+# Topo Institucional Elegante com Botao de Menu
 st.markdown(
     '<div class="top-header">'
     '<div class="header-left">'
+    '<button type="button" class="btn-menu-header" onclick="window.toggleSidebarMenu && window.toggleSidebarMenu();" title="Alternar Menu Lateral">'
+    '<span style="font-size: 16px; line-height: 1;">☰</span>'
+    '<span style="font-size: 12px; font-weight: 700; margin-left: 5px;">Menu</span>'
+    '</button>'
     '<div class="logo-badge" style="font-size: 15px; font-weight: 800; color: #1b4332;">RU</div>'
     '<div class="header-titles">'
     '<h1>Restaurante Estudantil — Painel de Apoio à Decisão</h1>'
@@ -1000,6 +1074,43 @@ st.markdown(
     '</div>',
     unsafe_allow_html=True
 )
+
+# Barra de Navegacao Rapida Superior (Visivel e clicavel em qualquer tela ou dispositivo)
+if hasattr(st, "pills"):
+    sel_top = st.pills(
+        "Navegação Rápida:",
+        OPCOES_NAVEGACAO,
+        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+        default=st.session_state["pagina_ativa"],
+        key="pills_nav_top",
+        label_visibility="collapsed"
+    )
+elif hasattr(st, "segmented_control"):
+    sel_top = st.segmented_control(
+        "Navegação Rápida:",
+        OPCOES_NAVEGACAO,
+        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+        default=st.session_state["pagina_ativa"],
+        key="pills_nav_top",
+        label_visibility="collapsed"
+    )
+else:
+    idx_top = OPCOES_NAVEGACAO.index(st.session_state["pagina_ativa"]) if st.session_state["pagina_ativa"] in OPCOES_NAVEGACAO else 0
+    sel_top = st.radio(
+        "Navegação Rápida:",
+        OPCOES_NAVEGACAO,
+        format_func=lambda x: f"{ICONES_NAVEGACAO.get(x, '')} {x}",
+        index=idx_top,
+        horizontal=True,
+        key="pills_nav_top",
+        label_visibility="collapsed"
+    )
+
+if sel_top and sel_top != st.session_state["pagina_ativa"]:
+    st.session_state["pagina_ativa"] = sel_top
+    st.rerun()
+
+pagina_ativa = st.session_state["pagina_ativa"]
 
 # ==============================================================================
 # COMPONENTE PADRONIZADO: "COMO FUNCIONA? ENTENDA!"
