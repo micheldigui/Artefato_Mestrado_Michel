@@ -854,20 +854,46 @@ div[data-testid="stToolbar"] {{
     pointer-events: auto !important;
 }}
 
-/* Destaque visual no icone nativo de abrir a barra lateral quando oculta */
+/* Destaque visual e fixacao permanente no icone nativo de abrir a barra lateral quando oculta */
+button[data-testid="stExpandSidebarButton"],
 [data-testid="stExpandSidebarButton"],
-[data-testid="collapsedControl"] {{
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapsedControl"] {{
+    position: fixed !important;
+    top: 12px !important;
+    left: 12px !important;
+    z-index: 99999999 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     background-color: #ffffff !important;
-    border: 1.5px solid #cbd5e1 !important;
+    border: 1.5px solid #008744 !important;
     border-radius: 8px !important;
-    padding: 6px 10px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
-    color: var(--primary-color) !important;
+    padding: 6px 12px !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18) !important;
+    color: #008744 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
 }}
+button[data-testid="stExpandSidebarButton"]:hover,
 [data-testid="stExpandSidebarButton"]:hover,
-[data-testid="collapsedControl"]:hover {{
+[data-testid="collapsedControl"]:hover,
+[data-testid="stSidebarCollapsedControl"]:hover {{
     background-color: #f1f5f9 !important;
-    border-color: var(--primary-color) !important;
+    border-color: #008744 !important;
+}}
+button[data-testid="stExpandSidebarButton"] svg,
+[data-testid="stExpandSidebarButton"] svg,
+button[data-testid="stExpandSidebarButton"] span,
+[data-testid="stExpandSidebarButton"] span {{
+    color: #008744 !important;
+    fill: #008744 !important;
+    width: 22px !important;
+    height: 22px !important;
 }}
 
 /* Forcar modo claro 100% e bloquear modo escuro forcado por SO/navegador movel */
