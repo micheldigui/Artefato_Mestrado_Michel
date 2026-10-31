@@ -1764,7 +1764,7 @@ elif pagina_ativa == "Previsões":
         ),
         como_foi_feito_ciencia=(
             "**Combinação Inteligente (Modelo Híbrido 50/50 + Margem de Segurança):** "
-            "O sistema junta a experiência institucional da nutricionista com algoritmos preditivos (Ridge e CatBoost). "
+            "O sistema junta a experiência prática da nutricionista com modelos preditivos de inteligência artificial e aprendizado de máquina. "
             "Para não deixar nenhum aluno com fome, adiciona uma folga calculada (+12 a +18 ref), que é reduzida se houver previsão de tempestade."
         ),
         como_usar_passos=(
@@ -1902,11 +1902,11 @@ elif pagina_ativa == "Previsões":
                      Quer simular datas específicas, modelos ou cenários alternativos?
                 </div>
                 <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
-                    O <b>Simulador de Cenários</b> agora possui uma página dedicada exclusiva! Nele você pode escolher qualquer data (passada ou futura), testar os algoritmos da dissertação (Híbrido, CatBoost, Ridge, Random Forest), ajustar margens de segurança conformal e verificar a presença de cardápio e clima com rigor temporal estrito (walk-forward).
+                    O <b>Simulador de Cenários</b> possui uma página dedicada na barra superior! Nele você pode escolher qualquer data (passada ou futura), comparar os diferentes modelos preditivos da pesquisa (Modelo Híbrido, Modelos de IA e Modelos Estatísticos), ajustar margens de proteção alimentar e verificar a influência de cardápio e clima em tempo real.
                 </div>
             </div>
             <div>
-                <span class="badge-status" style="cursor: default; font-size: 13px; padding: 6px 14px;"> Acesse no Menu Lateral: <b> Simulador de Cenários</b></span>
+                <span class="badge-status" style="cursor: default; font-size: 13px; padding: 6px 14px;"> Acesse na Barra Superior: <b>🔬 Simulador de Cenários</b></span>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -1928,8 +1928,7 @@ elif pagina_ativa == "Simulador de Cenários":
         como_foi_feito_ciencia=(
             "**Metodologia Walk-Forward com isolamento temporal estrito (Zero Data Leakage).** "
             "Ao simular uma data no passado ou futuro, o artefato é alimentado exclusivamente por dados observados "
-            "antes daquele dia (médias móveis e defasagens reais). Aplica os modelos da dissertação (Ridge, CatBoost, "
-            "Random Forest, Lasso, OLS e Híbrido 50/50 com margem conformal calibrada)."
+            "antes daquele dia (médias móveis e defasagens reais). Aplica os modelos preditivos da pesquisa (Modelo Híbrido, Modelos de IA e Modelos Estatísticos com margem de segurança calibrada)."
         ),
         como_usar_passos=(
             "1. **Escolha a data no calendário** e defina o objetivo (Consumo diário t+1 ou Compras quinzenais t+2).\n"
@@ -2305,7 +2304,7 @@ elif pagina_ativa == "Compras & Suprimentos":
             modelo_sup = st.selectbox(
                 "Modelo Preditivo para Compras:",
                 [
-                    "Modelo Matemático Estável (Ridge - Autônomo / Recomendado)",
+                    "Modelo Matemático Estável (Autônomo / Recomendado)",
                     "Modelo Híbrido (Combina IA + Média da Nutrição)"
                 ],
                 index=0,
@@ -2395,8 +2394,16 @@ elif pagina_ativa == "Cadastrar Dados":
         como_usar_passos=(
             "1. **Diariamente após as 14h:** Digite o número de refeições servidas naquele dia.\n"
             "2. **Na sexta-feira:** Cadastre os pratos previstos para a próxima semana para que as previsões fiquem precisas.\n"
-            "3. **Proteção por Senha:** Para evitar edições acidentais por visitantes, digite a senha da nutrição ('nutri2026')."
+            "3. **Proteção por Senha:** Para demonstrar a rotina da nutricionista, digite a senha operacional ('nutri2026')."
         )
+    )
+    
+    st.info(
+        "💡 **Ambiente Seguro de Demonstração e Simulação:**\n\n"
+        "Este painel é o artefato computacional da pesquisa de mestrado. "
+        "Sinta-se à vontade para preencher, simular ou alterar valores nesta tela: **as alterações têm finalidade exclusivamente demonstrativa e pedagógica**, "
+        "servindo para ilustrar como os modelos preditivos recalculam as previsões em tempo real. "
+        "Os dados oficiais da escola não são modificados de forma permanente no servidor da nuvem, garantindo total liberdade para a banca examinadora e operadores testarem o sistema."
     )
     
     if not st.session_state.get("autenticado", False):
@@ -2405,8 +2412,8 @@ elif pagina_ativa == "Cadastrar Dados":
         Para proteger os registros operacionais da instituição pública de ensino contra alterações acidentais, 
         o lançamento de dados é reservado aos profissionais autorizados.
         
-        * **É a Nutricionista ou a Gestora do Restaurante?** Desbloqueie com a senha operacional no formulário abaixo.
-        * **É membro da Banca Examinadora ou Visitante?** Você pode consultar qualquer data cadastrada no histórico abaixo.
+        * **Deseja testar o formulário operacional de cadastro?** Desbloqueie com a senha de demonstração (`nutri2026`) no formulário abaixo.
+        * **É membro da Banca Examinadora ou Visitante?** Você pode consultar qualquer data cadastrada no histórico abaixo (modo leitura).
         """)
         
         with st.expander("Desbloquear Edição com Senha Operacional", expanded=True):
@@ -2628,6 +2635,7 @@ elif pagina_ativa == "Cadastrar Dados":
             
         st.markdown("---")
         st.markdown("##### Formulário de Edição Operacional")
+        st.caption("🛡️ **Modo de Simulação Ativo:** Os valores salvos serão aplicados dinamicamente no painel durante a sua navegação para demonstrar o recálculo dos algoritmos. Nenhuma base oficial da escola é sobrescrita permanentemente.")
         
         # Formulário com key dinâmica vinculada à data selecionada (data_iso)
         with st.form(f"form_edicao_{data_iso}"):
@@ -2706,7 +2714,7 @@ elif pagina_ativa == "Cadastrar Dados":
             st.markdown("###### Confirmação Obrigatória de Gravação")
             tipo_acao_txt = "atualizar os dados já existentes" if dados_dia["encontrado_base"] else "cadastrar este novo registro"
             confirma_salvar = st.checkbox(
-                f"Confirmo que revisei os dados acima e desejo **{tipo_acao_txt}** para o dia **{data_fmt} ({dados_dia['dia_semana']})**.",
+                f"Confirmo que revisei os dados acima e desejo **{tipo_acao_txt}** (em modo de simulação/teste) para o dia **{data_fmt} ({dados_dia['dia_semana']})**.",
                 key=f"ed_confirma_{data_iso}"
             )
             
@@ -2734,7 +2742,7 @@ elif pagina_ativa == "Cadastrar Dados":
                     "observacao": f"Registro operacional salvo por {st.session_state['usuario_nome']} em {datetime.now().strftime('%d/%m/%Y %H:%M')}"
                 }
                 salvar_edicao_operacional_completa(data_iso, dict_salvar)
-                st.success(f"**Sucesso!** As informações do dia **{data_fmt}** foram gravadas com sucesso na base operacional.")
+                st.success(f"**Sucesso!** As informações do dia **{data_fmt}** foram integradas dinamicamente ao painel para teste e simulação.")
                 st.rerun()
 
         # Auditoria e Transparência: Histórico de Alterações Salvas
