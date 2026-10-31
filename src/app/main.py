@@ -802,11 +802,12 @@ div[data-testid="stRadio"] > div[role="radiogroup"] {{
     border: 1px solid var(--border-subtle);
 }}
 
-/* Garante que o cabecalho seja transparente e nao bloqueie cliques */
+/* Garante que o cabecalho seja transparente e nao intercepte cliques nos conteudos */
 header[data-testid="stHeader"] {{
     background: transparent !important;
     height: 3.5rem !important;
     z-index: 100000 !important;
+    pointer-events: none !important;
 }}
 
 /* Mantem a barra de ferramentas funcional para o botao de abrir o menu */
@@ -814,6 +815,16 @@ div[data-testid="stToolbar"] {{
     visibility: visible !important;
     display: flex !important;
     background: transparent !important;
+    pointer-events: none !important;
+}}
+
+/* Botoes no cabecalho e toolbar recebem cliques normalmente */
+header[data-testid="stHeader"] button,
+div[data-testid="stToolbar"] button,
+button[data-testid="stExpandSidebarButton"],
+[data-testid="stSidebarCollapsedControl"],
+[data-testid="collapsedControl"] {{
+    pointer-events: auto !important;
 }}
 
 /* Oculta APENAS menus administrativos, botoes de deploy, status e links do GitHub */
@@ -825,17 +836,10 @@ div[data-testid="stStatusWidget"] {{ visibility: hidden !important; display: non
 [data-testid="manage-app-button"] {{ display: none !important; }}
 a[href*="github.com"] {{ display: none !important; }}
 
-/* Oculta os itens da direita da barra de ferramentas (deploy e menu administrativo) */
-div[data-testid="stToolbar"] > div:last-child {{
-    display: none !important;
-    visibility: hidden !important;
-}}
-
-/* Botao flutuante permanente para abrir/expandir o menu lateral (visivel no celular e desktop) */
+/* Botao flutuante nativo para abrir/expandir o menu lateral (visivel no celular e desktop) */
 button[data-testid="stExpandSidebarButton"],
 [data-testid="collapsedControl"],
-[data-testid="stSidebarCollapsedControl"],
-div[data-testid="stToolbar"] button {{
+[data-testid="stSidebarCollapsedControl"] {{
     display: inline-flex !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -855,19 +859,18 @@ div[data-testid="stToolbar"] button {{
     min-width: 38px !important;
     align-items: center !important;
     justify-content: center !important;
+    pointer-events: auto !important;
 }}
 button[data-testid="stExpandSidebarButton"]:hover,
 [data-testid="collapsedControl"]:hover,
-[data-testid="stSidebarCollapsedControl"]:hover,
-div[data-testid="stToolbar"] button:hover {{
+[data-testid="stSidebarCollapsedControl"]:hover {{
     background-color: #f1f5f9 !important;
     border-color: var(--primary-color) !important;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
 }}
 button[data-testid="stExpandSidebarButton"] svg,
 [data-testid="collapsedControl"] svg,
-[data-testid="stSidebarCollapsedControl"] svg,
-div[data-testid="stToolbar"] button svg {{
+[data-testid="stSidebarCollapsedControl"] svg {{
     width: 22px !important;
     height: 22px !important;
     fill: var(--primary-color) !important;
@@ -885,6 +888,7 @@ button[data-testid="stSidebarCollapseButton"],
     border: 1px solid var(--border-subtle) !important;
     border-radius: 6px !important;
     padding: 4px 8px !important;
+    pointer-events: auto !important;
 }}
 button[data-testid="stSidebarCollapseButton"]:hover,
 [data-testid="stSidebarCollapseButton"]:hover {{
@@ -975,12 +979,12 @@ div[data-testid="stSelectbox"] div {{
 </style>
 """, unsafe_allow_html=True)
 
-# Script complementar para UX mobile (fecha o menu lateral ao selecionar opcao e limpa cache de tema escuro)
+# Script complementar para UX mobile e permanencia do botao de menu
 try:
     st.html('''
     <script>
     (function() {
-        // 1. Limpeza de tema escuro persistido em navegadores mobile
+        // 1. Limpeza de tema escuro residual
         try {
             for (let i = 0; i < localStorage.length; i++) {
                 let k = localStorage.key(i);
@@ -990,7 +994,7 @@ try:
             }
         } catch(e) {}
 
-        // 2. Fechamento suave do menu lateral ao clicar em opcao de navegacao no celular
+        // 2. Fechamento automatico do menu lateral ao clicar em opcao de navegacao no celular
         function fecharMenuMobileAoClicar() {
             const sidebar = document.querySelector('section[data-testid="stSidebar"]');
             if (!sidebar) return;
@@ -1003,7 +1007,8 @@ try:
                     if (window.innerWidth <= 991) {
                         setTimeout(function() {
                             const btnFechar = document.querySelector('button[data-testid="stSidebarCollapseButton"]') || 
-                                              document.querySelector('[data-testid="stSidebarCollapseButton"]');
+                                              document.querySelector('[data-testid="stSidebarCollapseButton"]') ||
+                                              sidebar.querySelector('button');
                             if (btnFechar) {
                                 btnFechar.click();
                             }
@@ -1013,12 +1018,72 @@ try:
             });
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', fecharMenuMobileAoClicar);
-        } else {
-            fecharMenuMobileAoClicar();
+        // 3. Botao flutuante permanente garantido para abrir/fechar o menu em qualquer circunstancia
+        function garantirBotaoMenu() {
+            let btn = document.getElementById('ru-floating-toggle-btn');
+            const sidebar = document.querySelector('section[data-testid="stSidebar"]');
+            const isSidebarOpen = sidebar && sidebar.getAttribute('aria-expanded') === 'true';
+
+            if (!btn) {
+                btn = document.createElement('button');
+                btn.id = 'ru-floating-toggle-btn';
+                btn.setAttribute('aria-label', 'Abrir Menu');
+                btn.innerHTML = '<span style="font-size: 16px; line-height: 1;">&#9776;</span><span style="font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-left: 5px;">MENU</span>';
+                btn.style.cssText = 'position: fixed !important; top: 10px !important; left: 10px !important; z-index: 99999999 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; background-color: #ffffff !important; color: #008744 !important; border: 1.5px solid #cbd5e1 !important; border-radius: 8px !important; padding: 6px 12px !important; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16) !important; cursor: pointer !important; font-family: system-ui, -apple-system, sans-serif !important; pointer-events: auto !important; transition: all 0.15s ease !important;';
+                
+                btn.addEventListener('mouseenter', function() {
+                    btn.style.backgroundColor = '#f1f5f9';
+                    btn.style.borderColor = '#008744';
+                });
+                btn.addEventListener('mouseleave', function() {
+                    btn.style.backgroundColor = '#ffffff';
+                    btn.style.borderColor = '#cbd5e1';
+                });
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const sb = document.querySelector('section[data-testid="stSidebar"]');
+                    const isOpen = sb && sb.getAttribute('aria-expanded') === 'true';
+                    
+                    if (isOpen) {
+                        const closeBtn = document.querySelector('button[data-testid="stSidebarCollapseButton"]') || 
+                                         document.querySelector('[data-testid="stSidebarCollapseButton"]') ||
+                                         (sb ? sb.querySelector('button') : null);
+                        if (closeBtn) closeBtn.click();
+                    } else {
+                        const openBtn = document.querySelector('button[data-testid="stExpandSidebarButton"]') || 
+                                        document.querySelector('[data-testid="stSidebarCollapsedControl"]') ||
+                                        document.querySelector('[data-testid="collapsedControl"]');
+                        if (openBtn) {
+                            openBtn.click();
+                        } else {
+                            const altBtn = document.querySelector('header[data-testid="stHeader"] button');
+                            if (altBtn) altBtn.click();
+                        }
+                    }
+                });
+                document.body.appendChild(btn);
+            }
+
+            // Oculta no desktop quando a barra lateral ja esta visivel/aberta; no celular ou com barra fechada, exibe sempre!
+            if (window.innerWidth > 991 && isSidebarOpen) {
+                btn.style.display = 'none';
+            } else {
+                btn.style.display = 'inline-flex';
+            }
         }
-        setInterval(fecharMenuMobileAoClicar, 800);
+
+        function sincronizarUI() {
+            fecharMenuMobileAoClicar();
+            garantirBotaoMenu();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', sincronizarUI);
+        } else {
+            sincronizarUI();
+        }
+        setInterval(sincronizarUI, 500);
     })();
     </script>
     ''', unsafe_allow_javascript=True)
