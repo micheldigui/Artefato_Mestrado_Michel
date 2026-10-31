@@ -145,14 +145,8 @@ with st.sidebar:
     # Controles Discretos e Compactos no Rodapé da Barra
     st.caption("**Configurações & Status**")
     
-    # Seletor de Tema Compacto
-    tema_escolhido = st.radio(
-        "Modo de Exibição:",
-        ["Claro", "Escuro", "Auto"],
-        index=0,
-        horizontal=True,
-        label_visibility="collapsed"
-    )
+    # Modo Claro Fixo
+    tema_escolhido = "Claro"
     
     # Micro Status da Base
     df_consumo_hist = carregar_historico_consumo()
@@ -206,133 +200,40 @@ with st.sidebar:
         """)
 
 # ==============================================================================
-# DESIGN SYSTEM: CSS ADAPTATIVO TEMA CLARO E ESCURO
+# DESIGN SYSTEM: TEMA CLARO OPERACIONAL FIXO
 # ==============================================================================
-is_dark = (tema_escolhido == "Escuro")
-is_auto = (tema_escolhido == "Auto")
+chart_text = "#334155"
+chart_grid = "#e2e8f0"
+chart_primary = "#008744"
+chart_accent = "#0284c7"
 
-if is_dark:
-    chart_text = "#cbd5e1"
-    chart_grid = "#334155"
-    chart_primary = "#10b981"
-    chart_accent = "#38bdf8"
-else:
-    chart_text = "#334155"
-    chart_grid = "#e2e8f0"
-    chart_primary = "#008744"
-    chart_accent = "#0284c7"
-
-if is_dark:
-    root_vars = """
-    :root {
-        --bg-app: #0b0f19;
-        --bg-sidebar: #0f172a;
-        --bg-card: #1e293b;
-        --bg-card-hover: #273549;
-        --border-subtle: #334155;
-        --border-strong: #475569;
-        --text-primary: #f8fafc;
-        --text-secondary: #cbd5e1;
-        --text-muted: #94a3b8;
-        --primary-color: #10b981;
-        --primary-hover: #059669;
-        --primary-subtle: rgba(16, 185, 129, 0.15);
-        --accent-color: #38bdf8;
-        --accent-hover: #0ea5e9;
-        --accent-subtle: rgba(56, 189, 248, 0.15);
-        --success-color: #22c55e;
-        --success-subtle: rgba(34, 197, 94, 0.15);
-        --warning-color: #f59e0b;
-        --warning-subtle: rgba(245, 158, 11, 0.15);
-        --danger-color: #ef4444;
-        --danger-subtle: rgba(239, 68, 68, 0.15);
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
-        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
-    }
-    """
-elif is_auto:
-    root_vars = """
-    :root {
-        --bg-app: #f8fafc;
-        --bg-sidebar: #ffffff;
-        --bg-card: #ffffff;
-        --bg-card-hover: #f1f5f9;
-        --border-subtle: #e2e8f0;
-        --border-strong: #cbd5e1;
-        --text-primary: #0f172a;
-        --text-secondary: #334155;
-        --text-muted: #64748b;
-        --primary-color: #008744;
-        --primary-hover: #007038;
-        --primary-subtle: rgba(0, 135, 68, 0.08);
-        --accent-color: #0284c7;
-        --accent-hover: #0369a1;
-        --accent-subtle: rgba(2, 132, 199, 0.08);
-        --success-color: #15803d;
-        --success-subtle: #dcfce7;
-        --warning-color: #b45309;
-        --warning-subtle: #fef3c7;
-        --danger-color: #dc2626;
-        --danger-subtle: #fee2e2;
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
-    }
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --bg-app: #0b0f19;
-            --bg-sidebar: #0f172a;
-            --bg-card: #1e293b;
-            --bg-card-hover: #273549;
-            --border-subtle: #334155;
-            --border-strong: #475569;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --primary-color: #10b981;
-            --primary-hover: #059669;
-            --primary-subtle: rgba(16, 185, 129, 0.15);
-            --accent-color: #38bdf8;
-            --accent-hover: #0ea5e9;
-            --accent-subtle: rgba(56, 189, 248, 0.15);
-            --success-color: #22c55e;
-            --success-subtle: rgba(34, 197, 94, 0.15);
-            --warning-color: #f59e0b;
-            --warning-subtle: rgba(245, 158, 11, 0.15);
-            --danger-color: #ef4444;
-            --danger-subtle: rgba(239, 68, 68, 0.15);
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
-        }
-    }
-    """
-else:
-    root_vars = """
-    :root {
-        --bg-app: #f8fafc;
-        --bg-sidebar: #ffffff;
-        --bg-card: #ffffff;
-        --bg-card-hover: #f1f5f9;
-        --border-subtle: #e2e8f0;
-        --border-strong: #cbd5e1;
-        --text-primary: #0f172a;
-        --text-secondary: #334155;
-        --text-muted: #64748b;
-        --primary-color: #008744;
-        --primary-hover: #007038;
-        --primary-subtle: rgba(0, 135, 68, 0.08);
-        --accent-color: #0284c7;
-        --accent-hover: #0369a1;
-        --accent-subtle: rgba(2, 132, 199, 0.08);
-        --success-color: #15803d;
-        --success-subtle: #dcfce7;
-        --warning-color: #b45309;
-        --warning-subtle: #fef3c7;
-        --danger-color: #dc2626;
-        --danger-subtle: #fee2e2;
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
-    }
-    """
+root_vars = """
+:root {
+    --bg-app: #f8fafc;
+    --bg-sidebar: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --border-subtle: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --primary-color: #008744;
+    --primary-hover: #007038;
+    --primary-subtle: rgba(0, 135, 68, 0.08);
+    --accent-color: #0284c7;
+    --accent-hover: #0369a1;
+    --accent-subtle: rgba(2, 132, 199, 0.08);
+    --success-color: #15803d;
+    --success-subtle: #dcfce7;
+    --warning-color: #b45309;
+    --warning-subtle: #fef3c7;
+    --danger-color: #dc2626;
+    --danger-subtle: #fee2e2;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+}
+"""
 
 st.markdown(f"""
 <style>
@@ -901,9 +802,16 @@ div[data-testid="stRadio"] > div[role="radiogroup"] {{
     border: 1px solid var(--border-subtle);
 }}
 
-/* Oculta completamente barra superior, botao do GitHub, menu Streamlit e rodape */
+/* Garante que o cabecalho seja transparente e o botao de abrir/fechar o menu lateral permaneca visivel e funcional */
+header[data-testid="stHeader"] {{
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    height: 3.25rem !important;
+    z-index: 100000 !important;
+}}
+
+/* Oculta apenas os menus administrativos e de desenvolvimento do Streamlit / GitHub */
 #MainMenu {{ visibility: hidden !important; display: none !important; }}
-header {{ visibility: hidden !important; display: none !important; }}
 footer {{ visibility: hidden !important; display: none !important; }}
 div[data-testid="stToolbar"] {{ visibility: hidden !important; display: none !important; }}
 div[data-testid="stDecoration"] {{ visibility: hidden !important; display: none !important; }}
@@ -911,6 +819,63 @@ div[data-testid="stStatusWidget"] {{ visibility: hidden !important; display: non
 .stDeployButton {{ display: none !important; }}
 [data-testid="manage-app-button"] {{ display: none !important; }}
 a[href*="github.com"] {{ display: none !important; }}
+
+/* Destaque e fixacao do botao de abrir o menu lateral (visivel no celular e no desktop) */
+[data-testid="collapsedControl"] {{
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    top: 12px !important;
+    left: 12px !important;
+    z-index: 9999999 !important;
+    background-color: #ffffff !important;
+    color: var(--primary-color) !important;
+    border: 1.5px solid var(--border-subtle) !important;
+    border-radius: 8px !important;
+    padding: 6px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+}}
+[data-testid="collapsedControl"]:hover {{
+    background-color: #f1f5f9 !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18) !important;
+}}
+[data-testid="collapsedControl"] svg {{
+    width: 22px !important;
+    height: 22px !important;
+    fill: var(--primary-color) !important;
+    stroke: var(--primary-color) !important;
+}}
+
+/* Botao de fechar dentro da barra lateral */
+[data-testid="stSidebarCollapseButton"] {{
+    color: var(--text-muted) !important;
+}}
+[data-testid="stSidebarCollapseButton"]:hover {{
+    color: var(--primary-color) !important;
+}}
+
+/* Forcar modo claro e evitar que navegadores mobile forcem dark mode */
+html, body, .stApp, [data-testid="stAppViewContainer"] {{
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    color-scheme: light !important;
+}}
+
+/* Responsividade: espaco superior para o botao flutuante do menu em dispositivos moveis */
+@media (max-width: 991px) {{
+    .block-container {{
+        padding-top: 3.5rem !important;
+        padding-left: 0.85rem !important;
+        padding-right: 0.85rem !important;
+    }}
+    .top-header {{
+        margin-top: 4px !important;
+    }}
+}}
 
 </style>
 """, unsafe_allow_html=True)
