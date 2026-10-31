@@ -979,103 +979,38 @@ div[data-testid="stSelectbox"] div {{
 </style>
 """, unsafe_allow_html=True)
 
-# Injecao confiavel de funcoes de navegacao e controle da barra lateral
+# Botao Flutuante Permanente e Fixo para Reexibir a Barra Lateral (sempre presente e funcional)
 st.markdown('''
-<img src="data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'/>" style="display:none;" onload="
-(function() {
-    try {
-        for (let i = localStorage.length - 1; i >= 0; i--) {
-            let k = localStorage.key(i);
-            if (k && (k.indexOf('stActiveTheme') !== -1 || k.indexOf('stSidebarCollapsed') !== -1)) {
-                localStorage.removeItem(k);
-            }
+<div id="ru-fixed-menu-container">
+    <button type="button" class="ru-floating-btn" onclick="(function(){
+        var sb = document.querySelector('section[data-testid=\'stSidebar\']');
+        var exp = document.querySelector('button[data-testid=\'stExpandSidebarButton\']') || 
+                  document.querySelector('[data-testid=\'stSidebarCollapsedControl\']') ||
+                  document.querySelector('[data-testid=\'collapsedControl\']');
+        if (exp) {
+            exp.click();
+            return;
         }
-    } catch(e) {}
-
-    window.toggleSidebarMenu = function() {
-        const sidebar = document.querySelector('section[data-testid=\'stSidebar\']');
-        const collapseBtn = document.querySelector('button[data-testid=\'stSidebarCollapseButton\']') || 
-                            document.querySelector('[data-testid=\'stSidebarCollapseButton\']');
-        const expandBtn = document.querySelector('button[data-testid=\'stExpandSidebarButton\']') || 
-                          document.querySelector('[data-testid=\'stSidebarCollapsedControl\']') ||
-                          document.querySelector('[data-testid=\'collapsedControl\']');
-        
-        const isExpanded = sidebar && sidebar.getAttribute('aria-expanded') === 'true';
-
-        if (isExpanded) {
-            if (collapseBtn) {
-                collapseBtn.click();
-            } else if (sidebar) {
-                sidebar.setAttribute('aria-expanded', 'false');
-                sidebar.style.transform = 'translateX(-100%)';
-            }
+        if (!sb) return;
+        var isOpen = sb.getAttribute('aria-expanded') === 'true' || sb.style.transform === 'none';
+        if (isOpen) {
+            var col = document.querySelector('button[data-testid=\'stSidebarCollapseButton\']');
+            if (col) { col.click(); return; }
+            sb.style.setProperty('transform', 'translateX(-100%)', 'important');
+            sb.style.setProperty('min-width', '0px', 'important');
+            sb.style.setProperty('width', '0px', 'important');
+            sb.setAttribute('aria-expanded', 'false');
         } else {
-            if (expandBtn) {
-                expandBtn.click();
-            } else if (sidebar) {
-                sidebar.setAttribute('aria-expanded', 'true');
-                sidebar.style.transform = 'none';
-                sidebar.style.display = 'block';
-                sidebar.style.minWidth = '300px';
-                sidebar.style.width = '300px';
-            }
+            sb.style.setProperty('transform', 'none', 'important');
+            sb.style.setProperty('min-width', '300px', 'important');
+            sb.style.setProperty('width', '300px', 'important');
+            sb.style.setProperty('display', 'block', 'important');
+            sb.setAttribute('aria-expanded', 'true');
         }
-    };
-
-    function syncFloatingButton() {
-        let btn = document.getElementById('ru-floating-menu-btn');
-        const sidebar = document.querySelector('section[data-testid=\'stSidebar\']');
-        const isExpanded = sidebar && sidebar.getAttribute('aria-expanded') === 'true';
-
-        if (!btn) {
-            btn = document.createElement('button');
-            btn.id = 'ru-floating-menu-btn';
-            btn.innerHTML = '<span style=\'font-size: 15px; font-weight: 800;\'>&#9776;</span><span style=\'margin-left: 5px; font-weight: 700; font-size: 11px;\'>MENU</span>';
-            btn.style.cssText = 'position: fixed !important; top: 10px !important; left: 10px !important; z-index: 9999999 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; background-color: #ffffff !important; color: #008744 !important; border: 1.5px solid #008744 !important; border-radius: 8px !important; padding: 5px 12px !important; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16) !important; cursor: pointer !important; font-family: system-ui, sans-serif !important; pointer-events: auto !important;';
-            btn.onclick = function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                window.toggleSidebarMenu();
-            };
-            document.body.appendChild(btn);
-        }
-
-        if (window.innerWidth > 991 && isExpanded) {
-            btn.style.display = 'none';
-        } else {
-            btn.style.display = 'inline-flex';
-        }
-    }
-
-    function attachMobileAutoClose() {
-        const sidebar = document.querySelector('section[data-testid=\'stSidebar\']');
-        if (!sidebar) return;
-        const radios = sidebar.querySelectorAll('div[data-testid=\'stRadio\'] label, div[data-testid=\'stRadio\'] [role=\'radio\']');
-        radios.forEach(function(el) {
-            if (el.dataset.mobileCloseAttached) return;
-            el.dataset.mobileCloseAttached = 'true';
-            el.addEventListener('click', function() {
-                if (window.innerWidth <= 991) {
-                    setTimeout(function() {
-                        const collapseBtn = document.querySelector('button[data-testid=\'stSidebarCollapseButton\']') ||
-                                            document.querySelector('[data-testid=\'stSidebarCollapseButton\']');
-                        if (collapseBtn) collapseBtn.click();
-                    }, 180);
-                }
-            });
-        });
-    }
-
-    syncFloatingButton();
-    attachMobileAutoClose();
-    if (!window.ruNavSyncInterval) {
-        window.ruNavSyncInterval = setInterval(function() {
-            syncFloatingButton();
-            attachMobileAutoClose();
-        }, 500);
-    }
-})();
-">
+    })()">
+        <span style="font-size: 16px; line-height: 1; margin-right: 5px;">☰</span> MENU
+    </button>
+</div>
 ''', unsafe_allow_html=True)
 
 
@@ -1083,7 +1018,7 @@ st.markdown('''
 st.markdown(
     '<div class="top-header">'
     '<div class="header-left">'
-    '<button type="button" class="btn-menu-header" onclick="window.toggleSidebarMenu && window.toggleSidebarMenu();" title="Alternar Menu Lateral">'
+    '<button type="button" class="btn-menu-header" onclick="(function(){var sb=document.querySelector(\'section[data-testid=\\\"stSidebar\\\"]\');var exp=document.querySelector(\'button[data-testid=\\\"stExpandSidebarButton\\\"]\')||document.querySelector(\'[data-testid=\\\"collapsedControl\\\"]\');if(exp){exp.click();return;}if(!sb)return;var o=sb.getAttribute(\'aria-expanded\')===\'true\'||sb.style.transform===\'none\';if(o){var col=document.querySelector(\'button[data-testid=\\\"stSidebarCollapseButton\\\"]\');if(col){col.click();return;}sb.style.setProperty(\'transform\',\'translateX(-100%)\',\'important\');sb.setAttribute(\'aria-expanded\',\'false\');}else{sb.style.setProperty(\'transform\',\'none\',\'important\');sb.style.setProperty(\'min-width\',\'300px\',\'important\');sb.style.setProperty(\'width\',\'300px\',\'important\');sb.style.setProperty(\'display\',\'block\',\'important\');sb.setAttribute(\'aria-expanded\',\'true\');}})()" title="Alternar Menu Lateral">'
     '<span style="font-size: 16px; line-height: 1;">☰</span>'
     '<span style="font-size: 12px; font-weight: 700; margin-left: 5px;">Menu</span>'
     '</button>'
