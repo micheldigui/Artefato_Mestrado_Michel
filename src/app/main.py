@@ -1153,6 +1153,12 @@ if pagina_ativa == "Dashboard":
                 format_func=lambda x: x.capitalize()
             )
             
+        ocultar_atipicos = st.checkbox(
+            "Desconsiderar dias atípicos / fora da curva (< 30 refeições em encerramentos e testes)",
+            value=True,
+            help="Desconsidera registros pontuais com consumo inferior a 30 refeições (como semanas de exames finais, conselhos e testes de sistema), revelando a menor presença em dias de operação escolar regular."
+        )
+            
     # Aplicação dos filtros dinâmicos
     df_dash = df_validos_geral.copy()
     if filtro_ano == "2026 (Ano Corrente)":
@@ -1168,6 +1174,9 @@ if pagina_ativa == "Dashboard":
         df_dash = df_dash[df_dash["dia_da_semana"].isin(filtro_dias_sem)]
     else:
         df_dash = df_dash.iloc[0:0]
+
+    if ocultar_atipicos:
+        df_dash = df_dash[df_dash["consumo"] >= 30]
         
     if df_dash.empty:
         st.warning("**Nenhum registro encontrado para este filtro.** Selecione ao menos um dia da semana para visualizar os gráficos e indicadores.")
@@ -1179,12 +1188,15 @@ if pagina_ativa == "Dashboard":
     max_cons = int(df_dash["consumo"].max()) if tot_dias > 0 else 0
     min_cons = int(df_dash["consumo"].min()) if tot_dias > 0 else 0
     
+    sub_min = "Menor quórum em aula regular" if ocultar_atipicos else "Dia de menor adesão discente"
+    sub_tot = "Dias regulares (sem atípicos)" if ocultar_atipicos else "Dias letivos válidos no filtro"
+    
     kpi_html = (
         f'<div class="kpi-row">'
         f'<div class="kpi-card b-primary"><div class="kpi-title">Média de Refeições Servidas</div><div class="kpi-val">{med_cons} ref</div><div class="kpi-sub">Frequência média no recorte</div></div>'
         f'<div class="kpi-card b-success"><div class="kpi-title">Pico Máximo de Presença</div><div class="kpi-val">{max_cons} ref</div><div class="kpi-sub">Maior consumo registrado</div></div>'
-        f'<div class="kpi-card b-warning"><div class="kpi-title">Menor Presença (Piso)</div><div class="kpi-val">{min_cons} ref</div><div class="kpi-sub">Dia de menor adesão discente</div></div>'
-        f'<div class="kpi-card b-accent"><div class="kpi-title">Total de Datas Analisadas</div><div class="kpi-val">{tot_dias} dias</div><div class="kpi-sub">Dias letivos válidos no filtro</div></div>'
+        f'<div class="kpi-card b-warning"><div class="kpi-title">Menor Presença (Piso)</div><div class="kpi-val">{min_cons} ref</div><div class="kpi-sub">{sub_min}</div></div>'
+        f'<div class="kpi-card b-accent"><div class="kpi-title">Total de Datas Analisadas</div><div class="kpi-val">{tot_dias} dias</div><div class="kpi-sub">{sub_tot}</div></div>'
         f'</div>'
     )
     st.markdown(kpi_html, unsafe_allow_html=True)
